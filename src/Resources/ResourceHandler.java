@@ -1,7 +1,5 @@
 package Resources;
 
-import Entities.AnimatedEntity;
-
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
@@ -18,8 +16,18 @@ public class ResourceHandler {
         loadResources();
     }
 
-    private void loadResources() {}
+    private void loadResources() {
+        addToMap(imageMap, "src/Resources/SproutLands/water.png", "water");
+    }
 
+
+    // creating animations
+    public Animation createWaterAnimation() {
+        return new Animation(imageMap.get("water"), 4, 1, 0, 4, 20);
+    }
+
+
+    // maps handling
     private void addToMap(Map<String, BufferedImage> map, String path, String key) {
         try {
             BufferedImage image = ImageIO.read(new File(path));
@@ -30,8 +38,13 @@ public class ResourceHandler {
         }
     }
 
+
     // getters
     public BufferedImage getImage(String key) {
         return imageMap.get(key);
+    }
+
+    public Animation getWaterAnimation() {
+        return createWaterAnimation();
     }
 }
