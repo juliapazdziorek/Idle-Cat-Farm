@@ -38,7 +38,7 @@ public class FocusFarm {
     private void launchFarm() {
 
         // prepare properties
-        resourceHandler = new ResourceHandler();
+        resourceHandler = new ResourceHandler(tileSize);
         entitiesHandler = new EntitiesHandler();
         keyHandler = new KeyHandler();
         mouseHandler = new MouseHandler();
