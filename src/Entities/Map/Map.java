@@ -43,6 +43,7 @@ public class Map {
         // soil & grass
         mapLayersToRender.add(createSoilLayer());
         mapLayersToRender.add(createGrassLayer());
+        mapLayersToRender.add(createDarkGrassLayer());
     }
 
 
@@ -145,6 +146,57 @@ public class Map {
             }
         }
         return grassLayer;
+    }
+
+    private MapLayer createDarkGrassLayer() {
+        int[][] idFromFile = readFileToIntInt("src/Entities/Map/TextMapLayers/darkGrass.txt");
+        MapLayer darkGrassLayer = new MapLayer(mapHeightTiles, mapWidthTiles);
+
+        for (int i = 0; i < mapHeightTiles; i++) {
+            for (int j = 0; j < mapWidthTiles; j++) {
+                switch (idFromFile[i][j]) {
+                    case 1 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("darkGrassTile"));
+                    case 2 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("darkGrassUp"));
+                    case 3 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("darkGrassLeft"));
+                    case 4 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("darkGrassBottom"));
+                    case 5 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("darkGrassRight"));
+                    case 6 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("darkGrassLeftUpCorner"));
+                    case 7 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("darkGrassLeftBottomCorner"));
+                    case 8 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("darkGrassRightUpCorner"));
+                    case 9 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("darkGrassRightBottomCorner"));
+                    case 10 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("darkGrassUpLeftInner"));
+                    case 11 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("darkGrassBottomLeftInner"));
+                    case 12 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("darkGrassUpRightInner"));
+                    case 13 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("darkGrassBottomRightInner"));
+                    case 14 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("weirdDarkGrass1"));
+                    case 15 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("weirdDarkGrass2"));
+                    case 16 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("weirdDarkGrass3"));
+                    case 17 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("weirdDarkGrass4"));
+                    case 18 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("weirdDarkGrass5"));
+                    case 19 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("weirdDarkGrass6"));
+                    case 20 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("weirdDarkGrass7"));
+                    case 21 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("weirdDarkGrass8"));
+                    case 22 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("weirdDarkGrass9"));
+                    case 23 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("weirdDarkGrass10"));
+                    case 24 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("weirdDarkGrass11"));
+                    case 25 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("weirdDarkGrass12"));
+                    case 26 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("weirdDarkGrass13"));
+                    case 27 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("weirdDarkGrass14"));
+                    case 28 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("weirdDarkGrass15"));
+                    case 29 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("weirdDarkGrass16"));
+                    case 30 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("weirdDarkGrass17"));
+                    case 31 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("weirdDarkGrass18"));
+                    case 32 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("weirdDarkGrass19"));
+                    case 33 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("weirdDarkGrass20"));
+                    case 34 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("weirdDarkGrass21"));
+                    case 35 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("threeDarkStonesDarkGrass"));
+                    case 36 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("bigGrassDarkGrass"));
+                    case 37 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("threeGrassDarkGrass"));
+                    case 38 -> darkGrassLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("twoDarkStonesDarkGrass"));
+                }
+            }
+        }
+        return darkGrassLayer;
     }
 
 
