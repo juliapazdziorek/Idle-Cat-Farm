@@ -1,4 +1,4 @@
-package Entities.Map;
+package Map;
 
 import Entities.Entity;
 

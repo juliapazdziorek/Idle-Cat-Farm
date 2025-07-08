@@ -1,4 +1,4 @@
-package Entities.Map;
+package Map;
 
 import Entities.AnimatedEntity;
 import Entities.StaticEntity;
@@ -51,7 +51,7 @@ public class Map {
 
     // creating layers
     private MapLayer createWaterLayer() {
-        int[][] idFromFile = readFileToIntInt("src/Entities/Map/TextMapLayers/water.txt");
+        int[][] idFromFile = readFileToIntInt("src/Map/TextMapLayers/water.txt");
         MapLayer waterLayer = new MapLayer(mapHeightTiles, mapWidthTiles);
 
         for (int i = 0; i < mapHeightTiles; i++) {
@@ -69,7 +69,7 @@ public class Map {
     }
 
     private MapLayer createSoilLayer() {
-        int[][] idFromFile = readFileToIntInt("src/Entities/Map/TextMapLayers/soil.txt");
+        int[][] idFromFile = readFileToIntInt("src/Map/TextMapLayers/soil.txt");
         MapLayer soilLayer = new MapLayer(mapHeightTiles, mapWidthTiles);
 
         for (int i = 0; i < mapHeightTiles; i++) {
@@ -89,7 +89,7 @@ public class Map {
     }
 
     private MapLayer createGrassLayer() {
-        int[][] idFromFile = readFileToIntInt("src/Entities/Map/TextMapLayers/grass.txt");
+        int[][] idFromFile = readFileToIntInt("src/Map/TextMapLayers/grass.txt");
         MapLayer grassLayer = new MapLayer(mapHeightTiles, mapWidthTiles);
 
         for (int i = 0; i < mapHeightTiles; i++) {
@@ -151,7 +151,7 @@ public class Map {
     }
 
     private MapLayer createDarkGrassLayer() {
-        int[][] idFromFile = readFileToIntInt("src/Entities/Map/TextMapLayers/darkGrass.txt");
+        int[][] idFromFile = readFileToIntInt("src/Map/TextMapLayers/darkGrass.txt");
         MapLayer darkGrassLayer = new MapLayer(mapHeightTiles, mapWidthTiles);
 
         for (int i = 0; i < mapHeightTiles; i++) {
@@ -202,7 +202,7 @@ public class Map {
     }
 
     private MapLayer createBridgesLayer() {
-        int[][] idFromFile = readFileToIntInt("src/Entities/Map/TextMapLayers/bridges.txt");
+        int[][] idFromFile = readFileToIntInt("src/Map/TextMapLayers/bridges.txt");
         MapLayer bridgesLayer = new MapLayer(mapHeightTiles, mapWidthTiles);
 
         for (int i = 0; i < mapHeightTiles; i++) {
@@ -220,7 +220,7 @@ public class Map {
     }
 
     private MapLayer createGroundDecorLayer() {
-        int[][] idFromFile = readFileToIntInt("src/Entities/Map/TextMapLayers/groundDecor.txt");
+        int[][] idFromFile = readFileToIntInt("src/Map/TextMapLayers/groundDecor.txt");
         MapLayer groundDecorLayer = new MapLayer(mapHeightTiles, mapWidthTiles);
 
         for (int i = 0; i < mapHeightTiles; i++) {

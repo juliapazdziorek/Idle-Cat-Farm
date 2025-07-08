@@ -1,5 +1,5 @@
 import java.awt.*;
-import Entities.Map.Map;
+import Map.Map;
 
 public class EntitiesHandler {
 
