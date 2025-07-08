@@ -44,6 +44,8 @@ public class Map {
         mapLayersToRender.add(createSoilLayer());
         mapLayersToRender.add(createGrassLayer());
         mapLayersToRender.add(createDarkGrassLayer());
+        mapLayersToRender.add(createBridgesLayer());
+        mapLayersToRender.add(createGroundDecorLayer());
     }
 
 
@@ -197,6 +199,75 @@ public class Map {
             }
         }
         return darkGrassLayer;
+    }
+
+    private MapLayer createBridgesLayer() {
+        int[][] idFromFile = readFileToIntInt("src/Entities/Map/TextMapLayers/bridges.txt");
+        MapLayer bridgesLayer = new MapLayer(mapHeightTiles, mapWidthTiles);
+
+        for (int i = 0; i < mapHeightTiles; i++) {
+            for (int j = 0; j < mapWidthTiles; j++) {
+                switch (idFromFile[i][j]) {
+                    case 1 -> bridgesLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("leftBridge"));
+                    case 2 -> bridgesLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("bridge"));
+                    case 3 -> bridgesLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("rightBridge"));
+                    case 4 -> bridgesLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("waterLeftBridge"));
+
+                }
+            }
+        }
+        return bridgesLayer;
+    }
+
+    private MapLayer createGroundDecorLayer() {
+        int[][] idFromFile = readFileToIntInt("src/Entities/Map/TextMapLayers/groundDecor.txt");
+        MapLayer groundDecorLayer = new MapLayer(mapHeightTiles, mapWidthTiles);
+
+        for (int i = 0; i < mapHeightTiles; i++) {
+            for (int j = 0; j < mapWidthTiles; j++) {
+                switch (idFromFile[i][j]) {
+
+                    // water decor
+                    case 1 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("waterStone1"));
+                    case 2 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("waterStone2"));
+                    case 3 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("waterStone3"));
+                    case 4 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("waterStone4"));
+                    case 5 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("bigWaterStone1"));
+                    case 6 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("bigWaterStone2"));
+                    case 7 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("threeWaterSticks"));
+                    case 8 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("fourWaterSticks"));
+                    case 9 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("waterLily1"));
+                    case 10 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("waterLily2"));
+                    case 11 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("waterLily3"));
+                    case 12 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("waterLily4"));
+
+                    // grass decor
+                    case 13 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("stone1"));
+                    case 14 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("stone2"));
+                    case 15 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("stone3"));
+                    case 16 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("stone4"));
+                    case 17 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("stone5"));
+                    case 18 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("stone6"));
+                    case 19 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("grassDecor1"));
+                    case 20 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("grassDecor2"));
+                    case 21 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("grassDecor3"));
+                    case 22 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("grassDecor4"));
+
+                    // paths
+                    case 23 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("pathUp"));
+                    case 24 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("pathVertical"));
+                    case 25 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("pathBottom"));
+                    case 26 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("pathLeft"));
+                    case 27 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("pathHorizontal"));
+                    case 28 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("pathRight"));
+                    case 29 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("pathArc1"));
+                    case 30 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("pathArc2"));
+                    case 31 -> groundDecorLayer.tiles[i][j] = new StaticEntity(j * tileSize, i * tileSize, resourceHandler.mapTilesMap.get("pathArc3"));
+
+                }
+            }
+        }
+        return groundDecorLayer;
     }
 
 
