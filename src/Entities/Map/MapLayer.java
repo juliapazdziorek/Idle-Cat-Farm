@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class MapLayer {
 
-    private Entity[][] tiles;
+    public Entity[][] tiles;
     private final int mapHeightTiles;
     private final int mapWidthTiles;
 

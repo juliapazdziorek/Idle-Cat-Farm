@@ -11,7 +11,7 @@ public class ResourceHandler {
 
     // maps
     private final Map<String, BufferedImage> imageMap;
-    private final Map<String, BufferedImage> mapTilesMap;
+    public final Map<String, BufferedImage> mapTilesMap;
 
     // tiles properties
     private final int tileSize;
