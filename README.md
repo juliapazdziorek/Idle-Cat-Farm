@@ -21,7 +21,7 @@ FocusFarm is a 2D farming simulation game built using Java and Swing. Drawing in
 
 - 🚶‍♂️ Player character and pathfinding algorithm
 
-### In Future
+### In the Future
 
 - 🌱 Basic farming mechanics
 - 🖥️ Simple UI elements
@@ -30,10 +30,10 @@ FocusFarm is a 2D farming simulation game built using Java and Swing. Drawing in
 
 ### Built With
 
-- **🔧 Language**: Java
-- **🖼️ GUI Framework**: Swing
-- **🎨 Graphics**: Java 2D Graphics API
-- **🏛️ Architecture**: Entity-Component pattern with layer-based rendering
+- **Language**: Java
+- **GUI Framework**: Swing
+- **Graphics**: Java 2D Graphics API
+- **Architecture**: Entity-Component pattern with layer-based rendering
 
 ### 📁 Project Structure
 
@@ -70,22 +70,22 @@ The game uses pixel art assets from the [SproutLands](https://cupnooble.itch.io/
 
 ### 📋 Prerequisites
 
-- ☕ Java 11 or higher
-- 💻 Any Java IDE (IntelliJ IDEA, Eclipse, VS Code)
+- Java 11 or higher
+- Any Java IDE (IntelliJ IDEA, Eclipse, VS Code)
 
 ### 🚀 Running the Game
 
-1. 📦 Clone the repository
-2. 📂 Open the project in your preferred Java IDE
-3. ▶️ Run the `Main.java` file
+1. Clone the repository
+2. Open the project in your preferred Java IDE
+3. Run the `Main.java` file
 
 ### 🎮 Controls
 
-- **⬅️➡️⬆️⬇️ Arrow Keys/WASD**: Move camera
+- **Arrow Keys/WASD**: Move camera
 
 ## �️ Development Roadmap
 
-### Phase 1: Core Systems ✅
+### Phase 1: Core Systems
 
 - [x] 🔄 Basic game loop and rendering
 - [x] 📷 Camera system
@@ -93,24 +93,24 @@ The game uses pixel art assets from the [SproutLands](https://cupnooble.itch.io/
 - [x] 🎬 Animation system
 - [x] 🎒 Resource management
 
-### Phase 2: First Game Mechanics 🔄
+### Phase 2: First Game Mechanics
 
 - [ ] 🚶‍♂️ Player character and pathfinding algorithm
 - [ ] 🌱 Basic farming mechanics
 - [ ] 🖥️ Simple UI elements
 
-### Phase 3: Game Mechanics 📋
+### Phase 3: Game Mechanics
 
 - [ ] 🌾 Crop growth system
 - [ ] 🎒 Inventory management
 - [ ] 🔨 Tool system
 - [ ] 🌙 Day/night cycle
 
-### Phase 4: Focus System 🧠
+### Phase 4: Focus System
 
 - [ ] 🎯 Focus features
 
-### Next phases 🚀
+### Next phases
 
 - 💅 Fancy UI
 - 🐄 Farming animals
@@ -121,12 +121,12 @@ The game uses pixel art assets from the [SproutLands](https://cupnooble.itch.io/
 
 This is primarily a solo development project for learning purposes, but feedback and suggestions are always welcome! If you'd like to contribute:
 
-1. 🍴 Fork the repository
-2. 🌿 Create a feature branch
-3. ✏️ Make your changes
-4. 📝 Submit a pull request with a clear description
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request with a clear description
 
-## � License
+## License
 
 This project is developed for educational purposes. Asset credits go to their respective creators.
 
