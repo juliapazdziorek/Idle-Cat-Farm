@@ -3,9 +3,13 @@ package Entities.Characters;
 import Entities.AnimatedEntity;
 import Game.FocusFarm;
 import Resources.Animation;
+import Pathfinding.AStar;
+import Pathfinding.Node;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.List;
+
 
 public class FarmCat extends AnimatedEntity {
 
@@ -21,71 +25,172 @@ public class FarmCat extends AnimatedEntity {
     private FarmCatState farmCatState;
     private FarmCatFacing farmCatFacing;
     private Animation currentAnimation;
-    private boolean isMoving;
 
     // animations
     HashMap<String, Animation> animations;
 
-    // constructor
+    // pathfinding
+    private final AStar pathfinder;
+    private List<Node> currentPath;
+    private int currentPathIndex;
+    private boolean isFollowingPath;
+    private int targetX;
+    private int targetY;
+
+    // moving
+    private boolean isMoving;
+    private boolean isActuallyMoving;
+    private boolean isRunning;
+    private FarmCatFacing lastDirection;
+
+    private int moveCounter;
+    private int directionChangeCounter;
+
+
     public FarmCat(int positionX, int positionY) {
         super(positionX, positionY);
 
+        // get animations
         animations = FocusFarm.resourceHandler.createCatAnimationMap();
 
-        // setting cat state
-        currentAnimation = animations.get("farmCatStandingDown");
+        // initialize cat state variables
         farmCatFacing = FarmCatFacing.DOWN;
         farmCatState = FarmCatState.STANDING;
+        currentAnimation = animations.get("farmCatStandingDown");
+
+        // initialize pathfinding and moving variables
+        pathfinder = new AStar();
+        lastDirection = FarmCatFacing.DOWN;
+    }
+
+
+    // pathfinding
+    public void moveToPosition(int worldX, int worldY) {
+        int startTileX = positionX / FocusFarm.tileSize;
+        int startTileY = positionY / FocusFarm.tileSize;
+        int endTileX = worldX / FocusFarm.tileSize;
+        int endTileY = worldY / FocusFarm.tileSize;
+
+        currentPath = pathfinder.findPath(startTileX, startTileY, endTileX, endTileY);
+
+        if (currentPath != null && currentPath.size() > 1) {
+            currentPathIndex = 1;
+            isFollowingPath = true;
+            
+            isRunning = currentPath.size() > 7;
+            moveCounter = 0; // Reset move counter when starting new path
+            
+            Node nextNode = currentPath.get(currentPathIndex);
+            targetX = nextNode.x * FocusFarm.tileSize;
+            targetY = nextNode.y * FocusFarm.tileSize;
+        }
+    }
+
+    private void followPath() {
+        if (!isFollowingPath || currentPath == null) {
+            isActuallyMoving = false;
+            return;
+        }
+
+        // handle movement
+        int remainingTiles = currentPath.size() - currentPathIndex;
+        isRunning = remainingTiles > 3;
+        moveCounter++;
+        int moveInterval = isRunning ? 1 : 2;
+        
+        if (moveCounter < moveInterval) {
+            isActuallyMoving = false;
+            return;
+        }
+        moveCounter = 0;
+        isActuallyMoving = true;
+
+        int deltaX = targetX - positionX;
+        int deltaY = targetY - positionY;
+        int moveSpeed = 1;
+
+        // waypoint reached
+        if (Math.abs(deltaX) < moveSpeed && Math.abs(deltaY) < moveSpeed) {
+            positionX = targetX;
+            positionY = targetY;
+            currentPathIndex++;
+
+            // end path following
+            if (currentPathIndex >= currentPath.size()) {
+                isFollowingPath = false;
+                currentPath = null;
+                isActuallyMoving = false;
+                return;
+            }
+
+            Node nextNode = currentPath.get(currentPathIndex);
+            targetX = nextNode.x * FocusFarm.tileSize;
+            targetY = nextNode.y * FocusFarm.tileSize;
+            deltaX = targetX - positionX;
+            deltaY = targetY - positionY;
+        }
+
+        // move
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            if (deltaX > 0) {
+                positionX += moveSpeed;
+                if (isRunning) {
+                    runWithDirection(FarmCatFacing.RIGHT);
+                } else {
+                    walkWithDirection(FarmCatFacing.RIGHT);
+                }
+            } else {
+                positionX -= moveSpeed;
+                if (isRunning) {
+                    runWithDirection(FarmCatFacing.LEFT);
+                } else {
+                    walkWithDirection(FarmCatFacing.LEFT);
+                }
+            }
+        } else {
+            if (deltaY > 0) {
+                positionY += moveSpeed;
+                if (isRunning) {
+                    runWithDirection(FarmCatFacing.DOWN);
+                } else {
+                    walkWithDirection(FarmCatFacing.DOWN);
+                }
+            } else {
+                positionY -= moveSpeed;
+                if (isRunning) {
+                    runWithDirection(FarmCatFacing.UP);
+                } else {
+                    walkWithDirection(FarmCatFacing.UP);
+                }
+            }
+        }
     }
 
 
     // moving
-    public void walkUp() {
+    private void walkWithDirection(FarmCatFacing direction) {
         farmCatState = FarmCatState.WALKING;
-        farmCatFacing = FarmCatFacing.UP;
+        changeDirectionWithCooldown(direction);
         isMoving = true;
     }
 
-    public void walkDown() {
-        farmCatState = FarmCatState.WALKING;
-        farmCatFacing = FarmCatFacing.DOWN;
-        isMoving = true;
-    }
-
-    public void walkLeft() {
-        farmCatState = FarmCatState.WALKING;
-        farmCatFacing = FarmCatFacing.LEFT;
-        isMoving = true;
-    }
-
-    public void walkRight() {
-        farmCatState = FarmCatState.WALKING;
-        farmCatFacing = FarmCatFacing.RIGHT;
-        isMoving = true;
-    }
-
-    public void runUp() {
+    private void runWithDirection(FarmCatFacing direction) {
         farmCatState = FarmCatState.RUNNING;
-        farmCatFacing = FarmCatFacing.UP;
+        changeDirectionWithCooldown(direction);
         isMoving = true;
     }
 
-    public void runDown() {
-        farmCatState = FarmCatState.RUNNING;
-        farmCatFacing = FarmCatFacing.DOWN;
-        isMoving = true;
-    }
-
-    public void runLeft() {
-        farmCatState = FarmCatState.RUNNING;
-        farmCatFacing = FarmCatFacing.LEFT;
-        isMoving = true;
-    }
-
-    public void runRight() {
-        farmCatState = FarmCatState.RUNNING;
-        farmCatFacing = FarmCatFacing.RIGHT;
-        isMoving = true;
+    private void changeDirectionWithCooldown(FarmCatFacing newDirection) {
+        if (lastDirection != newDirection) {
+            if (directionChangeCounter <= 0) {
+                lastDirection = newDirection;
+                farmCatFacing = newDirection;
+                directionChangeCounter = 8;
+            }
+        } else {
+            farmCatFacing = newDirection;
+        }
+        directionChangeCounter = Math.max(0, directionChangeCounter - 1);
     }
 
 
@@ -222,7 +327,7 @@ public class FarmCat extends AnimatedEntity {
     }
 
     public void resetAnimations() {
-        animations.forEach((key, value) -> value.resetFrames());
+        animations.values().forEach(Animation::resetFrames);
     }
 
 
@@ -247,16 +352,17 @@ public class FarmCat extends AnimatedEntity {
     // updating & rendering
     @Override
     public void update() {
+        followPath();
         setAnimation();
-        isMoving = false;
+        isMoving = isActuallyMoving;
         currentAnimation.update();
     }
 
     @Override
     public void render(Graphics2D graphics2D) {
         graphics2D.drawImage(currentAnimation.getCurrentFrame(),
-                positionX * FocusFarm.scale,
-                positionY * FocusFarm.scale,
+                positionX * FocusFarm.scale + FocusFarm.camera.cameraX,
+                positionY * FocusFarm.scale + FocusFarm.camera.cameraY,
                 catWidth * FocusFarm.scale,
                 catHeight * FocusFarm.scale,
                 null);
