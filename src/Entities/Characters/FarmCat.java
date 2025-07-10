@@ -45,8 +45,7 @@ public class FarmCat extends AnimatedEntity {
 
     private int moveCounter;
     private int directionChangeCounter;
-
-
+    
     public FarmCat(int positionX, int positionY) {
         super(positionX, positionY);
 
@@ -78,7 +77,7 @@ public class FarmCat extends AnimatedEntity {
             isFollowingPath = true;
             
             isRunning = currentPath.size() > 7;
-            moveCounter = 0; // Reset move counter when starting new path
+            moveCounter = 0;
             
             Node nextNode = currentPath.get(currentPathIndex);
             targetX = nextNode.x * FocusFarm.tileSize;
