@@ -83,7 +83,7 @@ The game uses pixel art assets from the [SproutLands](https://cupnooble.itch.io/
 
 - **Arrow Keys/WASD**: Move camera
 
-## �️ Development Roadmap
+## Development Roadmap
 
 ### Phase 1: Core Systems
 
