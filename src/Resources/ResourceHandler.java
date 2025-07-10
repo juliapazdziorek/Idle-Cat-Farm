@@ -25,6 +25,8 @@ public class ResourceHandler {
     }
 
     private void loadResources() {
+
+        // tiles
         loadImageToMap(imageMap, "src/Resources/SproutLands/water.png", "water");
         loadImageToMap(imageMap, "src/Resources/SproutLands/soil.png", "soil");
         loadImageToMap(imageMap, "src/Resources/SproutLands/grassWater.png", "grassWater");
@@ -34,6 +36,9 @@ public class ResourceHandler {
         loadImageToMap(imageMap, "src/Resources/SproutLands/waterDecor.png", "waterDecor");
         loadImageToMap(imageMap, "src/Resources/SproutLands/grassDecor.png", "grassDecor");
         loadImageToMap(imageMap, "src/Resources/SproutLands/paths.png", "paths");
+
+        // farm cat
+        loadImageToMap(imageMap, "src/Resources/SproutLands/farmCat.png", "farmCat");
     }
 
     private void initializeMapTilesMap() {
@@ -196,6 +201,49 @@ public class ResourceHandler {
     // creating animations
     public Animation createWaterAnimation() {
         return new Animation(imageMap.get("water"), 4, 1, 0, 4, 20);
+    }
+
+    public HashMap<String, Animation> createCatAnimationMap() {
+
+        HashMap<String, Animation> catAnimationMap = new HashMap<>();
+
+        // standing
+        catAnimationMap.put("farmCatStandingDown", new Animation(imageMap.get("farmCat"), 8, 24, 0, 8, 10));
+        catAnimationMap.put("farmCatStandingUp", new Animation(imageMap.get("farmCat"), 8, 24, 1, 8, 10));
+        catAnimationMap.put("farmCatStandingRight", new Animation(imageMap.get("farmCat"), 8, 24, 2, 8, 10));
+        catAnimationMap.put("farmCatStandingLeft", new Animation(imageMap.get("farmCat"), 8, 24, 3, 8, 10));
+
+        // walking
+        catAnimationMap.put("farmCatWalkingDown", new Animation(imageMap.get("farmCat"), 8, 24, 4, 8, 10));
+        catAnimationMap.put("farmCatWalkingUp", new Animation(imageMap.get("farmCat"), 8, 24, 5, 8, 10));
+        catAnimationMap.put("farmCatWalkingRight", new Animation(imageMap.get("farmCat"), 8, 24, 6, 8, 10));
+        catAnimationMap.put("farmCatWalkingLeft", new Animation(imageMap.get("farmCat"), 8, 24, 7, 8, 10));
+
+        // running
+        catAnimationMap.put("farmCatRunningDown", new Animation(imageMap.get("farmCat"), 8, 24, 8, 8, 10));
+        catAnimationMap.put("farmCatRunningUp", new Animation(imageMap.get("farmCat"), 8, 24, 9, 8, 10));
+        catAnimationMap.put("farmCatRunningRight", new Animation(imageMap.get("farmCat"), 8, 24, 10, 8, 10));
+        catAnimationMap.put("farmCatRunningLeft", new Animation(imageMap.get("farmCat"), 8, 24, 11, 8, 10));
+
+        // tilling
+        catAnimationMap.put("farmCatTillingDown", new Animation(imageMap.get("farmCat"), 8, 24, 12, 8, 10));
+        catAnimationMap.put("farmCatTillingUp", new Animation(imageMap.get("farmCat"), 8, 24, 13, 8, 10));
+        catAnimationMap.put("farmCatTillingRight", new Animation(imageMap.get("farmCat"), 8, 24, 14, 8, 10));
+        catAnimationMap.put("farmCatTillingLeft", new Animation(imageMap.get("farmCat"), 8, 24, 15, 8, 10));
+
+        // chopping
+        catAnimationMap.put("farmCatChoppingDown", new Animation(imageMap.get("farmCat"), 8, 24, 16, 8, 10));
+        catAnimationMap.put("farmCatChoppingUp", new Animation(imageMap.get("farmCat"), 8, 24, 17, 8, 10));
+        catAnimationMap.put("farmCatChoppingRight", new Animation(imageMap.get("farmCat"), 8, 24, 18, 8, 10));
+        catAnimationMap.put("farmCatChoppingLeft", new Animation(imageMap.get("farmCat"), 8, 24, 19, 8, 10));
+
+        // watering
+        catAnimationMap.put("farmCatWateringDown", new Animation(imageMap.get("farmCat"), 8, 24, 20, 8, 10));
+        catAnimationMap.put("farmCatWateringUp", new Animation(imageMap.get("farmCat"), 8, 24, 21, 8, 10));
+        catAnimationMap.put("farmCatWateringRight", new Animation(imageMap.get("farmCat"), 8, 24, 22, 8, 10));
+        catAnimationMap.put("farmCatWateringLeft", new Animation(imageMap.get("farmCat"), 8, 24, 23, 8, 10));
+
+        return catAnimationMap;
     }
 
 
