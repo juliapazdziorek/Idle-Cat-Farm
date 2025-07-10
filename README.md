@@ -17,7 +17,7 @@ FocusFarm is a 2D farming simulation game built using Java and Swing. Drawing in
 - **📷 Camera System**: Smooth camera movement and world navigation
 - **🐝 Entities System**: Including static and animated entities
 - **😼 Farm Cat Character**: Animated player character with multiple states (standing, walking, running)
-- **🧭 A* Pathfinding**: Intelligent pathfinding system for smooth character movement
+- **🧭 AStar Pathfinding**: Intelligent pathfinding system for smooth character movement
 
 ### In Development
 
