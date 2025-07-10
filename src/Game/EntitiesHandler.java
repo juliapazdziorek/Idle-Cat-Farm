@@ -9,7 +9,7 @@ public class EntitiesHandler {
     public Map map;
 
     public EntitiesHandler() {
-        map = new Map(FocusFarm.mapHeightTiles, FocusFarm.mapWidthTiles, FocusFarm.tileSize, FocusFarm.resourceHandler);
+        map = new Map();
     }
 
 
