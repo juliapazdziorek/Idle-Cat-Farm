@@ -39,8 +39,7 @@ public class AStar {
     }
 
     private boolean isObstacleAt(int x, int y) {
-        return false;
-        //return FocusFarm.entitiesHandler.map.hasObstacleAt(x, y);
+        return FocusFarm.entitiesHandler.map.hasObstacleAt(y, x); // swap x,y to match map's [row][col] convention
     }
 
 
