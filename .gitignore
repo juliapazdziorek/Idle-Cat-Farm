@@ -11,6 +11,13 @@
 .sts4-cache
 
 
+### Project-specific ignores ###
+# Ignore output directories and files
+out/
+out/**/*.png
+out/**/*.txt
+
+
 # Created by https://www.gitignore.io/api/git,java,maven,eclipse,windows
 
 ### Eclipse ###
