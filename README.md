@@ -10,16 +10,18 @@ FocusFarm is a 2D farming simulation game built using Java and Swing. Drawing in
 
 ### Currently Implemented
 
-- **🗺️ 2D Tile-based World**: Explore a detailed environment with multiple terrain types
-- **🌊 Layer-based Map System**: Sophisticated map rendering with multiple visual layers
-- **📷 Camera System**: Smooth camera movement and world navigation
-- **🐄 Entities System**: Including static and animated entities
+- **🏗️ Modular Architecture**: Clean, extensible codebase with separation of concepts
 - **🎒 Resource Management**: Comprehensive sprite and animation loading system
-- **🏗️ Modular Architecture**: Clean, extensible codebase with separation of concerns
+- **🎬 Animation System**: Smooth character animations with direction change cooldown
+- **🗺️ 2D Tile-based Map**: Cozy farm island world built with layered rendering and text-based map data
+- **📷 Camera System**: Smooth camera movement and world navigation
+- **🐝 Entities System**: Including static and animated entities
+- **😼 Farm Cat Character**: Animated player character with multiple states (standing, walking, running)
+- **🧭 A* Pathfinding**: Intelligent pathfinding system for smooth character movement
 
 ### In Development
 
-- 🚶‍♂️ Player character and pathfinding algorithm
+- 🗺️ Map obstacle detection for pathfinding
 
 ### In the Future
 
@@ -42,24 +44,30 @@ src/
 ├── Entities/              # Game entities and components
 │   ├── Entity.java        
 │   ├── AnimatedEntity.java
-│   └── StaticEntity.java
+│   ├── StaticEntity.java
+│   └── Characters/        # Character entities
+│       └── FarmCat.java   
 ├── Map/                   # Map and layer management
 │   ├── Map.java           # Main map class
 │   ├── MapLayer.java      
 │   └── TextMapLayers/     # Map data files
-├── Resources/             # Resource management and animations
+├── Pathfinding/           # A* pathfinding system
+│   ├── AStar.java         
+│   └── Node.java          
+├── Resources/             # Assets management
 │   ├── Animation.java     
 │   ├── Colors.java        # Color definitions
-│   ├── ResourceHandler.java
+│   ├── ResourceHandler.java # Resource management
 │   └── SproutLands/       # Game assets
-├── Camera.java            
-├── EntitiesHandler.java   # Entity management
-├── KeyHandler.java        
-├── Loop.java              
-├── Main.java              # Application entry point
-├── MouseHandler.java      
-├── Panel.java             # Main rendering panel
-└── FocusFarm.java         # Main game class
+├── Game/                  # Core game systems
+│   ├── Camera.java        
+│   ├── EntitiesHandler.java # Entity management
+│   ├── FocusFarm.java     # Main game class
+│   ├── KeyHandler.java    
+│   ├── Loop.java          
+│   ├── MouseHandler.java  
+│   └── Panel.java         # Main rendering panel
+└── Main.java              # Application entry point
 ```
 
 ## 🎨 Assets
@@ -93,29 +101,36 @@ The game uses pixel art assets from the [SproutLands](https://cupnooble.itch.io/
 - [x] 🎬 Animation system
 - [x] 🎒 Resource management
 
-### Phase 2: First Game Mechanics
+### Phase 2: Character and Movement
 
-- [ ] 🚶‍♂️ Player character and pathfinding algorithm
+- [x] � Farm cat character with animations
+- [x] 🧭 A* pathfinding algorithm
+- [x] 🚀 Dynamic movement system (walk/run)
+- [x] 🎯 Smooth character movement with direction cooldown
+- [ ] 🚧 Map obstacle detection
+
+### Phase 3: Basic Game Mechanics
+
 - [ ] 🌱 Basic farming mechanics
 - [ ] 🖥️ Simple UI elements
 
-### Phase 3: Game Mechanics
+### Phase 4: Advanced Game Mechanics
 
 - [ ] 🌾 Crop growth system
 - [ ] 🎒 Inventory management
 - [ ] 🔨 Tool system
 - [ ] 🌙 Day/night cycle
 
-### Phase 4: Focus System
+### Phase 5: Focus System
 
 - [ ] 🎯 Focus features
 
-### Next phases
+### Phase 6: Advanced Features
 
-- 💅 Fancy UI
-- 🐄 Farming animals
-- 💰 Market and money system
-- 🏘️ Developing buildings
+- [ ] 💅 Fancy UI
+- [ ] 🐄 Farming animals
+- [ ] 💰 Market and money system
+- [ ] 🏘️ Developing buildings
 
 ## 🤝 Contributing
 
