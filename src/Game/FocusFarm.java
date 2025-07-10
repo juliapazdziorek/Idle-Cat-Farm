@@ -1,3 +1,5 @@
+package Game;
+
 import Resources.ResourceHandler;
 
 import javax.swing.*;
@@ -48,7 +50,7 @@ public class FocusFarm {
 
 
         // window setup
-        frame = new JFrame("Focus FocusFarm");
+        frame = new JFrame("FocusFarm");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(true);
         frame.setFocusable(true);

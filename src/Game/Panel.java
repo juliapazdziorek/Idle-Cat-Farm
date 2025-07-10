@@ -1,3 +1,5 @@
+package Game;
+
 import Resources.Colors;
 
 import javax.swing.*;

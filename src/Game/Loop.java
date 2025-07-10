@@ -1,3 +1,5 @@
+package Game;
+
 public class Loop implements Runnable {
 
     private boolean running = false;

@@ -1,4 +1,7 @@
+package Game;
+
 import java.awt.*;
+
 import Map.Map;
 
 public class EntitiesHandler {
