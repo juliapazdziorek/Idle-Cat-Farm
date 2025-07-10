@@ -103,7 +103,7 @@ The game uses pixel art assets from the [SproutLands](https://cupnooble.itch.io/
 - [x] 🧭 A* pathfinding algorithm
 - [x] 🚀 Dynamic movement system (walk/run)
 - [x] 🎯 Smooth character movement with direction cooldown
-- [ ] 🚧 Map obstacle detection
+- [x] 🚧 Map obstacle detection
 
 ### Phase 3: Basic Game Mechanics
 
