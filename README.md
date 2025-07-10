@@ -1,10 +1,6 @@
 # 🌱 FocusFarm
 
-An indie farming simulation game designed to help you cultivate focus while you play. Currently in development as an evolution of a university project, FocusFarm invites you to experience the peaceful rhythm of farm life while exploring a beautifully crafted 2D [Sprout Lands](https://cupnooble.itch.io/sprout-lands-asset-pack) world.
-
-## 🚜 About
-
-FocusFarm is a 2D farming simulation game built using Java and Swing. Drawing inspiration from focus apps like [Forest](https://www.forestapp.cc) and combining them with classics like [Stardew Valley](https://www.stardewvalley.net), the game creates a unique experience where virtual farming activities help reinforce real-world focus habits.
+FocusFarm is a 2D farming simulation game built with Java and Swing. It's an indie game that combines the relaxing vibes of farming with focus-building mechanics - think [Stardew Valley](https://www.stardewvalley.net) meets [Forest](https://www.forestapp.cc) app. Originally started as a university project, it's now evolving into something bigger.
 
 ## 🌾 Features
 
