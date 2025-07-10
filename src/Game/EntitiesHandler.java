@@ -19,6 +19,6 @@ public class EntitiesHandler {
     }
 
     public void render(Graphics2D graphics2D) {
-        map.render(graphics2D, FocusFarm.camera.cameraX, FocusFarm.camera.cameraY, FocusFarm.scale, FocusFarm.scaledTileSize);
+        map.render(graphics2D);
     }
 }

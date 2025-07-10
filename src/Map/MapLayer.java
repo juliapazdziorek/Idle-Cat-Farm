@@ -43,12 +43,12 @@ public class MapLayer {
         }
     }
 
-    public void render(Graphics2D graphics2D, int cameraX, int cameraY, int scale, int scaledTileSize) {
+    public void render(Graphics2D graphics2D) {
         for (int i = 0; i < mapHeightTiles; i++) {
             for (int j = 0; j < mapWidthTiles; j++) {
 
                 if (tiles[i][j] != null) {
-                    tiles[i][j].render(graphics2D, cameraX, cameraY, scale, scaledTileSize);
+                    tiles[i][j].render(graphics2D);
                 }
             }
         }

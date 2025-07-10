@@ -302,7 +302,7 @@ public class Map {
         mapLayersToUpdate.forEach(MapLayer::update);
     }
 
-    public void render(Graphics2D graphics2D, int cameraX, int cameraY, int scale, int scaledTileSize) {
-        mapLayersToRender.forEach(layer -> layer.render(graphics2D, cameraX, cameraY, scale, scaledTileSize));
+    public void render(Graphics2D graphics2D) {
+        mapLayersToRender.forEach(layer -> layer.render(graphics2D));
     }
 }

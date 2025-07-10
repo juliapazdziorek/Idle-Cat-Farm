@@ -1,5 +1,6 @@
 package Entities;
 
+import Game.FocusFarm;
 import Resources.Animation;
 
 import java.awt.*;
@@ -9,14 +10,12 @@ public class AnimatedEntity extends Entity {
     protected Animation animation;
 
     public AnimatedEntity(int positionX, int positionY) {
-        this.positionX = positionX;
-        this.positionY = positionY;
+        super(positionX, positionY);
     }
 
     public AnimatedEntity(int positionX, int positionY, Animation animation) {
         // used for one-row animations (water etc.)
-        this.positionX = positionX;
-        this.positionY = positionY;
+        super(positionX, positionY);
         this.animation = animation;
     }
 
@@ -29,9 +28,14 @@ public class AnimatedEntity extends Entity {
     }
 
     @Override
-    public void render(Graphics2D graphics2D, int cameraX, int cameraY, int scale, int scaledTileSize) {
+    public void render(Graphics2D graphics2D) {
         if (animation != null) {
-            graphics2D.drawImage(animation.getCurrentFrame(), cameraX + positionX * scale, cameraY + positionY * scale, scaledTileSize, scaledTileSize, null);
+            graphics2D.drawImage(animation.getCurrentFrame(),
+                    FocusFarm.camera.cameraX + positionX * FocusFarm.scale,
+                    FocusFarm.camera.cameraY + positionY * FocusFarm.scale,
+                    FocusFarm.scaledTileSize,
+                    FocusFarm.scaledTileSize,
+                    null);
         }
     }
 }
