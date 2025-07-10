@@ -66,6 +66,7 @@ public class FocusFarm {
 
         frame.addKeyListener(keyHandler);
         frame.addMouseListener(mouseHandler);
+        frame.addMouseListener(entitiesHandler);
         frame.add(panel);
 
         frame.pack();
