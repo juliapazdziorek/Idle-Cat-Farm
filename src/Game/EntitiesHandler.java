@@ -14,7 +14,7 @@ public class EntitiesHandler implements MouseListener {
 
     public EntitiesHandler() {
         map = new Map();
-        cat = new FarmCat(12 * FocusFarm.tileSize + FocusFarm.tileSize / 2, 6 * FocusFarm.tileSize + FocusFarm.tileSize / 2); // temp
+        cat = new FarmCat(12, 6);
     }
 
 
@@ -37,13 +37,10 @@ public class EntitiesHandler implements MouseListener {
 
         int worldX = (mouseX - FocusFarm.camera.cameraX) / FocusFarm.scale;
         int worldY = (mouseY - FocusFarm.camera.cameraY) / FocusFarm.scale;
-
         int tileX = worldX / FocusFarm.tileSize;
         int tileY = worldY / FocusFarm.tileSize;
-        int centeredWorldX = tileX * FocusFarm.tileSize + FocusFarm.tileSize / 2;
-        int centeredWorldY = tileY * FocusFarm.tileSize + FocusFarm.tileSize / 2;
-        
-        cat.moveToPosition(centeredWorldX, centeredWorldY);
+
+        cat.moveToTile(tileX, tileY);
     }
 
     @Override

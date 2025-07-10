@@ -46,8 +46,8 @@ public class FarmCat extends AnimatedEntity {
     private int moveCounter;
     private int directionChangeCounter;
     
-    public FarmCat(int positionX, int positionY) {
-        super(positionX, positionY);
+    public FarmCat(int tileX, int tileY) {
+        super(tileX * FocusFarm.tileSize + FocusFarm.tileSize / 2,tileY * FocusFarm.tileSize + FocusFarm.tileSize / 2);
 
         // get animations
         animations = FocusFarm.resourceHandler.createCatAnimationMap();
@@ -69,15 +69,13 @@ public class FarmCat extends AnimatedEntity {
         }
     }
 
-    public void moveToPosition(int worldX, int worldY) {
+    public void moveToTile(int tileX, int tileY) {
         initializePathFinder();
 
         int startTileX = positionX / FocusFarm.tileSize;
         int startTileY = positionY / FocusFarm.tileSize;
-        int endTileX = worldX / FocusFarm.tileSize;
-        int endTileY = worldY / FocusFarm.tileSize;
 
-        currentPath = pathfinder.findPath(startTileX, startTileY, endTileX, endTileY);
+        currentPath = pathfinder.findPath(startTileX, startTileY, tileX, tileY);
 
         if (currentPath != null && currentPath.size() > 1) {
             currentPathIndex = 1;
@@ -334,31 +332,6 @@ public class FarmCat extends AnimatedEntity {
 
     public void resetAnimations() {
         animations.values().forEach(Animation::resetFrames);
-    }
-
-    // getters
-    public int getCatPositionX() {
-        return positionX;
-    }
-
-    public int getCatPositionY() {
-        return positionY;
-    }
-
-    public int getCurrentTileX() {
-        return positionX / FocusFarm.tileSize;
-    }
-
-    public int getCurrentTileY() {
-        return positionY / FocusFarm.tileSize;
-    }
-
-    public int getCenterScreenCatPositionX() {
-        return (FocusFarm.frame.getWidth() - catWidth * FocusFarm.scale) / 2;
-    }
-
-    public int getCenterScreenCatPositionY() {
-        return (FocusFarm.frame.getHeight() - catHeight * FocusFarm.scale ) / 2;
     }
 
 
