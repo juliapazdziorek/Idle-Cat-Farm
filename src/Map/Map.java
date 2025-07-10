@@ -14,20 +14,26 @@ import java.util.Scanner;
 public class Map {
 
     // layers
-    ArrayList<MapLayer> mapLayersToRender;
-    ArrayList<MapLayer> mapLayersToUpdate;
+    private final ArrayList<MapLayer> mapLayersToRender;
+    private final ArrayList<MapLayer> mapLayersToUpdate;
+
+    // obstacles
+    private final boolean[][] ObstaclesGrid;
+
 
     public Map() {
         mapLayersToRender = new ArrayList<>();
         mapLayersToUpdate = new ArrayList<>();
+        ObstaclesGrid = new boolean[FocusFarm.mapHeightTiles][FocusFarm.mapWidthTiles];
 
         createMapLayers();
+        createObstaclesGrid();
     }
 
     private void createMapLayers() {
 
         // water layer
-        MapLayer waterLayer = createWaterLayer();
+        MapLayer waterLayer = createWaterLayerAndAddWaterObstacles();
         mapLayersToRender.add(waterLayer);
         mapLayersToUpdate.add(waterLayer);
 
@@ -35,13 +41,13 @@ public class Map {
         mapLayersToRender.add(createSoilLayer());
         mapLayersToRender.add(createGrassLayer());
         mapLayersToRender.add(createDarkGrassLayer());
-        mapLayersToRender.add(createBridgesLayer());
+        mapLayersToRender.add(createBridgesLayerAndRemoveFromObstacles());
         mapLayersToRender.add(createGroundDecorLayer());
     }
 
 
     // creating layers
-    private MapLayer createWaterLayer() {
+    private MapLayer createWaterLayerAndAddWaterObstacles() {
         int[][] idFromFile = readFileToIntInt("src/Map/TextMapLayers/water.txt");
         MapLayer waterLayer = new MapLayer(FocusFarm.mapHeightTiles, FocusFarm.mapWidthTiles);
 
@@ -52,6 +58,8 @@ public class Map {
                     if (waterAnimation != null) {
                         waterLayer.setTile(i, j, new AnimatedEntity(j * FocusFarm.tileSize, i * FocusFarm.tileSize, waterAnimation));
                     }
+
+                    ObstaclesGrid[i][j] = true;
                 }
             }
         }
@@ -192,18 +200,29 @@ public class Map {
         return darkGrassLayer;
     }
 
-    private MapLayer createBridgesLayer() {
+    private MapLayer createBridgesLayerAndRemoveFromObstacles() {
         int[][] idFromFile = readFileToIntInt("src/Map/TextMapLayers/bridges.txt");
         MapLayer bridgesLayer = new MapLayer(FocusFarm.mapHeightTiles, FocusFarm.mapWidthTiles);
 
         for (int i = 0; i < FocusFarm.mapHeightTiles; i++) {
             for (int j = 0; j < FocusFarm.mapWidthTiles; j++) {
                 switch (idFromFile[i][j]) {
-                    case 1 -> bridgesLayer.tiles[i][j] = new StaticEntity(j * FocusFarm.tileSize, i * FocusFarm.tileSize, FocusFarm.resourceHandler.mapTilesMap.get("leftBridge"));
-                    case 2 -> bridgesLayer.tiles[i][j] = new StaticEntity(j * FocusFarm.tileSize, i * FocusFarm.tileSize, FocusFarm.resourceHandler.mapTilesMap.get("bridge"));
-                    case 3 -> bridgesLayer.tiles[i][j] = new StaticEntity(j * FocusFarm.tileSize, i * FocusFarm.tileSize, FocusFarm.resourceHandler.mapTilesMap.get("rightBridge"));
-                    case 4 -> bridgesLayer.tiles[i][j] = new StaticEntity(j * FocusFarm.tileSize, i * FocusFarm.tileSize, FocusFarm.resourceHandler.mapTilesMap.get("waterLeftBridge"));
-
+                    case 1 -> {
+                        bridgesLayer.tiles[i][j] = new StaticEntity(j * FocusFarm.tileSize, i * FocusFarm.tileSize, FocusFarm.resourceHandler.mapTilesMap.get("leftBridge"));
+                        ObstaclesGrid[i][j] = false;
+                    }
+                    case 2 -> {
+                        bridgesLayer.tiles[i][j] = new StaticEntity(j * FocusFarm.tileSize, i * FocusFarm.tileSize, FocusFarm.resourceHandler.mapTilesMap.get("bridge"));
+                        ObstaclesGrid[i][j] = false;
+                    }
+                    case 3 -> {
+                        bridgesLayer.tiles[i][j] = new StaticEntity(j * FocusFarm.tileSize, i * FocusFarm.tileSize, FocusFarm.resourceHandler.mapTilesMap.get("rightBridge"));
+                        ObstaclesGrid[i][j] = false;
+                    }
+                    case 4 -> {
+                        bridgesLayer.tiles[i][j] = new StaticEntity(j * FocusFarm.tileSize, i * FocusFarm.tileSize, FocusFarm.resourceHandler.mapTilesMap.get("waterLeftBridge"));
+                        ObstaclesGrid[i][j] = false;
+                    }
                 }
             }
         }
@@ -259,6 +278,20 @@ public class Map {
             }
         }
         return groundDecorLayer;
+    }
+
+
+    // handling obstacles
+    private void createObstaclesGrid() {
+        // no dynamic obstacles yet
+    }
+
+    public boolean hasObstacleAt(int i, int j) {
+        if (i < 0 || i >= FocusFarm.mapHeightTiles || j < 0 || j >= FocusFarm.mapWidthTiles) {
+            return true;
+        }
+
+        return ObstaclesGrid[i][j];
     }
 
 

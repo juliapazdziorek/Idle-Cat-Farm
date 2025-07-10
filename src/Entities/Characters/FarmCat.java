@@ -30,7 +30,7 @@ public class FarmCat extends AnimatedEntity {
     HashMap<String, Animation> animations;
 
     // pathfinding
-    private final AStar pathfinder;
+    private AStar pathfinder;
     private List<Node> currentPath;
     private int currentPathIndex;
     private boolean isFollowingPath;
@@ -58,13 +58,20 @@ public class FarmCat extends AnimatedEntity {
         currentAnimation = animations.get("farmCatStandingDown");
 
         // initialize pathfinding and moving variables
-        pathfinder = new AStar();
         lastDirection = FarmCatFacing.DOWN;
     }
 
 
     // pathfinding
+    private void initializePathFinder() {
+        if (pathfinder == null) {
+            pathfinder = new AStar();
+        }
+    }
+
     public void moveToPosition(int worldX, int worldY) {
+        initializePathFinder();
+
         int startTileX = positionX / FocusFarm.tileSize;
         int startTileY = positionY / FocusFarm.tileSize;
         int endTileX = worldX / FocusFarm.tileSize;
@@ -80,8 +87,8 @@ public class FarmCat extends AnimatedEntity {
             moveCounter = 0;
             
             Node nextNode = currentPath.get(currentPathIndex);
-            targetX = nextNode.x * FocusFarm.tileSize;
-            targetY = nextNode.y * FocusFarm.tileSize;
+            targetX = nextNode.x * FocusFarm.tileSize + FocusFarm.tileSize / 2;
+            targetY = nextNode.y * FocusFarm.tileSize + FocusFarm.tileSize / 2;
         }
     }
 
@@ -123,8 +130,8 @@ public class FarmCat extends AnimatedEntity {
             }
 
             Node nextNode = currentPath.get(currentPathIndex);
-            targetX = nextNode.x * FocusFarm.tileSize;
-            targetY = nextNode.y * FocusFarm.tileSize;
+            targetX = nextNode.x * FocusFarm.tileSize + FocusFarm.tileSize / 2;
+            targetY = nextNode.y * FocusFarm.tileSize + FocusFarm.tileSize / 2;
             deltaX = targetX - positionX;
             deltaY = targetY - positionY;
         }
@@ -329,7 +336,6 @@ public class FarmCat extends AnimatedEntity {
         animations.values().forEach(Animation::resetFrames);
     }
 
-
     // getters
     public int getCatPositionX() {
         return positionX;
@@ -337,6 +343,14 @@ public class FarmCat extends AnimatedEntity {
 
     public int getCatPositionY() {
         return positionY;
+    }
+
+    public int getCurrentTileX() {
+        return positionX / FocusFarm.tileSize;
+    }
+
+    public int getCurrentTileY() {
+        return positionY / FocusFarm.tileSize;
     }
 
     public int getCenterScreenCatPositionX() {
@@ -360,8 +374,8 @@ public class FarmCat extends AnimatedEntity {
     @Override
     public void render(Graphics2D graphics2D) {
         graphics2D.drawImage(currentAnimation.getCurrentFrame(),
-                positionX * FocusFarm.scale + FocusFarm.camera.cameraX,
-                positionY * FocusFarm.scale + FocusFarm.camera.cameraY,
+                (positionX - catWidth / 2) * FocusFarm.scale + FocusFarm.camera.cameraX,
+                (positionY - catHeight / 2) * FocusFarm.scale + FocusFarm.camera.cameraY,
                 catWidth * FocusFarm.scale,
                 catHeight * FocusFarm.scale,
                 null);
