@@ -22,7 +22,6 @@ public class Map {
     private final boolean[][] obstaclesGrid;
     private final ArrayList<Integer> obstaclesIds;
 
-
     public Map() {
         mapLayersToRender = new ArrayList<>();
         mapLayersToUpdate = new ArrayList<>();
@@ -36,52 +35,38 @@ public class Map {
 
     private void createMapLayers() {
 
-        // ground
-
         // water layer
-        MapLayer waterLayer = createWaterLayer();
+        MapLayer waterLayer = createLayer("src/Map/TileMaps/Ground/ground_water.txt");
         mapLayersToRender.add(waterLayer);
         mapLayersToUpdate.add(waterLayer);
 
         // static ground layers
-        mapLayersToRender.add(createStaticLayer("src/Map/TileMaps/Ground/ground_soil.txt")); // soil
-        mapLayersToRender.add(createStaticLayer("src/Map/TileMaps/Ground/ground_grass.txt")); // grass
-        mapLayersToRender.add(createStaticLayer("src/Map/TileMaps/Ground/ground_darkGrass.txt")); // dark grass
-        mapLayersToRender.add(createStaticLayer("src/Map/TileMaps/Ground/ground_bridges.txt")); // bridges
-        mapLayersToRender.add(createStaticLayer("src/Map/TileMaps/Ground/ground_groundDecor.txt")); // ground decor
+        mapLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_soil.txt")); // soil
+        mapLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_grass.txt")); // grass
+        mapLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_darkGrass.txt")); // dark grass
+        mapLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_bridges.txt")); // bridges
+        mapLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_groundDecor.txt")); // ground decor
 
     }
 
-    private MapLayer createWaterLayer() {
-        int[][] tilesIds = readFileToGrid("src/Map/TileMaps/Ground/ground_water.txt");
-        MapLayer waterLayer = new MapLayer(FocusFarm.mapHeightTiles, FocusFarm.mapWidthTiles);
-
-        for (int i = 0; i < FocusFarm.mapHeightTiles; i++) {
-            for (int j = 0; j < FocusFarm.mapWidthTiles; j++) {
-
-                // id 1 for water animated tiles
-                if (tilesIds[i][j] == 1) {
-                    Animation waterAnimation = FocusFarm.resourceHandler.createWaterAnimation();
-                    waterLayer.setTile(i, j, new AnimatedEntity(j * FocusFarm.tileSize, i * FocusFarm.tileSize, waterAnimation));
-                }
-            }
-        }
-        return waterLayer;
-    }
-
-    private MapLayer createStaticLayer(String path) {
+    private MapLayer createLayer(String path) {
         int[][] tilesIds = readFileToGrid(path);
-        MapLayer staticLayer = new MapLayer(FocusFarm.mapHeightTiles, FocusFarm.mapWidthTiles);
+        MapLayer layer = new MapLayer(FocusFarm.mapHeightTiles, FocusFarm.mapWidthTiles);
 
         for (int i = 0; i < FocusFarm.mapHeightTiles; i++) {
             for (int j = 0; j < FocusFarm.mapWidthTiles; j++) {
 
                 if (tilesIds[i][j] != 0) {
-                    staticLayer.tiles[i][j] = new StaticEntity(j * FocusFarm.tileSize, i * FocusFarm.tileSize, FocusFarm.resourceHandler.mapTilesMap.get(tilesIds[i][j]));
+                    if (FocusFarm.resourceHandler.animationsMap.containsKey(tilesIds[i][j])) {
+                        Animation animation = FocusFarm.resourceHandler.animationsMap.get(tilesIds[i][j]).get();
+                        layer.tiles[i][j] = new AnimatedEntity(j * FocusFarm.tileSize, i * FocusFarm.tileSize, animation);
+                    } else {
+                        layer.tiles[i][j] = new StaticEntity(j * FocusFarm.tileSize, i * FocusFarm.tileSize, FocusFarm.resourceHandler.tilesMap.get(tilesIds[i][j]));
+                    }
                 }
             }
         }
-        return staticLayer;
+        return layer;
     }
 
 
