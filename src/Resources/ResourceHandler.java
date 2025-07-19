@@ -227,38 +227,38 @@ public class ResourceHandler {
         tilesMap.put(140, grassDecor.getSubimage(FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // small bush 2
         tilesMap.put(141, grassDecor.getSubimage( 2 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // small bush 3
         tilesMap.put(142, grassDecor.getSubimage( 3 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // small bush 4
-        tilesMap.put(143, grassDecor.getSubimage( 0, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // yellow flower 1
-        tilesMap.put(144, grassDecor.getSubimage( FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // yellow flower 2
-        tilesMap.put(145, grassDecor.getSubimage( 2 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // yellow flower 3
-        tilesMap.put(146, grassDecor.getSubimage( 3 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // yellow flower 4 top
-        tilesMap.put(147, grassDecor.getSubimage( 3 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // yellow flower 4 bottom
-        tilesMap.put(148, grassDecor.getSubimage( 0, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // violet flower 1
-        tilesMap.put(149, grassDecor.getSubimage( FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // violet flower 2
-        tilesMap.put(150, grassDecor.getSubimage( 2 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // violet flower 2
-        tilesMap.put(151, grassDecor.getSubimage( 4 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pink flower 1
-        tilesMap.put(152, grassDecor.getSubimage( 5 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pink flower 2
-        tilesMap.put(153, grassDecor.getSubimage( 6 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pink flower 3
-        tilesMap.put(154, grassDecor.getSubimage( 7 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pink flower 4
-        tilesMap.put(155, grassDecor.getSubimage( 4 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // blue flower 1
-        tilesMap.put(156, grassDecor.getSubimage( 5 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // blue flower 2
-        tilesMap.put(157, grassDecor.getSubimage( 6 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // blue flower 3
-        tilesMap.put(158, grassDecor.getSubimage( 7 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // blue flower 4
-        tilesMap.put(159, grassDecor.getSubimage( 9 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // white flower 1
-        tilesMap.put(160, grassDecor.getSubimage( 10 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // white flower 2
-        tilesMap.put(161, grassDecor.getSubimage( 11 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // white flower 3
-        tilesMap.put(162, grassDecor.getSubimage( 10 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // dark blue flower 1
-        tilesMap.put(163, grassDecor.getSubimage( 11 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // dark blue flower 2
+//        tilesMap.put(143, grassDecor.getSubimage( 0, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // yellow flower 1
+//        tilesMap.put(144, grassDecor.getSubimage( FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // yellow flower 2
+//        tilesMap.put(145, grassDecor.getSubimage( 2 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // yellow flower 3
+//        tilesMap.put(146, grassDecor.getSubimage( 3 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // yellow flower 4 top
+//        tilesMap.put(147, grassDecor.getSubimage( 3 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // yellow flower 4 bottom
+//        tilesMap.put(148, grassDecor.getSubimage( 0, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // violet flower 1
+//        tilesMap.put(149, grassDecor.getSubimage( FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // violet flower 2
+//        tilesMap.put(150, grassDecor.getSubimage( 2 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // violet flower 2
+//        tilesMap.put(151, grassDecor.getSubimage( 4 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pink flower 1
+//        tilesMap.put(152, grassDecor.getSubimage( 5 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pink flower 2
+//        tilesMap.put(153, grassDecor.getSubimage( 6 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pink flower 3
+//        tilesMap.put(154, grassDecor.getSubimage( 7 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pink flower 4
+//        tilesMap.put(155, grassDecor.getSubimage( 4 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // blue flower 1
+//        tilesMap.put(156, grassDecor.getSubimage( 5 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // blue flower 2
+//        tilesMap.put(157, grassDecor.getSubimage( 6 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // blue flower 3
+//        tilesMap.put(158, grassDecor.getSubimage( 7 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // blue flower 4
+//        tilesMap.put(159, grassDecor.getSubimage( 9 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // white flower 1
+//        tilesMap.put(160, grassDecor.getSubimage( 10 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // white flower 2
+//        tilesMap.put(161, grassDecor.getSubimage( 11 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // white flower 3
+//        tilesMap.put(162, grassDecor.getSubimage( 10 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // dark blue flower 1
+//        tilesMap.put(163, grassDecor.getSubimage( 11 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // dark blue flower 2
 
         // trees, bushes & stumps
         BufferedImage trees = imageMap.get("trees");
-        tilesMap.put(164, trees.getSubimage( 0, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // small tree top
-        tilesMap.put(165, trees.getSubimage( 0, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // small tree bottom
+        tilesMap.put(143, trees.getSubimage( 0, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // small tree top
+        tilesMap.put(144, trees.getSubimage( 0, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // small tree bottom
     }
 
 
     // animations
     private void initializeAnimationMap() {
-        animationsMap.put(1, this::createWaterAnimation);
+        animationsMap.put(1, this::createWaterAnimation); // water
     }
 
     // animation factories

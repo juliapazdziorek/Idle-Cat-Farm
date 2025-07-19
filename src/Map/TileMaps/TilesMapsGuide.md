@@ -14,13 +14,19 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 - [Water Decorations](#water-decorations)
 - [Grass Decorations](#grass-decorations)
 - [Trees](#trees)
+- [Fences](#fences)
+- [Gates](#gates)
 - [Walls](#walls)
 - [Doors](#doors)
 - [Roof](#roof)
-- [Fences](#fences)
-- [Gates](#gates)
 - [Coop](#coop)
 - [Barn Structures](#barn-structures)
+- [Water Tray](#water-tray)
+- [Mailbox](#mailbox)
+- [Work Station](#work-station)
+- [Water Well](#water-well)
+- [Piknik Blanket](#piknik-blanket)
+- [Piknik Basket](#piknik-basket)
 - [Furniture](#furniture)
 
 ---
@@ -45,16 +51,26 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 - **Bridges**: 96-99
 - **Paths**: 100-108
 - **Water Decors**: 109–120
-- **Grass Decors**: 121–163
-- **Trees**: 164–193
-- **Walls**: 194–206
-- **Doors**: 207–208
-- **Roof**: 209–233
-- **Fences**: 234–256
-- **Gates**: 257–264
-- **Coop**: 265–284
-- **Barn Structures**: 285–294
-- **Furniture**: 295–315
+- **Grass Decors**: 121–142
+- **Trees**: 143–172
+- **Fences**: 173–183
+- **Gates**: 184–191
+- **Walls**: 192–204
+- **Doors**: 205–206
+- **Roof**: 207–227
+- **Coop**: 228–252
+- **Barn Structures**: 253–262
+- **Water Tray**: 263–264
+- **Mailbox**: 265–266
+- **Work Station**: 267–270
+- **Water Well**: 271–274
+- **Piknik Blanket**: 275–283
+- **Piknik Basket**: 284
+- **Furniture**: 285–305
+
+### Animation Notes
+
+- ???
 
 ### Obstacle Notes
 
@@ -70,23 +86,23 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ---
 
-## Water Tiles
+## Map Tiles
 
-**File:** `water.txt`
+---
+
+### Water Tiles
+
+**File:** `MapTiles/water.png`
 
 | ID | Tile Name | Notes              |
 |----|-----------|--------------------|
 | 1  | Water     | Animated, obstacle |
 
-**Implementation Notes:**
-
-- Obtained through `createWaterAnimation()` in `ResourceHandler` class
-
 ---
 
-## Soil Tiles
+### Soil Tiles
 
-**File:** `soil.png`
+**File:** `MapTiles/soil.png`
 
 | ID | Tile Name               | Notes |
 |----|-------------------------|-------|
@@ -100,9 +116,9 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ---
 
-## Grass Tiles
+### Grass Tiles
 
-**File:** `grass_water.png`
+**File:** `MapTiles/grass_water.png`
 
 | ID    | Tile Name                        | Notes                     |
 |-------|----------------------------------|---------------------------|
@@ -139,7 +155,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 | 39    | Three flowers grass              |                           |
 | 40    | Two flowers grass                |                           |
 
-**File:** `grass_layer.png`
+**File:** `MapTiles/grass_layer.png`
 
 | ID    | Tile Name                        | Notes                     |
 |-------|----------------------------------|---------------------------|
@@ -163,9 +179,9 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ---
 
-## Dark Grass Tiles
+### Dark Grass Tiles
 
-**File:** `dark_grass.png`
+**File:** `MapTiles/dark_grass.png`
 
 | ID | Tile Name                          | Notes                     |
 |----|------------------------------------|---------------------------|
@@ -210,9 +226,9 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ---
 
-## Bridge Tiles
+### Bridge Tiles
 
-**File:** `bridges.png`
+**File:** `MapTiles/bridges.png`
 
 | ID | Tile Name         | Notes |
 |----|-------------------|-------|
@@ -223,9 +239,9 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ---
 
-## Path Tiles
+### Path Tiles
 
-**File:** `paths.png`
+**File:** `MapTiles/paths.png`
 
 | ID      | Tile Name       | Notes              |
 |---------|-----------------|--------------------|
@@ -241,9 +257,13 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ---
 
-## Water Decorations
+## Nature
 
-**File:** `water_decor.png`
+---
+
+### Water Decorations
+
+**File:** `Nature/water_decor.png`
 
 | ID  | Tile Name          | Notes |
 |-----|--------------------|-------|
@@ -262,9 +282,9 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ---
 
-## Grass Decorations
+### Grass Decorations
 
-**File:** `grass_decor.png`
+**File:** `Nature/grass_decor.png`
 
 | ID  | Tile Name                | Notes    |
 |-----|--------------------------|----------|
@@ -290,260 +310,314 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 | 140 | Small bush 2             |          |
 | 141 | Small bush 3             |          |
 | 142 | Small bush 4             |          |
-| 143 | Yellow flower 1          |          |
-| 144 | Yellow flower 2          |          |
-| 145 | Yellow flower 3          |          |
-| 146 | Yellow flower 4 top      |          |
-| 147 | Yellow flower 4 bottom   | Obstacle |
-| 148 | Violet flower 1          |          |
-| 149 | Violet flower 2          |          |
-| 150 | Violet flower 3          |          |
-| 151 | Pink flower 1            |          |
-| 152 | Pink flower 2            |          |
-| 153 | Pink flower 3            |          |
-| 154 | Pink flower 4            | Obstacle |
-| 155 | Blue flower 1            |          |
-| 156 | Blue flower 2            |          |
-| 157 | Blue flower 3            |          |
-| 158 | Blue flower 4            | Obstacle |
-| 159 | White flower 1           |          |
-| 160 | White flower 2           |          |
-| 161 | White flower 3           |          |
-| 162 | Dark blue flower 1       |          |
-| 163 | Dark blue flower 2       |          |
 
 ---
 
-## Trees
+### Trees
 
-**File:** `trees.png`
+**File:** `Nature/trees.png`
 
 | ID  | Tile Name                | Notes              |
 |-----|--------------------------|--------------------|
-| 164 | Small tree top           |                    |
-| 165 | Small tree bottom        | Obstacle           |
-| 166 | Bush                     | Animated, obstacle |
-| 167 | Large tree top-left      |                    |
-| 168 | Large tree top-center    |                    |
-| 169 | Large tree top-right     |                    |
-| 170 | Large tree middle-left   |                    |
-| 171 | Large tree middle-center |                    |
-| 172 | Large tree middle-right  |                    |
-| 173 | Large tree bottom-left   | Obstacle           |
-| 174 | Large tree bottom-center | Obstacle           |
-| 175 | Large tree bottom-right  | Obstacle           |
-| 176 | Stump 1                  | Obstacle           |
-| 177 | Stump 2                  | Obstacle           |
-| 178 | Stump 3 left             | Obstacle           |
-| 179 | Stump 3 right            | Obstacle           |
-| 180 | Stump 4 left             | Obstacle           |
-| 181 | Stump 4 right            | Obstacle           |
-| 182 | Small log                | Obstacle           |
-| 183 | Big log                  | Obstacle           |
-| 184 | Big shroomy log          | Obstacle           |
+| 143 | Small tree top           |                    |
+| 144 | Small tree bottom        | Obstacle           |
+| 145 | Bush                     | Animated, obstacle |
+| 146 | Large tree top-left      |                    |
+| 147 | Large tree top-center    |                    |
+| 148 | Large tree top-right     |                    |
+| 149 | Large tree middle-left   |                    |
+| 150 | Large tree middle-center |                    |
+| 151 | Large tree middle-right  |                    |
+| 152 | Large tree bottom-left   | Obstacle           |
+| 153 | Large tree bottom-center | Obstacle           |
+| 154 | Large tree bottom-right  | Obstacle           |
+| 155 | Stump 1                  | Obstacle           |
+| 156 | Stump 2                  | Obstacle           |
+| 157 | Stump 3 left             | Obstacle           |
+| 158 | Stump 3 right            | Obstacle           |
+| 159 | Stump 4 left             | Obstacle           |
+| 160 | Stump 4 right            | Obstacle           |
+| 161 | Small log                | Obstacle           |
+| 162 | Big log                  | Obstacle           |
+| 163 | Big shroomy log          | Obstacle           |
 
-**File:** `Trees/tree.png`
+**File:** `Nature/tree.png`
 
 | ID  | Tile Name          | Notes              |
 |-----|--------------------|--------------------|
-| 185 | Tree top-left      | Animated           |
-| 186 | Tree top-center    | Animated           |
-| 187 | Tree top-right     | Animated           |
-| 188 | Tree middle-left   | Animated           |
-| 189 | Tree middle-center | Animated           |
-| 190 | Tree middle-right  | Animated           |
-| 191 | Tree bottom-left   | Animated           |
-| 192 | Tree bottom-center | Animated, obstacle |
-| 193 | Tree bottom-right  | Animated           |
+| 164 | Tree top-left      | Animated           |
+| 165 | Tree top-center    | Animated           |
+| 166 | Tree top-right     | Animated           |
+| 167 | Tree middle-left   | Animated           |
+| 168 | Tree middle-center | Animated           |
+| 169 | Tree middle-right  | Animated           |
+| 170 | Tree bottom-left   | Animated           |
+| 171 | Tree bottom-center | Animated, obstacle |
+| 172 | Tree bottom-right  | Animated           |
 
 ---
 
-## Walls
-
-**File:** `BuildingParts/walls.png`
-
-| ID  | Tile Name                      | Notes    |
-|-----|--------------------------------|----------|
-| 194 | Wall front                     | Obstacle |
-| 195 | Wall back                      | Obstacle |
-| 196 | Wall left                      | Obstacle |
-| 197 | Wall right                     | Obstacle |
-| 198 | Wall up-left corner            | Obstacle |
-| 199 | Wall bottom-left corner        | Obstacle |
-| 200 | Wall up-right corner           | Obstacle |
-| 201 | Wall bottom-right corner       | Obstacle |
-| 202 | Wall up-left inner corner      | Obstacle |
-| 203 | Wall bottom-left inner corner  | Obstacle |
-| 204 | Wall up-right inner corner     | Obstacle |
-| 205 | Wall bottom-right inner corner | Obstacle |
-| 206 | Window                         | Obstacle |
+## Building Parts
 
 ---
 
-## Doors
-
-**File:** `BuildingParts/doors.png`
-
-| ID  | Tile Name    | Notes                                  |
-|-----|--------------|----------------------------------------|
-| 207 | Single door  | Animated, depends on state if obstacle |
-| 208 | Double doors | Animated, depends on state if obstacle |
-
----
-
-## Roof
-
-**File:** `BuildingParts/roof.png`
-
-| ID  | Tile Name                     | Notes |
-|-----|-------------------------------|-------|
-| 209 | Roof middle up                |       |
-| 210 | Roof middle decor up 1        |       |
-| 211 | Roof middle decor up 2        |       |
-| 212 | Roof middle decor up 3        |       |
-| 213 | Roof middle decor up 4        |       |
-| 214 | Roof middle down              |       |
-| 215 | Roof middle decor down 1      |       |
-| 216 | Roof middle decor down 2      |       |
-| 217 | Roof middle decor down 3      |       |
-| 218 | Roof middle decor down 4      |       |
-| 219 | Roof edge up                  |       |
-| 220 | Roof edge up left             |       |
-| 221 | Roof edge up right            |       |
-| 222 | Roof side up down right       |       |
-| 223 | Roof side up down left        |       |
-| 224 | Roof edge down                |       |
-| 225 | Roof edge down left           |       |
-| 226 | Roof edge down right          |       |
-| 227 | Roof side edge down right     |       |
-| 228 | Roof side edge down left      |       |
-| 229 | Roof side corner left-up      |       |
-| 230 | Roof side corner left-bottom  |       |
-| 231 | Roof side corner right-up     |       |
-| 232 | Roof side corner right-bottom |       |
-| 233 | Roof chimney                  |       |
-
----
-
-## Fences
+### Fences
 
 **File:** `BuildingParts/fences.png`
 
-| ID  | Tile Name              | Notes    |
-|-----|------------------------|----------|
-| 234 | Fence vertical         | Obstacle |
-| 235 | Fence horizontal       | Obstacle |
-| 236 | Fence corner up left   | Obstacle |
-| 237 | Fence corner up right  | Obstacle |
-| 238 | Fence corner down left | Obstacle |
-| 239 | Fence corner down right| Obstacle |
-| 240 | Fence T up             | Obstacle |
-| 241 | Fence T down           | Obstacle |
-| 242 | Fence T left           | Obstacle |
-| 243 | Fence T right          | Obstacle |
-| 244 | Fence cross            | Obstacle |
-| 245 | Fence end up           | Obstacle |
-| 246 | Fence end down         | Obstacle |
-| 247 | Fence end left         | Obstacle |
-| 248 | Fence end right        | Obstacle |
-| 249 | Fence post vertical    | Obstacle |
-| 250 | Fence post horizontal  | Obstacle |
-| 251 | Fence post corner up left | Obstacle |
-| 252 | Fence post corner up right | Obstacle |
-| 253 | Fence post corner down left | Obstacle |
-| 254 | Fence post corner down right | Obstacle |
-| 255 | Fence post T up        | Obstacle |
-| 256 | Fence post T down      | Obstacle |
+| ID  | Tile Name             | Notes    |
+|-----|-----------------------|----------|
+| 173 | Fence up              | Obstacle |
+| 174 | Fence vertical        | Obstacle |
+| 175 | Fence bottom          | Obstacle |
+| 176 | Fence left            | Obstacle |
+| 177 | Fence horizontal      | Obstacle |
+| 178 | Fence right           | Obstacle |
+| 179 | Single fence          | Obstacle |
+| 180 | Single fence broken 1 | Obstacle |
+| 181 | Single fence broken 2 | Obstacle |
+| 182 | Left fence broken     | Obstacle |
+| 183 | Right fence broken    | Obstacle |
 
 ---
 
-## Gates
+### Gates
 
 **File:** `BuildingParts/gates.png`
 
 | ID  | Tile Name                  | Notes                                  |
 |-----|----------------------------|----------------------------------------|
-| 257 | Gate horizontal left       | Obstacle                               |
-| 258 | Gate horizontal left gate  | Animated, depends on state if obstacle |
-| 259 | Gate horizontal right gate | Animated, depends on state if obstacle |
-| 260 | Gate horizontal right      | Obstacle                               |
-| 261 | Gate vertical up           | Obstacle                               |
-| 262 | Gate vertical up gate      | Animated, depends on state if obstacle |
-| 263 | Gate vertical down gate    | Animated, depends on state if obstacle |
-| 264 | Gate vertical down         | Obstacle                               |
+| 184 | Gate horizontal left       | Obstacle                               |
+| 185 | Gate horizontal left gate  | Animated, depends on state if obstacle |
+| 186 | Gate horizontal right gate | Animated, depends on state if obstacle |
+| 187 | Gate horizontal right      | Obstacle                               |
+| 188 | Gate vertical up           | Obstacle                               |
+| 189 | Gate vertical up gate      | Animated, depends on state if obstacle |
+| 190 | Gate vertical down gate    | Animated, depends on state if obstacle |
+| 191 | Gate vertical down         | Obstacle                               |
 
 ---
 
-## Coop
+### Walls
+
+**File:** `BuildingParts/walls.png`
+
+| ID  | Tile Name                      | Notes    |
+|-----|--------------------------------|----------|
+| 192 | Wall front                     | Obstacle |
+| 193 | Wall back                      | Obstacle |
+| 194 | Wall left                      | Obstacle |
+| 195 | Wall right                     | Obstacle |
+| 196 | Wall up-left corner            | Obstacle |
+| 197 | Wall bottom-left corner        | Obstacle |
+| 198 | Wall up-right corner           | Obstacle |
+| 199 | Wall bottom-right corner       | Obstacle |
+| 200 | Wall up-left inner corner      | Obstacle |
+| 201 | Wall bottom-left inner corner  | Obstacle |
+| 202 | Wall up-right inner corner     | Obstacle |
+| 203 | Wall bottom-right inner corner | Obstacle |
+| 204 | Window                         | Obstacle |
+
+---
+
+### Doors
+
+**File:** `BuildingParts/doors.png`
+
+| ID  | Tile Name    | Notes                                  |
+|-----|--------------|----------------------------------------|
+| 205 | Single door  | Animated, depends on state if obstacle |
+| 206 | Double doors | Animated, depends on state if obstacle |
+
+---
+
+### Roof
+
+**File:** `BuildingParts/roof.png`
+
+| ID  | Tile Name                     | Notes |
+|-----|-------------------------------|-------|
+| 207 | Roof middle up                |       |
+| 208 | Roof middle decor up 1        |       |
+| 209 | Roof middle decor up 2        |       |
+| 210 | Roof middle down              |       |
+| 211 | Roof middle decor down 1      |       |
+| 212 | Roof middle decor down 2      |       |
+| 213 | Roof edge up                  |       |
+| 214 | Roof edge up left             |       |
+| 215 | Roof edge up right            |       |
+| 216 | Roof side up down right       |       |
+| 217 | Roof side up down left        |       |
+| 218 | Roof edge down                |       |
+| 219 | Roof edge down left           |       |
+| 220 | Roof edge down right          |       |
+| 221 | Roof side edge down right     |       |
+| 222 | Roof side edge down left      |       |
+| 223 | Roof side corner left-up      |       |
+| 224 | Roof side corner left-bottom  |       |
+| 225 | Roof side corner right-up     |       |
+| 226 | Roof side corner right-bottom |       |
+| 227 | Roof chimney                  |       |
+
+---
+
+### Coop
 
 **File:** `BuildingParts/coop.png`
 
-| ID  | Tile Name     | Notes    |
-|-----|---------------|----------|
-| 265 | Small coop 1  | Obstacle |
-| 266 | Small coop 2  | Obstacle |
-| 267 | Small coop 3  | Obstacle |
-| 268 | Small coop 4  | Obstacle |
-| 269 | Big coop 1    | Obstacle |
-| 270 | Big coop 2    | Obstacle |
-| 271 | Big coop 3    | Obstacle |
-| 272 | Big coop 4    | Obstacle |
-| 273 | Big coop 5    | Obstacle |
-| 274 | Big coop 6    | Obstacle |
-| 275 | Big coop 7    | Obstacle |
-| 276 | Big coop 8    | Obstacle |
-| 277 | Big coop 9    | Obstacle |
-| 278 | Big coop 10   | Obstacle |
-| 279 | Big coop 11   | Obstacle |
-| 280 | Big coop 12   | Obstacle |
-| 281 | Big coop 13   | Obstacle |
-| 282 | Big coop 14   | Obstacle |
-| 283 | Big coop 15   | Obstacle |
-| 284 | Big coop 16   | Obstacle |
+| ID  | Tile Name    | Notes    |
+|-----|--------------|----------|
+| 228 | Small coop 1 | Obstacle |
+| 229 | Small coop 2 | Obstacle |
+| 230 | Small coop 3 | Obstacle |
+| 231 | Small coop 4 | Obstacle |
+| 232 | Small coop 5 | Obstacle |
+| 233 | Small coop 6 | Obstacle |
+| 234 | Big coop 1   | Obstacle |
+| 235 | Big coop 2   | Obstacle |
+| 236 | Big coop 3   | Obstacle |
+| 237 | Big coop 4   | Obstacle |
+| 238 | Big coop 5   | Obstacle |
+| 239 | Big coop 6   | Obstacle |
+| 240 | Big coop 7   | Obstacle |
+| 241 | Big coop 8   | Obstacle |
+| 242 | Big coop 9   | Obstacle |
+| 243 | Big coop 10  | Obstacle |
+| 244 | Big coop 11  | Obstacle |
+| 245 | Big coop 12  | Obstacle |
+| 246 | Big coop 13  | Obstacle |
+| 247 | Big coop 14  | Obstacle |
+| 248 | Big coop 15  | Obstacle |
+| 249 | Big coop 16  | Obstacle |
+| 250 | Big coop 17  | Obstacle |
+| 251 | Big coop 18  | Obstacle |
+| 252 | Big coop 19  | Obstacle |
 
 ---
 
-## Barn Structures
+## Objects
 
-**File:** `BuildingParts/barn_structures.png`
+---
+
+### Barn Structures
+
+**File:** `Objects/barn_structures.png`
 
 | ID  | Tile Name              | Notes    |
 |-----|------------------------|----------|
-| 285 | Box                    | Obstacle |
-| 286 | Two boxes top-left     | Obstacle |
-| 287 | Two boxes top-right    | Obstacle |
-| 288 | Two boxes bottom-left  | Obstacle |
-| 289 | Two boxes bottom-right | Obstacle |
-| 290 | Hay                    | Obstacle |
-| 291 | Big hay left           | Obstacle |
-| 292 | Big hay right          | Obstacle |
-| 293 | Patch of hay           |          |
-| 294 | Big patch of hay       |          |
+| 253 | Box                    | Obstacle |
+| 254 | Two boxes top-left     | Obstacle |
+| 255 | Two boxes top-right    | Obstacle |
+| 256 | Two boxes bottom-left  | Obstacle |
+| 257 | Two boxes bottom-right | Obstacle |
+| 258 | Hay                    | Obstacle |
+| 259 | Big hay left           | Obstacle |
+| 260 | Big hay right          | Obstacle |
+| 261 | Patch of hay           |          |
+| 262 | Big patch of hay       |          |
 
-## Furniture
+---
+
+### Water Tray
+
+**File:** `Objects/water_tray.png`
+
+| ID  | Tile Name        | Notes    |
+|-----|------------------|----------|
+| 263 | Water tray left  | Obstacle |
+| 264 | Water tray right | Obstacle |
+
+---
+
+### Mailbox
+
+**File:** `Objects/mailbox.png`
+
+| ID  | Tile Name      | Notes              |
+|-----|----------------|--------------------|
+| 265 | Mailbox up     | Animated           |
+| 266 | Mailbox bottom | Animated, obstacle |
+
+---
+
+### Work Station
+
+**File:** `Objects/work_station.png`
+
+| ID  | Tile Name                 | Notes    |
+|-----|---------------------------|----------|
+| 267 | Work station left-up      |          |
+| 268 | Work station left-bottom  | Obstacle |
+| 269 | Work station right-up     |          |
+| 270 | Work station right-bottom | Obstacle |
+
+---
+
+### Water Well
+
+**File:** `Objects/water_well.png`
+
+| ID  | Tile Name               | Notes    |
+|-----|-------------------------|----------|
+| 271 | Water well left-up      |          |
+| 272 | Water well left-bottom  | Obstacle |
+| 273 | Water well right-up     |          |
+| 274 | Water well right-bottom | Obstacle |
+
+---
+
+### Piknik Blanket
+
+**File:** `Objects/piknik_blanket.png`
+
+| ID  | Tile Name        | Notes    |
+|-----|------------------|----------|
+| 275 | Piknik blanket 1 |          |
+| 276 | Piknik blanket 2 |          |
+| 277 | Piknik blanket 3 |          |
+| 278 | Piknik blanket 4 |          |
+| 279 | Piknik blanket 5 |          |
+| 280 | Piknik blanket 6 |          |
+| 281 | Piknik blanket 7 |          |
+| 282 | Piknik blanket 8 |          |
+| 283 | Piknik blanket 9 |          |
+
+---
+
+### Piknik Basket
+
+**File:** `Objects/piknik_basket.png`
+
+| ID  | Tile Name     | Notes    |
+|-----|---------------|----------|
+| 284 | Piknik basket |          |
+
+---
+
+### Furniture
 
 **File:** `BuildingParts/basic_furniture.png`
 
 | ID  | Tile Name                    | Notes |
 |-----|------------------------------|-------|
-| 295 | Painting                     |       |
-| 296 | Pot flower                   |       |
-| 297 | Bed top                      |       |
-| 298 | Pink bed bottom              |       |
-| 299 | Blue bed bottom              |       |
-| 300 | Green bed bottom             |       |
-| 301 | Green upside down bed top    |       |
-| 302 | Green upside down bed bottom |       |
-| 303 | Chair left                   |       |
-| 304 | Chair down                   |       |
-| 305 | Dresser                      |       |
-| 306 | Table                        |       |
-| 307 | Pink big carpet left         |       |
-| 308 | Pink big carpet right        |       |
-| 309 | Blue big carpet left         |       |
-| 310 | Blue big carpet right        |       |
-| 311 | Green big carpet left        |       |
-| 312 | Green big carpet right       |       |
-| 313 | Pink small carpet            |       |
-| 314 | Blue small carpet            |       |
-| 315 | Green small carpet           |       |
+| 285 | Painting                     |       |
+| 286 | Pot flower                   |       |
+| 287 | Bed top                      |       |
+| 288 | Pink bed bottom              |       |
+| 289 | Blue bed bottom              |       |
+| 290 | Green bed bottom             |       |
+| 291 | Green upside down bed top    |       |
+| 292 | Green upside down bed bottom |       |
+| 293 | Chair left                   |       |
+| 294 | Chair down                   |       |
+| 295 | Dresser                      |       |
+| 296 | Table                        |       |
+| 297 | Pink big carpet left         |       |
+| 298 | Pink big carpet right        |       |
+| 299 | Blue big carpet left         |       |
+| 300 | Blue big carpet right        |       |
+| 301 | Green big carpet left        |       |
+| 302 | Green big carpet right       |       |
+| 303 | Pink small carpet            |       |
+| 304 | Blue small carpet            |       |
+| 305 | Green small carpet           |       |
