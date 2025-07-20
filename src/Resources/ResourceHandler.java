@@ -281,7 +281,7 @@ public class ResourceHandler {
         tilesMap.put(185, fences.getSubimage(FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // fence left
         tilesMap.put(186, fences.getSubimage(2 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // fence horizontal
         tilesMap.put(187, fences.getSubimage(3 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // fence right
-        tilesMap.put(188, fences.getSubimage(0, 2 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize)); // single fence
+        tilesMap.put(188, fences.getSubimage(0, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // single fence
         tilesMap.put(189, fences.getSubimage(6 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // single fence broken small
         tilesMap.put(190, fences.getSubimage(5 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // single fence broken
         tilesMap.put(191, fences.getSubimage(5 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // left fence broken
@@ -428,8 +428,12 @@ public class ResourceHandler {
     }
 
     private Animation createBushAnimation() {
-        return new Animation(imageMap.get("trees"), 12, 7, 2, 2, 100 * ((int)(Math.random() * 6) + 5));
+        return new Animation(imageMap.get("trees"), 12, 7, 3, 2, 25 * ((int)(Math.random() * 6) + 5));
     }
+
+//    private Animation createTreeTopLeftAnimation() {
+//        return new Animation(imageMap.get("tree"), 12, 7, 0, 2, 100 * ((int)(Math.random() * 6) + 5));
+//    }
 
     public HashMap<String, Animation> createCatAnimationMap() {
 
