@@ -362,10 +362,10 @@ public class ResourceHandler {
 
         // work station
         BufferedImage workStation = imageMap.get("workStation");
-        tilesMap.put(286, barnStructures.getSubimage(0, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // work station left-up
-        tilesMap.put(287, barnStructures.getSubimage(0, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // work station left-bottom
-        tilesMap.put(288, barnStructures.getSubimage(FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // work station right-up
-        tilesMap.put(289, barnStructures.getSubimage(FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // work station right-bottom
+        tilesMap.put(286, workStation.getSubimage(0, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // work station left-up
+        tilesMap.put(287, workStation.getSubimage(0, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // work station left-bottom
+        tilesMap.put(288, workStation.getSubimage(FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // work station right-up
+        tilesMap.put(289, workStation.getSubimage(FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // work station right-bottom
 
         // water well
         BufferedImage waterWell = imageMap.get("waterWell");
