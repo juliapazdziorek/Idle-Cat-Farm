@@ -45,6 +45,20 @@ public class ResourceHandler {
         loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/grass_decor.png", "grassDecor");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/trees.png", "trees");
 
+        // building parts
+        loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/fences.png", "fences");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/gates.png", "gates");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/walls.png", "walls");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/coop.png", "coop");
+
+        // objects
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Objects/barn_structures.png", "barnStructures");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Objects/work_station.png", "workStation");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Objects/water_well.png", "waterWell");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Objects/piknik_blanket.png", "piknikBlanket");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Objects/piknik_basket.png", "piknikBasket");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Objects/furniture.png", "furniture");
+
         // characters
         loadImageToMap(imageMap, "src/Resources/SproutLands/Characters/farm_cat.png", "farmCat");
     }
@@ -236,6 +250,169 @@ public class ResourceHandler {
         BufferedImage trees = imageMap.get("trees");
         tilesMap.put(150, trees.getSubimage( 0, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // small tree top
         tilesMap.put(151, trees.getSubimage( 0, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // small tree bottom
+        tilesMap.put(153, trees.getSubimage( 9 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large tree top-left
+        tilesMap.put(154, trees.getSubimage( 10 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large tree top-center
+        tilesMap.put(155, trees.getSubimage( 11 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large tree top-right
+        tilesMap.put(156, trees.getSubimage( 9 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large tree middle-left
+        tilesMap.put(157, trees.getSubimage( 10 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large tree middle-center
+        tilesMap.put(158, trees.getSubimage( 11 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large tree middle-right
+        tilesMap.put(159, trees.getSubimage( 9 * FocusFarm.tileSize, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large tree bottom-left
+        tilesMap.put(160, trees.getSubimage( 10 * FocusFarm.tileSize, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large tree bottom-center
+        tilesMap.put(161, trees.getSubimage( 11 * FocusFarm.tileSize, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large tree bottom-right
+        tilesMap.put(162, trees.getSubimage( 0, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // small stump 1
+        tilesMap.put(163, trees.getSubimage( FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // small stump 2
+        tilesMap.put(164, trees.getSubimage( 2 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // stump 1 left
+        tilesMap.put(165, trees.getSubimage( 3 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // stump 1 right
+        tilesMap.put(166, trees.getSubimage( 4 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // stump 2 left
+        tilesMap.put(167, trees.getSubimage( 5 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // stump 2 right
+        tilesMap.put(168, trees.getSubimage( 6 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // small log
+        tilesMap.put(169, trees.getSubimage( 7 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // big log left
+        tilesMap.put(170, trees.getSubimage( 8 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // big log right
+        tilesMap.put(171, trees.getSubimage( 9 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // big shroomy log left
+        tilesMap.put(172, trees.getSubimage( 10 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // big shroomy log right
+
+        // building parts
+
+        // fences
+        BufferedImage fences = imageMap.get("fences");
+        tilesMap.put(182, fences.getSubimage(0, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // fence up
+        tilesMap.put(183, fences.getSubimage(0, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // fence vertical
+        tilesMap.put(184, fences.getSubimage(0, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // fence bottom
+        tilesMap.put(185, fences.getSubimage(FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // fence left
+        tilesMap.put(186, fences.getSubimage(2 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // fence horizontal
+        tilesMap.put(187, fences.getSubimage(3 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // fence right
+        tilesMap.put(188, fences.getSubimage(0, 2 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize)); // single fence
+        tilesMap.put(189, fences.getSubimage(6 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // single fence broken small
+        tilesMap.put(190, fences.getSubimage(5 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // single fence broken
+        tilesMap.put(191, fences.getSubimage(5 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // left fence broken
+        tilesMap.put(192, fences.getSubimage(6 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // right fence broken
+
+        // gates
+        BufferedImage gates = imageMap.get("gates");
+        tilesMap.put(193, gates.getSubimage(0, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // gate horizontal left
+        tilesMap.put(196, gates.getSubimage(3 * FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // gate horizontal right
+        tilesMap.put(197, gates.getSubimage(0, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // gate vertical up
+        tilesMap.put(200, gates.getSubimage(0, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // gate vertical down
+
+        // walls
+        BufferedImage walls = imageMap.get("walls");
+        tilesMap.put(201, walls.getSubimage(FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // wall front
+        tilesMap.put(202, walls.getSubimage(2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // wall left
+        tilesMap.put(203, walls.getSubimage(0, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // wall right
+        tilesMap.put(204, walls.getSubimage(0, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // wall bottom-left corner
+        tilesMap.put(205, walls.getSubimage(3 * FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // wall up-left big corner
+        tilesMap.put(206, walls.getSubimage(3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // wall bottom-left big corner
+        tilesMap.put(207, walls.getSubimage(4 * FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // wall up-right big corner
+        tilesMap.put(208, walls.getSubimage(4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // wall bottom-right big corner
+        tilesMap.put(209, walls.getSubimage(3 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // window
+        tilesMap.put(210, walls.getSubimage(FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // floor
+
+        // coop
+        BufferedImage coop = imageMap.get("coop");
+        tilesMap.put(237, coop.getSubimage(10 * FocusFarm.tileSize, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // small coop 1
+        tilesMap.put(238, coop.getSubimage(11 * FocusFarm.tileSize, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // small coop 2
+        tilesMap.put(239, coop.getSubimage(10 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // small coop 3
+        tilesMap.put(240, coop.getSubimage(11 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // small coop 4
+        tilesMap.put(241, coop.getSubimage(10 * FocusFarm.tileSize, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // small coop 5
+        tilesMap.put(242, coop.getSubimage(11 * FocusFarm.tileSize, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // small coop 6
+        tilesMap.put(243, coop.getSubimage(0, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // big coop 1
+        tilesMap.put(244, coop.getSubimage(FocusFarm.tileSize, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // big coop 2
+        tilesMap.put(245, coop.getSubimage(2 * FocusFarm.tileSize, 5* FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // big coop 3
+        tilesMap.put(246, coop.getSubimage(0, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // big coop 4
+        tilesMap.put(247, coop.getSubimage(FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // big coop 5
+        tilesMap.put(248, coop.getSubimage(2 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // big coop 6
+        tilesMap.put(249, coop.getSubimage(0, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // big coop 7
+        tilesMap.put(250, coop.getSubimage(FocusFarm.tileSize, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // big coop 8
+        tilesMap.put(251, coop.getSubimage(2 * FocusFarm.tileSize, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // big coop 9
+        tilesMap.put(252, coop.getSubimage(0, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // large coop 1
+        tilesMap.put(253, coop.getSubimage(FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // large coop 2
+        tilesMap.put(254, coop.getSubimage(2 * FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // large coop 3
+        tilesMap.put(255, coop.getSubimage(3 * FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // large coop 4
+        tilesMap.put(256, coop.getSubimage(0, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large coop 5
+        tilesMap.put(257, coop.getSubimage(FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large coop 6
+        tilesMap.put(258, coop.getSubimage(2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large coop 7
+        tilesMap.put(259, coop.getSubimage(3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large coop 8
+        tilesMap.put(260, coop.getSubimage(0, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large coop 9
+        tilesMap.put(261, coop.getSubimage(FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large coop 10
+        tilesMap.put(262, coop.getSubimage(2 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large coop 11
+        tilesMap.put(263, coop.getSubimage(3 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large coop 12
+        tilesMap.put(264, coop.getSubimage(0, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large coop 13
+        tilesMap.put(265, coop.getSubimage(FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large coop 14
+        tilesMap.put(266, coop.getSubimage(2 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large coop 15
+        tilesMap.put(267, coop.getSubimage(3 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large coop 16
+        tilesMap.put(268, coop.getSubimage(0, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large coop 17
+        tilesMap.put(269, coop.getSubimage(FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large coop 18
+        tilesMap.put(270, coop.getSubimage(2 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large coop 19
+        tilesMap.put(271, coop.getSubimage(3 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // large coop 20
+
+        // objects
+
+        // barn structures
+        BufferedImage barnStructures = imageMap.get("barnStructures");
+        tilesMap.put(272, barnStructures.getSubimage(0, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // box
+        tilesMap.put(273, barnStructures.getSubimage(FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // two boxes top-left
+        tilesMap.put(274, barnStructures.getSubimage(2 * FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // two boxes top-right
+        tilesMap.put(275, barnStructures.getSubimage(FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // two boxes bottom-left
+        tilesMap.put(276, barnStructures.getSubimage(2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // two boxes bottom-right
+        tilesMap.put(277, barnStructures.getSubimage(0, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // hay
+        tilesMap.put(278, barnStructures.getSubimage(0, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // big hay left
+        tilesMap.put(279, barnStructures.getSubimage(FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // big hay right
+        tilesMap.put(280, barnStructures.getSubimage(0, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // patch of hay
+        tilesMap.put(281, barnStructures.getSubimage(FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // big patch of hay
+
+        // work station
+        BufferedImage workStation = imageMap.get("workStation");
+        tilesMap.put(286, barnStructures.getSubimage(0, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // work station left-up
+        tilesMap.put(287, barnStructures.getSubimage(0, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // work station left-bottom
+        tilesMap.put(288, barnStructures.getSubimage(FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // work station right-up
+        tilesMap.put(289, barnStructures.getSubimage(FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // work station right-bottom
+
+        // water well
+        BufferedImage waterWell = imageMap.get("waterWell");
+        tilesMap.put(290, waterWell.getSubimage(0, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // water well left-up
+        tilesMap.put(291, waterWell.getSubimage(0, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // water well left-bottom
+        tilesMap.put(292, waterWell.getSubimage(FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // water well right-up
+        tilesMap.put(293, waterWell.getSubimage(FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // water well right-bottom
+
+        // piknik blanket
+        BufferedImage piknikBlanket = imageMap.get("piknikBlanket");
+        tilesMap.put(294, piknikBlanket.getSubimage(0, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // piknik blanket 1
+        tilesMap.put(295, piknikBlanket.getSubimage(FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // piknik blanket 2
+        tilesMap.put(296, piknikBlanket.getSubimage(2 * FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // piknik blanket 3
+        tilesMap.put(297, piknikBlanket.getSubimage(0, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // piknik blanket 4
+        tilesMap.put(298, piknikBlanket.getSubimage(FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // piknik blanket 5
+        tilesMap.put(299, piknikBlanket.getSubimage(2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // piknik blanket 6
+        tilesMap.put(300, piknikBlanket.getSubimage(0, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // piknik blanket 7
+        tilesMap.put(301, piknikBlanket.getSubimage(FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // piknik blanket 8
+        tilesMap.put(302, piknikBlanket.getSubimage(2 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // piknik blanket 9
+
+        // piknik basket
+        BufferedImage piknikBasket = imageMap.get("piknikBasket");
+        tilesMap.put(303, piknikBasket.getSubimage(0, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // piknik basket
+
+        // furniture
+        BufferedImage furniture = imageMap.get("furniture");
+        tilesMap.put(304, furniture.getSubimage(FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // painting
+        tilesMap.put(305, furniture.getSubimage(3 * FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // flower pot
+        tilesMap.put(306, furniture.getSubimage(0, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // bed top
+        tilesMap.put(307, furniture.getSubimage(2 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pink bed bottom
+        tilesMap.put(308, furniture.getSubimage(FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // blue bed bottom
+        tilesMap.put(309, furniture.getSubimage(0, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // green bed bottom
+        tilesMap.put(310, furniture.getSubimage(0, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // green upside down bed top
+        tilesMap.put(311, furniture.getSubimage(0, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // green upside down bed bottom
+        tilesMap.put(312, furniture.getSubimage(4 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // chair left
+        tilesMap.put(313, furniture.getSubimage(6 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // chair down
+        tilesMap.put(314, furniture.getSubimage(3 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // dresser
+        tilesMap.put(315, furniture.getSubimage(3 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // table
+        tilesMap.put(317, furniture.getSubimage(5 * FocusFarm.tileSize, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pink big carpet right
+        tilesMap.put(316, furniture.getSubimage(6 * FocusFarm.tileSize, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pink big carpet left
+        tilesMap.put(319, furniture.getSubimage(7 * FocusFarm.tileSize, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // blue big carpet right
+        tilesMap.put(318, furniture.getSubimage(8 * FocusFarm.tileSize, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // blue big carpet left
+        tilesMap.put(320, furniture.getSubimage(3 * FocusFarm.tileSize, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // green big carpet left
+        tilesMap.put(321, furniture.getSubimage(4 * FocusFarm.tileSize, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // green big carpet right
+        tilesMap.put(322, furniture.getSubimage(FocusFarm.tileSize, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pink small carpet
+        tilesMap.put(323, furniture.getSubimage(2 * FocusFarm.tileSize, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // blue small carpet
+        tilesMap.put(324, furniture.getSubimage(0, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // green small carpet
     }
 
 
