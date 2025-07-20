@@ -304,7 +304,7 @@ public class ResourceHandler {
         tilesMap.put(206, walls.getSubimage(3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // wall bottom-left big corner
         tilesMap.put(207, walls.getSubimage(4 * FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // wall up-right big corner
         tilesMap.put(208, walls.getSubimage(4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // wall bottom-right big corner
-        tilesMap.put(209, walls.getSubimage(3 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // window
+        tilesMap.put(209, walls.getSubimage(3 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // window
         tilesMap.put(210, walls.getSubimage(FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // floor
 
         // coop
@@ -419,11 +419,16 @@ public class ResourceHandler {
     // animations
     private void initializeAnimationMap() {
         animationsMap.put(1, this::createWaterAnimation); // water
+        animationsMap.put(152, this::createBushAnimation); // bush
     }
 
     // animation factories
     private Animation createWaterAnimation() {
         return new Animation(imageMap.get("water"), 4, 1, 0, 4, 20);
+    }
+
+    private Animation createBushAnimation() {
+        return new Animation(imageMap.get("trees"), 12, 7, 2, 2, 100 * ((int)(Math.random() * 6) + 5));
     }
 
     public HashMap<String, Animation> createCatAnimationMap() {
