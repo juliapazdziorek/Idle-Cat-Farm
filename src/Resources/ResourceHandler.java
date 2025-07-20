@@ -31,7 +31,7 @@ public class ResourceHandler {
     // loading images from files
     private void loadResources() {
 
-        // tiles
+        // map tiles
         loadImageToMap(imageMap, "src/Resources/SproutLands/MapTiles/water.png", "water");
         loadImageToMap(imageMap, "src/Resources/SproutLands/MapTiles/soil.png", "soil");
         loadImageToMap(imageMap, "src/Resources/SproutLands/MapTiles/grass_water.png", "grassWater");
@@ -40,12 +40,12 @@ public class ResourceHandler {
         loadImageToMap(imageMap, "src/Resources/SproutLands/MapTiles/bridges.png", "bridges");
         loadImageToMap(imageMap, "src/Resources/SproutLands/MapTiles/paths.png", "paths");
 
-        // decors & plants
+        // nature
         loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/water_decor.png", "waterDecor");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/grass_decor.png", "grassDecor");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/trees.png", "trees");
 
-        // farm cat
+        // characters
         loadImageToMap(imageMap, "src/Resources/SproutLands/Characters/farm_cat.png", "farmCat");
     }
 
@@ -62,6 +62,8 @@ public class ResourceHandler {
 
     // static tiles
     private void initializeTilesMap() {
+
+        // map tiles
 
         // soil
         BufferedImage soilSheet = imageMap.get("soil");
@@ -188,6 +190,8 @@ public class ResourceHandler {
         tilesMap.put(107, paths.getSubimage( 2 * FocusFarm.tileSize, 2 *FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // path arc 2
         tilesMap.put(108, paths.getSubimage( FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // path arc 3
 
+        // nature
+
         // water decor
         BufferedImage waterDecor = imageMap.get("waterDecor");
         tilesMap.put(109, waterDecor.getSubimage( 0, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // water stone 1
@@ -203,7 +207,7 @@ public class ResourceHandler {
         tilesMap.put(119, waterDecor.getSubimage( 10 * FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // water lily 3
         tilesMap.put(120, waterDecor.getSubimage( 11 * FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // water lily 4
 
-        // grass decor, shrooms & flowers
+        // grass decor
         BufferedImage grassDecor = imageMap.get("grassDecor");
         tilesMap.put(121, grassDecor.getSubimage( 3 * FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // small shroom
         tilesMap.put(122, grassDecor.getSubimage( 4 * FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // two small shrooms
@@ -227,32 +231,11 @@ public class ResourceHandler {
         tilesMap.put(140, grassDecor.getSubimage(FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // small bush 2
         tilesMap.put(141, grassDecor.getSubimage( 2 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // small bush 3
         tilesMap.put(142, grassDecor.getSubimage( 3 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // small bush 4
-//        tilesMap.put(143, grassDecor.getSubimage( 0, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // yellow flower 1
-//        tilesMap.put(144, grassDecor.getSubimage( FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // yellow flower 2
-//        tilesMap.put(145, grassDecor.getSubimage( 2 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // yellow flower 3
-//        tilesMap.put(146, grassDecor.getSubimage( 3 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // yellow flower 4 top
-//        tilesMap.put(147, grassDecor.getSubimage( 3 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // yellow flower 4 bottom
-//        tilesMap.put(148, grassDecor.getSubimage( 0, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // violet flower 1
-//        tilesMap.put(149, grassDecor.getSubimage( FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // violet flower 2
-//        tilesMap.put(150, grassDecor.getSubimage( 2 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // violet flower 2
-//        tilesMap.put(151, grassDecor.getSubimage( 4 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pink flower 1
-//        tilesMap.put(152, grassDecor.getSubimage( 5 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pink flower 2
-//        tilesMap.put(153, grassDecor.getSubimage( 6 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pink flower 3
-//        tilesMap.put(154, grassDecor.getSubimage( 7 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pink flower 4
-//        tilesMap.put(155, grassDecor.getSubimage( 4 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // blue flower 1
-//        tilesMap.put(156, grassDecor.getSubimage( 5 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // blue flower 2
-//        tilesMap.put(157, grassDecor.getSubimage( 6 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // blue flower 3
-//        tilesMap.put(158, grassDecor.getSubimage( 7 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // blue flower 4
-//        tilesMap.put(159, grassDecor.getSubimage( 9 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // white flower 1
-//        tilesMap.put(160, grassDecor.getSubimage( 10 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // white flower 2
-//        tilesMap.put(161, grassDecor.getSubimage( 11 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // white flower 3
-//        tilesMap.put(162, grassDecor.getSubimage( 10 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // dark blue flower 1
-//        tilesMap.put(163, grassDecor.getSubimage( 11 * FocusFarm.tileSize, 4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // dark blue flower 2
 
-        // trees, bushes & stumps
+        // trees
         BufferedImage trees = imageMap.get("trees");
-        tilesMap.put(143, trees.getSubimage( 0, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // small tree top
-        tilesMap.put(144, trees.getSubimage( 0, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // small tree bottom
+        tilesMap.put(150, trees.getSubimage( 0, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // small tree top
+        tilesMap.put(151, trees.getSubimage( 0, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // small tree bottom
     }
 
 
