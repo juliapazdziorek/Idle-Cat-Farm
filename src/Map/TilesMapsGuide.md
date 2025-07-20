@@ -286,37 +286,37 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 **File:** `Nature/grass_decor.png`
 
-| ID  | Tile Name                | Notes           |
-|-----|--------------------------|-----------------|
-| 121 | Small shroom             |                 |
-| 122 | Two small shrooms        |                 |
-| 123 | Big shroom               | Obstacle        |
-| 124 | Poison shroom            | Obstacle        |
-| 125 | Small stone 1            |                 |
-| 126 | Small stone 2            |                 |
-| 127 | Small stone 3            |                 |
-| 128 | Small stone 4            |                 |
-| 129 | Stone 1                  | Obstacle        |
-| 130 | Stone 2                  | Obstacle        |
-| 131 | Big stone top-left       |                 |
-| 132 | Big stone top-right      |                 |
-| 133 | Big stone bottom-left    | Obstacle        |
-| 134 | Big stone bottom-right   | Obstacle        |
-| 135 | Large stone top-left     |                 |
-| 136 | Large stone top-right    |                 |
-| 137 | Large stone bottom-left  | Obstacle        |
-| 138 | Large stone bottom-right | Obstacle        |
-| 139 | Small bush 1             |                 |
-| 140 | Small bush 2             |                 |
-| 141 | Small bush 3             |                 |
-| 142 | Small bush 4             |                 |
-| 143 | Pink flower              | Farmable entity |x
-| 144 | Blue flower              | Farmable entity |x
-| 145 | Violet flower            | Farmable entity |x
-| 146 | Yellow flower top        | Farmable entity |x
-| 147 | Yellow flower bottom     | Farmable entity |x
-| 148 | White flower             | Farmable entity |x
-| 149 | Dark blue flower         | Farmable entity |x
+| ID  | Tile Name                | Notes                              |
+|-----|--------------------------|------------------------------------|
+| 121 | Small shroom             |                                    |
+| 122 | Two small shrooms        |                                    |
+| 123 | Big shroom               | Obstacle                           |
+| 124 | Poison shroom            | Obstacle                           |
+| 125 | Small stone 1            |                                    |
+| 126 | Small stone 2            |                                    |
+| 127 | Small stone 3            |                                    |
+| 128 | Small stone 4            |                                    |
+| 129 | Stone 1                  | Obstacle                           |
+| 130 | Stone 2                  | Obstacle                           |
+| 131 | Big stone top-left       |                                    |
+| 132 | Big stone top-right      |                                    |
+| 133 | Big stone bottom-left    | Obstacle                           |
+| 134 | Big stone bottom-right   | Obstacle                           |
+| 135 | Large stone top-left     |                                    |
+| 136 | Large stone top-right    |                                    |
+| 137 | Large stone bottom-left  | Obstacle                           |
+| 138 | Large stone bottom-right | Obstacle                           |
+| 139 | Small bush 1             |                                    |
+| 140 | Small bush 2             |                                    |
+| 141 | Small bush 3             |                                    |
+| 142 | Small bush 4             |                                    |
+| 143 | Pink flower              | Obstacle if grown, farmable entity |x
+| 144 | Blue flower              | Farmable entity                    |x
+| 145 | Violet flower            | Farmable entity                    |x
+| 146 | Yellow flower top        | Farmable entity                    |x
+| 147 | Yellow flower bottom     | Obstacle if grown, farmable entity |x
+| 148 | White flower             | Farmable entity                    |x
+| 149 | Dark blue flower         | Obstacle if grown, farmable entity |x
 
 ---
 
@@ -609,7 +609,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 | ID  | Tile Name     | Notes    |
 |-----|---------------|----------|
-| 303 | Piknik basket |          |
+| 303 | Piknik basket | Obstacle |
 
 ---
 
@@ -617,26 +617,26 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 **File:** `BuildingParts/basic_furniture.png`
 
-| ID  | Tile Name                    | Notes |
-|-----|------------------------------|-------|
-| 304 | Painting                     |       |
-| 305 | Flower pot                   |       |
-| 306 | Bed top                      |       |
-| 307 | Pink bed bottom              |       |
-| 308 | Blue bed bottom              |       |
-| 309 | Green bed bottom             |       |
-| 310 | Green upside down bed top    |       |
-| 311 | Green upside down bed bottom |       |
-| 312 | Chair left                   |       |
-| 313 | Chair down                   |       |
-| 314 | Dresser                      |       |
-| 315 | Table                        |       |
-| 316 | Pink big carpet left         |       |
-| 317 | Pink big carpet right        |       |
-| 318 | Blue big carpet left         |       |
-| 319 | Blue big carpet right        |       |
-| 320 | Green big carpet left        |       |
-| 321 | Green big carpet right       |       |
-| 322 | Pink small carpet            |       |
-| 323 | Blue small carpet            |       |
-| 324 | Green small carpet           |       |
+| ID  | Tile Name                    | Notes    |
+|-----|------------------------------|----------|
+| 304 | Painting                     |          |
+| 305 | Flower pot                   | Obstacle |
+| 306 | Bed top                      |          |
+| 307 | Pink bed bottom              | Obstacle |
+| 308 | Blue bed bottom              | Obstacle |
+| 309 | Green bed bottom             | Obstacle |
+| 310 | Green upside down bed top    |          |
+| 311 | Green upside down bed bottom | Obstacle |
+| 312 | Chair left                   | Obstacle |
+| 313 | Chair down                   | Obstacle |
+| 314 | Dresser                      | Obstacle |
+| 315 | Table                        | Obstacle |
+| 316 | Pink big carpet left         |          |
+| 317 | Pink big carpet right        |          |
+| 318 | Blue big carpet left         |          |
+| 319 | Blue big carpet right        |          |
+| 320 | Green big carpet left        |          |
+| 321 | Green big carpet right       |          |
+| 322 | Pink small carpet            |          |
+| 323 | Blue small carpet            |          |
+| 324 | Green small carpet           |          |
