@@ -328,7 +328,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 |-------|--------------------------|--------------------|
 | 150   | Small tree top           |                    |
 | 151   | Small tree bottom        | Obstacle           |
-| 152   | Bush                     | Animated, obstacle |
+| 152   | Bush                     | Animated, obstacle |x
 | 153   | Large tree top-left      |                    |
 | 154   | Large tree top-center    |                    |
 | 155   | Large tree top-right     |                    |
@@ -338,12 +338,12 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 | 159   | Large tree bottom-left   | Obstacle           |
 | 160   | Large tree bottom-center | Obstacle           |
 | 161   | Large tree bottom-right  | Obstacle           |
-| 162   | Stump 1                  | Obstacle           |
-| 163   | Stump 2                  | Obstacle           |
-| 164   | Stump 3 left             | Obstacle           |
-| 165   | Stump 3 right            | Obstacle           |
-| 166   | Stump 4 left             | Obstacle           |
-| 167   | Stump 4 right            | Obstacle           |
+| 162   | Small stump 1            | Obstacle           |
+| 163   | Small stump 2            | Obstacle           |
+| 164   | Stump 1 left             | Obstacle           |
+| 165   | Stump 1 right            | Obstacle           |
+| 166   | Stump 2 left             | Obstacle           |
+| 167   | Stump 2 right            | Obstacle           |
 | 168   | Small log                | Obstacle           |
 | 169   | Big log left             | Obstacle           |
 | 170   | Big log right            | Obstacle           |
@@ -354,15 +354,15 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 | ID  | Tile Name          | Notes              |
 |-----|--------------------|--------------------|
-| 173 | Tree top-left      | Animated           |
-| 174 | Tree top-center    | Animated           |
-| 175 | Tree top-right     | Animated           |
-| 176 | Tree middle-left   | Animated           |
-| 177 | Tree middle-center | Animated           |
-| 178 | Tree middle-right  | Animated           |
-| 179 | Tree bottom-left   | Animated           |
-| 180 | Tree bottom-center | Animated, obstacle |
-| 181 | Tree bottom-right  | Animated           |
+| 173 | Tree top-left      | Animated           |x
+| 174 | Tree top-center    | Animated           |x
+| 175 | Tree top-right     | Animated           |x
+| 176 | Tree middle-left   | Animated           |x
+| 177 | Tree middle-center | Animated           |x
+| 178 | Tree middle-right  | Animated           |x
+| 179 | Tree bottom-left   | Animated           |x
+| 180 | Tree bottom-center | Animated, obstacle |x
+| 181 | Tree bottom-right  | Animated           |x
 
 ---
 
@@ -397,12 +397,12 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 | ID  | Tile Name                  | Notes                                  |
 |-----|----------------------------|----------------------------------------|
 | 193 | Gate horizontal left       | Obstacle                               |
-| 194 | Gate horizontal left gate  | Animated, depends on state if obstacle |
-| 195 | Gate horizontal right gate | Animated, depends on state if obstacle |
+| 194 | Gate horizontal left gate  | Animated, depends on state if obstacle |x
+| 195 | Gate horizontal right gate | Animated, depends on state if obstacle |x
 | 196 | Gate horizontal right      | Obstacle                               |
 | 197 | Gate vertical up           | Obstacle                               |
-| 198 | Gate vertical up gate      | Animated, depends on state if obstacle |
-| 199 | Gate vertical down gate    | Animated, depends on state if obstacle |
+| 198 | Gate vertical up gate      | Animated, depends on state if obstacle |x
+| 199 | Gate vertical down gate    | Animated, depends on state if obstacle |x
 | 200 | Gate vertical down         | Obstacle                               |
 
 ---
@@ -411,18 +411,18 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 **File:** `BuildingParts/walls.png`
 
-| ID    | Tile Name                    | Notes    |
-|-------|------------------------------|----------|
-| 201   | Wall front                   | Obstacle |
-| 202   | Wall left                    | Obstacle |
-| 203   | Wall right                   | Obstacle |
-| 204   | Wall up-left corner          | Obstacle |
-| 205   | Wall up-left big corner      | Obstacle |
-| 206   | Wall bottom-left big corner  | Obstacle |
-| 207   | Wall up-right big corner     | Obstacle |
-| 208   | Wall bottom-right big corner | Obstacle |
-| 209   | Window                       | Obstacle |
-| 210   | Floor                        | Obstacle |
+| ID  | Tile Name                    | Notes    |
+|-----|------------------------------|----------|
+| 201 | Wall front                   | Obstacle |
+| 202 | Wall left                    | Obstacle |
+| 203 | Wall right                   | Obstacle |
+| 204 | Wall bottom-left corner      | Obstacle |
+| 205 | Wall up-left big corner      | Obstacle |
+| 206 | Wall bottom-left big corner  | Obstacle |
+| 207 | Wall up-right big corner     | Obstacle |
+| 208 | Wall bottom-right big corner | Obstacle |
+| 209 | Window                       | Obstacle |
+| 210 | Floor                        |          |
 
 ---
 
@@ -432,10 +432,10 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 | ID    | Tile Name           | Notes                                  |
 |-------|---------------------|----------------------------------------|
-| 211   | Single door         | Animated, depends on state if obstacle |
-| 212   | Double doors left   | Animated, depends on state if obstacle |
-| 213   | Double doors middle | Animated, depends on state if obstacle |
-| 214   | Double doors right  | Animated, depends on state if obstacle |
+| 211   | Single door         | Animated, depends on state if obstacle |x
+| 212   | Double doors left   | Animated, depends on state if obstacle |x
+| 213   | Double doors middle | Animated, depends on state if obstacle |x
+| 214   | Double doors right  | Animated, depends on state if obstacle |x
 
 ---
 
@@ -445,28 +445,28 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 | ID    | Tile Name                     | Notes |
 |-------|-------------------------------|-------|
-| 215   | Roof middle up                |       |
-| 216   | Roof middle decor up dark     |       |
-| 217   | Roof middle decor up light    |       |
-| 218   | Roof middle down              |       |
-| 219   | Roof middle decor down dark   |       |
-| 220   | Roof middle decor down light  |       |
-| 221   | Roof edge up                  |       |
-| 222   | Roof edge up left             |       |
-| 223   | Roof edge up right            |       |
-| 224   | Roof side up down left        |       |
-| 225   | Roof side up down right       |       |
-| 226   | Roof edge down                |       |
-| 227   | Roof edge down left           |       |
-| 228   | Roof edge down right          |       |
-| 229   | Roof side down left           |       |
-| 230   | Roof side down right          |       |
-| 231   | Roof side corner left-up      |       |
-| 232   | Roof side corner right-up     |       |
-| 233   | Roof chimney                  |       |
-| 234   | Roof middle part              |       |
-| 235   | Roof middle part left         |       |
-| 236   | Roof middle part right        |       |
+| 215   | Roof middle up                |       |x
+| 216   | Roof middle decor up dark     |       |x
+| 217   | Roof middle decor up light    |       |x
+| 218   | Roof middle down              |       |x
+| 219   | Roof middle decor down dark   |       |x
+| 220   | Roof middle decor down light  |       |x
+| 221   | Roof edge up                  |       |x
+| 222   | Roof edge up left             |       |x
+| 223   | Roof edge up right            |       |x
+| 224   | Roof side up down left        |       |x
+| 225   | Roof side up down right       |       |x
+| 226   | Roof edge down                |       |x
+| 227   | Roof edge down left           |       |x
+| 228   | Roof edge down right          |       |x
+| 229   | Roof side down left           |       |x
+| 230   | Roof side down right          |       |x
+| 231   | Roof side corner left-up      |       |x
+| 232   | Roof side corner right-up     |       |x
+| 233   | Roof chimney                  |       |x
+| 234   | Roof middle part              |       |x
+| 235   | Roof middle part left         |       |x
+| 236   | Roof middle part right        |       |x
 
 ---
 
@@ -541,10 +541,10 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 **File:** `Objects/water_tray.png`
 
-| ID  | Tile Name        | Notes    |
-|-----|------------------|----------|
-| 282 | Water tray left  | Obstacle |
-| 283 | Water tray right | Obstacle |
+| ID  | Tile Name        | Notes                     |
+|-----|------------------|---------------------------|
+| 282 | Water tray left  | Obstacle, could be filled |x
+| 283 | Water tray right | Obstacle, could be filled |x
 
 ---
 
@@ -554,8 +554,8 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 | ID  | Tile Name      | Notes              |
 |-----|----------------|--------------------|
-| 284 | Mailbox up     | Animated           |
-| 285 | Mailbox bottom | Animated, obstacle |
+| 284 | Mailbox up     | Animated           |x
+| 285 | Mailbox bottom | Animated, obstacle |x
 
 ---
 
@@ -620,7 +620,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 | ID  | Tile Name                    | Notes |
 |-----|------------------------------|-------|
 | 304 | Painting                     |       |
-| 305 | Pot flower                   |       |
+| 305 | Flower pot                   |       |
 | 306 | Bed top                      |       |
 | 307 | Pink bed bottom              |       |
 | 308 | Blue bed bottom              |       |
