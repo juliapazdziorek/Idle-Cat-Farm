@@ -19,6 +19,12 @@ public class AnimatedEntity extends Entity {
         this.animation = animation;
     }
 
+
+    // mouse handling
+    @Override
+    public void onClick() {}
+
+
     // updating & rendering
     @Override
     public void update() {

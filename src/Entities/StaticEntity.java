@@ -7,12 +7,23 @@ import java.awt.image.BufferedImage;
 
 public class StaticEntity extends Entity {
 
-    private final BufferedImage bufferedImage;
+    private final BufferedImage image;
 
-    public StaticEntity(int positionX, int positionY, BufferedImage bufferedImage) {
+    public StaticEntity(int positionX, int positionY) {
         super(positionX, positionY);
-        this.bufferedImage = bufferedImage;
+        this.image = null;
     }
+
+    public StaticEntity(int positionX, int positionY, BufferedImage image) {
+        super(positionX, positionY);
+        this.image = image;
+    }
+
+
+    // mouse handling
+    @Override
+    public void onClick() {}
+
 
     // updating & rendering
     @Override
@@ -20,11 +31,13 @@ public class StaticEntity extends Entity {
 
     @Override
     public void render(Graphics2D graphics2D) {
-        graphics2D.drawImage(bufferedImage,
-                FocusFarm.camera.cameraX + positionX * FocusFarm.scale,
-                FocusFarm.camera.cameraY + positionY * FocusFarm.scale,
-                FocusFarm.scaledTileSize,
-                FocusFarm.scaledTileSize,
-                null);
+        if (image != null) {
+            graphics2D.drawImage(image,
+                    FocusFarm.camera.cameraX + positionX * FocusFarm.scale,
+                    FocusFarm.camera.cameraY + positionY * FocusFarm.scale,
+                    FocusFarm.scaledTileSize,
+                    FocusFarm.scaledTileSize,
+                    null);
+        }
     }
 }

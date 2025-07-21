@@ -5,7 +5,9 @@ import Game.FocusFarm;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.awt.image.BufferedImage;
 import java.util.function.Supplier;
@@ -16,15 +18,18 @@ public class ResourceHandler {
     private final Map<String, BufferedImage> imageMap;
     public final Map<Integer, BufferedImage> tilesMap;
     public final Map<Integer, Supplier<Animation>> animationsMap;
+    public final Map<String, List<BufferedImage>> entitiesResourcesMap;
 
     public ResourceHandler() {
         imageMap = new HashMap<>();
         tilesMap = new HashMap<>();
         animationsMap = new HashMap<>();
+        entitiesResourcesMap = new HashMap<>();
 
         loadResources();
         initializeTilesMap();
         initializeAnimationMap();
+        initializeEntitiesResourcesMap();
     }
 
 
@@ -419,7 +424,6 @@ public class ResourceHandler {
     // animations
     private void initializeAnimationMap() {
         animationsMap.put(1, this::createWaterAnimation); // water
-        animationsMap.put(152, this::createBushAnimation); // bush
     }
 
     // animation factories
@@ -427,9 +431,9 @@ public class ResourceHandler {
         return new Animation(imageMap.get("water"), 4, 1, 0, 4, 20);
     }
 
-    private Animation createBushAnimation() {
-        return new Animation(imageMap.get("trees"), 12, 7, 3, 2, 25 * ((int)(Math.random() * 6) + 5));
-    }
+//    private Animation createBushAnimation() {
+//        return new Animation(imageMap.get("trees"), 12, 7, 3, 2, 25 * ((int)(Math.random() * 6) + 5));
+//    }
 
 //    private Animation createTreeTopLeftAnimation() {
 //        return new Animation(imageMap.get("tree"), 12, 7, 0, 2, 100 * ((int)(Math.random() * 6) + 5));
@@ -477,4 +481,17 @@ public class ResourceHandler {
 
         return catAnimationMap;
     }
+
+
+    // entities resources
+    private void initializeEntitiesResourcesMap() {
+
+        // bush
+        ArrayList<BufferedImage> bushList = new ArrayList<>();
+        bushList.add(imageMap.get("trees").getSubimage(FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // bush grown
+        bushList.add(imageMap.get("trees").getSubimage(0, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // bush grown
+        entitiesResourcesMap.put("bush", bushList);
+
+    }
+
 }
