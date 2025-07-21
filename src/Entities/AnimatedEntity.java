@@ -9,21 +9,18 @@ public class AnimatedEntity extends Entity {
 
     protected Animation animation;
 
-    public AnimatedEntity(int positionX, int positionY) {
-        super(positionX, positionY);
+    public AnimatedEntity(Point position) {
+        super(position);
     }
 
-    public AnimatedEntity(int positionX, int positionY, Animation animation) {
-        // used for one-row animations (water etc.)
-        super(positionX, positionY);
+    public AnimatedEntity(Point position, Animation animation) {
+        super(position); // used for tiles with one animation (ex. water)
         this.animation = animation;
     }
-
 
     // mouse handling
     @Override
     public void onClick() {}
-
 
     // updating & rendering
     @Override
@@ -37,8 +34,8 @@ public class AnimatedEntity extends Entity {
     public void render(Graphics2D graphics2D) {
         if (animation != null) {
             graphics2D.drawImage(animation.getCurrentFrame(),
-                    FocusFarm.camera.cameraX + positionX * FocusFarm.scale,
-                    FocusFarm.camera.cameraY + positionY * FocusFarm.scale,
+                    FocusFarm.camera.cameraX + position.x * FocusFarm.scale,
+                    FocusFarm.camera.cameraY + position.y * FocusFarm.scale,
                     FocusFarm.scaledTileSize,
                     FocusFarm.scaledTileSize,
                     null);

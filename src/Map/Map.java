@@ -96,11 +96,11 @@ public class Map {
                     // animated tiles
                     else if (FocusFarm.resourceHandler.animationsMap.containsKey(tilesIds[i][j])) {
                         Animation animation = FocusFarm.resourceHandler.animationsMap.get(tilesIds[i][j]).get();
-                        layer.tiles[i][j] = new AnimatedEntity(j * FocusFarm.tileSize, i * FocusFarm.tileSize, animation);
+                        layer.tiles[i][j] = new AnimatedEntity(new Point(j * FocusFarm.tileSize, i * FocusFarm.tileSize), animation);
 
                     // static tiles
                     } else if (FocusFarm.resourceHandler.tilesMap.containsKey(tilesIds[i][j])) {
-                        layer.tiles[i][j] = new StaticEntity(j * FocusFarm.tileSize, i * FocusFarm.tileSize, FocusFarm.resourceHandler.tilesMap.get(tilesIds[i][j]));
+                        layer.tiles[i][j] = new StaticEntity(new Point(j * FocusFarm.tileSize, i * FocusFarm.tileSize), FocusFarm.resourceHandler.tilesMap.get(tilesIds[i][j]));
                     }
                 }
             }

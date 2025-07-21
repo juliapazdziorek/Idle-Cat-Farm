@@ -15,8 +15,8 @@ public class Bush extends StaticEntity {
     private boolean isClicked = false;
     private int frameCounter = 0;
 
-    public Bush(int positionX, int positionY) {
-        super(positionX, positionY);
+    public Bush(Point position) {
+        super(position);
         this.normalImage = FocusFarm.resourceHandler.entitiesResourcesMap.get("bush").get(0);
         this.clickedImage = FocusFarm.resourceHandler.entitiesResourcesMap.get("bush").get(1);
         this.currentImage = normalImage;
@@ -49,8 +49,8 @@ public class Bush extends StaticEntity {
     @Override
     public void render(Graphics2D graphics2D) {
         graphics2D.drawImage(currentImage,
-                FocusFarm.camera.cameraX + positionX * FocusFarm.scale,
-                FocusFarm.camera.cameraY + positionY * FocusFarm.scale,
+                FocusFarm.camera.cameraX + position.x * FocusFarm.scale,
+                FocusFarm.camera.cameraY + position.y * FocusFarm.scale,
                 FocusFarm.scaledTileSize,
                 FocusFarm.scaledTileSize,
                 null);

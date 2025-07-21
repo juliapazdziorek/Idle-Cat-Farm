@@ -29,7 +29,7 @@ public class EntitiesHandler implements MouseListener {
     
     private void createBushesFromMap() {
         for (Point position : map.getBushPositions()) {
-            mapEntities.add(new Bush(position.x, position.y));
+            mapEntities.add(new Bush(position));
         }
     }
 

@@ -9,13 +9,13 @@ public class StaticEntity extends Entity {
 
     private final BufferedImage image;
 
-    public StaticEntity(int positionX, int positionY) {
-        super(positionX, positionY);
+    public StaticEntity(Point position) {
+        super(position);
         this.image = null;
     }
-
-    public StaticEntity(int positionX, int positionY, BufferedImage image) {
-        super(positionX, positionY);
+    
+    public StaticEntity(Point position, BufferedImage image) {
+        super(position);
         this.image = image;
     }
 
@@ -33,8 +33,8 @@ public class StaticEntity extends Entity {
     public void render(Graphics2D graphics2D) {
         if (image != null) {
             graphics2D.drawImage(image,
-                    FocusFarm.camera.cameraX + positionX * FocusFarm.scale,
-                    FocusFarm.camera.cameraY + positionY * FocusFarm.scale,
+                    FocusFarm.camera.cameraX + position.x * FocusFarm.scale,
+                    FocusFarm.camera.cameraY + position.y * FocusFarm.scale,
                     FocusFarm.scaledTileSize,
                     FocusFarm.scaledTileSize,
                     null);
