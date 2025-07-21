@@ -409,8 +409,8 @@ public class ResourceHandler {
         tilesMap.put(313, furniture.getSubimage(6 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // chair down
         tilesMap.put(314, furniture.getSubimage(3 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // dresser
         tilesMap.put(315, furniture.getSubimage(3 * FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // table
-        tilesMap.put(317, furniture.getSubimage(5 * FocusFarm.tileSize, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pink big carpet right
-        tilesMap.put(316, furniture.getSubimage(6 * FocusFarm.tileSize, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pink big carpet left
+        tilesMap.put(316, furniture.getSubimage(5 * FocusFarm.tileSize, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pink big carpet left
+        tilesMap.put(317, furniture.getSubimage(6 * FocusFarm.tileSize, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pink big carpet right
         tilesMap.put(319, furniture.getSubimage(7 * FocusFarm.tileSize, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // blue big carpet right
         tilesMap.put(318, furniture.getSubimage(8 * FocusFarm.tileSize, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // blue big carpet left
         tilesMap.put(320, furniture.getSubimage(3 * FocusFarm.tileSize, 5 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // green big carpet left
