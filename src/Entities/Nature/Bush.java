@@ -37,7 +37,7 @@ public class Bush extends StaticEntity {
     public void update() {
         if (isClicked) {
             frameCounter++;
-            int shrinkDuration = 30;
+            int shrinkDuration = 100;
             if (frameCounter >= shrinkDuration) {
                 isClicked = false;
                 currentImage = normalImage;

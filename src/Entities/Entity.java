@@ -17,13 +17,15 @@ public abstract class Entity {
     // mouse handling
     public abstract void onClick();
 
-    public boolean isPointInside(int x, int y) {
-        int scaledX = FocusFarm.camera.cameraX + position.x * FocusFarm.scale;
-        int scaledY = FocusFarm.camera.cameraY + position.y * FocusFarm.scale;
+    public boolean isPointInside(int mouseX, int mouseY) {
+        int worldMouseX = (mouseX - FocusFarm.camera.cameraX) / FocusFarm.scale;
+        int worldMouseY = (mouseY - FocusFarm.camera.cameraY) / FocusFarm.scale;
 
-        return x >= scaledX && x <= scaledX + FocusFarm.scaledTileSize &&
-                y >= scaledY && y <= scaledY + FocusFarm.scaledTileSize;
+        int halfTile = FocusFarm.tileSize / 2;
+        return worldMouseX >= position.x - halfTile && worldMouseX <= position.x + FocusFarm.tileSize + halfTile &&
+                worldMouseY >= position.y - halfTile && worldMouseY <= position.y + FocusFarm.tileSize + halfTile;
     }
+
 
     // abstract updating
     public abstract void update();
