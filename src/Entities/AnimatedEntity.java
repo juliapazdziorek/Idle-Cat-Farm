@@ -34,8 +34,8 @@ public class AnimatedEntity extends Entity {
     public void render(Graphics2D graphics2D) {
         if (animation != null) {
             graphics2D.drawImage(animation.getCurrentFrame(),
-                    FocusFarm.camera.cameraX + position.x * FocusFarm.scale,
-                    FocusFarm.camera.cameraY + position.y * FocusFarm.scale,
+                    FocusFarm.camera.position.x + position.x * FocusFarm.scale,
+                    FocusFarm.camera.position.y + position.y * FocusFarm.scale,
                     FocusFarm.scaledTileSize,
                     FocusFarm.scaledTileSize,
                     null);

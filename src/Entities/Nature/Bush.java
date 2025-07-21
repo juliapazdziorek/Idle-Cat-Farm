@@ -49,8 +49,8 @@ public class Bush extends StaticEntity {
     @Override
     public void render(Graphics2D graphics2D) {
         graphics2D.drawImage(currentImage,
-                FocusFarm.camera.cameraX + position.x * FocusFarm.scale,
-                FocusFarm.camera.cameraY + position.y * FocusFarm.scale,
+                FocusFarm.camera.position.x + position.x * FocusFarm.scale,
+                FocusFarm.camera.position.y + position.y * FocusFarm.scale,
                 FocusFarm.scaledTileSize,
                 FocusFarm.scaledTileSize,
                 null);

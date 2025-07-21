@@ -67,8 +67,8 @@ public class EntitiesHandler implements MouseListener {
             }
         }
 
-        int worldX = (mouseX - FocusFarm.camera.cameraX) / FocusFarm.scale;
-        int worldY = (mouseY - FocusFarm.camera.cameraY) / FocusFarm.scale;
+        int worldX = (mouseX - FocusFarm.camera.position.x) / FocusFarm.scale;
+        int worldY = (mouseY - FocusFarm.camera.position.y) / FocusFarm.scale;
         int tileX = worldX / FocusFarm.tileSize;
         int tileY = worldY / FocusFarm.tileSize;
 

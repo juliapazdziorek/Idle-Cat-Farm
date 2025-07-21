@@ -1,9 +1,10 @@
 package Game;
 
+import java.awt.*;
+
 public class Camera {
 
-    public int cameraX;
-    public int cameraY;
+    public Point position;
     public final int cameraSpeed = 5;
 
     public boolean blockedUp;
@@ -11,21 +12,42 @@ public class Camera {
     public boolean blockedLeft;
     public boolean blockedRight;
 
+    public Camera() {
+        position = new Point(0, 0);
+    }
+
+    // getters for backward compatibility
+    public int getCameraX() {
+        return position.x;
+    }
+    
+    public int getCameraY() {
+        return position.y;
+    }
+    
+    // setters for convenience
+    public void setCameraPosition(int x, int y) {
+        position.setLocation(x, y);
+    }
+    
+    public void setCameraPosition(Point newPosition) {
+        position.setLocation(newPosition);
+    }
 
     // updating
     public void update() {
 
         if (FocusFarm.keyHandler.upPressed && !blockedUp) {
-            cameraY += cameraSpeed;
+            position.y += cameraSpeed;
         }
         if (FocusFarm.keyHandler.downPressed && !blockedDown) {
-            cameraY -= cameraSpeed;
+            position.y -= cameraSpeed;
         }
         if (FocusFarm.keyHandler.leftPressed && !blockedLeft) {
-            cameraX += cameraSpeed;
+            position.x += cameraSpeed;
         }
         if (FocusFarm.keyHandler.rightPressed && !blockedRight) {
-            cameraX -= cameraSpeed;
+            position.x -= cameraSpeed;
         }
 
         checkIfBlocked();
@@ -33,10 +55,9 @@ public class Camera {
 
     // checking for blockage
     private void checkIfBlocked() {
-        blockedUp = cameraY + cameraSpeed > 0;
-        blockedDown = cameraY - cameraSpeed < - FocusFarm.mapHeight + FocusFarm.frame.getHeight();
-        blockedLeft = cameraX + cameraSpeed > 0;
-        blockedRight = cameraX - cameraSpeed < - FocusFarm.mapWidth + FocusFarm.frame.getWidth();
-
+        blockedUp = position.y + cameraSpeed > 0;
+        blockedDown = position.y - cameraSpeed < - FocusFarm.mapHeight + FocusFarm.frame.getHeight();
+        blockedLeft = position.x + cameraSpeed > 0;
+        blockedRight = position.x - cameraSpeed < - FocusFarm.mapWidth + FocusFarm.frame.getWidth();
     }
 }

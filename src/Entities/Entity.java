@@ -18,8 +18,8 @@ public abstract class Entity {
 
     public boolean isPointInside(int mouseX, int mouseY) {
         // convert mouse screen coordinates to world coordinates
-        int worldMouseX = (mouseX - FocusFarm.camera.cameraX) / FocusFarm.scale;
-        int worldMouseY = (mouseY - FocusFarm.camera.cameraY) / FocusFarm.scale;
+        int worldMouseX = (mouseX - FocusFarm.camera.position.x) / FocusFarm.scale;
+        int worldMouseY = (mouseY - FocusFarm.camera.position.y) / FocusFarm.scale;
 
         int halfTile = FocusFarm.tileSize / 2;
         return worldMouseX >= position.x - halfTile && worldMouseX <= position.x + FocusFarm.tileSize + halfTile &&
