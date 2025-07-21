@@ -1,4 +1,4 @@
-package Game;
+package Entities;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -11,6 +11,7 @@ import java.util.List;
 import Entities.Entity;
 import Entities.Nature.Bush;
 import Map.Map;
+import Game.FocusFarm;
 
 public class EntitiesHandler implements MouseListener {
 

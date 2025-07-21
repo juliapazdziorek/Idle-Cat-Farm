@@ -1,6 +1,7 @@
 package Game;
 
 import Resources.ResourceHandler;
+import Entities.EntitiesHandler;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
