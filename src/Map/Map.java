@@ -140,8 +140,6 @@ public class Map {
 
     private void initializeObstaclesIds() {
         Collections.addAll(obstaclesIds,
-            121, // small shroom
-            122, // two small shrooms
             123, // big shroom
             124, // poison shroom
             129, // stone 1
