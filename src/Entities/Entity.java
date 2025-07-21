@@ -13,19 +13,18 @@ public abstract class Entity {
         this.position = new Point(position);
     }
 
-
     // mouse handling
     public abstract void onClick();
 
     public boolean isPointInside(int mouseX, int mouseY) {
+        // convert mouse screen coordinates to world coordinates
         int worldMouseX = (mouseX - FocusFarm.camera.cameraX) / FocusFarm.scale;
         int worldMouseY = (mouseY - FocusFarm.camera.cameraY) / FocusFarm.scale;
 
         int halfTile = FocusFarm.tileSize / 2;
         return worldMouseX >= position.x - halfTile && worldMouseX <= position.x + FocusFarm.tileSize + halfTile &&
-                worldMouseY >= position.y - halfTile && worldMouseY <= position.y + FocusFarm.tileSize + halfTile;
+               worldMouseY >= position.y + halfTile && worldMouseY <= position.y + FocusFarm.tileSize + halfTile;
     }
-
 
     // abstract updating
     public abstract void update();
