@@ -25,12 +25,15 @@ public class Map {
     
     // entities positions
     private final ArrayList<Point> bushPositions;
+    private final ArrayList<Point> treesPositions;
 
     public Map() {
         mapBottomLayersToRender = new ArrayList<>();
         mapTopLayersToRender = new ArrayList<>();
         mapLayersToUpdate = new ArrayList<>();
+
         bushPositions = new ArrayList<>();
+        treesPositions = new ArrayList<>();
 
         obstaclesGrid = new boolean[FocusFarm.mapHeightTiles][FocusFarm.mapWidthTiles];
         obstaclesIds = new ArrayList<>();
@@ -58,18 +61,23 @@ public class Map {
         mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_groundDecor.txt")); // ground decor
 
         // lvl 0 temp
+        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Park/floor_first.txt"));
         mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Park/layer_first.txt"));
         mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Park/layer_second.txt"));
+        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Coop/floor_first.txt"));
         mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Coop/layer_first.txt"));
         mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Coop/layer_second.txt"));
         mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Coop/layer_third.txt"));
         mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Cows/layer_first.txt"));
+        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Cows/floor_first.txt"));
         mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Cows/layer_second.txt"));
+        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Fields/floor_first.txt"));
         mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Fields/layer_first.txt"));
         mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Fields/layer_second.txt"));
         mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/House/floor_first.txt"));
         mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/House/layer_first.txt"));
         mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/House/layer_second.txt"));
+        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Orchard/floor_first.txt"));
         mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Orchard/layer_first.txt"));
         mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Orchard/layer_second.txt"));
 
@@ -90,11 +98,20 @@ public class Map {
                     // bush positions
                     if (tilesIds[i][j] == 152) {
                         bushPositions.add(new Point(j * FocusFarm.tileSize, i * FocusFarm.tileSize));
+                        continue;
+                    }
+
+                    // trees positions
+                    ArrayList<Integer> treesIds = new ArrayList<>();
+                    Collections.addAll(treesIds, 173, 174, 175, 176, 177, 178, 179, 180, 181);
+                    if (treesIds.contains(tilesIds[i][j])) {
+                        treesPositions.add(new Point(j * FocusFarm.tileSize, i * FocusFarm.tileSize));
+                        continue;
                     }
 
 
                     // animated tiles
-                    else if (FocusFarm.resourceHandler.animationsMap.containsKey(tilesIds[i][j])) {
+                    if (FocusFarm.resourceHandler.animationsMap.containsKey(tilesIds[i][j])) {
                         Animation animation = FocusFarm.resourceHandler.animationsMap.get(tilesIds[i][j]).get();
                         layer.tiles[i][j] = new AnimatedEntity(new Point(j * FocusFarm.tileSize, i * FocusFarm.tileSize), animation);
 
