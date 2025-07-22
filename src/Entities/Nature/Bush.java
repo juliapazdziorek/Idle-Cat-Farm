@@ -9,9 +9,11 @@ import java.util.Map;
 
 public class Bush extends StaticEntity {
 
+    // images
     private final Map<String, BufferedImage> imageMap;
     private BufferedImage currentImage;
-    
+
+    // click handling
     private boolean isClicked = false;
     private int frameCounter = 0;
 
@@ -23,6 +25,8 @@ public class Bush extends StaticEntity {
         clickable = true;
     }
 
+
+    // mouse handling
     public void onClick() {
         if (!isClicked) {
             isClicked = true;
@@ -30,6 +34,7 @@ public class Bush extends StaticEntity {
             frameCounter = 0;
         }
     }
+
 
     // updating & rendering
     @Override
