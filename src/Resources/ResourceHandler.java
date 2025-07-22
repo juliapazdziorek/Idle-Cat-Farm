@@ -18,7 +18,7 @@ public class ResourceHandler {
     private final Map<String, BufferedImage> imageMap;
     public final Map<Integer, BufferedImage> tilesMap;
     public final Map<Integer, Supplier<Animation>> animationsMap;
-    public final Map<String, List<BufferedImage>> entitiesResourcesMap;
+    public final Map<String, Map<String, BufferedImage>> entitiesResourcesMap;
 
     public ResourceHandler() {
         imageMap = new HashMap<>();
@@ -487,9 +487,9 @@ public class ResourceHandler {
     private void initializeEntitiesResourcesMap() {
 
         // bush
-        ArrayList<BufferedImage> bushList = new ArrayList<>();
-        bushList.add(imageMap.get("trees").getSubimage(FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // bush grown
-        bushList.add(imageMap.get("trees").getSubimage(0, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // bush grown
+        HashMap<String, BufferedImage> bushList = new HashMap<>();
+        bushList.put("bush grown", imageMap.get("trees").getSubimage(FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // bush grown
+        bushList.put("bush shrunken", imageMap.get("trees").getSubimage(0, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // bush shrunken
         entitiesResourcesMap.put("bush", bushList);
 
     }

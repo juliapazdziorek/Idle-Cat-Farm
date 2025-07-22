@@ -5,11 +5,11 @@ import Game.FocusFarm;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Map;
 
 public class Bush extends StaticEntity {
 
-    private final BufferedImage normalImage;
-    private final BufferedImage clickedImage;
+    private final Map<String, BufferedImage> imageMap;
     private BufferedImage currentImage;
     
     private boolean isClicked = false;
@@ -17,9 +17,8 @@ public class Bush extends StaticEntity {
 
     public Bush(Point position) {
         super(position);
-        this.normalImage = FocusFarm.resourceHandler.entitiesResourcesMap.get("bush").get(0);
-        this.clickedImage = FocusFarm.resourceHandler.entitiesResourcesMap.get("bush").get(1);
-        this.currentImage = normalImage;
+        imageMap = FocusFarm.resourceHandler.entitiesResourcesMap.get("bush");
+        this.currentImage = imageMap.get("bush grown");
 
         clickable = true;
     }
@@ -27,7 +26,7 @@ public class Bush extends StaticEntity {
     public void onClick() {
         if (!isClicked) {
             isClicked = true;
-            currentImage = clickedImage;
+            currentImage = imageMap.get("bush shrunken");
             frameCounter = 0;
         }
     }
@@ -40,7 +39,7 @@ public class Bush extends StaticEntity {
             int shrinkDuration = 100;
             if (frameCounter >= shrinkDuration) {
                 isClicked = false;
-                currentImage = normalImage;
+                currentImage = imageMap.get("bush grown");
                 frameCounter = 0;
             }
         }
