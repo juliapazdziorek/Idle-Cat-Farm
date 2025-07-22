@@ -24,8 +24,9 @@ public class Map {
     private final ArrayList<Integer> obstaclesIds;
     
     // entities positions
-    private final ArrayList<Point> bushPositions;
-    private final ArrayList<Point> treesPositions;
+    public final ArrayList<Point> bushPositions;
+    public final ArrayList<Point> treesPositions;
+    public final ArrayList<Point> signsPositions;
 
     public Map() {
         mapBottomLayersToRender = new ArrayList<>();
@@ -34,16 +35,13 @@ public class Map {
 
         bushPositions = new ArrayList<>();
         treesPositions = new ArrayList<>();
+        signsPositions = new ArrayList<>();
 
         obstaclesGrid = new boolean[FocusFarm.mapHeightTiles][FocusFarm.mapWidthTiles];
         obstaclesIds = new ArrayList<>();
 
         createMapLayers();
         createObstaclesGrid();
-    }
-    
-    public ArrayList<Point> getBushPositions() {
-        return bushPositions;
     }
 
     private void createMapLayers() {
@@ -101,6 +99,12 @@ public class Map {
                         continue;
                     }
 
+                    // signs positions
+                    if (tilesIds[i][j] == 325) {
+                        signsPositions.add(new Point(j * FocusFarm.tileSize, i * FocusFarm.tileSize));
+                        continue;
+                    }
+
                     // trees positions
                     ArrayList<Integer> treesIds = new ArrayList<>();
                     Collections.addAll(treesIds, 173, 174, 175, 176, 177, 178, 179, 180, 181);
@@ -108,6 +112,8 @@ public class Map {
                         treesPositions.add(new Point(j * FocusFarm.tileSize, i * FocusFarm.tileSize));
                         continue;
                     }
+
+
 
 
                     // animated tiles
@@ -265,7 +271,8 @@ public class Map {
             312, // chair left
             313, // chair down
             314, // dresser
-            315  // table
+            315, // table
+            325 //  sign
         );
     }
 

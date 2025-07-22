@@ -63,6 +63,7 @@ public class ResourceHandler {
         loadImageToMap(imageMap, "src/Resources/SproutLands/Objects/piknik_blanket.png", "piknikBlanket");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Objects/piknik_basket.png", "piknikBasket");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Objects/furniture.png", "furniture");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Objects/signs.png", "signs");
 
         // characters
         loadImageToMap(imageMap, "src/Resources/SproutLands/Characters/farm_cat.png", "farmCat");
@@ -487,11 +488,30 @@ public class ResourceHandler {
     private void initializeEntitiesResourcesMap() {
 
         // bush
-        HashMap<String, BufferedImage> bushList = new HashMap<>();
-        bushList.put("bush grown", imageMap.get("trees").getSubimage(FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // bush grown
-        bushList.put("bush shrunken", imageMap.get("trees").getSubimage(0, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // bush shrunken
-        entitiesResourcesMap.put("bush", bushList);
+        HashMap<String, BufferedImage> bushMap = new HashMap<>();
+        bushMap.put("bush grown", imageMap.get("trees").getSubimage(FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // bush grown
+        bushMap.put("bush shrunken", imageMap.get("trees").getSubimage(0, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // bush shrunken
+        entitiesResourcesMap.put("bush", bushMap);
+
+        // signs
+        HashMap<String, BufferedImage> signsMap = new HashMap<>();
+        signsMap.put("empty", imageMap.get("signs").getSubimage(0, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // empty sign
+        signsMap.put("corn", imageMap.get("signs").getSubimage(FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // corn sign
+        signsMap.put("carrot", imageMap.get("signs").getSubimage(2 * FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // carrot sign
+        signsMap.put("cauliflower", imageMap.get("signs").getSubimage(3 * FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // cauliflower sign
+        signsMap.put("tomato", imageMap.get("signs").getSubimage(4 * FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // tomato sign
+        signsMap.put("eggplant", imageMap.get("signs").getSubimage(5 * FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // eggplant sign
+        signsMap.put("lettuce", imageMap.get("signs").getSubimage(FocusFarm.tileSize,  FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // lettuce sign
+        signsMap.put("wheat", imageMap.get("signs").getSubimage(2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // wheat sign
+        signsMap.put("pumpkin", imageMap.get("signs").getSubimage(3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pumpkin sign
+        signsMap.put("radish", imageMap.get("signs").getSubimage(4 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // radish sign
+        signsMap.put("star", imageMap.get("signs").getSubimage(FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // star sign
+        signsMap.put("cucumber", imageMap.get("signs").getSubimage(2 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // cucumber sign
+        signsMap.put("apple", imageMap.get("signs").getSubimage(3 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // apple sign
+        signsMap.put("orange", imageMap.get("signs").getSubimage(4 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // orange sign
+        signsMap.put("pear", imageMap.get("signs").getSubimage(5 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // pear sign
+        signsMap.put("peach", imageMap.get("signs").getSubimage(0, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // peach sign
+        entitiesResourcesMap.put("signs", signsMap);
 
     }
-
 }

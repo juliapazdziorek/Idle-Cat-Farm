@@ -8,8 +8,8 @@ import Entities.Characters.FarmCat;
 import java.util.ArrayList;
 import java.util.List;
 
-import Entities.Entity;
 import Entities.Nature.Bush;
+import Entities.Objects.Sign;
 import Map.Map;
 import Game.FocusFarm;
 
@@ -25,12 +25,19 @@ public class EntitiesHandler implements MouseListener {
         map = new Map();
         cat = new FarmCat(12, 20);
 
-        createBushesFromMap();
+        createEntitiesFromMap();
     }
     
-    private void createBushesFromMap() {
-        for (Point position : map.getBushPositions()) {
+    private void createEntitiesFromMap() {
+
+        // bushes
+        for (Point position : map.bushPositions) {
             mapEntities.add(new Bush(position));
+        }
+
+        // signs
+        for (Point position : map.signsPositions) {
+            mapEntities.add(new Sign(position));
         }
     }
 
@@ -53,6 +60,7 @@ public class EntitiesHandler implements MouseListener {
         for (Entity entity : mapEntities) {
             entity.render(graphics2D);
         }
+
         map.renderTop(graphics2D);
     }
 
