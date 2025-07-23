@@ -33,7 +33,7 @@ public class AnimatedEntity extends Entity {
     @Override
     public void render(Graphics2D graphics2D) {
         if (animation != null) {
-            graphics2D.drawImage(animation.getCurrentFrame(),
+            graphics2D.drawImage(animation.getCurrentFrameImage(),
                     FocusFarm.camera.position.x + position.x * FocusFarm.scale,
                     FocusFarm.camera.position.y + position.y * FocusFarm.scale,
                     FocusFarm.scaledTileSize,
