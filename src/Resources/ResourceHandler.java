@@ -5,10 +5,7 @@ import Game.FocusFarm;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.awt.image.BufferedImage;
 import java.util.function.Supplier;
 
@@ -49,6 +46,7 @@ public class ResourceHandler {
         loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/water_decor.png", "waterDecor");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/grass_decor.png", "grassDecor");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/trees.png", "trees");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/tree.png", "tree");
 
         // building parts
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/fences.png", "fences");
@@ -432,13 +430,103 @@ public class ResourceHandler {
         return new Animation(imageMap.get("water"), 4, 1, 0, 4, 20);
     }
 
-//    private Animation createBushAnimation() {
-//        return new Animation(imageMap.get("trees"), 12, 7, 3, 2, 25 * ((int)(Math.random() * 6) + 5));
-//    }
+    public HashMap<Integer, Animation> createTreeClickAnimationMap() {
 
-//    private Animation createTreeTopLeftAnimation() {
-//        return new Animation(imageMap.get("tree"), 12, 7, 0, 2, 100 * ((int)(Math.random() * 6) + 5));
-//    }
+        HashMap<Integer, Animation> treeClickAnimationMap = new HashMap<>();
+        BufferedImage treeClickAnimationImage = imageMap.get("tree");
+
+        // 173
+        ArrayList<BufferedImage> treeClickAnimation173Frames = new ArrayList<>();
+        treeClickAnimation173Frames.add(treeClickAnimationImage.getSubimage(0, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation173Frames.add(treeClickAnimationImage.getSubimage(3 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation173Frames.add(treeClickAnimationImage.getSubimage(6 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation173Frames.add(treeClickAnimationImage.getSubimage(9 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation173Frames.add(treeClickAnimationImage.getSubimage(12 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation173Frames.add(treeClickAnimationImage.getSubimage(15 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimationMap.put(173, new Animation(treeClickAnimation173Frames, 20));
+
+        // 174
+        ArrayList<BufferedImage> treeClickAnimation174Frames = new ArrayList<>();
+        treeClickAnimation174Frames.add(treeClickAnimationImage.getSubimage(FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation174Frames.add(treeClickAnimationImage.getSubimage(4 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation174Frames.add(treeClickAnimationImage.getSubimage(7 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation174Frames.add(treeClickAnimationImage.getSubimage(10 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation174Frames.add(treeClickAnimationImage.getSubimage(13 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation174Frames.add(treeClickAnimationImage.getSubimage(16 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimationMap.put(174, new Animation(treeClickAnimation174Frames, 20));
+
+        // 175
+        ArrayList<BufferedImage> treeClickAnimation175Frames = new ArrayList<>();
+        treeClickAnimation175Frames.add(treeClickAnimationImage.getSubimage(2 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation175Frames.add(treeClickAnimationImage.getSubimage(5 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation175Frames.add(treeClickAnimationImage.getSubimage(8 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation175Frames.add(treeClickAnimationImage.getSubimage(11 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation175Frames.add(treeClickAnimationImage.getSubimage(14 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation175Frames.add(treeClickAnimationImage.getSubimage(17 * FocusFarm.tileSize, 6 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimationMap.put(175, new Animation(treeClickAnimation175Frames, 20));
+
+        // 176
+        ArrayList<BufferedImage> treeClickAnimation176Frames = new ArrayList<>();
+        treeClickAnimation176Frames.add(treeClickAnimationImage.getSubimage(0, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation176Frames.add(treeClickAnimationImage.getSubimage(3 * FocusFarm.tileSize, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation176Frames.add(treeClickAnimationImage.getSubimage(6 * FocusFarm.tileSize, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation176Frames.add(treeClickAnimationImage.getSubimage(9 * FocusFarm.tileSize, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation176Frames.add(treeClickAnimationImage.getSubimage(12 * FocusFarm.tileSize, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation176Frames.add(treeClickAnimationImage.getSubimage(15 * FocusFarm.tileSize, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimationMap.put(176, new Animation(treeClickAnimation176Frames, 20));
+
+        // 177
+        ArrayList<BufferedImage> treeClickAnimation177Frames = new ArrayList<>();
+        treeClickAnimation177Frames.add(treeClickAnimationImage.getSubimage(FocusFarm.tileSize, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation177Frames.add(treeClickAnimationImage.getSubimage(4 * FocusFarm.tileSize, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation177Frames.add(treeClickAnimationImage.getSubimage(7 * FocusFarm.tileSize, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation177Frames.add(treeClickAnimationImage.getSubimage(10 * FocusFarm.tileSize, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation177Frames.add(treeClickAnimationImage.getSubimage(13 * FocusFarm.tileSize, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation177Frames.add(treeClickAnimationImage.getSubimage(16 * FocusFarm.tileSize, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimationMap.put(177, new Animation(treeClickAnimation177Frames, 20));
+
+        // 178
+        ArrayList<BufferedImage> treeClickAnimation178Frames = new ArrayList<>();
+        treeClickAnimation178Frames.add(treeClickAnimationImage.getSubimage(2 * FocusFarm.tileSize, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation178Frames.add(treeClickAnimationImage.getSubimage(5 * FocusFarm.tileSize, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation178Frames.add(treeClickAnimationImage.getSubimage(8 * FocusFarm.tileSize, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation178Frames.add(treeClickAnimationImage.getSubimage(11 * FocusFarm.tileSize, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation178Frames.add(treeClickAnimationImage.getSubimage(14 * FocusFarm.tileSize, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation178Frames.add(treeClickAnimationImage.getSubimage(17 * FocusFarm.tileSize, 7 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimationMap.put(178, new Animation(treeClickAnimation178Frames, 20));
+
+        // 179
+        ArrayList<BufferedImage> treeClickAnimation179Frames = new ArrayList<>();
+        treeClickAnimation179Frames.add(treeClickAnimationImage.getSubimage(0, 8 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation179Frames.add(treeClickAnimationImage.getSubimage(3 * FocusFarm.tileSize, 8 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation179Frames.add(treeClickAnimationImage.getSubimage(6 * FocusFarm.tileSize, 8 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation179Frames.add(treeClickAnimationImage.getSubimage(9 * FocusFarm.tileSize, 8 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation179Frames.add(treeClickAnimationImage.getSubimage(12 * FocusFarm.tileSize, 8 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation179Frames.add(treeClickAnimationImage.getSubimage(15 * FocusFarm.tileSize, 8 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimationMap.put(179, new Animation(treeClickAnimation179Frames, 20));
+
+        // 180
+        ArrayList<BufferedImage> treeClickAnimation180Frames = new ArrayList<>();
+        treeClickAnimation180Frames.add(treeClickAnimationImage.getSubimage(FocusFarm.tileSize, 8 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation180Frames.add(treeClickAnimationImage.getSubimage(4 * FocusFarm.tileSize, 8 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation180Frames.add(treeClickAnimationImage.getSubimage(7 * FocusFarm.tileSize, 8 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation180Frames.add(treeClickAnimationImage.getSubimage(10 * FocusFarm.tileSize, 8 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation180Frames.add(treeClickAnimationImage.getSubimage(13 * FocusFarm.tileSize, 8 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation180Frames.add(treeClickAnimationImage.getSubimage(16 * FocusFarm.tileSize, 8 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimationMap.put(180, new Animation(treeClickAnimation180Frames, 20));
+
+        // 181
+        ArrayList<BufferedImage> treeClickAnimation181Frames = new ArrayList<>();
+        treeClickAnimation181Frames.add(treeClickAnimationImage.getSubimage(2 * FocusFarm.tileSize, 8 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation181Frames.add(treeClickAnimationImage.getSubimage(5 * FocusFarm.tileSize, 8 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation181Frames.add(treeClickAnimationImage.getSubimage(8 * FocusFarm.tileSize, 8 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation181Frames.add(treeClickAnimationImage.getSubimage(11 * FocusFarm.tileSize, 8 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation181Frames.add(treeClickAnimationImage.getSubimage(14 * FocusFarm.tileSize, 8 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimation181Frames.add(treeClickAnimationImage.getSubimage(17 * FocusFarm.tileSize, 8 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize));
+        treeClickAnimationMap.put(181, new Animation(treeClickAnimation181Frames, 20));
+
+        return treeClickAnimationMap;
+    }
 
     public HashMap<String, Animation> createCatAnimationMap() {
 
@@ -492,6 +580,19 @@ public class ResourceHandler {
         bushMap.put("bush grown", imageMap.get("trees").getSubimage(FocusFarm.tileSize, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // bush grown
         bushMap.put("bush shrunken", imageMap.get("trees").getSubimage(0, 3 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // bush shrunken
         entitiesResourcesMap.put("bush", bushMap);
+
+        // tree
+        HashMap<String, BufferedImage> treeMap = new HashMap<>(); // using tile IDs for tree parts
+        treeMap.put("173", imageMap.get("tree").getSubimage(0, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // tree top-left
+        treeMap.put("174", imageMap.get("tree").getSubimage(FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // tree top-center
+        treeMap.put("175", imageMap.get("tree").getSubimage(2 * FocusFarm.tileSize, 0, FocusFarm.tileSize, FocusFarm.tileSize)); // tree top-right
+        treeMap.put("176", imageMap.get("tree").getSubimage(0, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // tree middle-left
+        treeMap.put("177", imageMap.get("tree").getSubimage(FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // tree middle-center
+        treeMap.put("178", imageMap.get("tree").getSubimage(2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // tree middle-right
+        treeMap.put("179", imageMap.get("tree").getSubimage(0, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // tree bottom-left
+        treeMap.put("180", imageMap.get("tree").getSubimage(FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // tree bottom-center
+        treeMap.put("181", imageMap.get("tree").getSubimage(2 * FocusFarm.tileSize, 2 * FocusFarm.tileSize, FocusFarm.tileSize, FocusFarm.tileSize)); // tree bottom-right
+        entitiesResourcesMap.put("tree", treeMap);
 
         // signs
         HashMap<String, BufferedImage> signsMap = new HashMap<>();
