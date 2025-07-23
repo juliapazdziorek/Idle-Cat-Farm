@@ -346,7 +346,7 @@ public class FarmCat extends AnimatedEntity {
 
     @Override
     public void render(Graphics2D graphics2D) {
-        graphics2D.drawImage(currentAnimation.getCurrentFrame(),
+        graphics2D.drawImage(currentAnimation.getCurrentFrameImage(),
                 (position.x - catWidth / 2) * FocusFarm.scale + FocusFarm.camera.position.x,
                 (position.y - catHeight / 2) * FocusFarm.scale + FocusFarm.camera.position.y,
                 catWidth * FocusFarm.scale,
