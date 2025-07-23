@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Entities.Nature.Bush;
+import Entities.Nature.Tree;
+import Entities.Nature.TreePart;
 import Entities.Objects.Sign;
 import Map.Map;
 import Game.FocusFarm;
@@ -35,16 +37,22 @@ public class EntitiesHandler implements MouseListener {
             mapEntities.add(new Bush(position));
         }
 
+        // trees
+        for (Tree tree : map.trees) {
+            mapEntities.add(tree);
+            mapEntities.addAll(tree.treeParts);
+        }
+
         // signs
         for (Point position : map.signsPositions) {
             mapEntities.add(new Sign(position));
         }
     }
 
-
     // updating & rendering
     public void update() {
         map.update();
+
         for (Entity entity : mapEntities) {
             entity.update();
         }
@@ -57,11 +65,11 @@ public class EntitiesHandler implements MouseListener {
 
         cat.render(graphics2D);
 
+        map.renderTop(graphics2D);
+
         for (Entity entity : mapEntities) {
             entity.render(graphics2D);
         }
-
-        map.renderTop(graphics2D);
     }
 
     // mouse listener for pathfinding test temp

@@ -2,6 +2,8 @@ package Map;
 
 import Entities.AnimatedEntity;
 import Entities.StaticEntity;
+import Entities.Nature.TreePart;
+import Entities.Nature.Tree;
 import Game.FocusFarm;
 import Resources.Animation;
 
@@ -25,8 +27,11 @@ public class Map {
     
     // entities positions
     public final ArrayList<Point> bushPositions;
-    public final ArrayList<Point> treesPositions;
     public final ArrayList<Point> signsPositions;
+
+    // trees
+    public final ArrayList<Tree> trees;
+    ArrayList<Integer> treesIds;
 
     public Map() {
         mapBottomLayersToRender = new ArrayList<>();
@@ -34,8 +39,11 @@ public class Map {
         mapLayersToUpdate = new ArrayList<>();
 
         bushPositions = new ArrayList<>();
-        treesPositions = new ArrayList<>();
         signsPositions = new ArrayList<>();
+
+        trees = new ArrayList<>();
+        treesIds = new ArrayList<>();
+        Collections.addAll(treesIds, 173, 174, 175, 176, 177, 178, 179, 180, 181);
 
         obstaclesGrid = new boolean[FocusFarm.mapHeightTiles][FocusFarm.mapWidthTiles];
         obstaclesIds = new ArrayList<>();
@@ -99,21 +107,17 @@ public class Map {
                         continue;
                     }
 
+                    // trees
+                    if (tilesIds[i][j] == 177) {
+                        createTree(tilesIds, i, j);
+                        continue;
+                    }
+
                     // signs positions
                     if (tilesIds[i][j] == 325) {
                         signsPositions.add(new Point(j * FocusFarm.tileSize, i * FocusFarm.tileSize));
                         continue;
                     }
-
-                    // trees positions
-                    ArrayList<Integer> treesIds = new ArrayList<>();
-                    Collections.addAll(treesIds, 173, 174, 175, 176, 177, 178, 179, 180, 181);
-                    if (treesIds.contains(tilesIds[i][j])) {
-                        treesPositions.add(new Point(j * FocusFarm.tileSize, i * FocusFarm.tileSize));
-                        continue;
-                    }
-
-
 
 
                     // animated tiles
@@ -129,6 +133,31 @@ public class Map {
             }
         }
         return layer;
+    }
+
+    // create a tree
+    private void createTree(int[][] tilesIds, int i, int j) {
+        Point centerPosition = new Point(j * FocusFarm.tileSize, i * FocusFarm.tileSize);
+        Tree tree = new Tree(centerPosition);
+
+        for (int deltaI = -1; deltaI <= 1; deltaI++) {
+            for (int deltaJ = -1; deltaJ <= 1; deltaJ++) {
+                int newI = i + deltaI;
+                int newJ = j + deltaJ;
+                
+                // Check bounds and if the tile ID is a tree part
+                if (newI >= 0 && newI < FocusFarm.mapHeightTiles &&
+                    newJ >= 0 && newJ < FocusFarm.mapWidthTiles &&
+                    treesIds.contains(tilesIds[newI][newJ])) {
+                    
+                    Point partPosition = new Point(newJ * FocusFarm.tileSize, newI * FocusFarm.tileSize);
+                    TreePart part = new TreePart(partPosition, tilesIds[newI][newJ]);
+                    tree.addTreePart(part);
+                }
+            }
+        }
+
+        trees.add(tree);
     }
 
 
@@ -173,9 +202,7 @@ public class Map {
             138, // large stone bottom-right
             151, // small tree bottom
             152, // bush
-            159, // large tree bottom-left
             160, // large tree bottom-center
-            161, // large tree bottom-right
             162, // small stump 1
             163, // small stump 2
             164, // stump 1 left
