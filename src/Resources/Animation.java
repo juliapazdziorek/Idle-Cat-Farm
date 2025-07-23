@@ -1,36 +1,28 @@
 package Resources;
 
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 public class Animation {
 
-    // image
-    private final BufferedImage image;
-    private final int numberOfFramesInImage;
-    private final int numberOfRowsInImage;
-    private final int rowOfAnimation;
-    private final int numberOfFrames;
     private final int frameDelay;
 
     // animation
     private BufferedImage[] frames;
     private int currentFrame;
+    private final int numberOfFrames;
     private int frameCounter;
 
     public Animation(BufferedImage image, int numberOfFramesInImage, int numberOfRowsInImage, int rowOfAnimation, int numberOfFrames, int frameDelay) {
-        this.image = image;
-        this.numberOfFramesInImage = numberOfFramesInImage;
-        this.numberOfRowsInImage = numberOfRowsInImage;
-        this.rowOfAnimation = rowOfAnimation;
-        this.numberOfFrames = numberOfFrames;
         this.frameDelay = frameDelay;
+        this.numberOfFrames = numberOfFrames;
 
-        initializeFrames();
+        initializeFrames(image, numberOfFramesInImage, numberOfRowsInImage, rowOfAnimation, numberOfFrames);
         currentFrame = 0;
         frameCounter = 0;
     }
 
-    private void initializeFrames() {
+    private void initializeFrames(BufferedImage image, int numberOfFramesInImage, int numberOfRowsInImage, int rowOfAnimation, int numberOfFrames) {
         int frameWidth = image.getWidth() / numberOfFramesInImage;
         int frameHeight = image.getHeight() / numberOfRowsInImage;
         frames = new BufferedImage[numberOfFrames];
@@ -40,9 +32,18 @@ public class Animation {
         }
     }
 
+    public Animation(List<BufferedImage> frames, int frameDelay) {
+        this.frames = frames.toArray(new BufferedImage[0]);
+        this.frameDelay = frameDelay;
+        this.numberOfFrames = frames.size();
+
+        currentFrame = 0;
+        frameCounter = 0;
+    }
+
 
     // animation handling
-    public BufferedImage getCurrentFrame() {
+    public BufferedImage getCurrentFrameImage() {
         return frames[currentFrame];
     }
 
@@ -58,5 +59,14 @@ public class Animation {
             currentFrame = (currentFrame + 1) % frames.length;
             frameCounter = 0;
         }
+    }
+
+    // getters
+    public int getNumberOfFrames() {
+        return numberOfFrames;
+    }
+
+    public int getCurrentFrame() {
+        return currentFrame;
     }
 }
