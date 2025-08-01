@@ -2,7 +2,6 @@ package Entities.Objects;
 
 import Entities.StaticEntity;
 import Game.FocusFarm;
-import Resources.ResourceHandler;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
