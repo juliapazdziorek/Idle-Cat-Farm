@@ -8,24 +8,28 @@ import Game.FocusFarm;
 import Resources.Animation;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Scanner;
+import java.util.HashMap;
 
 public class Map {
 
-    // layers
+    // layers lists
     private final ArrayList<MapLayer> mapBottomLayersToRender;
     private final ArrayList<MapLayer> mapTopLayersToRender;
     private final ArrayList<MapLayer> mapLayersToUpdate;
 
+    // map areas
+    public enum MapLevels {LEVEL_0, LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_Star;}
+    public enum MapArea {PARK, COOP, COWS, FIELDS, HOUSE, ORCHARD;}
+    public final ArrayList<MapArea> mapAreas;
+    public final HashMap<MapArea, MapLevels> mapAreasLevels;
+
     // obstacles
+    public static final ArrayList<Integer> obstaclesIds = new ArrayList<>();
     private final boolean[][] obstaclesGrid;
-    private final ArrayList<Integer> obstaclesIds;
-    
-    // entities positions
+
+    // map entities
     public final ArrayList<Point> bushPositions;
     public final ArrayList<Point> signsPositions;
 
@@ -34,64 +38,135 @@ public class Map {
     ArrayList<Integer> treesIds;
 
     public Map() {
+
+        // layer lists
         mapBottomLayersToRender = new ArrayList<>();
         mapTopLayersToRender = new ArrayList<>();
         mapLayersToUpdate = new ArrayList<>();
 
+        // map areas
+        mapAreas = new ArrayList<>();
+        Collections.addAll(mapAreas, MapArea.PARK, MapArea.COOP, MapArea.COWS, MapArea.FIELDS, MapArea.HOUSE, MapArea.ORCHARD);
+        mapAreasLevels = new HashMap<>();
+        for (MapArea area : mapAreas) {
+            mapAreasLevels.put(area, MapLevels.LEVEL_0);
+        }
+
+        // obstacles
+        obstaclesGrid = new boolean[FocusFarm.mapHeightTiles][FocusFarm.mapWidthTiles];
+
+        // map entities
         bushPositions = new ArrayList<>();
         signsPositions = new ArrayList<>();
-
         trees = new ArrayList<>();
         treesIds = new ArrayList<>();
         Collections.addAll(treesIds, 173, 174, 175, 176, 177, 178, 179, 180, 181);
 
-        obstaclesGrid = new boolean[FocusFarm.mapHeightTiles][FocusFarm.mapWidthTiles];
-        obstaclesIds = new ArrayList<>();
-
+        // initialize layers
         createMapLayers();
+
+        // create obstacles grid
         createObstaclesGrid();
     }
 
+
+    // handling map layers
     private void createMapLayers() {
 
-        // water layer
-        MapLayer waterLayer = createLayer("src/Map/TileMaps/Ground/ground_water.txt");
+        // ground layers
+        MapLayer waterLayer = createLayer("src/Map/TileMaps/Ground/ground_water.txt"); // water
         mapBottomLayersToRender.add(waterLayer);
         mapLayersToUpdate.add(waterLayer);
 
-        // static ground layers
         mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_soil.txt")); // soil
         mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_grass.txt")); // grass
         mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_darkGrass.txt")); // dark grass
         mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_bridges.txt")); // bridges
         mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_groundDecor.txt")); // ground decor
 
-        // lvl 0 temp
-        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Park/floor_first.txt"));
-        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Park/layer_first.txt"));
-        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Park/layer_second.txt"));
-        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Coop/floor_first.txt"));
-        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Coop/layer_first.txt"));
-        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Coop/layer_second.txt"));
-        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Coop/layer_third.txt"));
-        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Cows/layer_first.txt"));
-        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Cows/floor_first.txt"));
-        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Cows/layer_second.txt"));
-        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Fields/floor_first.txt"));
-        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Fields/layer_first.txt"));
-        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Fields/layer_second.txt"));
-        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/House/floor_first.txt"));
-        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/House/layer_first.txt"));
-        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/House/layer_second.txt"));
-        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Orchard/floor_first.txt"));
-        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Orchard/layer_first.txt"));
-        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/Lvl0/Orchard/layer_second.txt"));
+        // create area layers
+        createAreasLayers();
 
-
+        // add area layers to render list
+        addAreaLayersForRender();
     }
 
+    private void addAreaLayersForRender() {
+
+        // bottom layers for current tile maps
+        mapBottomLayersToRender.add(createLayer("src/Map/CurrentTileMaps/floor_first.txt"));
+        mapBottomLayersToRender.add(createLayer("src/Map/CurrentTileMaps/floor_second.txt"));
+
+        // top layers for current tile maps
+        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/layer_first.txt"));
+        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/layer_second.txt"));
+        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/layer_third.txt"));
+        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/roof.txt"));
+    }
+
+    private void createAreasLayers() {
+        MapFileUtils.prepareEmptyLayerFiles();
+
+        for (MapArea area : mapAreas) {
+            MapLevels level = mapAreasLevels.get(area);
+            String levelPath = getLevelPath(level);
+            String areaPath = getAreaPath(area);
+
+            MapFileUtils.copyAreaLayer(areaPath, levelPath, "floor_first.txt");
+            MapFileUtils.copyAreaLayer(areaPath, levelPath, "floor_second.txt");
+            MapFileUtils.copyAreaLayer(areaPath, levelPath, "layer_first.txt");
+            MapFileUtils.copyAreaLayer(areaPath, levelPath, "layer_second.txt");
+            MapFileUtils.copyAreaLayer(areaPath, levelPath, "layer_third.txt");
+            MapFileUtils.copyAreaLayer(areaPath, levelPath, "roof.txt");
+        }
+    }
+
+
+    // managing areas
+    private void updateAreasLayers() {
+
+        // recreate the current tile maps with updated levels
+        createAreasLayers();
+
+        // refresh the rendered layers to reflect the changes
+        refreshLayers();
+
+        // refresh obstacles to match the new area levels
+        refreshObstaclesGrid();
+    }
+
+    public void setAreaLevel(MapArea area, MapLevels newLevel) {
+        mapAreasLevels.put(area, newLevel);
+        updateAreasLayers();
+    }
+
+    public MapLevels getAreaLevel(MapArea area) {
+        return mapAreasLevels.get(area);
+    }
+
+    private void refreshLayers() {
+
+        // remove the existing area layers from rendering lists
+        // keep ground layers (first 6 layers in mapBottomLayersToRender)
+        while (mapBottomLayersToRender.size() > 6) {
+            mapBottomLayersToRender.removeLast();
+        }
+
+        mapTopLayersToRender.clear();
+        mapLayersToUpdate.clear();
+
+        // re-add area floor layers to bottom rendering
+        mapBottomLayersToRender.add(createLayer("src/Map/CurrentTileMaps/floor_first.txt"));
+        mapBottomLayersToRender.add(createLayer("src/Map/CurrentTileMaps/floor_second.txt"));
+
+        // recreate and add area top layers
+        addAreaLayersForRender();
+    }
+
+
+    // creating map layer from a file
     private MapLayer createLayer(String path) {
-        int[][] tilesIds = readFileToGrid(path);
+        int[][] tilesIds = MapFileUtils.readFileToGrid(path);
         MapLayer layer = new MapLayer(FocusFarm.mapHeightTiles, FocusFarm.mapWidthTiles);
 
         for (int i = 0; i < FocusFarm.mapHeightTiles; i++) {
@@ -160,151 +235,60 @@ public class Map {
         trees.add(tree);
     }
 
-
+    
     // handling obstacles
     private void createObstaclesGrid() {
 
         // initialize obstacles ids
-        initializeObstaclesIds();
+        MapFileUtils.loadObstaclesIds();
 
         // obstacles from ground layers
+        addObstaclesFromGround();
+
+        // add obstacles from current area levels
+        addObstaclesFromCurrentAreas();
+    }
+
+    public void refreshObstaclesGrid() {
+
+        // clear current obstacles grid
+        clearAreaObstacles();
+
+        // re-add obstacles from area layers
+        addObstaclesFromCurrentAreas();
+    }
+
+    private void addObstaclesFromCurrentAreas() {
+        addObstaclesFromIdList("src/Map/CurrentTileMaps/floor_first.txt");
+        addObstaclesFromIdList("src/Map/CurrentTileMaps/floor_second.txt");
+        addObstaclesFromIdList("src/Map/CurrentTileMaps/layer_first.txt");
+        addObstaclesFromIdList("src/Map/CurrentTileMaps/layer_second.txt");
+        addObstaclesFromIdList("src/Map/CurrentTileMaps/layer_third.txt");
+        addObstaclesFromIdList("src/Map/CurrentTileMaps/roof.txt");
+    }
+
+    private void addObstaclesFromGround() {
         setObstacleValueByLayer("src/Map/TileMaps/Ground/ground_water.txt", true);
         setObstacleValueByLayer("src/Map/TileMaps/Ground/ground_bridges.txt", false);
         addObstaclesFromIdList("src/Map/TileMaps/Ground/ground_groundDecor.txt");
-
-        // obstacles lvl 0 temp
-        addObstaclesFromIdList("src/Map/TileMaps/Lvl0/Park/layer_first.txt");
-        addObstaclesFromIdList("src/Map/TileMaps/Lvl0/Park/layer_second.txt");
-        addObstaclesFromIdList("src/Map/TileMaps/Lvl0/Coop/layer_first.txt");
-        addObstaclesFromIdList("src/Map/TileMaps/Lvl0/Coop/layer_second.txt");
-        addObstaclesFromIdList("src/Map/TileMaps/Lvl0/Coop/layer_third.txt");
-        addObstaclesFromIdList("src/Map/TileMaps/Lvl0/Cows/layer_first.txt");
-        addObstaclesFromIdList("src/Map/TileMaps/Lvl0/Cows/layer_second.txt");
-        addObstaclesFromIdList("src/Map/TileMaps/Lvl0/Fields/layer_first.txt");
-        addObstaclesFromIdList("src/Map/TileMaps/Lvl0/Fields/layer_second.txt");
-        addObstaclesFromIdList("src/Map/TileMaps/Lvl0/House/floor_first.txt");
-        addObstaclesFromIdList("src/Map/TileMaps/Lvl0/House/layer_first.txt");
-        addObstaclesFromIdList("src/Map/TileMaps/Lvl0/House/layer_second.txt");
-        addObstaclesFromIdList("src/Map/TileMaps/Lvl0/Orchard/layer_first.txt");
-        addObstaclesFromIdList("src/Map/TileMaps/Lvl0/Orchard/layer_second.txt");
-
     }
 
-    private void initializeObstaclesIds() {
-        Collections.addAll(obstaclesIds,
-            123, // big shroom
-            124, // poison shroom
-            129, // stone 1
-            130, // stone 2
-            133, // big stone bottom-left
-            134, // big stone bottom-right
-            137, // large stone bottom-left
-            138, // large stone bottom-right
-            151, // small tree bottom
-            152, // bush
-            160, // large tree bottom-center
-            162, // small stump 1
-            163, // small stump 2
-            164, // stump 1 left
-            165, // stump 1 right
-            166, // stump 2 left
-            167, // stump 2 right
-            168, // small log
-            169, // big log left
-            170, // big log right
-            171, // big shroomy log left
-            172, // big shroomy log rig
-            180, // tree bottom-center
-            182, // fence up
-            183, // fence vertical
-            184, // fence bottom
-            185, // fence left
-            186, // fence horizontal
-            187, // fence right
-            188, // single fence
-            189, // single fence broken small
-            190, // single fence broken
-            191, // left fence broken
-            192, // right fence broken
-            193, // gate horizontal left
-            196, // gate horizontal right
-            197, // gate vertical up
-            200, // gate vertical down
-            201, // wall front
-            202, // wall left
-            203, // wall right
-            204, // wall bottom-left corner
-            205, // wall up-left big corner
-            206, // wall bottom-left big corner
-            207, // wall up-right big corner
-            208, // wall bottom-right big corner
-            209, // window
-            237, // small coop 1
-            238, // small coop 2
-            239, // small coop 3
-            240, // small coop 4
-            241, // small coop 5
-            242, // small coop 6
-            243, // big coop 1
-            244, // big coop 2
-            245, // big coop 3
-            246, // big coop 4
-            247, // big coop 5
-            248, // big coop 6
-            249, // big coop 7
-            250, // big coop 8
-            251, // big coop 9
-            252, // large coop 1
-            253, // large coop 2
-            254, // large coop 3
-            255, // large coop 4
-            256, // large coop 5
-            257, // large coop 6
-            258, // large coop 7
-            259, // large coop 8
-            260, // large coop 9
-            261, // large coop 10
-            262, // large coop 11
-            263, // large coop 12
-            264, // large coop 13
-            265, // large coop 14
-            266, // large coop 15
-            267, // large coop 16
-            268, // large coop 17
-            269, // large coop 18
-            270, // large coop 19
-            271, // large coop 20
-            272, // box
-            273, // two boxes top-left
-            274, // two boxes top-right
-            275, // two boxes bottom-left
-            276, // two boxes bottom-right
-            277, // hay
-            278, // big hay left
-            279, // big hay right
-            282, // water tray left
-            283, // water tray right
-            285, // mailbox bottom
-            287, // work station left-bottom
-            289, // work station right-bottom
-            291, // water well left-bottom
-            293, // water well right-bottom
-            303, // piknik basket
-            305, // flower pot
-            307, // pink bed bottom
-            308, // blue bed bottom
-            309, // green bed bottom
-            311, // green upside down bed bottom
-            312, // chair left
-            313, // chair down
-            314, // dresser
-            315, // table
-            325 //  sign
-        );
+    private void clearAreaObstacles() {
+        // reset obstacles grid to false
+        for (int i = 0; i < FocusFarm.mapHeightTiles; i++) {
+            for (int j = 0; j < FocusFarm.mapWidthTiles; j++) {
+                obstaclesGrid[i][j] = false;
+            }
+        }
+        
+        // re-add ground obstacles
+        setObstacleValueByLayer("src/Map/TileMaps/Ground/ground_water.txt", true);
+        setObstacleValueByLayer("src/Map/TileMaps/Ground/ground_bridges.txt", false);
+        addObstaclesFromIdList("src/Map/TileMaps/Ground/ground_groundDecor.txt");
     }
 
     private void setObstacleValueByLayer(String path, boolean value) {
-        int[][] tilesIds = readFileToGrid(path);
+        int[][] tilesIds = MapFileUtils.readFileToGrid(path);
         for (int i = 0; i < FocusFarm.mapHeightTiles; i++) {
             for (int j = 0; j < FocusFarm.mapWidthTiles; j++) {
                 if (tilesIds[i][j] != 0) {
@@ -315,7 +299,7 @@ public class Map {
     }
 
     private void addObstaclesFromIdList(String path) {
-        int[][] tilesIds = readFileToGrid(path);
+        int[][] tilesIds = MapFileUtils.readFileToGrid(path);
         for (int i = 0; i < FocusFarm.mapHeightTiles; i++) {
             for (int j = 0; j < FocusFarm.mapWidthTiles; j++) {
                 if (obstaclesIds.contains(tilesIds[i][j])) {
@@ -334,45 +318,45 @@ public class Map {
     }
 
 
-    // file reading
-    private int[][] readFileToGrid(String path) {
-        ArrayList<int[]> rows = new ArrayList<>();
-        String line;
-        String[] tokens;
+    // GUI testing method
+    public void showTestGUI() {
+        MapLevelTestGUI.showTestGUI(this);
+    }
 
-        try {
-            Scanner scanner = new Scanner(new File(path));
-            while (scanner.hasNextLine()) {
-                line = scanner.nextLine();
-                tokens = line.split("\\s+");
-                int[] row = new int[FocusFarm.mapWidthTiles];
-                for (int i = 0; i < tokens.length && i < FocusFarm.mapWidthTiles; i++) {
-                    row[i] = Integer.parseInt(tokens[i]);
-                }
-                rows.add(row);
-            }
-            scanner.close();
-        } catch (FileNotFoundException exception) {
-            throw new RuntimeException("Problem with reading tiles ids from file: " + path + "\n" + exception.getMessage());
-        }
 
-        return rows.toArray(new int[rows.size()][]);
+    // enums utility methods
+    private String getLevelPath(MapLevels level) {
+        return switch (level) {
+            case LEVEL_0 -> "Lvl0";
+            case LEVEL_1 -> "Lvl1";
+            case LEVEL_2 -> "Lvl2";
+            case LEVEL_3 -> "Lvl3";
+            case LEVEL_Star -> "LvlStar";
+        };
+    }
+
+    private String getAreaPath(MapArea area) {
+        return switch (area) {
+            case PARK -> "Park";
+            case COOP -> "Coop";
+            case COWS -> "Cows";
+            case FIELDS -> "Fields";
+            case HOUSE -> "House";
+            case ORCHARD -> "Orchard";
+        };
     }
 
 
     // updating & rendering
     public void update() {
-        //mapLayersToUpdate.forEach(MapLayer::update);
-        mapTopLayersToRender.forEach(MapLayer::update);
+        mapLayersToUpdate.forEach(MapLayer::update);
     }
 
     public void renderBottom(Graphics2D graphics2D) {
-        // rendering ground and floor layers
         mapBottomLayersToRender.forEach(layer -> layer.render(graphics2D));
     }
 
     public void renderTop(Graphics2D graphics2D) {
-        // rendering top layers
         mapTopLayersToRender.forEach(layer -> layer.render(graphics2D));
     }
 }
