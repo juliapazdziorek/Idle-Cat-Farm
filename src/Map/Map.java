@@ -94,14 +94,14 @@ public class Map {
     private void addAreaLayersForRender() {
 
         // bottom layers for current tile maps
-        mapBottomLayersToRender.add(createLayer("src/Map/CurrentTileMaps/floor_first.txt"));
-        mapBottomLayersToRender.add(createLayer("src/Map/CurrentTileMaps/floor_second.txt"));
+        mapBottomLayersToRender.add(createLayer("src/Map/CurrentTileMaps/floor_first.txt")); // first floor
+        mapBottomLayersToRender.add(createLayer("src/Map/CurrentTileMaps/floor_second.txt")); // second floor
 
         // top layers for current tile maps
-        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/layer_first.txt"));
-        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/layer_second.txt"));
-        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/layer_third.txt"));
-        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/roof.txt"));
+        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/layer_first.txt")); // first layer
+        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/layer_second.txt")); // second layer
+        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/layer_third.txt")); // third layer
+        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/roof.txt")); // roof
     }
 
     private void createAreasLayers() {
@@ -318,12 +318,6 @@ public class Map {
     }
 
 
-    // GUI testing method
-    public void showTestGUI() {
-        MapLevelTestGUI.showTestGUI(this);
-    }
-
-
     // enums utility methods
     private String getLevelPath(MapLevels level) {
         return switch (level) {
@@ -344,6 +338,12 @@ public class Map {
             case HOUSE -> "House";
             case ORCHARD -> "Orchard";
         };
+    }
+
+
+    // open the area level management GUI
+    public void openAreaLevelGUI() {
+        AreaLevelGUI.showGUI(this);
     }
 
 
