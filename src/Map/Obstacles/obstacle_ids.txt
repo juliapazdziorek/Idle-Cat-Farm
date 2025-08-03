@@ -1,0 +1,112 @@
+# Obstacle IDs Configuration
+# Format: ID // comment
+# Lines starting with # are ignored
+
+123 // big shroom
+124 // poison shroom
+129 // stone 1
+130 // stone 2
+133 // big stone bottom-left
+134 // big stone bottom-right
+137 // large stone bottom-left
+138 // large stone bottom-right
+151 // small tree bottom
+152 // bush
+160 // large tree bottom-center
+162 // small stump 1
+163 // small stump 2
+164 // stump 1 left
+165 // stump 1 right
+166 // stump 2 left
+167 // stump 2 right
+168 // small log
+169 // big log left
+170 // big log right
+171 // big shroomy log left
+172 // big shroomy log right
+180 // tree bottom-center
+182 // fence up
+183 // fence vertical
+184 // fence bottom
+185 // fence left
+186 // fence horizontal
+187 // fence right
+188 // single fence
+189 // single fence broken small
+190 // single fence broken
+191 // left fence broken
+192 // right fence broken
+193 // gate horizontal left
+196 // gate horizontal right
+197 // gate vertical up
+200 // gate vertical down
+201 // wall front
+202 // wall left
+203 // wall right
+204 // wall bottom-left corner
+205 // wall up-left big corner
+206 // wall bottom-left big corner
+207 // wall up-right big corner
+208 // wall bottom-right big corner
+209 // window
+237 // small coop 1
+238 // small coop 2
+239 // small coop 3
+240 // small coop 4
+241 // small coop 5
+242 // small coop 6
+243 // big coop 1
+244 // big coop 2
+245 // big coop 3
+246 // big coop 4
+247 // big coop 5
+248 // big coop 6
+249 // big coop 7
+250 // big coop 8
+251 // big coop 9
+252 // large coop 1
+253 // large coop 2
+254 // large coop 3
+255 // large coop 4
+256 // large coop 5
+257 // large coop 6
+258 // large coop 7
+259 // large coop 8
+260 // large coop 9
+261 // large coop 10
+262 // large coop 11
+263 // large coop 12
+264 // large coop 13
+265 // large coop 14
+266 // large coop 15
+267 // large coop 16
+268 // large coop 17
+269 // large coop 18
+270 // large coop 19
+271 // large coop 20
+272 // box
+273 // two boxes top-left
+274 // two boxes top-right
+275 // two boxes bottom-left
+276 // two boxes bottom-right
+277 // hay
+278 // big hay left
+279 // big hay right
+282 // water tray left
+283 // water tray right
+285 // mailbox bottom
+287 // work station left-bottom
+289 // work station right-bottom
+291 // water well left-bottom
+293 // water well right-bottom
+303 // picnic basket
+305 // flower pot
+307 // pink bed bottom
+308 // blue bed bottom
+309 // green bed bottom
+311 // green upside down bed bottom
+312 // chair left
+313 // chair down
+314 // dresser
+315 // table
+325 // sign
