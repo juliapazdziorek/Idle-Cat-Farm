@@ -1,5 +1,6 @@
 package Game;
 
+import Debug.DebugMenu;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -37,6 +38,9 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
                 rightPressed = true;
+                break;
+            case KeyEvent.VK_F3:
+                DebugMenu.toggleDebugMenu();
                 break;
         }
     }
