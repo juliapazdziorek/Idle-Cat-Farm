@@ -1,6 +1,5 @@
 package Entities.Nature;
 
-import Entities.Entity;
 import Entities.StaticEntity;
 
 import java.awt.*;
