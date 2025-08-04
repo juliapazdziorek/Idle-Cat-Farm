@@ -8,7 +8,6 @@ import java.awt.*;
 public class DebugMenu extends JFrame {
     
     private static DebugMenu instance;
-    private static boolean isVisible = false;
 
     private JCheckBox mouseMovementCheckbox;
     private JPanel areaLevelPanel;
@@ -25,10 +24,10 @@ public class DebugMenu extends JFrame {
             instance = new DebugMenu();
         }
         
-        isVisible = !isVisible;
-        instance.setVisible(isVisible);
+        boolean currentlyVisible = instance.isVisible();
+        instance.setVisible(!currentlyVisible);
         
-        if (isVisible) {
+        if (!currentlyVisible) {
             instance.refreshUI();
             instance.toFront();
             instance.requestFocus();
@@ -52,6 +51,13 @@ public class DebugMenu extends JFrame {
         
         // map section
         createMapSection(mainPanel);
+        
+        // close button
+        JButton closeButton = new JButton("Close (F3)");
+        closeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        closeButton.addActionListener(_ -> toggleDebugMenu());
+        mainPanel.add(Box.createVerticalStrut(20));
+        mainPanel.add(closeButton);
         
         add(mainPanel);
     }
