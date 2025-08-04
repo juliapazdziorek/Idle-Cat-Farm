@@ -135,17 +135,28 @@ public class Map {
     // managing areas
     private void updateAreasLayers() {
 
+        // clear map entities from previous levels
+        clearMapEntities();
+
         // recreate the current tile maps with updated levels
         createAreasLayersFiles();
 
         // refresh the rendered layers to reflect the changes
         refreshLayersRenderLists();
+        FocusFarm.entitiesHandler.createEntitiesFromMap();
 
         // refresh obstacles to match the new area levels
         refreshObstaclesGrid();
 
         // update pathfinding grid after obstacle changes
         pathfinder.updateGrid();
+    }
+
+    private void clearMapEntities() {
+        bushPositions.clear();
+        signsPositions.clear();
+        trees.clear();
+        FocusFarm.entitiesHandler.mapEntities.clear();
     }
 
     private void refreshLayersRenderLists() {

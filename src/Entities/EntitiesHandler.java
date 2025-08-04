@@ -10,7 +10,6 @@ import java.util.List;
 
 import Entities.Nature.Bush;
 import Entities.Nature.Tree;
-import Entities.Nature.TreePart;
 import Entities.Objects.Sign;
 import Map.Map;
 import Game.FocusFarm;
@@ -30,7 +29,9 @@ public class EntitiesHandler implements MouseListener {
         createEntitiesFromMap();
     }
     
-    private void createEntitiesFromMap() {
+    public void createEntitiesFromMap() {
+        // clear list before adding new entities
+        mapEntities.clear();
 
         // bushes
         for (Point position : map.bushPositions) {
@@ -84,12 +85,15 @@ public class EntitiesHandler implements MouseListener {
             }
         }
 
-        int worldX = (mouseX - FocusFarm.camera.position.x) / FocusFarm.scale;
-        int worldY = (mouseY - FocusFarm.camera.position.y) / FocusFarm.scale;
-        int tileX = worldX / FocusFarm.tileSize;
-        int tileY = worldY / FocusFarm.tileSize;
+        // mouse cat movement
+        if (Debug.DebugMenu.mouseMovementEnabled) {
+            int worldX = (mouseX - FocusFarm.camera.position.x) / FocusFarm.scale;
+            int worldY = (mouseY - FocusFarm.camera.position.y) / FocusFarm.scale;
+            int tileX = worldX / FocusFarm.tileSize;
+            int tileY = worldY / FocusFarm.tileSize;
 
-        cat.moveToTile(tileX, tileY);
+            cat.moveToTile(tileX, tileY);
+        }
     }
 
     @Override
