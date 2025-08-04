@@ -11,8 +11,8 @@ import java.util.List;
 import Entities.Nature.Bush;
 import Entities.Nature.Tree;
 import Entities.Objects.Sign;
+import Game.Farm;
 import Map.Map;
-import Game.FocusFarm;
 
 public class EntitiesHandler implements MouseListener {
 
@@ -87,10 +87,10 @@ public class EntitiesHandler implements MouseListener {
 
         // mouse cat movement
         if (Debug.DebugMenu.mouseMovementEnabled) {
-            int worldX = (mouseX - FocusFarm.camera.position.x) / FocusFarm.scale;
-            int worldY = (mouseY - FocusFarm.camera.position.y) / FocusFarm.scale;
-            int tileX = worldX / FocusFarm.tileSize;
-            int tileY = worldY / FocusFarm.tileSize;
+            int worldX = (mouseX - Farm.camera.position.x) / Farm.scale;
+            int worldY = (mouseY - Farm.camera.position.y) / Farm.scale;
+            int tileX = worldX / Farm.tileSize;
+            int tileY = worldY / Farm.tileSize;
 
             cat.moveToTile(tileX, tileY);
         }

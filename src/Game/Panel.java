@@ -17,13 +17,13 @@ public class Panel extends JPanel {
 
     // updating & rendering
     public void update() {
-        FocusFarm.entitiesHandler.update();
+        Farm.entitiesHandler.update();
     }
 
     @Override
     protected void paintComponent(Graphics graphics) {
         Graphics2D graphics2D = (Graphics2D) graphics;
-        FocusFarm.entitiesHandler.render(graphics2D);
+        Farm.entitiesHandler.render(graphics2D);
         graphics2D.dispose();
     }
 }

@@ -1,6 +1,6 @@
 package Entities;
 
-import Game.FocusFarm;
+import Game.Farm;
 import Resources.Animation;
 
 import java.awt.*;
@@ -34,10 +34,10 @@ public class AnimatedEntity extends Entity {
     public void render(Graphics2D graphics2D) {
         if (animation != null) {
             graphics2D.drawImage(animation.getCurrentFrameImage(),
-                    FocusFarm.camera.position.x + position.x * FocusFarm.scale,
-                    FocusFarm.camera.position.y + position.y * FocusFarm.scale,
-                    FocusFarm.scaledTileSize,
-                    FocusFarm.scaledTileSize,
+                    Farm.camera.position.x + position.x * Farm.scale,
+                    Farm.camera.position.y + position.y * Farm.scale,
+                    Farm.scaledTileSize,
+                    Farm.scaledTileSize,
                     null);
         }
     }

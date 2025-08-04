@@ -1,6 +1,6 @@
 package Debug;
 
-import Game.FocusFarm;
+import Game.Farm;
 import Map.Map;
 import javax.swing.*;
 import java.awt.*;
@@ -91,14 +91,14 @@ public class DebugMenu extends JFrame {
             JLabel areaLabel = new JLabel(area.name() + ":");
             JComboBox<Map.MapLevels> levelCombo = new JComboBox<>(Map.MapLevels.values());
             
-            if (FocusFarm.entitiesHandler != null && FocusFarm.entitiesHandler.map != null) {
-                levelCombo.setSelectedItem(FocusFarm.entitiesHandler.map.getAreaLevel(area));
+            if (Farm.entitiesHandler != null && Farm.entitiesHandler.map != null) {
+                levelCombo.setSelectedItem(Farm.entitiesHandler.map.getAreaLevel(area));
             }
             
             levelCombo.addActionListener(_ -> {
                 Map.MapLevels selectedLevel = (Map.MapLevels) levelCombo.getSelectedItem();
-                if (FocusFarm.entitiesHandler != null && FocusFarm.entitiesHandler.map != null) {
-                    FocusFarm.entitiesHandler.map.setAreaLevel(area, selectedLevel);
+                if (Farm.entitiesHandler != null && Farm.entitiesHandler.map != null) {
+                    Farm.entitiesHandler.map.setAreaLevel(area, selectedLevel);
                 }
             });
             
@@ -136,9 +136,9 @@ public class DebugMenu extends JFrame {
     }
     
     private void setAllAreasToLevel(Map.MapLevels level) {
-        if (FocusFarm.entitiesHandler != null && FocusFarm.entitiesHandler.map != null) {
+        if (Farm.entitiesHandler != null && Farm.entitiesHandler.map != null) {
             for (Map.MapArea area : Map.MapArea.values()) {
-                FocusFarm.entitiesHandler.map.setAreaLevel(area, level);
+                Farm.entitiesHandler.map.setAreaLevel(area, level);
             }
             refreshUI();
         }
@@ -153,7 +153,7 @@ public class DebugMenu extends JFrame {
                 @SuppressWarnings("unchecked")
                 JComboBox<Map.MapLevels> combo = (JComboBox<Map.MapLevels>) components[i];
                 Map.MapArea area = Map.MapArea.values()[(i - 1) / 2];
-                combo.setSelectedItem(FocusFarm.entitiesHandler.map.getAreaLevel(area));
+                combo.setSelectedItem(Farm.entitiesHandler.map.getAreaLevel(area));
             }
         }
     }

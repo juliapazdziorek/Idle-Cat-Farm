@@ -1,7 +1,7 @@
 package Entities.Characters;
 
 import Entities.AnimatedEntity;
-import Game.FocusFarm;
+import Game.Farm;
 import Resources.Animation;
 import Pathfinding.Node;
 import Map.Map;
@@ -46,10 +46,10 @@ public class FarmCat extends AnimatedEntity {
     private int directionChangeCounter;
     
     public FarmCat(int tileX, int tileY) {
-        super(new Point(tileX * FocusFarm.tileSize + FocusFarm.tileSize / 2, tileY * FocusFarm.tileSize + FocusFarm.tileSize / 2));
+        super(new Point(tileX * Farm.tileSize + Farm.tileSize / 2, tileY * Farm.tileSize + Farm.tileSize / 2));
 
         // get animations
-        animations = FocusFarm.resourceHandler.createCatAnimationMap();
+        animations = Farm.resourceHandler.createCatAnimationMap();
 
         // initialize cat state variables
         farmCatFacing = FarmCatFacing.DOWN;
@@ -63,8 +63,8 @@ public class FarmCat extends AnimatedEntity {
 
     // pathfinding
     public void moveToTile(int tileX, int tileY) {
-        int startTileX = position.x / FocusFarm.tileSize;
-        int startTileY = position.y / FocusFarm.tileSize;
+        int startTileX = position.x / Farm.tileSize;
+        int startTileY = position.y / Farm.tileSize;
 
         currentPath = Map.pathfinder.findPath(startTileX, startTileY, tileX, tileY);
 
@@ -76,8 +76,8 @@ public class FarmCat extends AnimatedEntity {
             moveCounter = 0;
             
             Node nextNode = currentPath.get(currentPathIndex);
-            targetX = nextNode.x * FocusFarm.tileSize + FocusFarm.tileSize / 2;
-            targetY = nextNode.y * FocusFarm.tileSize + FocusFarm.tileSize / 2;
+            targetX = nextNode.x * Farm.tileSize + Farm.tileSize / 2;
+            targetY = nextNode.y * Farm.tileSize + Farm.tileSize / 2;
         }
     }
 
@@ -119,8 +119,8 @@ public class FarmCat extends AnimatedEntity {
             }
 
             Node nextNode = currentPath.get(currentPathIndex);
-            targetX = nextNode.x * FocusFarm.tileSize + FocusFarm.tileSize / 2;
-            targetY = nextNode.y * FocusFarm.tileSize + FocusFarm.tileSize / 2;
+            targetX = nextNode.x * Farm.tileSize + Farm.tileSize / 2;
+            targetY = nextNode.y * Farm.tileSize + Farm.tileSize / 2;
             deltaX = targetX - position.x;
             deltaY = targetY - position.y;
         }
@@ -338,10 +338,10 @@ public class FarmCat extends AnimatedEntity {
     @Override
     public void render(Graphics2D graphics2D) {
         graphics2D.drawImage(currentAnimation.getCurrentFrameImage(),
-                (position.x - catWidth / 2) * FocusFarm.scale + FocusFarm.camera.position.x,
-                (position.y - catHeight / 2) * FocusFarm.scale + FocusFarm.camera.position.y,
-                catWidth * FocusFarm.scale,
-                catHeight * FocusFarm.scale,
+                (position.x - catWidth / 2) * Farm.scale + Farm.camera.position.x,
+                (position.y - catHeight / 2) * Farm.scale + Farm.camera.position.y,
+                catWidth * Farm.scale,
+                catHeight * Farm.scale,
                 null);
     }
 }

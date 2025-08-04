@@ -4,7 +4,7 @@ import Entities.AnimatedEntity;
 import Entities.StaticEntity;
 import Entities.Nature.TreePart;
 import Entities.Nature.Tree;
-import Game.FocusFarm;
+import Game.Farm;
 import Resources.Animation;
 import Pathfinding.AStar;
 
@@ -57,7 +57,7 @@ public class Map {
         }
 
         // obstacles
-        obstaclesGrid = new boolean[FocusFarm.mapHeightTiles][FocusFarm.mapWidthTiles];
+        obstaclesGrid = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
         obstaclesIds = new ArrayList<>();
         Collections.addAll(obstaclesIds, 123, // big shroom
                 124, // poison shroom
@@ -254,7 +254,7 @@ public class Map {
 
         // refresh the rendered layers to reflect the changes
         refreshLayersRenderLists();
-        FocusFarm.entitiesHandler.createEntitiesFromMap();
+        Farm.entitiesHandler.createEntitiesFromMap();
 
         // refresh obstacles to match the new area levels
         refreshObstaclesGrid();
@@ -267,7 +267,7 @@ public class Map {
         bushPositions.clear();
         signsPositions.clear();
         trees.clear();
-        FocusFarm.entitiesHandler.mapEntities.clear();
+        Farm.entitiesHandler.mapEntities.clear();
     }
 
     private void refreshLayersRenderLists() {
@@ -296,10 +296,10 @@ public class Map {
     // creating map layer from a file
     private MapLayer createLayer(String path) {
         int[][] tilesIds = MapFileUtils.readFileToGrid(path);
-        MapLayer layer = new MapLayer(FocusFarm.mapHeightTiles, FocusFarm.mapWidthTiles);
+        MapLayer layer = new MapLayer(Farm.mapHeightTiles, Farm.mapWidthTiles);
 
-        for (int i = 0; i < FocusFarm.mapHeightTiles; i++) {
-            for (int j = 0; j < FocusFarm.mapWidthTiles; j++) {
+        for (int i = 0; i < Farm.mapHeightTiles; i++) {
+            for (int j = 0; j < Farm.mapWidthTiles; j++) {
 
                 if (tilesIds[i][j] != 0) {
 
@@ -307,7 +307,7 @@ public class Map {
 
                     // bush positions
                     if (tilesIds[i][j] == 152) {
-                        bushPositions.add(new Point(j * FocusFarm.tileSize, i * FocusFarm.tileSize));
+                        bushPositions.add(new Point(j * Farm.tileSize, i * Farm.tileSize));
                         continue;
                     }
 
@@ -319,19 +319,19 @@ public class Map {
 
                     // signs positions
                     if (tilesIds[i][j] == 327) {
-                        signsPositions.add(new Point(j * FocusFarm.tileSize, i * FocusFarm.tileSize));
+                        signsPositions.add(new Point(j * Farm.tileSize, i * Farm.tileSize));
                         continue;
                     }
 
 
                     // animated tiles
-                    if (FocusFarm.resourceHandler.animationsMap.containsKey(tilesIds[i][j])) {
-                        Animation animation = FocusFarm.resourceHandler.animationsMap.get(tilesIds[i][j]).get();
-                        layer.tiles[i][j] = new AnimatedEntity(new Point(j * FocusFarm.tileSize, i * FocusFarm.tileSize), animation);
+                    if (Farm.resourceHandler.animationsMap.containsKey(tilesIds[i][j])) {
+                        Animation animation = Farm.resourceHandler.animationsMap.get(tilesIds[i][j]).get();
+                        layer.tiles[i][j] = new AnimatedEntity(new Point(j * Farm.tileSize, i * Farm.tileSize), animation);
 
                         // static tiles
-                    } else if (FocusFarm.resourceHandler.tilesMap.containsKey(tilesIds[i][j])) {
-                        layer.tiles[i][j] = new StaticEntity(new Point(j * FocusFarm.tileSize, i * FocusFarm.tileSize), FocusFarm.resourceHandler.tilesMap.get(tilesIds[i][j]));
+                    } else if (Farm.resourceHandler.tilesMap.containsKey(tilesIds[i][j])) {
+                        layer.tiles[i][j] = new StaticEntity(new Point(j * Farm.tileSize, i * Farm.tileSize), Farm.resourceHandler.tilesMap.get(tilesIds[i][j]));
                     }
                 }
             }
@@ -341,7 +341,7 @@ public class Map {
 
     // create a tree
     private void createTree(int[][] tilesIds, int i, int j) {
-        Point centerPosition = new Point(j * FocusFarm.tileSize, i * FocusFarm.tileSize);
+        Point centerPosition = new Point(j * Farm.tileSize, i * Farm.tileSize);
         Tree tree = new Tree(centerPosition);
 
         for (int deltaI = -1; deltaI <= 1; deltaI++) {
@@ -350,11 +350,11 @@ public class Map {
                 int newJ = j + deltaJ;
 
                 // Check bounds and if the tile ID is a tree part
-                if (newI >= 0 && newI < FocusFarm.mapHeightTiles &&
-                        newJ >= 0 && newJ < FocusFarm.mapWidthTiles &&
+                if (newI >= 0 && newI < Farm.mapHeightTiles &&
+                        newJ >= 0 && newJ < Farm.mapWidthTiles &&
                         treesIds.contains(tilesIds[newI][newJ])) {
 
-                    Point partPosition = new Point(newJ * FocusFarm.tileSize, newI * FocusFarm.tileSize);
+                    Point partPosition = new Point(newJ * Farm.tileSize, newI * Farm.tileSize);
                     TreePart part = new TreePart(partPosition, tilesIds[newI][newJ]);
                     tree.addTreePart(part);
                 }
@@ -400,8 +400,8 @@ public class Map {
 
     private void clearObstaclesGrid() {
         // reset obstacles grid to false
-        for (int i = 0; i < FocusFarm.mapHeightTiles; i++) {
-            for (int j = 0; j < FocusFarm.mapWidthTiles; j++) {
+        for (int i = 0; i < Farm.mapHeightTiles; i++) {
+            for (int j = 0; j < Farm.mapWidthTiles; j++) {
                 obstaclesGrid[i][j] = false;
             }
         }
@@ -409,8 +409,8 @@ public class Map {
 
     private void setObstacleValueByLayer(String path, boolean value) {
         int[][] tilesIds = MapFileUtils.readFileToGrid(path);
-        for (int i = 0; i < FocusFarm.mapHeightTiles; i++) {
-            for (int j = 0; j < FocusFarm.mapWidthTiles; j++) {
+        for (int i = 0; i < Farm.mapHeightTiles; i++) {
+            for (int j = 0; j < Farm.mapWidthTiles; j++) {
                 if (tilesIds[i][j] != 0) {
                     obstaclesGrid[i][j] = value;
                 }
@@ -420,8 +420,8 @@ public class Map {
 
     private void addObstaclesFromIdList(String path) {
         int[][] tilesIds = MapFileUtils.readFileToGrid(path);
-        for (int i = 0; i < FocusFarm.mapHeightTiles; i++) {
-            for (int j = 0; j < FocusFarm.mapWidthTiles; j++) {
+        for (int i = 0; i < Farm.mapHeightTiles; i++) {
+            for (int j = 0; j < Farm.mapWidthTiles; j++) {
                 if (obstaclesIds.contains(tilesIds[i][j])) {
                     obstaclesGrid[i][j] = true;
                 }
@@ -430,7 +430,7 @@ public class Map {
     }
 
     public boolean hasObstacleAt(int i, int j) {
-        if (i < 0 || i >= FocusFarm.mapHeightTiles || j < 0 || j >= FocusFarm.mapWidthTiles) {
+        if (i < 0 || i >= Farm.mapHeightTiles || j < 0 || j >= Farm.mapWidthTiles) {
             return true;
         }
 

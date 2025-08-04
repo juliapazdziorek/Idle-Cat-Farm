@@ -1,6 +1,7 @@
 package Pathfinding;
 
-import Game.FocusFarm;
+import Game.Farm;
+
 import java.util.*;
 
 
@@ -14,7 +15,7 @@ public class AStar {
     private final Set<Node> closedSet;
     
     public AStar() {
-        grid = new Node[FocusFarm.mapHeightTiles][FocusFarm.mapWidthTiles];
+        grid = new Node[Farm.mapHeightTiles][Farm.mapWidthTiles];
         openSet = new ArrayList<>();
         closedSet = new HashSet<>();
 
@@ -22,8 +23,8 @@ public class AStar {
     }
 
     private void initializeGrid() {
-        for (int y = 0; y < FocusFarm.mapHeightTiles; y++) {
-            for (int x = 0; x < FocusFarm.mapWidthTiles; x++) {
+        for (int y = 0; y < Farm.mapHeightTiles; y++) {
+            for (int x = 0; x < Farm.mapWidthTiles; x++) {
                 grid[y][x] = new Node(x, y, isPositionWalkable(x, y));
             }
         }
@@ -31,7 +32,7 @@ public class AStar {
     
     // check walkable positions
     private boolean isPositionWalkable(int x, int y) {
-        if (x < 0 || x >= FocusFarm.mapWidthTiles || y < 0 || y >= FocusFarm.mapHeightTiles) {
+        if (x < 0 || x >= Farm.mapWidthTiles || y < 0 || y >= Farm.mapHeightTiles) {
             return false;
         }
 
@@ -39,7 +40,7 @@ public class AStar {
     }
 
     private boolean isObstacleAt(int x, int y) {
-        return FocusFarm.entitiesHandler.map.hasObstacleAt(y, x); // swap x,y to match map's [row][col] convention
+        return Farm.entitiesHandler.map.hasObstacleAt(y, x); // swap x,y to match map's [row][col] convention
     }
 
 
@@ -118,7 +119,7 @@ public class AStar {
             int newX = node.x + dx[i];
             int newY = node.y + dy[i];
             
-            if (newX >= 0 && newX < FocusFarm.mapWidthTiles && newY >= 0 && newY < FocusFarm.mapHeightTiles) {
+            if (newX >= 0 && newX < Farm.mapWidthTiles && newY >= 0 && newY < Farm.mapHeightTiles) {
                 neighbors.add(grid[newY][newX]);
             }
         }
@@ -149,16 +150,16 @@ public class AStar {
 
     // grid handling
     private void resetGridNodes() {
-        for (int y = 0; y < FocusFarm.mapHeightTiles; y++) {
-            for (int x = 0; x < FocusFarm.mapWidthTiles; x++) {
+        for (int y = 0; y < Farm.mapHeightTiles; y++) {
+            for (int x = 0; x < Farm.mapWidthTiles; x++) {
                 grid[y][x].reset();
             }
         }
     }
 
     public void updateGrid() {
-        for (int y = 0; y < FocusFarm.mapHeightTiles; y++) {
-            for (int x = 0; x < FocusFarm.mapWidthTiles; x++) {
+        for (int y = 0; y < Farm.mapHeightTiles; y++) {
+            for (int x = 0; x < Farm.mapWidthTiles; x++) {
                 grid[y][x].isWalkable = isPositionWalkable(x, y);
             }
         }

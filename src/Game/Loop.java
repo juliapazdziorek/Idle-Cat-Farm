@@ -24,7 +24,7 @@ public class Loop implements Runnable {
     public void run() {
         long lastTime = System.nanoTime();
         double delta = 0;
-        final double timePerUpdate = 1_000_000_000.0 / FocusFarm.fps;
+        final double timePerUpdate = 1_000_000_000.0 / Farm.fps;
 
         while (running) {
             long now = System.nanoTime();
@@ -43,11 +43,11 @@ public class Loop implements Runnable {
 
     // updating & rendering
     private void update() {
-        FocusFarm.panel.update();
-        FocusFarm.camera.update();
+        Farm.panel.update();
+        Farm.camera.update();
     }
 
     private void render() {
-        FocusFarm.panel.repaint();
+        Farm.panel.repaint();
     }
 }

@@ -1,6 +1,6 @@
 package Entities;
 
-import Game.FocusFarm;
+import Game.Farm;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -33,10 +33,10 @@ public class StaticEntity extends Entity {
     public void render(Graphics2D graphics2D) {
         if (image != null) {
             graphics2D.drawImage(image,
-                    FocusFarm.camera.position.x + position.x * FocusFarm.scale,
-                    FocusFarm.camera.position.y + position.y * FocusFarm.scale,
-                    FocusFarm.scaledTileSize,
-                    FocusFarm.scaledTileSize,
+                    Farm.camera.position.x + position.x * Farm.scale,
+                    Farm.camera.position.y + position.y * Farm.scale,
+                    Farm.scaledTileSize,
+                    Farm.scaledTileSize,
                     null);
         }
     }

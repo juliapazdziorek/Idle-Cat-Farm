@@ -1,10 +1,10 @@
-import Game.FocusFarm;
+import Game.Farm;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        new FocusFarm();
+        new Farm();
 
         //    \|/              (__)
         //             `\------(oo)

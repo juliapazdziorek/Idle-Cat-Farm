@@ -1,6 +1,7 @@
 package Map;
 
-import Game.FocusFarm;
+import Game.Farm;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,15 +12,15 @@ public class MapFileUtils {
 
     // read grid from a file
     public static int[][] readFileToGrid(String filePath) {
-        int[][] grid = new int[FocusFarm.mapHeightTiles][FocusFarm.mapWidthTiles];
+        int[][] grid = new int[Farm.mapHeightTiles][Farm.mapWidthTiles];
 
         try (Scanner scanner = new Scanner(new File(filePath))) {
-            for (int i = 0; i < FocusFarm.mapHeightTiles; i++) {
+            for (int i = 0; i < Farm.mapHeightTiles; i++) {
                 if (scanner.hasNextLine()) {
                     String line = scanner.nextLine().trim();
                     String[] values = line.split("\\s+");
 
-                    for (int j = 0; j < Math.min(values.length, FocusFarm.mapWidthTiles); j++) {
+                    for (int j = 0; j < Math.min(values.length, Farm.mapWidthTiles); j++) {
                         grid[i][j] = Integer.parseInt(values[j]);
                     }
                 }
@@ -44,11 +45,11 @@ public class MapFileUtils {
             }
 
             try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
-                for (int i = 0; i < FocusFarm.mapHeightTiles; i++) {
+                for (int i = 0; i < Farm.mapHeightTiles; i++) {
                     StringBuilder line = new StringBuilder();
-                    for (int j = 0; j < FocusFarm.mapWidthTiles; j++) {
+                    for (int j = 0; j < Farm.mapWidthTiles; j++) {
                         line.append(grid[i][j]);
-                        if (j < FocusFarm.mapWidthTiles - 1) {
+                        if (j < Farm.mapWidthTiles - 1) {
                             line.append(" ");
                         }
                     }
@@ -72,7 +73,7 @@ public class MapFileUtils {
     }
 
     private static int[][] createEmptyGrid() {
-        return new int[FocusFarm.mapHeightTiles][FocusFarm.mapWidthTiles];
+        return new int[Farm.mapHeightTiles][Farm.mapWidthTiles];
     }
 
 
@@ -84,8 +85,8 @@ public class MapFileUtils {
         try {
             int[][] sourceGrid = readFileToGrid(sourcePath);
             int[][] targetGrid = readFileToGrid(targetPath);
-            for (int i = 0; i < FocusFarm.mapHeightTiles; i++) {
-                for (int j = 0; j < FocusFarm.mapWidthTiles; j++) {
+            for (int i = 0; i < Farm.mapHeightTiles; i++) {
+                for (int j = 0; j < Farm.mapWidthTiles; j++) {
                     if (sourceGrid[i][j] != 0) {
                         targetGrid[i][j] = sourceGrid[i][j];
                     }

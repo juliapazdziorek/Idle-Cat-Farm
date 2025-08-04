@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class FocusFarm {
+public class Farm {
 
     // loop
     static public final int fps = 60;
@@ -35,7 +35,7 @@ public class FocusFarm {
     static public MouseHandler mouseHandler;
 
 
-    public FocusFarm() {
+    public Farm() {
         SwingUtilities.invokeLater(this::launchFarm);
     }
 
@@ -55,7 +55,7 @@ public class FocusFarm {
 
 
         // window setup
-        frame = new JFrame("FocusFarm");
+        frame = new JFrame("Cat Farm");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(true);
         frame.setFocusable(true);

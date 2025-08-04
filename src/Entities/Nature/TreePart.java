@@ -1,7 +1,7 @@
 package Entities.Nature;
 
 import Entities.Entity;
-import Game.FocusFarm;
+import Game.Farm;
 import Resources.Animation;
 
 import java.awt.*;
@@ -19,8 +19,8 @@ public class TreePart extends Entity {
 
     public TreePart(Point position, int tileId) {
         super(position);
-        staticImage = FocusFarm.resourceHandler.entitiesResourcesMap.get("tree").get(String.valueOf(tileId));
-        clickAnimation = FocusFarm.resourceHandler.createTreeClickAnimationMap().get(tileId);
+        staticImage = Farm.resourceHandler.entitiesResourcesMap.get("tree").get(String.valueOf(tileId));
+        clickAnimation = Farm.resourceHandler.createTreeClickAnimationMap().get(tileId);
 
         clickable = true;
     }
@@ -80,10 +80,10 @@ public class TreePart extends Entity {
     public void render(Graphics2D graphics2D) {
         BufferedImage imageToRender = getCurrentImage();
         graphics2D.drawImage(imageToRender,
-                FocusFarm.camera.position.x + position.x * FocusFarm.scale,
-                FocusFarm.camera.position.y + position.y * FocusFarm.scale,
-                FocusFarm.scaledTileSize,
-                FocusFarm.scaledTileSize,
+                Farm.camera.position.x + position.x * Farm.scale,
+                Farm.camera.position.y + position.y * Farm.scale,
+                Farm.scaledTileSize,
+                Farm.scaledTileSize,
                 null);
     }
 }

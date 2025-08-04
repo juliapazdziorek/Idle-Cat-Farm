@@ -37,16 +37,16 @@ public class Camera {
     // updating
     public void update() {
 
-        if (FocusFarm.keyHandler.upPressed && !blockedUp) {
+        if (Farm.keyHandler.upPressed && !blockedUp) {
             position.y += cameraSpeed;
         }
-        if (FocusFarm.keyHandler.downPressed && !blockedDown) {
+        if (Farm.keyHandler.downPressed && !blockedDown) {
             position.y -= cameraSpeed;
         }
-        if (FocusFarm.keyHandler.leftPressed && !blockedLeft) {
+        if (Farm.keyHandler.leftPressed && !blockedLeft) {
             position.x += cameraSpeed;
         }
-        if (FocusFarm.keyHandler.rightPressed && !blockedRight) {
+        if (Farm.keyHandler.rightPressed && !blockedRight) {
             position.x -= cameraSpeed;
         }
 
@@ -56,8 +56,8 @@ public class Camera {
     // checking for blockage
     private void checkIfBlocked() {
         blockedUp = position.y + cameraSpeed > 0;
-        blockedDown = position.y - cameraSpeed < - FocusFarm.mapHeight + FocusFarm.frame.getHeight();
+        blockedDown = position.y - cameraSpeed < - Farm.mapHeight + Farm.frame.getHeight();
         blockedLeft = position.x + cameraSpeed > 0;
-        blockedRight = position.x - cameraSpeed < - FocusFarm.mapWidth + FocusFarm.frame.getWidth();
+        blockedRight = position.x - cameraSpeed < - Farm.mapWidth + Farm.frame.getWidth();
     }
 }

@@ -1,7 +1,7 @@
 package Entities.Nature;
 
 import Entities.StaticEntity;
-import Game.FocusFarm;
+import Game.Farm;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -19,7 +19,7 @@ public class Bush extends StaticEntity {
 
     public Bush(Point position) {
         super(position);
-        imageMap = FocusFarm.resourceHandler.entitiesResourcesMap.get("bush");
+        imageMap = Farm.resourceHandler.entitiesResourcesMap.get("bush");
         this.currentImage = imageMap.get("bush grown");
 
         clickable = true;
@@ -53,10 +53,10 @@ public class Bush extends StaticEntity {
     @Override
     public void render(Graphics2D graphics2D) {
         graphics2D.drawImage(currentImage,
-                FocusFarm.camera.position.x + position.x * FocusFarm.scale,
-                FocusFarm.camera.position.y + position.y * FocusFarm.scale,
-                FocusFarm.scaledTileSize,
-                FocusFarm.scaledTileSize,
+                Farm.camera.position.x + position.x * Farm.scale,
+                Farm.camera.position.y + position.y * Farm.scale,
+                Farm.scaledTileSize,
+                Farm.scaledTileSize,
                 null);
     }
 }

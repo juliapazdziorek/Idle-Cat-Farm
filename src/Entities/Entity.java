@@ -1,6 +1,6 @@
 package Entities;
 
-import Game.FocusFarm;
+import Game.Farm;
 
 import java.awt.*;
 
@@ -18,12 +18,12 @@ public abstract class Entity {
 
     public boolean isPointInside(int mouseX, int mouseY) {
         // convert mouse screen coordinates to world coordinates
-        int worldMouseX = (mouseX - FocusFarm.camera.position.x) / FocusFarm.scale;
-        int worldMouseY = (mouseY - FocusFarm.camera.position.y) / FocusFarm.scale;
+        int worldMouseX = (mouseX - Farm.camera.position.x) / Farm.scale;
+        int worldMouseY = (mouseY - Farm.camera.position.y) / Farm.scale;
 
-        int halfTile = FocusFarm.tileSize / 2;
-        return worldMouseX >= position.x - halfTile && worldMouseX <= position.x + FocusFarm.tileSize + halfTile &&
-               worldMouseY >= position.y + halfTile && worldMouseY <= position.y + FocusFarm.tileSize + halfTile;
+        int halfTile = Farm.tileSize / 2;
+        return worldMouseX >= position.x - halfTile && worldMouseX <= position.x + Farm.tileSize + halfTile &&
+               worldMouseY >= position.y + halfTile && worldMouseY <= position.y + Farm.tileSize + halfTile;
     }
 
     // abstract updating

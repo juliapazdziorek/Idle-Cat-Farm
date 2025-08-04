@@ -1,7 +1,7 @@
 package Entities.Objects;
 
 import Entities.StaticEntity;
-import Game.FocusFarm;
+import Game.Farm;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -18,7 +18,7 @@ public class Sign extends StaticEntity {
 
     public Sign(Point position) {
         super(position);
-        imageMap = FocusFarm.resourceHandler.entitiesResourcesMap.get("signs");
+        imageMap = Farm.resourceHandler.entitiesResourcesMap.get("signs");
         currentImage = imageMap.get("empty");
     }
 
@@ -51,10 +51,10 @@ public class Sign extends StaticEntity {
     @Override
     public void render(Graphics2D graphics2D) {
         graphics2D.drawImage(currentImage,
-                FocusFarm.camera.position.x + position.x * FocusFarm.scale,
-                FocusFarm.camera.position.y + position.y * FocusFarm.scale,
-                FocusFarm.scaledTileSize,
-                FocusFarm.scaledTileSize,
+                Farm.camera.position.x + position.x * Farm.scale,
+                Farm.camera.position.y + position.y * Farm.scale,
+                Farm.scaledTileSize,
+                Farm.scaledTileSize,
                 null);
     }
 }
