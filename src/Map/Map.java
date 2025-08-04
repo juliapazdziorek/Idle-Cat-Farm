@@ -72,7 +72,7 @@ public class Map {
         // create obstacles grid
         createObstaclesGrid();
     }
-    
+
     public static void initializePathfinder() {
         if (pathfinder == null) {
             pathfinder = new AStar();
@@ -143,7 +143,7 @@ public class Map {
 
         // refresh obstacles to match the new area levels
         refreshObstaclesGrid();
-        
+
         // update pathfinding grid after obstacle changes
         pathfinder.updateGrid();
     }
@@ -207,7 +207,7 @@ public class Map {
                         Animation animation = FocusFarm.resourceHandler.animationsMap.get(tilesIds[i][j]).get();
                         layer.tiles[i][j] = new AnimatedEntity(new Point(j * FocusFarm.tileSize, i * FocusFarm.tileSize), animation);
 
-                    // static tiles
+                        // static tiles
                     } else if (FocusFarm.resourceHandler.tilesMap.containsKey(tilesIds[i][j])) {
                         layer.tiles[i][j] = new StaticEntity(new Point(j * FocusFarm.tileSize, i * FocusFarm.tileSize), FocusFarm.resourceHandler.tilesMap.get(tilesIds[i][j]));
                     }
@@ -226,12 +226,12 @@ public class Map {
             for (int deltaJ = -1; deltaJ <= 1; deltaJ++) {
                 int newI = i + deltaI;
                 int newJ = j + deltaJ;
-                
+
                 // Check bounds and if the tile ID is a tree part
                 if (newI >= 0 && newI < FocusFarm.mapHeightTiles &&
-                    newJ >= 0 && newJ < FocusFarm.mapWidthTiles &&
-                    treesIds.contains(tilesIds[newI][newJ])) {
-                    
+                        newJ >= 0 && newJ < FocusFarm.mapWidthTiles &&
+                        treesIds.contains(tilesIds[newI][newJ])) {
+
                     Point partPosition = new Point(newJ * FocusFarm.tileSize, newI * FocusFarm.tileSize);
                     TreePart part = new TreePart(partPosition, tilesIds[newI][newJ]);
                     tree.addTreePart(part);
@@ -242,7 +242,7 @@ public class Map {
         trees.add(tree);
     }
 
-    
+
     // handling obstacles
     private void createObstaclesGrid() {
 
@@ -341,12 +341,6 @@ public class Map {
             case HOUSE -> "House";
             case ORCHARD -> "Orchard";
         };
-    }
-
-
-    // open the area level management GUI
-    public void openAreaLevelGUI() {
-        AreaLevelGUI.showGUI(this);
     }
 
 
