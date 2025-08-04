@@ -2,6 +2,7 @@ package Game;
 
 import Resources.ResourceHandler;
 import Entities.EntitiesHandler;
+import Map.Map;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -48,6 +49,9 @@ public class FocusFarm {
         panel = new Panel();
         camera = new Camera();
         loop = new Loop();
+        
+        // initialize pathfinder
+        Map.initializePathfinder();
 
 
         // window setup

@@ -3,8 +3,8 @@ package Entities.Characters;
 import Entities.AnimatedEntity;
 import Game.FocusFarm;
 import Resources.Animation;
-import Pathfinding.AStar;
 import Pathfinding.Node;
+import Map.Map;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -30,7 +30,6 @@ public class FarmCat extends AnimatedEntity {
     HashMap<String, Animation> animations;
 
     // pathfinding
-    private AStar pathfinder;
     private List<Node> currentPath;
     private int currentPathIndex;
     private boolean isFollowingPath;
@@ -63,19 +62,11 @@ public class FarmCat extends AnimatedEntity {
 
 
     // pathfinding
-    private void initializePathFinder() {
-        if (pathfinder == null) {
-            pathfinder = new AStar();
-        }
-    }
-
     public void moveToTile(int tileX, int tileY) {
-        initializePathFinder();
-
         int startTileX = position.x / FocusFarm.tileSize;
         int startTileY = position.y / FocusFarm.tileSize;
 
-        currentPath = pathfinder.findPath(startTileX, startTileY, tileX, tileY);
+        currentPath = Map.pathfinder.findPath(startTileX, startTileY, tileX, tileY);
 
         if (currentPath != null && currentPath.size() > 1) {
             currentPathIndex = 1;

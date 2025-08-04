@@ -6,6 +6,7 @@ import Entities.Nature.TreePart;
 import Entities.Nature.Tree;
 import Game.FocusFarm;
 import Resources.Animation;
+import Pathfinding.AStar;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -36,6 +37,9 @@ public class Map {
     // trees
     public final ArrayList<Tree> trees;
     ArrayList<Integer> treesIds;
+
+    // pathfinder
+    public static AStar pathfinder;
 
     public Map() {
 
@@ -68,6 +72,12 @@ public class Map {
         // create obstacles grid
         createObstaclesGrid();
     }
+    
+    public static void initializePathfinder() {
+        if (pathfinder == null) {
+            pathfinder = new AStar();
+        }
+    }
 
 
     // handling map layers
@@ -85,26 +95,13 @@ public class Map {
         mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_groundDecor.txt")); // ground decor
 
         // create area layers
-        createAreasLayers();
+        createAreasLayersFiles();
 
         // add area layers to render list
         addAreaLayersForRender();
     }
 
-    private void addAreaLayersForRender() {
-
-        // bottom layers for current tile maps
-        mapBottomLayersToRender.add(createLayer("src/Map/CurrentTileMaps/floor_first.txt")); // first floor
-        mapBottomLayersToRender.add(createLayer("src/Map/CurrentTileMaps/floor_second.txt")); // second floor
-
-        // top layers for current tile maps
-        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/layer_first.txt")); // first layer
-        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/layer_second.txt")); // second layer
-        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/layer_third.txt")); // third layer
-        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/roof.txt")); // roof
-    }
-
-    private void createAreasLayers() {
+    private void createAreasLayersFiles() {
         MapFileUtils.prepareEmptyLayerFiles();
 
         for (MapArea area : mapAreas) {
@@ -121,18 +118,47 @@ public class Map {
         }
     }
 
+    private void addAreaLayersForRender() {
+
+        // bottom layers for current tile maps
+        mapBottomLayersToRender.add(createLayer("src/Map/CurrentTileMaps/floor_first.txt")); // first floor
+        mapBottomLayersToRender.add(createLayer("src/Map/CurrentTileMaps/floor_second.txt")); // second floor
+
+        // top layers for current tile maps
+        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/layer_first.txt")); // first layer
+        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/layer_second.txt")); // second layer
+        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/layer_third.txt")); // third layer
+        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/roof.txt")); // roof
+    }
+
 
     // managing areas
     private void updateAreasLayers() {
 
         // recreate the current tile maps with updated levels
-        createAreasLayers();
+        createAreasLayersFiles();
 
         // refresh the rendered layers to reflect the changes
-        refreshLayers();
+        refreshLayersRenderLists();
 
         // refresh obstacles to match the new area levels
         refreshObstaclesGrid();
+        
+        // update pathfinding grid after obstacle changes
+        pathfinder.updateGrid();
+    }
+
+    private void refreshLayersRenderLists() {
+
+        // remove the existing area layers from rendering lists
+        // keep ground layers (first 6 layers in mapBottomLayersToRender)
+        while (mapBottomLayersToRender.size() > 6) {
+            mapBottomLayersToRender.removeLast();
+        }
+        mapTopLayersToRender.clear();
+
+        // recreate and add area layers for render
+        addAreaLayersForRender();
     }
 
     public void setAreaLevel(MapArea area, MapLevels newLevel) {
@@ -142,25 +168,6 @@ public class Map {
 
     public MapLevels getAreaLevel(MapArea area) {
         return mapAreasLevels.get(area);
-    }
-
-    private void refreshLayers() {
-
-        // remove the existing area layers from rendering lists
-        // keep ground layers (first 6 layers in mapBottomLayersToRender)
-        while (mapBottomLayersToRender.size() > 6) {
-            mapBottomLayersToRender.removeLast();
-        }
-
-        mapTopLayersToRender.clear();
-        mapLayersToUpdate.clear();
-
-        // re-add area floor layers to bottom rendering
-        mapBottomLayersToRender.add(createLayer("src/Map/CurrentTileMaps/floor_first.txt"));
-        mapBottomLayersToRender.add(createLayer("src/Map/CurrentTileMaps/floor_second.txt"));
-
-        // recreate and add area top layers
-        addAreaLayersForRender();
     }
 
 
@@ -252,10 +259,17 @@ public class Map {
     public void refreshObstaclesGrid() {
 
         // clear current obstacles grid
-        clearAreaObstacles();
+        clearObstaclesGrid();
 
-        // re-add obstacles from area layers
+        // re-add obstacles
+        addObstaclesFromGround();
         addObstaclesFromCurrentAreas();
+    }
+
+    private void addObstaclesFromGround() {
+        setObstacleValueByLayer("src/Map/TileMaps/Ground/ground_water.txt", true);
+        setObstacleValueByLayer("src/Map/TileMaps/Ground/ground_bridges.txt", false);
+        addObstaclesFromIdList("src/Map/TileMaps/Ground/ground_groundDecor.txt");
     }
 
     private void addObstaclesFromCurrentAreas() {
@@ -267,24 +281,13 @@ public class Map {
         addObstaclesFromIdList("src/Map/CurrentTileMaps/roof.txt");
     }
 
-    private void addObstaclesFromGround() {
-        setObstacleValueByLayer("src/Map/TileMaps/Ground/ground_water.txt", true);
-        setObstacleValueByLayer("src/Map/TileMaps/Ground/ground_bridges.txt", false);
-        addObstaclesFromIdList("src/Map/TileMaps/Ground/ground_groundDecor.txt");
-    }
-
-    private void clearAreaObstacles() {
+    private void clearObstaclesGrid() {
         // reset obstacles grid to false
         for (int i = 0; i < FocusFarm.mapHeightTiles; i++) {
             for (int j = 0; j < FocusFarm.mapWidthTiles; j++) {
                 obstaclesGrid[i][j] = false;
             }
         }
-        
-        // re-add ground obstacles
-        setObstacleValueByLayer("src/Map/TileMaps/Ground/ground_water.txt", true);
-        setObstacleValueByLayer("src/Map/TileMaps/Ground/ground_bridges.txt", false);
-        addObstaclesFromIdList("src/Map/TileMaps/Ground/ground_groundDecor.txt");
     }
 
     private void setObstacleValueByLayer(String path, boolean value) {
