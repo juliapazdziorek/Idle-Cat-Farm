@@ -27,8 +27,8 @@ public class Map {
     public final HashMap<MapArea, MapLevels> mapAreasLevels;
 
     // obstacles
-    public static final ArrayList<Integer> obstaclesIds = new ArrayList<>();
     private final boolean[][] obstaclesGrid;
+    private ArrayList<Integer> obstaclesIds = new ArrayList<>();
 
     // map entities
     public final ArrayList<Point> bushPositions;
@@ -58,6 +58,117 @@ public class Map {
 
         // obstacles
         obstaclesGrid = new boolean[FocusFarm.mapHeightTiles][FocusFarm.mapWidthTiles];
+        obstaclesIds = new ArrayList<>();
+        Collections.addAll(obstaclesIds, 123, // big shroom
+                124, // poison shroom
+                129, // stone 1
+                130, // stone 2
+                133, // big stone bottom-left
+                134, // big stone bottom-right
+                137, // large stone bottom-left
+                138, // large stone bottom-right
+                151, // small tree bottom
+                152, // bush
+                160, // large tree bottom-center
+                162, // small stump 1
+                163, // small stump 2
+                164, // stump 1 left
+                165, // stump 1 right
+                166, // stump 2 left
+                167, // stump 2 right
+                168, // small log
+                169, // big log left
+                170, // big log right
+                171, // big shroomy log left
+                172, // big shroomy log right
+                180, // tree bottom-center
+                182, // fence up
+                183, // fence vertical
+                184, // fence bottom
+                185, // fence left
+                186, // fence horizontal
+                187, // fence right
+                188, // single fence
+                189, // single fence broken small
+                190, // single fence broken
+                191, // left fence broken
+                192, // right fence broken
+                193, // gate horizontal left
+                196, // gate horizontal right
+                197, // gate vertical up
+                200, // gate vertical down
+                201, // wall front
+                202, // wall left
+                203, // wall right
+                204, // wall up-left corner
+                205, // wall bottom-left corner
+                206, // wall bottom-right corner
+                207, // wall up-left big corner
+                208, // wall bottom-left big corner
+                209, // wall up-right big corner
+                210, // wall bottom-right big corner
+                211, // window
+                239, // small coop 1
+                240, // small coop 2
+                241, // small coop 3
+                242, // small coop 4
+                243, // small coop 5
+                244, // small coop 6
+                245, // big coop 1
+                246, // big coop 2
+                247, // big coop 3
+                248, // big coop 4
+                249, // big coop 5
+                250, // big coop 6
+                251, // big coop 7
+                252, // big coop 8
+                253, // big coop 9
+                254, // large coop 1
+                255, // large coop 2
+                256, // large coop 3
+                257, // large coop 4
+                258, // large coop 5
+                259, // large coop 6
+                260, // large coop 7
+                261, // large coop 8
+                262, // large coop 9
+                263, // large coop 10
+                264, // large coop 11
+                265, // large coop 12
+                266, // large coop 13
+                267, // large coop 14
+                268, // large coop 15
+                269, // large coop 16
+                270, // large coop 17
+                271, // large coop 18
+                272, // large coop 19
+                273, // large coop 20
+                274, // box
+                275, // two boxes top-left
+                276, // two boxes top-right
+                277, // two boxes bottom-left
+                278, // two boxes bottom-right
+                279, // hay
+                280, // big hay left
+                281, // big hay right
+                284, // water tray left
+                285, // water tray right
+                287, // mailbox bottom
+                289, // work station left-bottom
+                291, // work station right-bottom
+                293, // water well left-bottom
+                295, // water well right-bottom
+                305, // picnic basket
+                307, // flower pot
+                309, // pink bed bottom
+                310, // blue bed bottom
+                311, // green bed bottom
+                313, // green upside down bed bottom
+                314, // chair left
+                315, // chair down
+                316, // dresser
+                317, // table
+                327); // sign
 
         // map entities
         bushPositions = new ArrayList<>();
@@ -121,14 +232,14 @@ public class Map {
     private void addAreaLayersForRender() {
 
         // bottom layers for current tile maps
-        mapBottomLayersToRender.add(createLayer("src/Map/CurrentTileMaps/floor_first.txt")); // first floor
-        mapBottomLayersToRender.add(createLayer("src/Map/CurrentTileMaps/floor_second.txt")); // second floor
+        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/InGameTileMaps/floor_first.txt")); // first floor
+        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/InGameTileMaps/floor_second.txt")); // second floor
 
         // top layers for current tile maps
-        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/layer_first.txt")); // first layer
-        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/layer_second.txt")); // second layer
-        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/layer_third.txt")); // third layer
-        mapTopLayersToRender.add(createLayer("src/Map/CurrentTileMaps/roof.txt")); // roof
+        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/InGameTileMaps/layer_first.txt")); // first layer
+        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/InGameTileMaps/layer_second.txt")); // second layer
+        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/InGameTileMaps/layer_third.txt")); // third layer
+        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/InGameTileMaps/roof.txt")); // roof
     }
 
 
@@ -207,7 +318,7 @@ public class Map {
                     }
 
                     // signs positions
-                    if (tilesIds[i][j] == 325) {
+                    if (tilesIds[i][j] == 327) {
                         signsPositions.add(new Point(j * FocusFarm.tileSize, i * FocusFarm.tileSize));
                         continue;
                     }
@@ -256,10 +367,6 @@ public class Map {
 
     // handling obstacles
     private void createObstaclesGrid() {
-
-        // initialize obstacles ids
-        MapFileUtils.loadObstaclesIds();
-
         // obstacles from ground layers
         addObstaclesFromGround();
 
@@ -268,7 +375,6 @@ public class Map {
     }
 
     public void refreshObstaclesGrid() {
-
         // clear current obstacles grid
         clearObstaclesGrid();
 
@@ -284,12 +390,12 @@ public class Map {
     }
 
     private void addObstaclesFromCurrentAreas() {
-        addObstaclesFromIdList("src/Map/CurrentTileMaps/floor_first.txt");
-        addObstaclesFromIdList("src/Map/CurrentTileMaps/floor_second.txt");
-        addObstaclesFromIdList("src/Map/CurrentTileMaps/layer_first.txt");
-        addObstaclesFromIdList("src/Map/CurrentTileMaps/layer_second.txt");
-        addObstaclesFromIdList("src/Map/CurrentTileMaps/layer_third.txt");
-        addObstaclesFromIdList("src/Map/CurrentTileMaps/roof.txt");
+        addObstaclesFromIdList("src/Map/TileMaps/InGameTileMaps/floor_first.txt");
+        addObstaclesFromIdList("src/Map/TileMaps/InGameTileMaps/floor_second.txt");
+        addObstaclesFromIdList("src/Map/TileMaps/InGameTileMaps/layer_first.txt");
+        addObstaclesFromIdList("src/Map/TileMaps/InGameTileMaps/layer_second.txt");
+        addObstaclesFromIdList("src/Map/TileMaps/InGameTileMaps/layer_third.txt");
+        addObstaclesFromIdList("src/Map/TileMaps/InGameTileMaps/roof.txt");
     }
 
     private void clearObstaclesGrid() {
