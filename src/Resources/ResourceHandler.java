@@ -52,6 +52,7 @@ public class ResourceHandler {
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/fences.png", "fences");
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/gates.png", "gates");
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/walls.png", "walls");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/roof.png", "roof");
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/coop.png", "coop");
 
         // objects
@@ -312,6 +313,32 @@ public class ResourceHandler {
         tilesMap.put(210, walls.getSubimage(4 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // wall bottom-right big corner
         tilesMap.put(211, walls.getSubimage(3 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // window
         tilesMap.put(212, walls.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // floor
+
+        // roof
+        BufferedImage roof = imageMap.get("roof");
+        tilesMap.put(216, roof.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // roof edge corner up-left
+        tilesMap.put(217, roof.getSubimage( Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // roof edge up
+        tilesMap.put(218, roof.getSubimage(2 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // roof edge corner up-right
+        tilesMap.put(219, roof.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge up left
+        tilesMap.put(220, roof.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle up
+        tilesMap.put(221, roof.getSubimage(4 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle up light decor
+        tilesMap.put(222, roof.getSubimage(3 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle up dark decor
+        tilesMap.put(223, roof.getSubimage(2 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge up right
+        tilesMap.put(224, roof.getSubimage(0, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle part edge left
+        tilesMap.put(225, roof.getSubimage(Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle part
+        tilesMap.put(226, roof.getSubimage(2 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle part edge right
+        tilesMap.put(227, roof.getSubimage(0, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge down left
+        tilesMap.put(228, roof.getSubimage(Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle down
+        tilesMap.put(229, roof.getSubimage(3 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle down light decor
+        tilesMap.put(230, roof.getSubimage(4 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle down dark decor
+        tilesMap.put(231, roof.getSubimage(2 * Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge down right
+        tilesMap.put(232, roof.getSubimage(0, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge corner bottom-left
+        tilesMap.put(233, roof.getSubimage(Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge down
+        tilesMap.put(234, roof.getSubimage(2 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge corner bottom-right
+        tilesMap.put(235, roof.getSubimage(3 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // roof edge inner corner up-left
+        tilesMap.put(236, roof.getSubimage(4 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // roof edge inner corner up-right
+        tilesMap.put(237, roof.getSubimage(4 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge inner corner down-right
+        tilesMap.put(238, roof.getSubimage(5 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // roof chimney
 
         // coop
         BufferedImage coop = imageMap.get("coop");
