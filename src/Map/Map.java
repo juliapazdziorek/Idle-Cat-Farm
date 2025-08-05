@@ -28,7 +28,7 @@ public class Map {
 
     // obstacles
     private final boolean[][] obstaclesGrid;
-    private ArrayList<Integer> obstaclesIds = new ArrayList<>();
+    private final ArrayList<Integer> obstaclesIds;
 
     // map entities
     public final ArrayList<Point> bushPositions;
@@ -318,7 +318,7 @@ public class Map {
                     }
 
                     // signs positions
-                    if (tilesIds[i][j] == 327) {
+                    if (tilesIds[i][j] == 328) {
                         signsPositions.add(new Point(j * Farm.tileSize, i * Farm.tileSize));
                         continue;
                     }
