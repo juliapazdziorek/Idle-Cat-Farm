@@ -4,6 +4,8 @@ import Entities.AnimatedEntity;
 import Entities.StaticEntity;
 import Entities.Nature.TreePart;
 import Entities.Nature.Tree;
+import Entities.BuildingParts.Roof;
+import Entities.BuildingParts.RoofPart;
 import Game.Farm;
 import Resources.Animation;
 import Pathfinding.AStar;
@@ -37,6 +39,10 @@ public class Map {
     // trees
     public final ArrayList<Tree> trees;
     ArrayList<Integer> treesIds;
+
+    // roofs
+    public final ArrayList<Roof> roofs;
+    ArrayList<Integer> roofsIds;
 
     // pathfinder
     public static AStar pathfinder;
@@ -177,6 +183,10 @@ public class Map {
         treesIds = new ArrayList<>();
         Collections.addAll(treesIds, 173, 174, 175, 176, 177, 178, 179, 180, 181);
 
+        roofs = new ArrayList<>();
+        roofsIds = new ArrayList<>();
+        Collections.addAll(roofsIds, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239);
+
         // initialize layers
         createMapLayers();
 
@@ -267,7 +277,11 @@ public class Map {
         bushPositions.clear();
         signsPositions.clear();
         trees.clear();
-        Farm.entitiesHandler.mapEntities.clear();
+        roofs.clear();
+
+        Farm.entitiesHandler.clickableMapEntities.clear();
+        Farm.entitiesHandler.renderableMapEntities.clear();
+        Farm.entitiesHandler.updatableMapEntities.clear();
     }
 
     private void refreshLayersRenderLists() {
@@ -297,6 +311,9 @@ public class Map {
     private MapLayer createLayer(String path) {
         int[][] tilesIds = MapFileUtils.readFileToGrid(path);
         MapLayer layer = new MapLayer(Farm.mapHeightTiles, Farm.mapWidthTiles);
+        
+        // track processed roof tiles
+        boolean[][] processedRoofTiles = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
 
         for (int i = 0; i < Farm.mapHeightTiles; i++) {
             for (int j = 0; j < Farm.mapWidthTiles; j++) {
@@ -314,6 +331,14 @@ public class Map {
                     // trees
                     if (tilesIds[i][j] == 177) {
                         createTree(tilesIds, i, j);
+                        continue;
+                    }
+
+                    // roofs
+                    if (roofsIds.contains(tilesIds[i][j])) {
+                        if (!processedRoofTiles[i][j]) {
+                            createRoof(tilesIds, i, j, processedRoofTiles);
+                        }
                         continue;
                     }
 
@@ -349,7 +374,6 @@ public class Map {
                 int newI = i + deltaI;
                 int newJ = j + deltaJ;
 
-                // Check bounds and if the tile ID is a tree part
                 if (newI >= 0 && newI < Farm.mapHeightTiles &&
                         newJ >= 0 && newJ < Farm.mapWidthTiles &&
                         treesIds.contains(tilesIds[newI][newJ])) {
@@ -362,6 +386,44 @@ public class Map {
         }
 
         trees.add(tree);
+    }
+
+    // create a roof
+    private void createRoof(int[][] tilesIds, int i, int j, boolean[][] processedRoofTiles) {
+        Point firstPosition = new Point(j * Farm.tileSize, i * Farm.tileSize);
+        boolean[][] visited = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
+        Roof roof = new Roof(firstPosition);
+
+        // flood fill algorithm to find all connected roof parts
+        findRoofParts(tilesIds, visited, roof, i, j, processedRoofTiles);
+
+        roofs.add(roof);
+    }
+
+    private void findRoofParts(int[][] tilesIds, boolean[][] visited, Roof roof, int i, int j, boolean[][] processedRoofTiles) {
+        if (i < 0 || i >= Farm.mapHeightTiles ||
+            j < 0 || j >= Farm.mapWidthTiles || 
+            visited[i][j]) {
+            return;
+        }
+
+        if (!roofsIds.contains(tilesIds[i][j])) {
+            return;
+        }
+
+        visited[i][j] = true;
+        processedRoofTiles[i][j] = true;
+        Point partPosition = new Point(j * Farm.tileSize, i * Farm.tileSize);
+        RoofPart part = new RoofPart(partPosition, tilesIds[i][j]);
+        roof.addRoofPart(part);
+
+        for (int deltaI = -1; deltaI <= 1; deltaI++) {
+            for (int deltaJ = -1; deltaJ <= 1; deltaJ++) {
+                if (deltaI != 0 || deltaJ != 0) {
+                    findRoofParts(tilesIds, visited, roof, i + deltaI, j + deltaJ, processedRoofTiles);
+                }
+            }
+        }
     }
 
 

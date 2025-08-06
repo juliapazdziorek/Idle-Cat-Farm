@@ -8,6 +8,7 @@ import Entities.Characters.FarmCat;
 import java.util.ArrayList;
 import java.util.List;
 
+import Entities.BuildingParts.Roof;
 import Entities.Nature.Bush;
 import Entities.Nature.Tree;
 import Entities.Objects.Sign;
@@ -17,12 +18,17 @@ import Map.Map;
 public class EntitiesHandler implements MouseListener {
 
     public Map map;
-    public List<Entity> mapEntities;
+    public List<Entity> clickableMapEntities;
+    public List<Entity> renderableMapEntities;
+    public List<Entity> updatableMapEntities;
 
     public FarmCat cat;
 
     public EntitiesHandler() {
-        mapEntities = new ArrayList<>();
+        clickableMapEntities = new ArrayList<>();
+        renderableMapEntities = new ArrayList<>();
+        updatableMapEntities = new ArrayList<>();
+
         map = new Map();
         cat = new FarmCat(12, 20);
 
@@ -30,23 +36,36 @@ public class EntitiesHandler implements MouseListener {
     }
     
     public void createEntitiesFromMap() {
-        // clear list before adding new entities
-        mapEntities.clear();
+        clickableMapEntities.clear();
+        renderableMapEntities.clear();
+        updatableMapEntities.clear();
 
         // bushes
         for (Point position : map.bushPositions) {
-            mapEntities.add(new Bush(position));
+            Bush bush = new Bush(position);
+            clickableMapEntities.add(bush);
+            renderableMapEntities.add(bush);
+            updatableMapEntities.add(bush);
         }
 
         // trees
         for (Tree tree : map.trees) {
-            mapEntities.add(tree);
-            mapEntities.addAll(tree.treeParts);
+            renderableMapEntities.add(tree);
+            updatableMapEntities.add(tree);
+            clickableMapEntities.addAll(tree.treeParts);
         }
 
         // signs
         for (Point position : map.signsPositions) {
-            mapEntities.add(new Sign(position));
+            Sign sign = new Sign(position);
+            renderableMapEntities.add(sign);
+            updatableMapEntities.add(sign);
+        }
+
+        // roofs
+        for (Roof roof : map.roofs) {
+            renderableMapEntities.add(roof);
+            updatableMapEntities.add(roof);
         }
     }
 
@@ -54,7 +73,8 @@ public class EntitiesHandler implements MouseListener {
     public void update() {
         map.update();
 
-        for (Entity entity : mapEntities) {
+        Entity[] entities = updatableMapEntities.toArray(new Entity[0]);
+        for (Entity entity : entities) {
             entity.update();
         }
 
@@ -68,18 +88,20 @@ public class EntitiesHandler implements MouseListener {
 
         map.renderTop(graphics2D);
 
-        for (Entity entity : mapEntities) {
+        Entity[] entities = renderableMapEntities.toArray(new Entity[0]);
+        for (Entity entity : entities) {
             entity.render(graphics2D);
         }
     }
 
-    // mouse listener for pathfinding test temp
+
+    // mouse listener handling
     @Override
     public void mouseClicked(MouseEvent e) {
         int mouseX = e.getX();
         int mouseY = e.getY();
 
-        for (Entity entity : mapEntities) {
+        for (Entity entity : clickableMapEntities) {
             if (entity.clickable && entity.isPointInside(mouseX, mouseY)) {
                 entity.onClick();
             }
