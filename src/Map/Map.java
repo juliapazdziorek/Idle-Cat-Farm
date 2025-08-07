@@ -65,7 +65,8 @@ public class Map {
         // obstacles
         obstaclesGrid = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
         obstaclesIds = new ArrayList<>();
-        Collections.addAll(obstaclesIds, 123, // big shroom
+        Collections.addAll(obstaclesIds, 1, // water
+                123, // big shroom
                 124, // poison shroom
                 129, // stone 1
                 130, // stone 2
@@ -75,7 +76,9 @@ public class Map {
                 138, // large stone bottom-right
                 151, // small tree bottom
                 152, // bush
+                159, // large tree bottom-left
                 160, // large tree bottom-center
+                161, // large tree bottom-right
                 162, // small stump 1
                 163, // small stump 2
                 164, // stump 1 left
@@ -95,8 +98,8 @@ public class Map {
                 186, // fence horizontal
                 187, // fence right
                 188, // single fence
-                189, // single fence broken small
-                190, // single fence broken
+                189, // single fence broken 1
+                190, // single fence broken 2
                 191, // left fence broken
                 192, // right fence broken
                 193, // gate horizontal left
@@ -109,72 +112,64 @@ public class Map {
                 204, // wall up-left corner
                 205, // wall bottom-left corner
                 206, // wall bottom-right corner
-                207, // wall up-left big corner
-                208, // wall bottom-left big corner
-                209, // wall up-right big corner
-                210, // wall bottom-right big corner
+                207, // wall up-left inner corner
+                208, // wall bottom-left inner corner
+                209, // wall up-right inner corner
+                210, // wall bottom-right inner corner
                 211, // window
-                239, // small coop 1
-                240, // small coop 2
-                241, // small coop 3
-                242, // small coop 4
-                243, // small coop 5
-                244, // small coop 6
-                245, // big coop 1
-                246, // big coop 2
-                247, // big coop 3
-                248, // big coop 4
-                249, // big coop 5
-                250, // big coop 6
-                251, // big coop 7
-                252, // big coop 8
-                253, // big coop 9
-                254, // large coop 1
-                255, // large coop 2
-                256, // large coop 3
-                257, // large coop 4
-                258, // large coop 5
-                259, // large coop 6
-                260, // large coop 7
-                261, // large coop 8
-                262, // large coop 9
-                263, // large coop 10
-                264, // large coop 11
-                265, // large coop 12
-                266, // large coop 13
-                267, // large coop 14
-                268, // large coop 15
-                269, // large coop 16
-                270, // large coop 17
-                271, // large coop 18
-                272, // large coop 19
-                273, // large coop 20
-                274, // box
-                275, // two boxes top-left
-                276, // two boxes top-right
-                277, // two boxes bottom-left
-                278, // two boxes bottom-right
-                279, // hay
-                280, // big hay left
-                281, // big hay right
-                284, // water tray left
-                285, // water tray right
-                287, // mailbox bottom
-                289, // work station left-bottom
-                291, // work station right-bottom
-                293, // water well left-bottom
-                295, // water well right-bottom
-                305, // picnic basket
-                307, // flower pot
-                309, // pink bed bottom
-                310, // blue bed bottom
-                311, // green bed bottom
-                313, // green upside down bed bottom
-                314, // chair left
-                315, // chair down
-                316, // dresser
-                317, // table
-                327); // sign
+                212, // floor
+                240, // small coop 1
+                241, // small coop 2
+                242, // small coop 3
+                243, // small coop 4
+                244, // small coop 5
+                245, // small coop 6
+                246, // big coop 1
+                247, // big coop 2
+                248, // big coop 3
+                249, // big coop 4
+                250, // big coop 5
+                251, // big coop 6
+                252, // big coop 7
+                253, // big coop 8
+                254, // big coop 9
+                255, // large coop 1
+                256, // large coop 2
+                257, // large coop 3
+                258, // large coop 4
+                259, // large coop 5
+                260, // large coop 6
+                261, // large coop 7
+                262, // large coop 8
+                263, // large coop 9
+                264, // large coop 10
+                265, // large coop 11
+                266, // large coop 12
+                267, // large coop 13
+                268, // large coop 14
+                269, // large coop 15
+                270, // large coop 16
+                271, // large coop 17
+                272, // large coop 18
+                273, // large coop 19
+                274, // large coop 20
+                275, // box
+                276, // two boxes top-left
+                277, // two boxes top-right
+                278, // two boxes bottom-left
+                279, // two boxes bottom-right
+                280, // hay
+                281, // big hay left
+                282, // big hay right
+                285, // water tray left
+                286, // water tray right
+                288, // mailbox bottom
+                290, // work station left-bottom
+                292, // work station right-bottom
+                294, // water well left-bottom
+                296, // water well right-bottom
+                306, // picnic basket
+                328); // sign
 
         // map entities
         bushPositions = new ArrayList<>();
