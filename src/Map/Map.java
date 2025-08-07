@@ -76,9 +76,7 @@ public class Map {
                 138, // large stone bottom-right
                 151, // small tree bottom
                 152, // bush
-                159, // large tree bottom-left
                 160, // large tree bottom-center
-                161, // large tree bottom-right
                 162, // small stump 1
                 163, // small stump 2
                 164, // stump 1 left
@@ -117,7 +115,6 @@ public class Map {
                 209, // wall up-right inner corner
                 210, // wall bottom-right inner corner
                 211, // window
-                212, // floor
                 240, // small coop 1
                 241, // small coop 2
                 242, // small coop 3
@@ -169,6 +166,17 @@ public class Map {
                 294, // water well left-bottom
                 296, // water well right-bottom
                 306, // picnic basket
+                308, // pot flower
+                309, // bed top
+                310, // pink bed bottom
+                311, // blue bed bottom
+                312, // green bed bottom
+                313, // green upside down bed top
+                314, // green upside down bed bottom
+                315, // chair left
+                316, // chair down
+                317, // dresser
+                318, // table
                 328); // sign
 
         // map entities

@@ -315,9 +315,9 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 | 161 | Large tree bottom-right  | Obstacle           |
 | 162 | Small stump 1            | Obstacle           |
 | 163 | Small stump 2            | Obstacle           |
-| 154 | Stump 1 left             | Obstacle           |
-| 155 | Stump 1 right            | Obstacle           |
-| 156 | Stump 2 left             | Obstacle           |
+| 164 | Stump 1 left             | Obstacle           |
+| 165 | Stump 1 right            | Obstacle           |
+| 166 | Stump 2 left             | Obstacle           |
 | 167 | Stump 2 right            | Obstacle           |
 | 168 | Small log                | Obstacle           |
 | 169 | Big log left             | Obstacle           |
@@ -399,7 +399,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 | 209 | Wall up-right inner corner     | Obstacle |
 | 210 | Wall bottom-right inner corner | Obstacle |
 | 211 | Window                         | Obstacle |
-| 212 | Floor                          | Obstacle |
+| 212 | Floor                          |          |
 
 ---
 
@@ -595,29 +595,29 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 **File:** `BuildingParts/basic_furniture.png`
 
-| ID  | Tile Name                    | Notes |
-|-----|------------------------------|-------|
-| 307 | Painting                     |       |
-| 308 | Pot flower                   |       |
-| 309 | Bed top                      |       |
-| 310 | Pink bed bottom              |       |
-| 311 | Blue bed bottom              |       |
-| 312 | Green bed bottom             |       |
-| 313 | Green upside down bed top    |       |
-| 314 | Green upside down bed bottom |       |
-| 315 | Chair left                   |       |
-| 316 | Chair down                   |       |
-| 317 | Dresser                      |       |
-| 318 | Table                        |       |
-| 319 | Pink big carpet left         |       |
-| 320 | Pink big carpet right        |       |
-| 321 | Blue big carpet left         |       |
-| 322 | Blue big carpet right        |       |
-| 323 | Green big carpet left        |       |
-| 324 | Green big carpet right       |       |
-| 325 | Pink small carpet            |       |
-| 326 | Blue small carpet            |       |
-| 327 | Green small carpet           |       |
+| ID  | Tile Name                    | Notes    |
+|-----|------------------------------|----------|
+| 307 | Painting                     |          |
+| 308 | Pot flower                   | Obstacle |
+| 309 | Bed top                      | Obstacle |
+| 310 | Pink bed bottom              | Obstacle |
+| 311 | Blue bed bottom              | Obstacle |
+| 312 | Green bed bottom             | Obstacle |
+| 313 | Green upside down bed top    | Obstacle |
+| 314 | Green upside down bed bottom | Obstacle |
+| 315 | Chair left                   | Obstacle |
+| 316 | Chair down                   | Obstacle |
+| 317 | Dresser                      | Obstacle |
+| 318 | Table                        | Obstacle |
+| 319 | Pink big carpet left         |          |
+| 320 | Pink big carpet right        |          |
+| 321 | Blue big carpet left         |          |
+| 322 | Blue big carpet right        |          |
+| 323 | Green big carpet left        |          |
+| 324 | Green big carpet right       |          |
+| 325 | Pink small carpet            |          |
+| 326 | Blue small carpet            |          |
+| 327 | Green small carpet           |          |
 
 ---
 
