@@ -52,6 +52,7 @@ public class ResourceHandler {
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/fences.png", "fences");
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/gates.png", "gates");
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/walls.png", "walls");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/door.png", "door");
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/roof.png", "roof");
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/coop.png", "coop");
 
@@ -451,7 +452,20 @@ public class ResourceHandler {
 
     // animations
     private void initializeAnimationMap() {
-        animationsMap.put(1, this::createWaterAnimation); // water
+
+        // water
+        animationsMap.put(1, this::createWaterAnimation);
+
+        // tree click animations
+        animationsMap.put(173, this::createClickTreePartAnimation173);
+        animationsMap.put(174, this::createClickTreePartAnimation174);
+        animationsMap.put(175, this::createClickTreePartAnimation175);
+        animationsMap.put(176, this::createClickTreePartAnimation176);
+        animationsMap.put(177, this::createClickTreePartAnimation177);
+        animationsMap.put(178, this::createClickTreePartAnimation178);
+        animationsMap.put(179, this::createClickTreePartAnimation179);
+        animationsMap.put(180, this::createClickTreePartAnimation180);
+        animationsMap.put(181, this::createClickTreePartAnimation181);
     }
 
     // animation factories
@@ -459,12 +473,8 @@ public class ResourceHandler {
         return new Animation(imageMap.get("water"), 4, 1, 0, 4, 20);
     }
 
-    public HashMap<Integer, Animation> createTreeClickAnimationMap() {
-
-        HashMap<Integer, Animation> treeClickAnimationMap = new HashMap<>();
+    private Animation createClickTreePartAnimation173() {
         BufferedImage treeClickAnimationImage = imageMap.get("tree");
-
-        // 173
         ArrayList<BufferedImage> treeClickAnimation173Frames = new ArrayList<>();
         treeClickAnimation173Frames.add(treeClickAnimationImage.getSubimage(0, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation173Frames.add(treeClickAnimationImage.getSubimage(3 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
@@ -472,9 +482,11 @@ public class ResourceHandler {
         treeClickAnimation173Frames.add(treeClickAnimationImage.getSubimage(9 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation173Frames.add(treeClickAnimationImage.getSubimage(12 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation173Frames.add(treeClickAnimationImage.getSubimage(15 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimationMap.put(173, new Animation(treeClickAnimation173Frames, 10));
+        return new Animation(treeClickAnimation173Frames, 10);
+    }
 
-        // 174
+    private Animation createClickTreePartAnimation174() {
+        BufferedImage treeClickAnimationImage = imageMap.get("tree");
         ArrayList<BufferedImage> treeClickAnimation174Frames = new ArrayList<>();
         treeClickAnimation174Frames.add(treeClickAnimationImage.getSubimage(Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation174Frames.add(treeClickAnimationImage.getSubimage(4 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
@@ -482,9 +494,11 @@ public class ResourceHandler {
         treeClickAnimation174Frames.add(treeClickAnimationImage.getSubimage(10 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation174Frames.add(treeClickAnimationImage.getSubimage(13 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation174Frames.add(treeClickAnimationImage.getSubimage(16 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimationMap.put(174, new Animation(treeClickAnimation174Frames, 10));
-
-        // 175
+        return new Animation(treeClickAnimation174Frames, 10);
+    }
+    
+    private Animation createClickTreePartAnimation175() {
+        BufferedImage treeClickAnimationImage = imageMap.get("tree");
         ArrayList<BufferedImage> treeClickAnimation175Frames = new ArrayList<>();
         treeClickAnimation175Frames.add(treeClickAnimationImage.getSubimage(2 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation175Frames.add(treeClickAnimationImage.getSubimage(5 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
@@ -492,9 +506,11 @@ public class ResourceHandler {
         treeClickAnimation175Frames.add(treeClickAnimationImage.getSubimage(11 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation175Frames.add(treeClickAnimationImage.getSubimage(14 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation175Frames.add(treeClickAnimationImage.getSubimage(17 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimationMap.put(175, new Animation(treeClickAnimation175Frames, 10));
-
-        // 176
+        return new Animation(treeClickAnimation175Frames, 10);
+    }
+    
+    private Animation createClickTreePartAnimation176() {
+        BufferedImage treeClickAnimationImage = imageMap.get("tree");
         ArrayList<BufferedImage> treeClickAnimation176Frames = new ArrayList<>();
         treeClickAnimation176Frames.add(treeClickAnimationImage.getSubimage(0, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation176Frames.add(treeClickAnimationImage.getSubimage(3 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
@@ -502,9 +518,11 @@ public class ResourceHandler {
         treeClickAnimation176Frames.add(treeClickAnimationImage.getSubimage(9 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation176Frames.add(treeClickAnimationImage.getSubimage(12 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation176Frames.add(treeClickAnimationImage.getSubimage(15 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimationMap.put(176, new Animation(treeClickAnimation176Frames, 10));
-
-        // 177
+        return new Animation(treeClickAnimation176Frames, 10);
+    }
+    
+    private Animation createClickTreePartAnimation177() {
+        BufferedImage treeClickAnimationImage = imageMap.get("tree");
         ArrayList<BufferedImage> treeClickAnimation177Frames = new ArrayList<>();
         treeClickAnimation177Frames.add(treeClickAnimationImage.getSubimage(Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation177Frames.add(treeClickAnimationImage.getSubimage(4 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
@@ -512,9 +530,11 @@ public class ResourceHandler {
         treeClickAnimation177Frames.add(treeClickAnimationImage.getSubimage(10 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation177Frames.add(treeClickAnimationImage.getSubimage(13 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation177Frames.add(treeClickAnimationImage.getSubimage(16 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimationMap.put(177, new Animation(treeClickAnimation177Frames, 10));
-
-        // 178
+        return new Animation(treeClickAnimation177Frames, 10);
+    }
+    
+    private Animation createClickTreePartAnimation178() {
+        BufferedImage treeClickAnimationImage = imageMap.get("tree");
         ArrayList<BufferedImage> treeClickAnimation178Frames = new ArrayList<>();
         treeClickAnimation178Frames.add(treeClickAnimationImage.getSubimage(2 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation178Frames.add(treeClickAnimationImage.getSubimage(5 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
@@ -522,9 +542,11 @@ public class ResourceHandler {
         treeClickAnimation178Frames.add(treeClickAnimationImage.getSubimage(11 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation178Frames.add(treeClickAnimationImage.getSubimage(14 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation178Frames.add(treeClickAnimationImage.getSubimage(17 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimationMap.put(178, new Animation(treeClickAnimation178Frames, 10));
-
-        // 179
+        return new Animation(treeClickAnimation178Frames, 10);
+    }
+    
+    private Animation createClickTreePartAnimation179() {
+        BufferedImage treeClickAnimationImage = imageMap.get("tree");
         ArrayList<BufferedImage> treeClickAnimation179Frames = new ArrayList<>();
         treeClickAnimation179Frames.add(treeClickAnimationImage.getSubimage(0, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation179Frames.add(treeClickAnimationImage.getSubimage(3 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
@@ -532,9 +554,11 @@ public class ResourceHandler {
         treeClickAnimation179Frames.add(treeClickAnimationImage.getSubimage(9 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation179Frames.add(treeClickAnimationImage.getSubimage(12 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation179Frames.add(treeClickAnimationImage.getSubimage(15 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimationMap.put(179, new Animation(treeClickAnimation179Frames, 10));
-
-        // 180
+        return new Animation(treeClickAnimation179Frames, 10);
+    }
+    
+    private Animation createClickTreePartAnimation180() {
+        BufferedImage treeClickAnimationImage = imageMap.get("tree");
         ArrayList<BufferedImage> treeClickAnimation180Frames = new ArrayList<>();
         treeClickAnimation180Frames.add(treeClickAnimationImage.getSubimage(Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation180Frames.add(treeClickAnimationImage.getSubimage(4 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
@@ -542,9 +566,11 @@ public class ResourceHandler {
         treeClickAnimation180Frames.add(treeClickAnimationImage.getSubimage(10 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation180Frames.add(treeClickAnimationImage.getSubimage(13 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation180Frames.add(treeClickAnimationImage.getSubimage(16 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimationMap.put(180, new Animation(treeClickAnimation180Frames, 10));
-
-        // 181
+        return new Animation(treeClickAnimation180Frames, 10);
+    }
+    
+    private Animation createClickTreePartAnimation181() {
+        BufferedImage treeClickAnimationImage = imageMap.get("tree");
         ArrayList<BufferedImage> treeClickAnimation181Frames = new ArrayList<>();
         treeClickAnimation181Frames.add(treeClickAnimationImage.getSubimage(2 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation181Frames.add(treeClickAnimationImage.getSubimage(5 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
@@ -552,9 +578,7 @@ public class ResourceHandler {
         treeClickAnimation181Frames.add(treeClickAnimationImage.getSubimage(11 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation181Frames.add(treeClickAnimationImage.getSubimage(14 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         treeClickAnimation181Frames.add(treeClickAnimationImage.getSubimage(17 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimationMap.put(181, new Animation(treeClickAnimation181Frames, 10));
-
-        return treeClickAnimationMap;
+        return new Animation(treeClickAnimation181Frames, 10);
     }
 
     public HashMap<String, Animation> createCatAnimationMap() {
