@@ -332,8 +332,10 @@ public class Map {
                     }
 
                     // trees
-                    if (tilesIds[i][j] == 177) {
-                        createTree(tilesIds, i, j);
+                    if (treesIds.contains(tilesIds[i][j])) {
+                        if (tilesIds[i][j] == 177) {
+                            createTree(tilesIds, i, j);
+                        }
                         continue;
                     }
 
