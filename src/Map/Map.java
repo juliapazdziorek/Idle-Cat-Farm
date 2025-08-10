@@ -323,7 +323,11 @@ public class Map {
 
                 if (tilesIds[i][j] != 0) {
 
-                    // map entities
+                    // water
+                    if (tilesIds[i][j] == 1) {
+                        layer.tiles[i][j] = new AnimatedEntity(new Point(j * Farm.tileSize, i * Farm.tileSize), Farm.resourceHandler.animationFactory.createWaterAnimation());
+                        continue;
+                    }
 
                     // bush positions
                     if (tilesIds[i][j] == 152) {
@@ -353,16 +357,8 @@ public class Map {
                         continue;
                     }
 
-
-                    // animated tiles
-                    if (Farm.resourceHandler.animationsMap.containsKey(tilesIds[i][j])) {
-                        Animation animation = Farm.resourceHandler.animationsMap.get(tilesIds[i][j]).get();
-                        layer.tiles[i][j] = new AnimatedEntity(new Point(j * Farm.tileSize, i * Farm.tileSize), animation);
-
                     // static tiles
-                    } else if (Farm.resourceHandler.tilesMap.containsKey(tilesIds[i][j])) {
-                        layer.tiles[i][j] = new StaticEntity(new Point(j * Farm.tileSize, i * Farm.tileSize), Farm.resourceHandler.tilesMap.get(tilesIds[i][j]));
-                    }
+                    layer.tiles[i][j] = new StaticEntity(new Point(j * Farm.tileSize, i * Farm.tileSize), Farm.resourceHandler.tilesMap.get(tilesIds[i][j]));
                 }
             }
         }

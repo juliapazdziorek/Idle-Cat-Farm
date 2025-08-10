@@ -14,19 +14,22 @@ public class ResourceHandler {
     // maps
     private final Map<String, BufferedImage> imageMap;
     public final Map<Integer, BufferedImage> tilesMap;
-    public final Map<Integer, Supplier<Animation>> animationsMap;
     public final Map<String, Map<String, BufferedImage>> entitiesResourcesMap;
+
+    // animation factory
+    public final AnimationFactory animationFactory;
 
     public ResourceHandler() {
         imageMap = new HashMap<>();
         tilesMap = new HashMap<>();
-        animationsMap = new HashMap<>();
         entitiesResourcesMap = new HashMap<>();
 
         loadResources();
         initializeTilesMap();
-        initializeAnimationMap();
         initializeEntitiesResourcesMap();
+
+        // animations
+        animationFactory = new AnimationFactory(imageMap);
     }
 
 
@@ -52,7 +55,7 @@ public class ResourceHandler {
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/fences.png", "fences");
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/gates.png", "gates");
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/walls.png", "walls");
-        loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/door.png", "door");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/door.png", "doors");
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/roof.png", "roof");
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/coop.png", "coop");
 
@@ -297,8 +300,6 @@ public class ResourceHandler {
         BufferedImage gates = imageMap.get("gates");
         tilesMap.put(193, gates.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // gate horizontal left
         tilesMap.put(196, gates.getSubimage(3 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // gate horizontal right
-        tilesMap.put(197, gates.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // gate vertical up
-        tilesMap.put(203, gates.getSubimage(0, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // gate vertical down
 
         // walls
         BufferedImage walls = imageMap.get("walls");
@@ -450,181 +451,6 @@ public class ResourceHandler {
     }
 
 
-    // animations
-    private void initializeAnimationMap() {
-
-        // water
-        animationsMap.put(1, this::createWaterAnimation);
-
-        // tree click animations
-        animationsMap.put(173, this::createClickTreePartAnimation173);
-        animationsMap.put(174, this::createClickTreePartAnimation174);
-        animationsMap.put(175, this::createClickTreePartAnimation175);
-        animationsMap.put(176, this::createClickTreePartAnimation176);
-        animationsMap.put(177, this::createClickTreePartAnimation177);
-        animationsMap.put(178, this::createClickTreePartAnimation178);
-        animationsMap.put(179, this::createClickTreePartAnimation179);
-        animationsMap.put(180, this::createClickTreePartAnimation180);
-        animationsMap.put(181, this::createClickTreePartAnimation181);
-    }
-
-    // animation factories
-    private Animation createWaterAnimation() {
-        return new Animation(imageMap.get("water"), 4, 1, 0, 4, 20);
-    }
-
-    private Animation createClickTreePartAnimation173() {
-        BufferedImage treeClickAnimationImage = imageMap.get("tree");
-        ArrayList<BufferedImage> treeClickAnimation173Frames = new ArrayList<>();
-        treeClickAnimation173Frames.add(treeClickAnimationImage.getSubimage(0, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation173Frames.add(treeClickAnimationImage.getSubimage(3 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation173Frames.add(treeClickAnimationImage.getSubimage(6 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation173Frames.add(treeClickAnimationImage.getSubimage(9 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation173Frames.add(treeClickAnimationImage.getSubimage(12 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation173Frames.add(treeClickAnimationImage.getSubimage(15 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        return new Animation(treeClickAnimation173Frames, 10);
-    }
-
-    private Animation createClickTreePartAnimation174() {
-        BufferedImage treeClickAnimationImage = imageMap.get("tree");
-        ArrayList<BufferedImage> treeClickAnimation174Frames = new ArrayList<>();
-        treeClickAnimation174Frames.add(treeClickAnimationImage.getSubimage(Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation174Frames.add(treeClickAnimationImage.getSubimage(4 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation174Frames.add(treeClickAnimationImage.getSubimage(7 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation174Frames.add(treeClickAnimationImage.getSubimage(10 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation174Frames.add(treeClickAnimationImage.getSubimage(13 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation174Frames.add(treeClickAnimationImage.getSubimage(16 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        return new Animation(treeClickAnimation174Frames, 10);
-    }
-    
-    private Animation createClickTreePartAnimation175() {
-        BufferedImage treeClickAnimationImage = imageMap.get("tree");
-        ArrayList<BufferedImage> treeClickAnimation175Frames = new ArrayList<>();
-        treeClickAnimation175Frames.add(treeClickAnimationImage.getSubimage(2 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation175Frames.add(treeClickAnimationImage.getSubimage(5 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation175Frames.add(treeClickAnimationImage.getSubimage(8 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation175Frames.add(treeClickAnimationImage.getSubimage(11 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation175Frames.add(treeClickAnimationImage.getSubimage(14 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation175Frames.add(treeClickAnimationImage.getSubimage(17 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        return new Animation(treeClickAnimation175Frames, 10);
-    }
-    
-    private Animation createClickTreePartAnimation176() {
-        BufferedImage treeClickAnimationImage = imageMap.get("tree");
-        ArrayList<BufferedImage> treeClickAnimation176Frames = new ArrayList<>();
-        treeClickAnimation176Frames.add(treeClickAnimationImage.getSubimage(0, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation176Frames.add(treeClickAnimationImage.getSubimage(3 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation176Frames.add(treeClickAnimationImage.getSubimage(6 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation176Frames.add(treeClickAnimationImage.getSubimage(9 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation176Frames.add(treeClickAnimationImage.getSubimage(12 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation176Frames.add(treeClickAnimationImage.getSubimage(15 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        return new Animation(treeClickAnimation176Frames, 10);
-    }
-    
-    private Animation createClickTreePartAnimation177() {
-        BufferedImage treeClickAnimationImage = imageMap.get("tree");
-        ArrayList<BufferedImage> treeClickAnimation177Frames = new ArrayList<>();
-        treeClickAnimation177Frames.add(treeClickAnimationImage.getSubimage(Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation177Frames.add(treeClickAnimationImage.getSubimage(4 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation177Frames.add(treeClickAnimationImage.getSubimage(7 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation177Frames.add(treeClickAnimationImage.getSubimage(10 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation177Frames.add(treeClickAnimationImage.getSubimage(13 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation177Frames.add(treeClickAnimationImage.getSubimage(16 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        return new Animation(treeClickAnimation177Frames, 10);
-    }
-    
-    private Animation createClickTreePartAnimation178() {
-        BufferedImage treeClickAnimationImage = imageMap.get("tree");
-        ArrayList<BufferedImage> treeClickAnimation178Frames = new ArrayList<>();
-        treeClickAnimation178Frames.add(treeClickAnimationImage.getSubimage(2 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation178Frames.add(treeClickAnimationImage.getSubimage(5 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation178Frames.add(treeClickAnimationImage.getSubimage(8 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation178Frames.add(treeClickAnimationImage.getSubimage(11 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation178Frames.add(treeClickAnimationImage.getSubimage(14 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation178Frames.add(treeClickAnimationImage.getSubimage(17 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        return new Animation(treeClickAnimation178Frames, 10);
-    }
-    
-    private Animation createClickTreePartAnimation179() {
-        BufferedImage treeClickAnimationImage = imageMap.get("tree");
-        ArrayList<BufferedImage> treeClickAnimation179Frames = new ArrayList<>();
-        treeClickAnimation179Frames.add(treeClickAnimationImage.getSubimage(0, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation179Frames.add(treeClickAnimationImage.getSubimage(3 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation179Frames.add(treeClickAnimationImage.getSubimage(6 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation179Frames.add(treeClickAnimationImage.getSubimage(9 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation179Frames.add(treeClickAnimationImage.getSubimage(12 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation179Frames.add(treeClickAnimationImage.getSubimage(15 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        return new Animation(treeClickAnimation179Frames, 10);
-    }
-    
-    private Animation createClickTreePartAnimation180() {
-        BufferedImage treeClickAnimationImage = imageMap.get("tree");
-        ArrayList<BufferedImage> treeClickAnimation180Frames = new ArrayList<>();
-        treeClickAnimation180Frames.add(treeClickAnimationImage.getSubimage(Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation180Frames.add(treeClickAnimationImage.getSubimage(4 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation180Frames.add(treeClickAnimationImage.getSubimage(7 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation180Frames.add(treeClickAnimationImage.getSubimage(10 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation180Frames.add(treeClickAnimationImage.getSubimage(13 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation180Frames.add(treeClickAnimationImage.getSubimage(16 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        return new Animation(treeClickAnimation180Frames, 10);
-    }
-    
-    private Animation createClickTreePartAnimation181() {
-        BufferedImage treeClickAnimationImage = imageMap.get("tree");
-        ArrayList<BufferedImage> treeClickAnimation181Frames = new ArrayList<>();
-        treeClickAnimation181Frames.add(treeClickAnimationImage.getSubimage(2 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation181Frames.add(treeClickAnimationImage.getSubimage(5 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation181Frames.add(treeClickAnimationImage.getSubimage(8 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation181Frames.add(treeClickAnimationImage.getSubimage(11 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation181Frames.add(treeClickAnimationImage.getSubimage(14 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        treeClickAnimation181Frames.add(treeClickAnimationImage.getSubimage(17 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        return new Animation(treeClickAnimation181Frames, 10);
-    }
-
-    public HashMap<String, Animation> createCatAnimationMap() {
-
-        HashMap<String, Animation> catAnimationMap = new HashMap<>();
-
-        // standing
-        catAnimationMap.put("farmCatStandingDown", new Animation(imageMap.get("farmCat"), 8, 24, 0, 8, 10));
-        catAnimationMap.put("farmCatStandingUp", new Animation(imageMap.get("farmCat"), 8, 24, 1, 8, 10));
-        catAnimationMap.put("farmCatStandingRight", new Animation(imageMap.get("farmCat"), 8, 24, 2, 8, 10));
-        catAnimationMap.put("farmCatStandingLeft", new Animation(imageMap.get("farmCat"), 8, 24, 3, 8, 10));
-
-        // walking
-        catAnimationMap.put("farmCatWalkingDown", new Animation(imageMap.get("farmCat"), 8, 24, 4, 8, 10));
-        catAnimationMap.put("farmCatWalkingUp", new Animation(imageMap.get("farmCat"), 8, 24, 5, 8, 10));
-        catAnimationMap.put("farmCatWalkingRight", new Animation(imageMap.get("farmCat"), 8, 24, 6, 8, 10));
-        catAnimationMap.put("farmCatWalkingLeft", new Animation(imageMap.get("farmCat"), 8, 24, 7, 8, 10));
-
-        // running
-        catAnimationMap.put("farmCatRunningDown", new Animation(imageMap.get("farmCat"), 8, 24, 8, 8, 10));
-        catAnimationMap.put("farmCatRunningUp", new Animation(imageMap.get("farmCat"), 8, 24, 9, 8, 10));
-        catAnimationMap.put("farmCatRunningRight", new Animation(imageMap.get("farmCat"), 8, 24, 10, 8, 10));
-        catAnimationMap.put("farmCatRunningLeft", new Animation(imageMap.get("farmCat"), 8, 24, 11, 8, 10));
-
-        // tilling
-        catAnimationMap.put("farmCatTillingDown", new Animation(imageMap.get("farmCat"), 8, 24, 12, 8, 10));
-        catAnimationMap.put("farmCatTillingUp", new Animation(imageMap.get("farmCat"), 8, 24, 13, 8, 10));
-        catAnimationMap.put("farmCatTillingRight", new Animation(imageMap.get("farmCat"), 8, 24, 14, 8, 10));
-        catAnimationMap.put("farmCatTillingLeft", new Animation(imageMap.get("farmCat"), 8, 24, 15, 8, 10));
-
-        // chopping
-        catAnimationMap.put("farmCatChoppingDown", new Animation(imageMap.get("farmCat"), 8, 24, 16, 8, 10));
-        catAnimationMap.put("farmCatChoppingUp", new Animation(imageMap.get("farmCat"), 8, 24, 17, 8, 10));
-        catAnimationMap.put("farmCatChoppingRight", new Animation(imageMap.get("farmCat"), 8, 24, 18, 8, 10));
-        catAnimationMap.put("farmCatChoppingLeft", new Animation(imageMap.get("farmCat"), 8, 24, 19, 8, 10));
-
-        // watering
-        catAnimationMap.put("farmCatWateringDown", new Animation(imageMap.get("farmCat"), 8, 24, 20, 8, 10));
-        catAnimationMap.put("farmCatWateringUp", new Animation(imageMap.get("farmCat"), 8, 24, 21, 8, 10));
-        catAnimationMap.put("farmCatWateringRight", new Animation(imageMap.get("farmCat"), 8, 24, 22, 8, 10));
-        catAnimationMap.put("farmCatWateringLeft", new Animation(imageMap.get("farmCat"), 8, 24, 23, 8, 10));
-
-        return catAnimationMap;
-    }
-
-
     // entities resources
     private void initializeEntitiesResourcesMap() {
 
@@ -666,6 +492,38 @@ public class ResourceHandler {
         signsMap.put("pear", imageMap.get("signs").getSubimage(5 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // pear sign
         signsMap.put("peach", imageMap.get("signs").getSubimage(0, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // peach sign
         entitiesResourcesMap.put("signs", signsMap);
+
+        // entrances
+        HashMap<String, BufferedImage> entrancesMap = new HashMap<>();
+        entrancesMap.put("194open", imageMap.get("gates").getSubimage(17 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // gate horizontal left gate
+        entrancesMap.put("195open", imageMap.get("gates").getSubimage(18 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // gate horizontal right gate
+        entrancesMap.put("197open", imageMap.get("gates").getSubimage(8 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // gate vertical up
+        entrancesMap.put("198open", imageMap.get("gates").getSubimage(9 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // gate vertical up front
+        entrancesMap.put("199open", imageMap.get("gates").getSubimage(8 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // gate vertical up gate
+        entrancesMap.put("200open", imageMap.get("gates").getSubimage(9 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // gate vertical up gate front
+        entrancesMap.put("201open", imageMap.get("gates").getSubimage(8 * Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // gate vertical down gate
+        entrancesMap.put("202open", imageMap.get("gates").getSubimage(9 * Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // gate vertical down gate front
+        entrancesMap.put("203open", imageMap.get("gates").getSubimage(8 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // gate vertical down
+        entrancesMap.put("204open", imageMap.get("gates").getSubimage(9 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // gate vertical down front
+        entrancesMap.put("194closed", imageMap.get("gates").getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // gate horizontal left gate
+        entrancesMap.put("195closed", imageMap.get("gates").getSubimage(2 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // gate horizontal right gate
+        entrancesMap.put("197closed", imageMap.get("gates").getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // gate vertical up
+        entrancesMap.put("198closed", imageMap.get("gates").getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // gate vertical up front
+        entrancesMap.put("199closed", imageMap.get("gates").getSubimage(0, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // gate vertical up gate
+        entrancesMap.put("200closed", imageMap.get("gates").getSubimage(Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // gate vertical up gate front
+        entrancesMap.put("201closed", imageMap.get("gates").getSubimage(0, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // gate vertical down gate
+        entrancesMap.put("202closed", imageMap.get("gates").getSubimage(Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // gate vertical down gate front
+        entrancesMap.put("203closed", imageMap.get("gates").getSubimage(0, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // gate vertical down
+        entrancesMap.put("204closed", imageMap.get("gates").getSubimage(Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // gate vertical down front
+        entrancesMap.put("217open", imageMap.get("doors").getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // single door
+        entrancesMap.put("218open", imageMap.get("doors").getSubimage(3 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // double doors 1
+        entrancesMap.put("219open", imageMap.get("doors").getSubimage(4 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // double doors 2
+        entrancesMap.put("220open", imageMap.get("doors").getSubimage(5 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // double doors 3
+        entrancesMap.put("217closed", imageMap.get("doors").getSubimage(5 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // single door
+        entrancesMap.put("218closed", imageMap.get("doors").getSubimage(15 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // double doors 1
+        entrancesMap.put("219closed", imageMap.get("doors").getSubimage(16 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // double doors 2
+        entrancesMap.put("220closed", imageMap.get("doors").getSubimage(17 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // double doors 3
+        entitiesResourcesMap.put("entrances", entrancesMap);
 
     }
 }

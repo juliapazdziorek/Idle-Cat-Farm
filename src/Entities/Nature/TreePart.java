@@ -20,7 +20,7 @@ public class TreePart extends Entity {
     public TreePart(Point position, int tileId) {
         super(position);
         staticImage = Farm.resourceHandler.entitiesResourcesMap.get("tree").get(String.valueOf(tileId));
-        clickAnimation = Farm.resourceHandler.animationsMap.get(tileId).get();
+        clickAnimation = Farm.resourceHandler.animationFactory.createClickTreePartAnimation(tileId);
 
         clickable = true;
     }

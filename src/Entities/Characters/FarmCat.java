@@ -49,7 +49,7 @@ public class FarmCat extends AnimatedEntity {
         super(new Point(tileX * Farm.tileSize + Farm.tileSize / 2, tileY * Farm.tileSize + Farm.tileSize / 2));
 
         // get animations
-        animations = Farm.resourceHandler.createCatAnimationMap();
+        animations = Farm.resourceHandler.animationFactory.createCatAnimationMap();
 
         // initialize cat state variables
         farmCatFacing = FarmCatFacing.DOWN;
@@ -323,6 +323,12 @@ public class FarmCat extends AnimatedEntity {
 
     public void resetAnimations() {
         animations.values().forEach(Animation::resetFrames);
+    }
+
+
+    // getters
+    public Point getPosition() {
+        return new Point(position);
     }
 
 
