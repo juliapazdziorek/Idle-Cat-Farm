@@ -23,8 +23,8 @@ public class Map {
     private final ArrayList<MapLayer> mapLayersToUpdate;
 
     // map areas
-    public enum MapLevels {LEVEL_0, LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_Star;}
-    public enum MapArea {PARK, COOP, COWS, FIELDS, HOUSE, ORCHARD;}
+    public enum MapLevels {LEVEL_0, LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_Star}
+    public enum MapArea {PARK, COOP, COWS, FIELDS, HOUSE, ORCHARD}
     public final ArrayList<MapArea> mapAreas;
     public final HashMap<MapArea, MapLevels> mapAreasLevels;
 
@@ -103,81 +103,81 @@ public class Map {
                 193, // gate horizontal left
                 196, // gate horizontal right
                 197, // gate vertical up
-                200, // gate vertical down
-                201, // wall front
-                202, // wall left
-                203, // wall right
-                204, // wall up-left corner
-                205, // wall bottom-left corner
-                206, // wall bottom-right corner
-                207, // wall up-left inner corner
-                208, // wall bottom-left inner corner
-                209, // wall up-right inner corner
-                210, // wall bottom-right inner corner
-                211, // window
-                240, // small coop 1
-                241, // small coop 2
-                242, // small coop 3
-                243, // small coop 4
-                244, // small coop 5
-                245, // small coop 6
-                246, // big coop 1
-                247, // big coop 2
-                248, // big coop 3
-                249, // big coop 4
-                250, // big coop 5
-                251, // big coop 6
-                252, // big coop 7
-                253, // big coop 8
-                254, // big coop 9
-                255, // large coop 1
-                256, // large coop 2
-                257, // large coop 3
-                258, // large coop 4
-                259, // large coop 5
-                260, // large coop 6
-                261, // large coop 7
-                262, // large coop 8
-                263, // large coop 9
-                264, // large coop 10
-                265, // large coop 11
-                266, // large coop 12
-                267, // large coop 13
-                268, // large coop 14
-                269, // large coop 15
-                270, // large coop 16
-                271, // large coop 17
-                272, // large coop 18
-                273, // large coop 19
-                274, // large coop 20
-                275, // box
-                276, // two boxes top-left
-                277, // two boxes top-right
-                278, // two boxes bottom-left
-                279, // two boxes bottom-right
-                280, // hay
-                281, // big hay left
-                282, // big hay right
-                285, // water tray left
-                286, // water tray right
-                288, // mailbox bottom
-                290, // work station left-bottom
-                292, // work station right-bottom
-                294, // water well left-bottom
-                296, // water well right-bottom
-                306, // picnic basket
-                308, // pot flower
-                309, // bed top
-                310, // pink bed bottom
-                311, // blue bed bottom
-                312, // green bed bottom
-                313, // green upside down bed top
-                314, // green upside down bed bottom
-                315, // chair left
-                316, // chair down
-                317, // dresser
-                318, // table
-                328); // sign
+                203, // gate vertical down
+                205, // wall front
+                206, // wall left
+                207, // wall right
+                208, // wall up-left corner
+                209, // wall bottom-left corner
+                210, // wall bottom-right corner
+                211, // wall up-left inner corner
+                212, // wall bottom-left inner corner
+                213, // wall up-right inner corner
+                214, // wall bottom-right inner corner
+                215, // window
+                244, // small coop 1
+                245, // small coop 2
+                246, // small coop 3
+                247, // small coop 4
+                248, // small coop 5
+                249, // small coop 6
+                250, // big coop 1
+                251, // big coop 2
+                252, // big coop 3
+                253, // big coop 4
+                254, // big coop 5
+                255, // big coop 6
+                256, // big coop 7
+                257, // big coop 8
+                258, // big coop 9
+                259, // large coop 1
+                260, // large coop 2
+                261, // large coop 3
+                262, // large coop 4
+                263, // large coop 5
+                264, // large coop 6
+                265, // large coop 7
+                266, // large coop 8
+                267, // large coop 9
+                268, // large coop 10
+                269, // large coop 11
+                270, // large coop 12
+                271, // large coop 13
+                272, // large coop 14
+                273, // large coop 15
+                274, // large coop 16
+                275, // large coop 17
+                276, // large coop 18
+                277, // large coop 19
+                278, // large coop 20
+                279, // box
+                280, // two boxes top-left
+                281, // two boxes top-right
+                282, // two boxes bottom-left
+                283, // two boxes bottom-right
+                284, // hay
+                285, // big hay left
+                286, // big hay right
+                289, // water tray left
+                290, // water tray right
+                292, // mailbox bottom
+                294, // work station left-bottom
+                296, // work station right-bottom
+                298, // water well left-bottom
+                300, // water well right-bottom
+                310, // picnic basket
+                312, // pot flower
+                313, // bed top
+                314, // pink bed bottom
+                315, // blue bed bottom
+                316, // green bed bottom
+                317, // green upside down bed top
+                318, // green upside down bed bottom
+                319, // chair left
+                320, // chair down
+                321, // dresser
+                322, // table
+                332); // sign
 
         // map entities
         bushPositions = new ArrayList<>();
@@ -188,7 +188,7 @@ public class Map {
 
         roofs = new ArrayList<>();
         roofsIds = new ArrayList<>();
-        Collections.addAll(roofsIds, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239);
+        Collections.addAll(roofsIds, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243);
 
         // initialize layers
         createMapLayers();
@@ -346,7 +346,7 @@ public class Map {
                     }
 
                     // signs positions
-                    if (tilesIds[i][j] == 328) {
+                    if (tilesIds[i][j] == 332) {
                         signsPositions.add(new Point(j * Farm.tileSize, i * Farm.tileSize));
                         continue;
                     }
@@ -357,7 +357,7 @@ public class Map {
                         Animation animation = Farm.resourceHandler.animationsMap.get(tilesIds[i][j]).get();
                         layer.tiles[i][j] = new AnimatedEntity(new Point(j * Farm.tileSize, i * Farm.tileSize), animation);
 
-                        // static tiles
+                    // static tiles
                     } else if (Farm.resourceHandler.tilesMap.containsKey(tilesIds[i][j])) {
                         layer.tiles[i][j] = new StaticEntity(new Point(j * Farm.tileSize, i * Farm.tileSize), Farm.resourceHandler.tilesMap.get(tilesIds[i][j]));
                     }

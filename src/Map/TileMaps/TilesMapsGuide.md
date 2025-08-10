@@ -43,20 +43,20 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 - **Grass Decors**: 121–142
 - **Trees**: 150-181
 - **Fences**: 182–192
-- **Gates**: 193–200
-- **Walls**: 201–212
-- **Doors**: 213–216
-- **Roof**: 217–239
-- **Coop**: 240–274
-- **Barn Structures**: 275–284
-- **Water Tray**: 285–286
-- **Mailbox**: 287–288
-- **Work Station**: 289–292
-- **Water Well**: 293–296
-- **Piknik Blanket**: 297–305
-- **Piknik Basket**: 306
-- **Furniture**: 307–327
-- **Sign**: 328
+- **Gates**: 193–204
+- **Walls**: 205–216
+- **Doors**: 217–220
+- **Roof**: 221–243
+- **Coop**: 244–278
+- **Barn Structures**: 279–288
+- **Water Tray**: 289–290
+- **Mailbox**: 291–292
+- **Work Station**: 293–296
+- **Water Well**: 297–300
+- **Piknik Blanket**: 301–309
+- **Piknik Basket**: 310
+- **Furniture**: 311–331
+- **Sign**: 332
 
 ---
 
@@ -369,16 +369,20 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 **File:** `BuildingParts/gates.png`
 
-| ID  | Tile Name                  | Notes    |
-|-----|----------------------------|----------|
-| 193 | Gate horizontal left       | Obstacle |
-| 194 | Gate horizontal left gate  | Animated |
-| 195 | Gate horizontal right gate | Animated |
-| 196 | Gate horizontal right      | Obstacle |
-| 197 | Gate vertical up           | Obstacle |
-| 198 | Gate vertical up gate      | Animated |
-| 199 | Gate vertical down gate    | Animated |
-| 200 | Gate vertical down         | Obstacle |
+| ID  | Tile Name                     | Notes              |
+|-----|-------------------------------|--------------------|
+| 193 | Gate horizontal left          | Obstacle           |
+| 194 | Gate horizontal left gate     | Animated           |
+| 195 | Gate horizontal right gate    | Animated           |
+| 196 | Gate horizontal right         | Obstacle           |
+| 197 | Gate vertical up              | Animated, obstacle |
+| 198 | Gate vertical up front        | Animated           |
+| 199 | Gate vertical up gate         | Animated           |
+| 200 | Gate vertical up gate front   | Animated           |
+| 201 | Gate vertical down gate       | Animated           |
+| 202 | Gate vertical down gate front | Animated           |
+| 203 | Gate vertical down            | Animated, obstacle |
+| 204 | Gate vertical down front      | Animated           |
 
 ---
 
@@ -388,18 +392,18 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 | ID  | Tile Name                      | Notes    |
 |-----|--------------------------------|----------|
-| 201 | Wall front                     | Obstacle |
-| 202 | Wall left                      | Obstacle |
-| 203 | Wall right                     | Obstacle |
-| 204 | Wall up-left corner            | Obstacle |
-| 205 | Wall bottom-left corner        | Obstacle |
-| 206 | Wall bottom-right corner       | Obstacle |
-| 207 | Wall up-left inner corner      | Obstacle |
-| 208 | Wall bottom-left inner corner  | Obstacle |
-| 209 | Wall up-right inner corner     | Obstacle |
-| 210 | Wall bottom-right inner corner | Obstacle |
-| 211 | Window                         | Obstacle |
-| 212 | Floor                          |          |
+| 205 | Wall front                     | Obstacle |
+| 206 | Wall left                      | Obstacle |
+| 207 | Wall right                     | Obstacle |
+| 208 | Wall up-left corner            | Obstacle |
+| 209 | Wall bottom-left corner        | Obstacle |
+| 210 | Wall bottom-right corner       | Obstacle |
+| 211 | Wall up-left inner corner      | Obstacle |
+| 212 | Wall bottom-left inner corner  | Obstacle |
+| 213 | Wall up-right inner corner     | Obstacle |
+| 214 | Wall bottom-right inner corner | Obstacle |
+| 215 | Window                         | Obstacle |
+| 216 | Floor                          |          |
 
 ---
 
@@ -409,10 +413,10 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 | ID  | Tile Name      | Notes    |
 |-----|----------------|----------|
-| 213 | Single door    | Animated |
-| 214 | Double doors 1 | Animated |
-| 215 | Double doors 2 | Animated |
-| 216 | Double doors 3 | Animated |
+| 217 | Single door    | Animated |
+| 218 | Double doors 1 | Animated |
+| 219 | Double doors 2 | Animated |
+| 220 | Double doors 3 | Animated |
 
 ---
 
@@ -422,29 +426,29 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 | ID  | Tile Name                         | Notes |
 |-----|-----------------------------------|-------|
-| 217 | Roof edge corner up-left          |       |
-| 218 | Roof edge up                      |       |
-| 219 | Roof edge corner up-right         |       |
-| 220 | Roof edge up left                 |       |
-| 221 | Roof middle up                    |       |
-| 222 | Roof middle up light decor        |       |
-| 223 | Roof middle up dark decor         |       |
-| 224 | Roof edge up right                |       |
-| 225 | Roof middle part edge left        |       |
-| 226 | Roof middle part                  |       |
-| 227 | Roof middle part edge right       |       |
-| 228 | Roof edge down left               |       |
-| 229 | Roof middle down                  |       |
-| 230 | Roof middle down light decor      |       |
-| 231 | Roof middle down dark decor       |       |
-| 232 | Roof edge down right              |       |
-| 233 | Roof edge corner bottom-left      |       |
-| 234 | Roof edge down                    |       |
-| 235 | Roof edge corner bottom-right     |       |
-| 236 | Roof edge inner corner up-left    |       |
-| 237 | Roof edge inner corner up-right   |       |
-| 238 | Roof edge inner corner down-right |       |
-| 239 | Roof chimney                      |       |
+| 221 | Roof edge corner up-left          |       |
+| 222 | Roof edge up                      |       |
+| 223 | Roof edge corner up-right         |       |
+| 224 | Roof edge up left                 |       |
+| 225 | Roof middle up                    |       |
+| 226 | Roof middle up light decor        |       |
+| 227 | Roof middle up dark decor         |       |
+| 228 | Roof edge up right                |       |
+| 229 | Roof middle part edge left        |       |
+| 230 | Roof middle part                  |       |
+| 231 | Roof middle part edge right       |       |
+| 232 | Roof edge down left               |       |
+| 233 | Roof middle down                  |       |
+| 234 | Roof middle down light decor      |       |
+| 235 | Roof middle down dark decor       |       |
+| 236 | Roof edge down right              |       |
+| 237 | Roof edge corner bottom-left      |       |
+| 238 | Roof edge down                    |       |
+| 239 | Roof edge corner bottom-right     |       |
+| 240 | Roof edge inner corner up-left    |       |
+| 241 | Roof edge inner corner up-right   |       |
+| 242 | Roof edge inner corner down-right |       |
+| 243 | Roof chimney                      |       |
 
 ---
 
@@ -454,41 +458,41 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 | ID  | Tile Name     | Notes    |
 |-----|---------------|----------|
-| 240 | Small coop 1  | Obstacle |
-| 241 | Small coop 2  | Obstacle |
-| 242 | Small coop 3  | Obstacle |
-| 243 | Small coop 4  | Obstacle |
-| 244 | Small coop 5  | Obstacle |
-| 245 | Small coop 6  | Obstacle |
-| 246 | Big coop 1    | Obstacle |
-| 247 | Big coop 2    | Obstacle |
-| 248 | Big coop 3    | Obstacle |
-| 249 | Big coop 4    | Obstacle |
-| 250 | Big coop 5    | Obstacle |
-| 251 | Big coop 6    | Obstacle |
-| 252 | Big coop 7    | Obstacle |
-| 253 | Big coop 8    | Obstacle |
-| 254 | Big coop 9    | Obstacle |
-| 255 | Large coop 1  | Obstacle |
-| 256 | Large coop 2  | Obstacle |
-| 257 | Large coop 3  | Obstacle |
-| 258 | Large coop 4  | Obstacle |
-| 259 | Large coop 5  | Obstacle |
-| 260 | Large coop 6  | Obstacle |
-| 261 | Large coop 7  | Obstacle |
-| 262 | Large coop 8  | Obstacle |
-| 263 | Large coop 9  | Obstacle |
-| 264 | Large coop 10 | Obstacle |
-| 265 | Large coop 11 | Obstacle |
-| 266 | Large coop 12 | Obstacle |
-| 267 | Large coop 13 | Obstacle |
-| 268 | Large coop 14 | Obstacle |
-| 269 | Large coop 15 | Obstacle |
-| 270 | Large coop 16 | Obstacle |
-| 271 | Large coop 17 | Obstacle |
-| 272 | Large coop 18 | Obstacle |
-| 273 | Large coop 19 | Obstacle |
-| 274 | Large coop 20 | Obstacle |
+| 244 | Small coop 1  | Obstacle |
+| 245 | Small coop 2  | Obstacle |
+| 246 | Small coop 3  | Obstacle |
+| 247 | Small coop 4  | Obstacle |
+| 248 | Small coop 5  | Obstacle |
+| 249 | Small coop 6  | Obstacle |
+| 250 | Big coop 1    | Obstacle |
+| 251 | Big coop 2    | Obstacle |
+| 252 | Big coop 3    | Obstacle |
+| 253 | Big coop 4    | Obstacle |
+| 254 | Big coop 5    | Obstacle |
+| 255 | Big coop 6    | Obstacle |
+| 256 | Big coop 7    | Obstacle |
+| 257 | Big coop 8    | Obstacle |
+| 258 | Big coop 9    | Obstacle |
+| 259 | Large coop 1  | Obstacle |
+| 260 | Large coop 2  | Obstacle |
+| 261 | Large coop 3  | Obstacle |
+| 262 | Large coop 4  | Obstacle |
+| 263 | Large coop 5  | Obstacle |
+| 264 | Large coop 6  | Obstacle |
+| 265 | Large coop 7  | Obstacle |
+| 266 | Large coop 8  | Obstacle |
+| 267 | Large coop 9  | Obstacle |
+| 268 | Large coop 10 | Obstacle |
+| 269 | Large coop 11 | Obstacle |
+| 270 | Large coop 12 | Obstacle |
+| 271 | Large coop 13 | Obstacle |
+| 272 | Large coop 14 | Obstacle |
+| 273 | Large coop 15 | Obstacle |
+| 274 | Large coop 16 | Obstacle |
+| 275 | Large coop 17 | Obstacle |
+| 276 | Large coop 18 | Obstacle |
+| 277 | Large coop 19 | Obstacle |
+| 278 | Large coop 20 | Obstacle |
 
 ---
 
@@ -502,16 +506,16 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 | ID  | Tile Name              | Notes    |
 |-----|------------------------|----------|
-| 275 | Box                    | Obstacle |
-| 276 | Two boxes top-left     | Obstacle |
-| 277 | Two boxes top-right    | Obstacle |
-| 278 | Two boxes bottom-left  | Obstacle |
-| 279 | Two boxes bottom-right | Obstacle |
-| 280 | Hay                    | Obstacle |
-| 281 | Big hay left           | Obstacle |
-| 282 | Big hay right          | Obstacle |
-| 283 | Patch of hay           |          |
-| 284 | Big patch of hay       |          |
+| 279 | Box                    | Obstacle |
+| 280 | Two boxes top-left     | Obstacle |
+| 281 | Two boxes top-right    | Obstacle |
+| 282 | Two boxes bottom-left  | Obstacle |
+| 283 | Two boxes bottom-right | Obstacle |
+| 284 | Hay                    | Obstacle |
+| 285 | Big hay left           | Obstacle |
+| 286 | Big hay right          | Obstacle |
+| 287 | Patch of hay           |          |
+| 288 | Big patch of hay       |          |
 
 ---
 
@@ -521,8 +525,8 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 | ID  | Tile Name        | Notes    |
 |-----|------------------|----------|
-| 285 | Water tray left  | Obstacle |
-| 286 | Water tray right | Obstacle |
+| 289 | Water tray left  | Obstacle |
+| 290 | Water tray right | Obstacle |
 
 ---
 
@@ -532,8 +536,8 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 | ID  | Tile Name      | Notes              |
 |-----|----------------|--------------------|
-| 287 | Mailbox up     | Animated           |
-| 288 | Mailbox bottom | Animated, obstacle |
+| 291 | Mailbox up     | Animated           |
+| 292 | Mailbox bottom | Animated, obstacle |
 
 ---
 
@@ -543,10 +547,10 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 | ID  | Tile Name                 | Notes    |
 |-----|---------------------------|----------|
-| 289 | Work station left-up      |          |
-| 290 | Work station left-bottom  | Obstacle |
-| 291 | Work station right-up     |          |
-| 292 | Work station right-bottom | Obstacle |
+| 293 | Work station left-up      |          |
+| 294 | Work station left-bottom  | Obstacle |
+| 295 | Work station right-up     |          |
+| 296 | Work station right-bottom | Obstacle |
 
 ---
 
@@ -556,10 +560,10 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 | ID  | Tile Name               | Notes    |
 |-----|-------------------------|----------|
-| 293 | Water well left-up      |          |
-| 294 | Water well left-bottom  | Obstacle |
-| 295 | Water well right-up     |          |
-| 296 | Water well right-bottom | Obstacle |
+| 297 | Water well left-up      |          |
+| 298 | Water well left-bottom  | Obstacle |
+| 299 | Water well right-up     |          |
+| 300 | Water well right-bottom | Obstacle |
 
 ---
 
@@ -569,15 +573,15 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 | ID  | Tile Name        | Notes    |
 |-----|------------------|----------|
-| 297 | Piknik blanket 1 |          |
-| 298 | Piknik blanket 2 |          |
-| 299 | Piknik blanket 3 |          |
-| 300 | Piknik blanket 4 |          |
-| 301 | Piknik blanket 5 |          |
-| 302 | Piknik blanket 6 |          |
-| 303 | Piknik blanket 7 |          |
-| 304 | Piknik blanket 8 |          |
-| 305 | Piknik blanket 9 |          |
+| 301 | Piknik blanket 1 |          |
+| 302 | Piknik blanket 2 |          |
+| 303 | Piknik blanket 3 |          |
+| 304 | Piknik blanket 4 |          |
+| 305 | Piknik blanket 5 |          |
+| 306 | Piknik blanket 6 |          |
+| 307 | Piknik blanket 7 |          |
+| 308 | Piknik blanket 8 |          |
+| 309 | Piknik blanket 9 |          |
 
 ---
 
@@ -587,7 +591,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 | ID  | Tile Name     | Notes    |
 |-----|---------------|----------|
-| 306 | Piknik basket |          |
+| 310 | Piknik basket |          |
 
 ---
 
@@ -597,27 +601,27 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 | ID  | Tile Name                    | Notes    |
 |-----|------------------------------|----------|
-| 307 | Painting                     |          |
-| 308 | Pot flower                   | Obstacle |
-| 309 | Bed top                      | Obstacle |
-| 310 | Pink bed bottom              | Obstacle |
-| 311 | Blue bed bottom              | Obstacle |
-| 312 | Green bed bottom             | Obstacle |
-| 313 | Green upside down bed top    | Obstacle |
-| 314 | Green upside down bed bottom | Obstacle |
-| 315 | Chair left                   | Obstacle |
-| 316 | Chair down                   | Obstacle |
-| 317 | Dresser                      | Obstacle |
-| 318 | Table                        | Obstacle |
-| 319 | Pink big carpet left         |          |
-| 320 | Pink big carpet right        |          |
-| 321 | Blue big carpet left         |          |
-| 322 | Blue big carpet right        |          |
-| 323 | Green big carpet left        |          |
-| 324 | Green big carpet right       |          |
-| 325 | Pink small carpet            |          |
-| 326 | Blue small carpet            |          |
-| 327 | Green small carpet           |          |
+| 311 | Painting                     |          |
+| 312 | Pot flower                   | Obstacle |
+| 313 | Bed top                      | Obstacle |
+| 314 | Pink bed bottom              | Obstacle |
+| 315 | Blue bed bottom              | Obstacle |
+| 316 | Green bed bottom             | Obstacle |
+| 317 | Green upside down bed top    | Obstacle |
+| 318 | Green upside down bed bottom | Obstacle |
+| 319 | Chair left                   | Obstacle |
+| 320 | Chair down                   | Obstacle |
+| 321 | Dresser                      | Obstacle |
+| 322 | Table                        | Obstacle |
+| 323 | Pink big carpet left         |          |
+| 324 | Pink big carpet right        |          |
+| 325 | Blue big carpet left         |          |
+| 326 | Blue big carpet right        |          |
+| 327 | Green big carpet left        |          |
+| 328 | Green big carpet right       |          |
+| 329 | Pink small carpet            |          |
+| 330 | Blue small carpet            |          |
+| 331 | Green small carpet           |          |
 
 ---
 
@@ -627,4 +631,4 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 | ID  | Tile Name | Notes                         |
 |-----|-----------|-------------------------------|
-| 328 | Sign      | Obstacle, changing appearance |
+| 332 | Sign      | Obstacle, changing appearance |

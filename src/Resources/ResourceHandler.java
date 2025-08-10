@@ -298,155 +298,155 @@ public class ResourceHandler {
         tilesMap.put(193, gates.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // gate horizontal left
         tilesMap.put(196, gates.getSubimage(3 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // gate horizontal right
         tilesMap.put(197, gates.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // gate vertical up
-        tilesMap.put(200, gates.getSubimage(0, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // gate vertical down
+        tilesMap.put(203, gates.getSubimage(0, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // gate vertical down
 
         // walls
         BufferedImage walls = imageMap.get("walls");
-        tilesMap.put(201, walls.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // wall front
-        tilesMap.put(202, walls.getSubimage(2 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // wall left
-        tilesMap.put(203, walls.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // wall right
-        tilesMap.put(204, walls.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // wall up-left corner
-        tilesMap.put(205, walls.getSubimage(0, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // wall bottom-left corner
-        tilesMap.put(206, walls.getSubimage(2 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // wall bottom-right corner
-        tilesMap.put(207, walls.getSubimage(3 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // wall up-left big corner
-        tilesMap.put(208, walls.getSubimage(3 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // wall bottom-left big corner
-        tilesMap.put(209, walls.getSubimage(4 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // wall up-right big corner
-        tilesMap.put(210, walls.getSubimage(4 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // wall bottom-right big corner
-        tilesMap.put(211, walls.getSubimage(3 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // window
-        tilesMap.put(212, walls.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // floor
+        tilesMap.put(205, walls.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // wall front
+        tilesMap.put(206, walls.getSubimage(2 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // wall left
+        tilesMap.put(207, walls.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // wall right
+        tilesMap.put(208, walls.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // wall up-left corner
+        tilesMap.put(209, walls.getSubimage(0, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // wall bottom-left corner
+        tilesMap.put(210, walls.getSubimage(2 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // wall bottom-right corner
+        tilesMap.put(211, walls.getSubimage(3 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // wall up-left big corner
+        tilesMap.put(212, walls.getSubimage(3 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // wall bottom-left big corner
+        tilesMap.put(213, walls.getSubimage(4 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // wall up-right big corner
+        tilesMap.put(214, walls.getSubimage(4 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // wall bottom-right big corner
+        tilesMap.put(215, walls.getSubimage(3 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // window
+        tilesMap.put(216, walls.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // floor
 
         // roof
         BufferedImage roof = imageMap.get("roof");
-        tilesMap.put(217, roof.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // roof edge corner up-left
-        tilesMap.put(218, roof.getSubimage( Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // roof edge up
-        tilesMap.put(219, roof.getSubimage(2 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // roof edge corner up-right
-        tilesMap.put(220, roof.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge up left
-        tilesMap.put(221, roof.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle up
-        tilesMap.put(222, roof.getSubimage(4 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle up light decor
-        tilesMap.put(223, roof.getSubimage(3 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle up dark decor
-        tilesMap.put(224, roof.getSubimage(2 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge up right
-        tilesMap.put(225, roof.getSubimage(0, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle part edge left
-        tilesMap.put(226, roof.getSubimage(Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle part
-        tilesMap.put(227, roof.getSubimage(2 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle part edge right
-        tilesMap.put(228, roof.getSubimage(0, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge down left
-        tilesMap.put(229, roof.getSubimage(Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle down
-        tilesMap.put(230, roof.getSubimage(3 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle down light decor
-        tilesMap.put(231, roof.getSubimage(4 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle down dark decor
-        tilesMap.put(232, roof.getSubimage(2 * Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge down right
-        tilesMap.put(233, roof.getSubimage(0, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge corner bottom-left
-        tilesMap.put(234, roof.getSubimage(Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge down
-        tilesMap.put(235, roof.getSubimage(2 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge corner bottom-right
-        tilesMap.put(236, roof.getSubimage(3 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // roof edge inner corner up-left
-        tilesMap.put(237, roof.getSubimage(4 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // roof edge inner corner up-right
-        tilesMap.put(238, roof.getSubimage(4 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge inner corner down-right
-        tilesMap.put(239, roof.getSubimage(5 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // roof chimney
+        tilesMap.put(221, roof.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // roof edge corner up-left
+        tilesMap.put(222, roof.getSubimage( Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // roof edge up
+        tilesMap.put(223, roof.getSubimage(2 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // roof edge corner up-right
+        tilesMap.put(224, roof.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge up left
+        tilesMap.put(225, roof.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle up
+        tilesMap.put(226, roof.getSubimage(4 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle up light decor
+        tilesMap.put(227, roof.getSubimage(3 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle up dark decor
+        tilesMap.put(228, roof.getSubimage(2 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge up right
+        tilesMap.put(229, roof.getSubimage(0, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle part edge left
+        tilesMap.put(230, roof.getSubimage(Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle part
+        tilesMap.put(231, roof.getSubimage(2 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle part edge right
+        tilesMap.put(232, roof.getSubimage(0, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge down left
+        tilesMap.put(233, roof.getSubimage(Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle down
+        tilesMap.put(234, roof.getSubimage(3 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle down light decor
+        tilesMap.put(235, roof.getSubimage(4 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof middle down dark decor
+        tilesMap.put(236, roof.getSubimage(2 * Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge down right
+        tilesMap.put(237, roof.getSubimage(0, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge corner bottom-left
+        tilesMap.put(238, roof.getSubimage(Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge down
+        tilesMap.put(239, roof.getSubimage(2 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge corner bottom-right
+        tilesMap.put(240, roof.getSubimage(3 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // roof edge inner corner up-left
+        tilesMap.put(241, roof.getSubimage(4 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // roof edge inner corner up-right
+        tilesMap.put(242, roof.getSubimage(4 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge inner corner down-right
+        tilesMap.put(243, roof.getSubimage(5 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // roof chimney
 
         // coop
         BufferedImage coop = imageMap.get("coop");
-        tilesMap.put(240, coop.getSubimage(10 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // small coop 1
-        tilesMap.put(241, coop.getSubimage(11 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // small coop 2
-        tilesMap.put(242, coop.getSubimage(10 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // small coop 3
-        tilesMap.put(243, coop.getSubimage(11 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // small coop 4
-        tilesMap.put(244, coop.getSubimage(10 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // small coop 5
-        tilesMap.put(245, coop.getSubimage(11 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // small coop 6
-        tilesMap.put(246, coop.getSubimage(0, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big coop 1
-        tilesMap.put(247, coop.getSubimage(Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big coop 2
-        tilesMap.put(248, coop.getSubimage(2 * Farm.tileSize, 5* Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big coop 3
-        tilesMap.put(249, coop.getSubimage(0, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big coop 4
-        tilesMap.put(250, coop.getSubimage(Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big coop 5
-        tilesMap.put(251, coop.getSubimage(2 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big coop 6
-        tilesMap.put(252, coop.getSubimage(0, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big coop 7
-        tilesMap.put(253, coop.getSubimage(Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big coop 8
-        tilesMap.put(254, coop.getSubimage(2 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big coop 9
-        tilesMap.put(255, coop.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // large coop 1
-        tilesMap.put(256, coop.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // large coop 2
-        tilesMap.put(257, coop.getSubimage(2 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // large coop 3
-        tilesMap.put(258, coop.getSubimage(3 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // large coop 4
-        tilesMap.put(259, coop.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 5
-        tilesMap.put(260, coop.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 6
-        tilesMap.put(261, coop.getSubimage(2 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 7
-        tilesMap.put(262, coop.getSubimage(3 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 8
-        tilesMap.put(263, coop.getSubimage(0, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 9
-        tilesMap.put(264, coop.getSubimage(Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 10
-        tilesMap.put(265, coop.getSubimage(2 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 11
-        tilesMap.put(266, coop.getSubimage(3 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 12
-        tilesMap.put(267, coop.getSubimage(0, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 13
-        tilesMap.put(268, coop.getSubimage(Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 14
-        tilesMap.put(269, coop.getSubimage(2 * Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 15
-        tilesMap.put(270, coop.getSubimage(3 * Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 16
-        tilesMap.put(271, coop.getSubimage(0, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 17
-        tilesMap.put(272, coop.getSubimage(Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 18
-        tilesMap.put(273, coop.getSubimage(2 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 19
-        tilesMap.put(274, coop.getSubimage(3 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 20
+        tilesMap.put(244, coop.getSubimage(10 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // small coop 1
+        tilesMap.put(245, coop.getSubimage(11 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // small coop 2
+        tilesMap.put(246, coop.getSubimage(10 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // small coop 3
+        tilesMap.put(247, coop.getSubimage(11 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // small coop 4
+        tilesMap.put(248, coop.getSubimage(10 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // small coop 5
+        tilesMap.put(249, coop.getSubimage(11 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // small coop 6
+        tilesMap.put(250, coop.getSubimage(0, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big coop 1
+        tilesMap.put(251, coop.getSubimage(Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big coop 2
+        tilesMap.put(252, coop.getSubimage(2 * Farm.tileSize, 5* Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big coop 3
+        tilesMap.put(253, coop.getSubimage(0, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big coop 4
+        tilesMap.put(254, coop.getSubimage(Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big coop 5
+        tilesMap.put(255, coop.getSubimage(2 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big coop 6
+        tilesMap.put(256, coop.getSubimage(0, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big coop 7
+        tilesMap.put(257, coop.getSubimage(Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big coop 8
+        tilesMap.put(258, coop.getSubimage(2 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big coop 9
+        tilesMap.put(259, coop.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // large coop 1
+        tilesMap.put(260, coop.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // large coop 2
+        tilesMap.put(261, coop.getSubimage(2 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // large coop 3
+        tilesMap.put(262, coop.getSubimage(3 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // large coop 4
+        tilesMap.put(263, coop.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 5
+        tilesMap.put(264, coop.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 6
+        tilesMap.put(265, coop.getSubimage(2 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 7
+        tilesMap.put(266, coop.getSubimage(3 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 8
+        tilesMap.put(267, coop.getSubimage(0, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 9
+        tilesMap.put(268, coop.getSubimage(Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 10
+        tilesMap.put(269, coop.getSubimage(2 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 11
+        tilesMap.put(270, coop.getSubimage(3 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 12
+        tilesMap.put(271, coop.getSubimage(0, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 13
+        tilesMap.put(272, coop.getSubimage(Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 14
+        tilesMap.put(273, coop.getSubimage(2 * Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 15
+        tilesMap.put(274, coop.getSubimage(3 * Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 16
+        tilesMap.put(275, coop.getSubimage(0, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 17
+        tilesMap.put(276, coop.getSubimage(Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 18
+        tilesMap.put(277, coop.getSubimage(2 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 19
+        tilesMap.put(278, coop.getSubimage(3 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 20
 
         // objects
 
         // barn structures
         BufferedImage barnStructures = imageMap.get("barnStructures");
-        tilesMap.put(275, barnStructures.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // box
-        tilesMap.put(276, barnStructures.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // two boxes top-left
-        tilesMap.put(277, barnStructures.getSubimage(2 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // two boxes top-right
-        tilesMap.put(278, barnStructures.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // two boxes bottom-left
-        tilesMap.put(279, barnStructures.getSubimage(2 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // two boxes bottom-right
-        tilesMap.put(280, barnStructures.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // hay
-        tilesMap.put(281, barnStructures.getSubimage(0, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big hay left
-        tilesMap.put(282, barnStructures.getSubimage(Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big hay right
-        tilesMap.put(283, barnStructures.getSubimage(0, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // patch of hay
-        tilesMap.put(284, barnStructures.getSubimage(Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big patch of hay
+        tilesMap.put(279, barnStructures.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // box
+        tilesMap.put(280, barnStructures.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // two boxes top-left
+        tilesMap.put(281, barnStructures.getSubimage(2 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // two boxes top-right
+        tilesMap.put(282, barnStructures.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // two boxes bottom-left
+        tilesMap.put(283, barnStructures.getSubimage(2 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // two boxes bottom-right
+        tilesMap.put(284, barnStructures.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // hay
+        tilesMap.put(285, barnStructures.getSubimage(0, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big hay left
+        tilesMap.put(286, barnStructures.getSubimage(Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big hay right
+        tilesMap.put(287, barnStructures.getSubimage(0, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // patch of hay
+        tilesMap.put(288, barnStructures.getSubimage(Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big patch of hay
 
         // work station
         BufferedImage workStation = imageMap.get("workStation");
-        tilesMap.put(289, workStation.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // work station left-up
-        tilesMap.put(290, workStation.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // work station left-bottom
-        tilesMap.put(291, workStation.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // work station right-up
-        tilesMap.put(292, workStation.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // work station right-bottom
+        tilesMap.put(293, workStation.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // work station left-up
+        tilesMap.put(294, workStation.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // work station left-bottom
+        tilesMap.put(295, workStation.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // work station right-up
+        tilesMap.put(296, workStation.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // work station right-bottom
 
         // water well
         BufferedImage waterWell = imageMap.get("waterWell");
-        tilesMap.put(293, waterWell.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // water well left-up
-        tilesMap.put(294, waterWell.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // water well left-bottom
-        tilesMap.put(295, waterWell.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // water well right-up
-        tilesMap.put(296, waterWell.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // water well right-bottom
+        tilesMap.put(297, waterWell.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // water well left-up
+        tilesMap.put(298, waterWell.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // water well left-bottom
+        tilesMap.put(299, waterWell.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // water well right-up
+        tilesMap.put(300, waterWell.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // water well right-bottom
 
         // piknik blanket
         BufferedImage piknikBlanket = imageMap.get("piknikBlanket");
-        tilesMap.put(297, piknikBlanket.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // piknik blanket 1
-        tilesMap.put(298, piknikBlanket.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // piknik blanket 2
-        tilesMap.put(299, piknikBlanket.getSubimage(2 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // piknik blanket 3
-        tilesMap.put(300, piknikBlanket.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // piknik blanket 4
-        tilesMap.put(301, piknikBlanket.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // piknik blanket 5
-        tilesMap.put(302, piknikBlanket.getSubimage(2 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // piknik blanket 6
-        tilesMap.put(303, piknikBlanket.getSubimage(0, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // piknik blanket 7
-        tilesMap.put(304, piknikBlanket.getSubimage(Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // piknik blanket 8
-        tilesMap.put(305, piknikBlanket.getSubimage(2 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // piknik blanket 9
+        tilesMap.put(301, piknikBlanket.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // piknik blanket 1
+        tilesMap.put(302, piknikBlanket.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // piknik blanket 2
+        tilesMap.put(303, piknikBlanket.getSubimage(2 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // piknik blanket 3
+        tilesMap.put(304, piknikBlanket.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // piknik blanket 4
+        tilesMap.put(305, piknikBlanket.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // piknik blanket 5
+        tilesMap.put(306, piknikBlanket.getSubimage(2 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // piknik blanket 6
+        tilesMap.put(307, piknikBlanket.getSubimage(0, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // piknik blanket 7
+        tilesMap.put(308, piknikBlanket.getSubimage(Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // piknik blanket 8
+        tilesMap.put(309, piknikBlanket.getSubimage(2 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // piknik blanket 9
 
         // piknik basket
         BufferedImage piknikBasket = imageMap.get("piknikBasket");
-        tilesMap.put(306, piknikBasket.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // piknik basket
+        tilesMap.put(310, piknikBasket.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // piknik basket
 
         // furniture
         BufferedImage furniture = imageMap.get("furniture");
-        tilesMap.put(307, furniture.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // painting
-        tilesMap.put(308, furniture.getSubimage(3 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // flower pot
-        tilesMap.put(309, furniture.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // bed top
-        tilesMap.put(310, furniture.getSubimage(2 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // pink bed bottom
-        tilesMap.put(311, furniture.getSubimage(Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // blue bed bottom
-        tilesMap.put(312, furniture.getSubimage(0, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // green bed bottom
-        tilesMap.put(313, furniture.getSubimage(0, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // green upside down bed top
-        tilesMap.put(314, furniture.getSubimage(0, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // green upside down bed bottom
-        tilesMap.put(315, furniture.getSubimage(4 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // chair left
-        tilesMap.put(316, furniture.getSubimage(6 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // chair down
-        tilesMap.put(317, furniture.getSubimage(3 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // dresser
-        tilesMap.put(318, furniture.getSubimage(3 * Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // table
-        tilesMap.put(319, furniture.getSubimage(5 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // pink big carpet left
-        tilesMap.put(320, furniture.getSubimage(6 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // pink big carpet right
-        tilesMap.put(321, furniture.getSubimage(7 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // blue big carpet left
-        tilesMap.put(322, furniture.getSubimage(8 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // blue big carpet right
-        tilesMap.put(323, furniture.getSubimage(3 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // green big carpet left
-        tilesMap.put(324, furniture.getSubimage(4 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // green big carpet right
-        tilesMap.put(325, furniture.getSubimage(Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // pink small carpet
-        tilesMap.put(326, furniture.getSubimage(2 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // blue small carpet
-        tilesMap.put(327, furniture.getSubimage(0, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // green small carpet
+        tilesMap.put(311, furniture.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // painting
+        tilesMap.put(312, furniture.getSubimage(3 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // flower pot
+        tilesMap.put(313, furniture.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // bed top
+        tilesMap.put(314, furniture.getSubimage(2 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // pink bed bottom
+        tilesMap.put(315, furniture.getSubimage(Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // blue bed bottom
+        tilesMap.put(316, furniture.getSubimage(0, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // green bed bottom
+        tilesMap.put(317, furniture.getSubimage(0, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // green upside down bed top
+        tilesMap.put(318, furniture.getSubimage(0, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // green upside down bed bottom
+        tilesMap.put(319, furniture.getSubimage(4 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // chair left
+        tilesMap.put(320, furniture.getSubimage(6 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // chair down
+        tilesMap.put(321, furniture.getSubimage(3 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // dresser
+        tilesMap.put(322, furniture.getSubimage(3 * Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // table
+        tilesMap.put(323, furniture.getSubimage(5 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // pink big carpet left
+        tilesMap.put(324, furniture.getSubimage(6 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // pink big carpet right
+        tilesMap.put(325, furniture.getSubimage(7 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // blue big carpet left
+        tilesMap.put(326, furniture.getSubimage(8 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // blue big carpet right
+        tilesMap.put(327, furniture.getSubimage(3 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // green big carpet left
+        tilesMap.put(328, furniture.getSubimage(4 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // green big carpet right
+        tilesMap.put(329, furniture.getSubimage(Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // pink small carpet
+        tilesMap.put(330, furniture.getSubimage(2 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // blue small carpet
+        tilesMap.put(331, furniture.getSubimage(0, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // green small carpet
     }
 
 
