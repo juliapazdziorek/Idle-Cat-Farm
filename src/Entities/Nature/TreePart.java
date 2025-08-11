@@ -9,19 +9,21 @@ import java.awt.image.BufferedImage;
 
 public class TreePart extends Entity {
 
-    public Tree parentTree;
-
-    // visuals
+    // images
     public BufferedImage staticImage;
     public Animation clickAnimation;
-    public boolean isAnimating;
-    private int animationCycleCount;
 
-    public TreePart(Point position, int tileId) {
-        super(position);
+    public TreePart(Point position, int tileId, Tree parent) {
+        super(position, parent);
+
+        // set image and animation
         staticImage = Farm.resourceHandler.entitiesResourcesMap.get("tree").get(String.valueOf(tileId));
         clickAnimation = Farm.resourceHandler.animationFactory.createClickTreePartAnimation(tileId);
+        
+        // initialize current image
+        currentImage = staticImage;
 
+        // set flags
         clickable = true;
     }
 
@@ -29,61 +31,39 @@ public class TreePart extends Entity {
     // mouse handling
     @Override
     public void onClick() {
-        parentTree.playClickAnimation();
+        ((Tree) parent).playTreeClickAnimation();
     }
 
 
     // animation
-    public void startAnimation() {
+    public void startTreeClickAnimation() {
         if (clickAnimation != null) {
-            isAnimating = true;
-            animationCycleCount = 0;
             clickAnimation.resetFrames();
+            currentAnimation = clickAnimation;
+            isAnimating = true;
+            frameCounter = 0;
         }
     }
 
-
-    // getters
-    private BufferedImage getCurrentImage() {
-        if (isAnimating) {
-            return clickAnimation.getCurrentFrameImage();
-        }
-        return staticImage;
-    }
-
-
-    // setters
-    public void setParentTree(Tree tree) {
-        this.parentTree = tree;
-    }
-
-
-    // updating & rendering
+    // updating
     @Override
     public void update() {
-        if (isAnimating && clickAnimation != null) {
-            int previousFrame = clickAnimation.getCurrentFrame();
-            clickAnimation.update();
+        if (isAnimating && currentAnimation != null) {
+            int previousFrame = currentAnimation.getCurrentFrame();
+            super.update();
 
-            if (previousFrame == clickAnimation.getNumberOfFrames() - 1 && clickAnimation.getCurrentFrame() == 0) {
-                animationCycleCount++;
+            if (previousFrame == currentAnimation.getNumberOfFrames() - 1 && currentAnimation.getCurrentFrame() == 0) {
+                frameCounter++;
 
-                if (animationCycleCount >= 1) {
+                if (frameCounter >= 1) {
                     isAnimating = false;
-                    parentTree.isAnimating = false;
+                    currentAnimation = null;
+                    currentImage = staticImage;
+                    parent.isAnimating = false;
                 }
             }
+        } else {
+            currentImage = staticImage;
         }
-    }
-
-    @Override
-    public void render(Graphics2D graphics2D) {
-        BufferedImage imageToRender = getCurrentImage();
-        graphics2D.drawImage(imageToRender,
-                Farm.camera.position.x + position.x * Farm.scale,
-                Farm.camera.position.y + position.y * Farm.scale,
-                Farm.scaledTileSize,
-                Farm.scaledTileSize,
-                null);
     }
 }

@@ -1,53 +1,25 @@
 package Entities.Nature;
 
-import Entities.StaticEntity;
+import Entities.Entity;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
+public class Tree extends Entity {
 
-public class Tree extends StaticEntity {
+    public Tree() {
+        super();
 
-    public List<TreePart> treeParts;
-    public boolean isAnimating;
-
-    public Tree(Point centerPosition) {
-        super(centerPosition);
-        treeParts = new ArrayList<>();
+        // set flags
+        isParent = true;
     }
 
 
-    // adding tree parts
-    public void addTreePart(TreePart part) {
-        treeParts.add(part);
-        part.setParentTree(this);
-    }
-
-
-    // animation handling
-    public void playClickAnimation() {
+    // tree click animation handling
+    public void playTreeClickAnimation() {
         if (!isAnimating) {
             isAnimating = true;
 
-            for (TreePart part : treeParts) {
-                part.startAnimation();
+            for (Entity part : parts) {
+                ((TreePart) part).startTreeClickAnimation();
             }
-        }
-    }
-
-
-    // updating & rendering
-    @Override
-    public void update() {
-        for (TreePart part : treeParts) {
-            part.update();
-        }
-    }
-
-    @Override
-    public void render(Graphics2D graphics2D) {
-        for (TreePart part : treeParts) {
-            part.render(graphics2D);
         }
     }
 }

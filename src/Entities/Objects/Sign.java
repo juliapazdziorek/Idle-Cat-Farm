@@ -1,23 +1,24 @@
 package Entities.Objects;
 
-import Entities.StaticEntity;
+import Entities.Entity;
 import Game.Farm;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 
-public class Sign extends StaticEntity {
+public class Sign extends Entity {
 
     // images
     private final Map<String, BufferedImage> imageMap;
-    private BufferedImage currentImage;
 
     // state
     public enum SignState {EMPTY, CORN, CARROT, CAULIFLOWER, TOMATO, EGGPLANT, LETTUCE, WHEAT, PUMPKIN, RADISH, STAR, CUCUMBER, APPLE, ORANGE, PEAR, PEACH}
 
     public Sign(Point position) {
         super(position);
+
+        // set image
         imageMap = Farm.resourceHandler.entitiesResourcesMap.get("signs");
         currentImage = imageMap.get("empty");
     }
@@ -43,18 +44,5 @@ public class Sign extends StaticEntity {
             case PEAR -> currentImage = imageMap.get("pear");
             case PEACH -> currentImage = imageMap.get("peach");
         }
-    }
-
-
-    // rendering
-
-    @Override
-    public void render(Graphics2D graphics2D) {
-        graphics2D.drawImage(currentImage,
-                Farm.camera.position.x + position.x * Farm.scale,
-                Farm.camera.position.y + position.y * Farm.scale,
-                Farm.scaledTileSize,
-                Farm.scaledTileSize,
-                null);
     }
 }

@@ -1,20 +1,89 @@
 package Entities;
 
 import Game.Farm;
+import Resources.Animation;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
-public abstract class Entity {
+public class Entity {
 
+    // position
     protected Point position;
+
+    // parts
+    public boolean isParent;
+    public List<Entity> parts;
+    public Entity parent;
+
+    // image & animation
+    protected BufferedImage currentImage;
+
+    protected Animation currentAnimation;
+    public boolean isAnimating;
+    protected int frameCounter;
+
+    // clicks
     public boolean clickable;
+    public boolean isClicked;
+
+    public boolean hooverable;
+
+
+
+    public Entity() {}
 
     public Entity(Point position) {
         this.position = new Point(position);
     }
 
+    public Entity(Point position, int tileId) {
+        this(position);
+        currentImage = Farm.resourceHandler.tilesMap.get(tileId);
+    }
+
+    public Entity(Point position, Animation animation) {
+        this(position);
+        this.currentAnimation = animation;
+        this.isAnimating = true;
+    }
+
+    public Entity(Point position, Entity parent) {
+        this(position);
+        parent.addPart(this);
+    }
+
+    public Entity(Point position, int tileId, Entity parent) {
+        this(position, parent);
+        currentImage = Farm.resourceHandler.tilesMap.get(tileId);
+    }
+
+
+    // parts handling
+    public void addPart(Entity part) {
+        if (parts == null) {
+            parts = new ArrayList<>();
+        }
+
+        parts.add(part);
+        part.setParent(this);
+    }
+
+    public void setParent(Entity parent) {
+        this.parent = parent;
+    }
+
+
+    // getters
+    public Point getPosition() {
+        return new Point(position);
+    }
+
+
     // mouse handling
-    public abstract void onClick();
+    public void onClick() {};
 
     public boolean isPointInside(int mouseX, int mouseY) {
         // convert mouse screen coordinates to world coordinates
@@ -26,9 +95,35 @@ public abstract class Entity {
                worldMouseY >= position.y + halfTile && worldMouseY <= position.y + Farm.tileSize + halfTile;
     }
 
-    // abstract updating
-    public abstract void update();
 
-    // abstract rendering
-    public abstract void render(Graphics2D graphics2D);
+    // updating
+    public void update() {
+        if (isAnimating && currentAnimation != null) {
+            currentImage = currentAnimation.getCurrentFrameImage();
+            currentAnimation.update();
+        }
+
+        if (isParent && parts != null) {
+            for (Entity part : parts) {
+                part.update();
+            }
+        }
+    }
+
+
+    // rendering
+    public void render(Graphics2D graphics2D) {
+        if (currentImage != null && !isParent) {
+            graphics2D.drawImage(currentImage,
+                    Farm.camera.position.x + position.x * Farm.scale,
+                    Farm.camera.position.y + position.y * Farm.scale,
+                    Farm.scaledTileSize,
+                    Farm.scaledTileSize,
+                    null);
+        } else if (isParent && parts != null) {
+            for (Entity part : parts) {
+                part.render(graphics2D);
+            }
+        }
+    }
 }

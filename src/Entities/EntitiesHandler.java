@@ -52,7 +52,7 @@ public class EntitiesHandler implements MouseListener {
         for (Tree tree : map.trees) {
             renderableMapEntities.add(tree);
             updatableMapEntities.add(tree);
-            clickableMapEntities.addAll(tree.treeParts);
+            clickableMapEntities.addAll(tree.parts);
         }
 
         // signs

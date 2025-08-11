@@ -1,28 +1,20 @@
 package Entities.BuildingParts;
 
-import Entities.StaticEntity;
+import Entities.Entity;
 import Game.Farm;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Roof extends StaticEntity {
+public class Roof extends Entity {
 
-    public List<RoofPart> roofParts;
     protected boolean visible;
 
-    public Roof(Point centerPosition) {
-        super(centerPosition);
-        roofParts = new ArrayList<>();
+    public Roof() {
+        super();
+
+        // set flags
+        isParent = true;
         visible = true;
-    }
-
-
-    // roof parts
-    public void addRoofPart(RoofPart part) {
-        roofParts.add(part);
-        part.setParentRoof(this);
     }
 
 
@@ -42,10 +34,11 @@ public class Roof extends StaticEntity {
         int mouseX = mousePoint.x;
         int mouseY = mousePoint.y;
 
-        RoofPart[] parts = roofParts.toArray(new RoofPart[0]);
-        for (RoofPart part : parts) {
-            if (part.isPointInside(mouseX, mouseY)) {
-                return true;
+        if (parts != null) {
+            for (Entity part : parts) {
+                if (part.isPointInside(mouseX, mouseY)) {
+                    return true;
+                }
             }
         }
         return false;
@@ -60,8 +53,8 @@ public class Roof extends StaticEntity {
 
     @Override
     public void render(Graphics2D graphics2D) {
-        if (visible) {
-            for (RoofPart part : roofParts) {
+        if (visible && isParent && parts != null) {
+            for (Entity part : parts) {
                 part.render(graphics2D);
             }
         }

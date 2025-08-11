@@ -1,6 +1,6 @@
 package Entities.Characters;
 
-import Entities.AnimatedEntity;
+import Entities.Entity;
 import Game.Farm;
 import Resources.Animation;
 import Pathfinding.Node;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class FarmCat extends AnimatedEntity {
+public class FarmCat extends Entity {
 
     // properties
     public final int catWidth = 48;
@@ -24,7 +24,6 @@ public class FarmCat extends AnimatedEntity {
     // cat state
     private FarmCatState farmCatState;
     private FarmCatFacing farmCatFacing;
-    private Animation currentAnimation;
 
     // animations
     HashMap<String, Animation> animations;
@@ -326,28 +325,29 @@ public class FarmCat extends AnimatedEntity {
     }
 
 
-    // getters
-    public Point getPosition() {
-        return new Point(position);
-    }
-
-
     // updating & rendering
     @Override
     public void update() {
         followPath();
         setAnimation();
         isMoving = isActuallyMoving;
-        currentAnimation.update();
+        
+        // Set the current image from the current animation
+        if (currentAnimation != null) {
+            currentImage = currentAnimation.getCurrentFrameImage();
+            currentAnimation.update();
+        }
     }
 
     @Override
     public void render(Graphics2D graphics2D) {
-        graphics2D.drawImage(currentAnimation.getCurrentFrameImage(),
-                (position.x - catWidth / 2) * Farm.scale + Farm.camera.position.x,
-                (position.y - catHeight / 2) * Farm.scale + Farm.camera.position.y,
-                catWidth * Farm.scale,
-                catHeight * Farm.scale,
-                null);
+        if (currentImage != null) {
+            graphics2D.drawImage(currentImage,
+                    (position.x - catWidth / 2) * Farm.scale + Farm.camera.position.x,
+                    (position.y - catHeight / 2) * Farm.scale + Farm.camera.position.y,
+                    catWidth * Farm.scale,
+                    catHeight * Farm.scale,
+                    null);
+        }
     }
 }

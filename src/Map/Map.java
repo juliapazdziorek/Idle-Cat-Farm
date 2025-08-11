@@ -1,13 +1,10 @@
 package Map;
 
-import Entities.AnimatedEntity;
-import Entities.StaticEntity;
+import Entities.Entity;
 import Entities.Nature.TreePart;
 import Entities.Nature.Tree;
 import Entities.BuildingParts.Roof;
-import Entities.BuildingParts.RoofPart;
 import Game.Farm;
-import Resources.Animation;
 import Pathfinding.AStar;
 
 import java.awt.*;
@@ -325,7 +322,7 @@ public class Map {
 
                     // water
                     if (tilesIds[i][j] == 1) {
-                        layer.tiles[i][j] = new AnimatedEntity(new Point(j * Farm.tileSize, i * Farm.tileSize), Farm.resourceHandler.animationFactory.createWaterAnimation());
+                        layer.tiles[i][j] = new Entity(new Point(j * Farm.tileSize, i * Farm.tileSize), Farm.resourceHandler.animationFactory.createWaterAnimation());
                         continue;
                     }
 
@@ -358,7 +355,7 @@ public class Map {
                     }
 
                     // static tiles
-                    layer.tiles[i][j] = new StaticEntity(new Point(j * Farm.tileSize, i * Farm.tileSize), Farm.resourceHandler.tilesMap.get(tilesIds[i][j]));
+                    layer.tiles[i][j] = new Entity(new Point(j * Farm.tileSize, i * Farm.tileSize), tilesIds[i][j]);
                 }
             }
         }
@@ -367,21 +364,16 @@ public class Map {
 
     // create a tree
     private void createTree(int[][] tilesIds, int i, int j) {
-        Point centerPosition = new Point(j * Farm.tileSize, i * Farm.tileSize);
-        Tree tree = new Tree(centerPosition);
+        Tree tree = new Tree();
 
         for (int deltaI = -1; deltaI <= 1; deltaI++) {
             for (int deltaJ = -1; deltaJ <= 1; deltaJ++) {
                 int newI = i + deltaI;
                 int newJ = j + deltaJ;
 
-                if (newI >= 0 && newI < Farm.mapHeightTiles &&
-                        newJ >= 0 && newJ < Farm.mapWidthTiles &&
-                        treesIds.contains(tilesIds[newI][newJ])) {
-
+                if (newI >= 0 && newI < Farm.mapHeightTiles && newJ >= 0 && newJ < Farm.mapWidthTiles && treesIds.contains(tilesIds[newI][newJ])) {
                     Point partPosition = new Point(newJ * Farm.tileSize, newI * Farm.tileSize);
-                    TreePart part = new TreePart(partPosition, tilesIds[newI][newJ]);
-                    tree.addTreePart(part);
+                    TreePart part = new TreePart(partPosition, tilesIds[newI][newJ], tree);
                 }
             }
         }
@@ -391,9 +383,8 @@ public class Map {
 
     // create a roof
     private void createRoof(int[][] tilesIds, int i, int j, boolean[][] processedRoofTiles) {
-        Point firstPosition = new Point(j * Farm.tileSize, i * Farm.tileSize);
         boolean[][] visited = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
-        Roof roof = new Roof(firstPosition);
+        Roof roof = new Roof();
 
         // flood fill algorithm to find all connected roof parts
         findRoofParts(tilesIds, visited, roof, i, j, processedRoofTiles);
@@ -415,8 +406,7 @@ public class Map {
         visited[i][j] = true;
         processedRoofTiles[i][j] = true;
         Point partPosition = new Point(j * Farm.tileSize, i * Farm.tileSize);
-        RoofPart part = new RoofPart(partPosition, tilesIds[i][j]);
-        roof.addRoofPart(part);
+        new Entity(partPosition, tilesIds[i][j], roof);  // Use Entity constructor with tile ID
 
         for (int deltaI = -1; deltaI <= 1; deltaI++) {
             for (int deltaJ = -1; deltaJ <= 1; deltaJ++) {
