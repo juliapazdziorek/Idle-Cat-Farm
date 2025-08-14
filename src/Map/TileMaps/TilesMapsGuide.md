@@ -377,7 +377,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 | 196 | Gate horizontal right         | Obstacle           |
 | 197 | Gate vertical up              | Animated, obstacle |
 | 198 | Gate vertical up front        | Animated           |
-| 199 | Gate vertical up gate         | Animated           |
+| 199 | Gate vertical up gate         | Animated, obstacle |
 | 200 | Gate vertical up gate front   | Animated           |
 | 201 | Gate vertical down gate       | Animated           |
 | 202 | Gate vertical down gate front | Animated           |
@@ -411,12 +411,12 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 **File:** `BuildingParts/doors.png`
 
-| ID  | Tile Name      | Notes    |
-|-----|----------------|----------|
-| 217 | Single door    | Animated |
-| 218 | Double doors 1 | Animated |
-| 219 | Double doors 2 | Animated |
-| 220 | Double doors 3 | Animated |
+| ID  | Tile Name      | Notes              |
+|-----|----------------|--------------------|
+| 217 | Single door    | Animated           |
+| 218 | Double doors 1 | Animated, obstacle |
+| 219 | Double doors 2 | Animated           |
+| 220 | Double doors 3 | Animated, obstacle |
 
 ---
 
