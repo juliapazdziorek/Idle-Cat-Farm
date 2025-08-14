@@ -14,8 +14,8 @@ import java.util.List;
 public class FarmCat extends Entity {
 
     // properties
-    public final int catWidth = 48;
-    public final int catHeight = 48;
+    public final int catWidth = 42;
+    public final int catHeight = 42;
 
     // enums
     private enum FarmCatState {STANDING, WALKING, RUNNING, TILLING, CHOPPING, WATERING}
@@ -322,6 +322,12 @@ public class FarmCat extends Entity {
 
     public void resetAnimations() {
         animations.values().forEach(Animation::resetFrames);
+    }
+
+
+    // getters
+    public List<Node> getCurrentPath() {
+        return currentPath;
     }
 
 

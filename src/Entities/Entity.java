@@ -29,9 +29,6 @@ public class Entity {
     public boolean clickable;
     public boolean isClicked;
 
-    public boolean hooverable;
-
-
 
     public Entity() {}
 
@@ -48,16 +45,6 @@ public class Entity {
         this(position);
         this.currentAnimation = animation;
         this.isAnimating = true;
-    }
-
-    public Entity(Point position, Entity parent) {
-        this(position);
-        parent.addPart(this);
-    }
-
-    public Entity(Point position, int tileId, Entity parent) {
-        this(position, parent);
-        currentImage = Farm.resourceHandler.tilesMap.get(tileId);
     }
 
 
@@ -79,6 +66,10 @@ public class Entity {
     // getters
     public Point getPosition() {
         return new Point(position);
+    }
+
+    public Point getTilePosition() {
+        return new Point(getPosition().x / Farm.tileSize, getPosition().y / Farm.tileSize);
     }
 
 

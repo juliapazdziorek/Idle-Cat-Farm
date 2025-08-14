@@ -13,8 +13,8 @@ public class TreePart extends Entity {
     public BufferedImage staticImage;
     public Animation clickAnimation;
 
-    public TreePart(Point position, int tileId, Tree parent) {
-        super(position, parent);
+    public TreePart(Point position, int tileId) {
+        super(position);
 
         // set image and animation
         staticImage = Farm.resourceHandler.entitiesResourcesMap.get("tree").get(String.valueOf(tileId));

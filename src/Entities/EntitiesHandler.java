@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Entities.BuildingParts.Roof;
+import Entities.BuildingParts.Entrance;
 import Entities.Nature.Bush;
 import Entities.Nature.Tree;
 import Entities.Objects.Sign;
@@ -39,6 +40,12 @@ public class EntitiesHandler implements MouseListener {
         clickableMapEntities.clear();
         renderableMapEntities.clear();
         updatableMapEntities.clear();
+
+        // entrances
+        for (Entrance entrance : map.entrances) {
+            renderableMapEntities.add(entrance);
+            updatableMapEntities.add(entrance);
+        }
 
         // bushes
         for (Point position : map.bushPositions) {

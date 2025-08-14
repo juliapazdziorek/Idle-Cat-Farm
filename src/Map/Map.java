@@ -1,9 +1,11 @@
 package Map;
 
+import Entities.BuildingParts.Roof;
 import Entities.Entity;
 import Entities.Nature.TreePart;
 import Entities.Nature.Tree;
-import Entities.BuildingParts.Roof;
+import Entities.BuildingParts.Entrance;
+import Entities.BuildingParts.EntrancePart;
 import Game.Farm;
 import Pathfinding.AStar;
 
@@ -40,6 +42,13 @@ public class Map {
     // roofs
     public final ArrayList<Roof> roofs;
     ArrayList<Integer> roofsIds;
+
+    // entrances
+    public final ArrayList<Entrance> entrances;
+    ArrayList<Integer> entrancesIds;
+    ArrayList<Integer> gateHorizontalIds;
+    ArrayList<Integer> gateVerticalIds;
+    ArrayList<Integer> DoubleDoorsIds;
 
     // pathfinder
     public static AStar pathfinder;
@@ -100,6 +109,7 @@ public class Map {
                 193, // gate horizontal left
                 196, // gate horizontal right
                 197, // gate vertical up
+                199, // gate vertical up gate
                 203, // gate vertical down
                 205, // wall front
                 206, // wall left
@@ -112,6 +122,8 @@ public class Map {
                 213, // wall up-right inner corner
                 214, // wall bottom-right inner corner
                 215, // window
+                218, // double doors 1
+                220, // double doors 3
                 244, // small coop 1
                 245, // small coop 2
                 246, // small coop 3
@@ -186,6 +198,17 @@ public class Map {
         roofs = new ArrayList<>();
         roofsIds = new ArrayList<>();
         Collections.addAll(roofsIds, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243);
+
+        entrances = new ArrayList<>();
+        entrancesIds = new ArrayList<>();
+        gateHorizontalIds = new ArrayList<>();
+        gateVerticalIds = new ArrayList<>();
+        DoubleDoorsIds = new ArrayList<>();
+        Collections.addAll(entrancesIds, 194, 195, 197, 198, 199, 200, 201, 202, 203, 204, 217, 218, 219, 220);
+        Collections.addAll(gateHorizontalIds, 194, 195);
+        Collections.addAll(gateVerticalIds, 197, 198, 199, 200, 201, 202, 203, 204);
+        Collections.addAll(DoubleDoorsIds, 218, 219, 220);
+
 
         // initialize layers
         createMapLayers();
@@ -278,6 +301,7 @@ public class Map {
         signsPositions.clear();
         trees.clear();
         roofs.clear();
+        entrances.clear();
 
         Farm.entitiesHandler.clickableMapEntities.clear();
         Farm.entitiesHandler.renderableMapEntities.clear();
@@ -311,9 +335,10 @@ public class Map {
     private MapLayer createLayer(String path) {
         int[][] tilesIds = MapFileUtils.readFileToGrid(path);
         MapLayer layer = new MapLayer(Farm.mapHeightTiles, Farm.mapWidthTiles);
-        
-        // track processed roof tiles
+
+        // track processed tiles for multi-tiles entities
         boolean[][] processedRoofTiles = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
+        boolean[][] processedEntranceTiles = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
 
         for (int i = 0; i < Farm.mapHeightTiles; i++) {
             for (int j = 0; j < Farm.mapWidthTiles; j++) {
@@ -322,7 +347,7 @@ public class Map {
 
                     // water
                     if (tilesIds[i][j] == 1) {
-                        layer.tiles[i][j] = new Entity(new Point(j * Farm.tileSize, i * Farm.tileSize), Farm.resourceHandler.animationFactory.createWaterAnimation());
+                        layer.tiles[i][j] = new Entities.Entity(new Point(j * Farm.tileSize, i * Farm.tileSize), Farm.resourceHandler.animationFactory.createWaterAnimation());
                         continue;
                     }
 
@@ -348,6 +373,14 @@ public class Map {
                         continue;
                     }
 
+                    // entrances
+                    if (entrancesIds.contains(tilesIds[i][j])) {
+                        if (!processedEntranceTiles[i][j]) {
+                            createEntrance(tilesIds, i, j, processedEntranceTiles);
+                        }
+                        continue;
+                    }
+
                     // signs positions
                     if (tilesIds[i][j] == 332) {
                         signsPositions.add(new Point(j * Farm.tileSize, i * Farm.tileSize));
@@ -355,7 +388,7 @@ public class Map {
                     }
 
                     // static tiles
-                    layer.tiles[i][j] = new Entity(new Point(j * Farm.tileSize, i * Farm.tileSize), tilesIds[i][j]);
+                    layer.tiles[i][j] = new Entities.Entity(new Point(j * Farm.tileSize, i * Farm.tileSize), tilesIds[i][j]);
                 }
             }
         }
@@ -373,7 +406,7 @@ public class Map {
 
                 if (newI >= 0 && newI < Farm.mapHeightTiles && newJ >= 0 && newJ < Farm.mapWidthTiles && treesIds.contains(tilesIds[newI][newJ])) {
                     Point partPosition = new Point(newJ * Farm.tileSize, newI * Farm.tileSize);
-                    TreePart part = new TreePart(partPosition, tilesIds[newI][newJ], tree);
+                    tree.addPart(new TreePart(partPosition, tilesIds[newI][newJ]));
                 }
             }
         }
@@ -383,38 +416,81 @@ public class Map {
 
     // create a roof
     private void createRoof(int[][] tilesIds, int i, int j, boolean[][] processedRoofTiles) {
-        boolean[][] visited = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
         Roof roof = new Roof();
-
-        // flood fill algorithm to find all connected roof parts
-        findRoofParts(tilesIds, visited, roof, i, j, processedRoofTiles);
+        ArrayList<Point> positions = findEntityPositions(tilesIds, i, j, processedRoofTiles, roofsIds);
+        for (Point position : positions) {
+            int tileY = position.y / Farm.tileSize;
+            int tileX = position.x / Farm.tileSize;
+            roof.addPart(new Entity(position, tilesIds[tileY][tileX]));
+        }
 
         roofs.add(roof);
     }
 
-    private void findRoofParts(int[][] tilesIds, boolean[][] visited, Roof roof, int i, int j, boolean[][] processedRoofTiles) {
-        if (i < 0 || i >= Farm.mapHeightTiles ||
-            j < 0 || j >= Farm.mapWidthTiles || 
-            visited[i][j]) {
-            return;
+    // create an entrance
+    private void createEntrance(int[][] tilesIds, int i, int j, boolean[][] processedEntranceTiles) {
+        Entrance entrance = new Entrance();
+
+        // single door
+        if (tilesIds[i][j] == 217) {
+            Point position = new Point(j * Farm.tileSize, i * Farm.tileSize);
+            entrance.addPart(new EntrancePart(position, tilesIds[i][j], entrance));
+            processedEntranceTiles[i][j] = true;
+        }
+        // multi-tile entrances
+        else {
+            ArrayList<Integer> relevantIds = getEntranceTypeIds(tilesIds[i][j]);
+            ArrayList<Point> positions = findEntityPositions(tilesIds, i, j, processedEntranceTiles, relevantIds);
+            for (Point position : positions) {
+                int tileY = position.y / Farm.tileSize;
+                int tileX = position.x / Farm.tileSize;
+                entrance.addPart(new EntrancePart(position, tilesIds[tileY][tileX], entrance));
+            }
+        }
+        
+        entrances.add(entrance);
+    }
+    
+    private ArrayList<Integer> getEntranceTypeIds(int tileId) {
+        if (gateHorizontalIds.contains(tileId)) {
+            return gateHorizontalIds;
+        } else if (gateVerticalIds.contains(tileId)) {
+            return gateVerticalIds;
+        } else if (DoubleDoorsIds.contains(tileId)) {
+            return DoubleDoorsIds;
+        }
+        return null;
+    }
+
+    // algorithm to find all connected parts of an entity
+    private ArrayList<Point> findEntityPositions(int[][] tilesIds, int i, int j, boolean[][] processedEntityTiles, ArrayList<Integer> idList) {
+        boolean[][] visited = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
+        ArrayList<Point> foundPositions = new ArrayList<>();
+        return findEntityPositionsRecursive(tilesIds, i, j, processedEntityTiles, idList, visited, foundPositions);
+    }
+
+    private ArrayList<Point> findEntityPositionsRecursive(int[][] tilesIds, int i, int j, boolean[][] processedEntityTiles, ArrayList<Integer> idList, boolean[][] visited, ArrayList<Point> foundPositions) {
+        if (i < 0 || i >= Farm.mapHeightTiles || j < 0 || j >= Farm.mapWidthTiles || visited[i][j]) {
+            return foundPositions;
         }
 
-        if (!roofsIds.contains(tilesIds[i][j])) {
-            return;
+        if (!idList.contains(tilesIds[i][j])) {
+            return foundPositions;
         }
 
         visited[i][j] = true;
-        processedRoofTiles[i][j] = true;
+        processedEntityTiles[i][j] = true;
         Point partPosition = new Point(j * Farm.tileSize, i * Farm.tileSize);
-        new Entity(partPosition, tilesIds[i][j], roof);  // Use Entity constructor with tile ID
+        foundPositions.add(partPosition);
 
         for (int deltaI = -1; deltaI <= 1; deltaI++) {
             for (int deltaJ = -1; deltaJ <= 1; deltaJ++) {
                 if (deltaI != 0 || deltaJ != 0) {
-                    findRoofParts(tilesIds, visited, roof, i + deltaI, j + deltaJ, processedRoofTiles);
+                    findEntityPositionsRecursive(tilesIds, i + deltaI, j + deltaJ, processedEntityTiles, idList, visited, foundPositions);
                 }
             }
         }
+        return foundPositions;
     }
 
 
