@@ -151,7 +151,6 @@ public class AnimationFactory {
 
 
     // entrances
-
     public Animation createEntranceOpenAnimation(int id) {
         return switch (id) {
             case 194 -> createGateOpenAnimation194();
@@ -384,27 +383,27 @@ public class AnimationFactory {
     private Animation createDoorOpenAnimation218() {
         BufferedImage doorAnimationImage = imageMap.get("doors");
         ArrayList<BufferedImage> doorOpenAnimation218Frames = new ArrayList<>();
-        doorOpenAnimation218Frames.add(doorAnimationImage.getSubimage(6 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        doorOpenAnimation218Frames.add(doorAnimationImage.getSubimage(9 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
         doorOpenAnimation218Frames.add(doorAnimationImage.getSubimage(12 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        doorOpenAnimation218Frames.add(doorAnimationImage.getSubimage(9 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        doorOpenAnimation218Frames.add(doorAnimationImage.getSubimage(6 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
         return new Animation(doorOpenAnimation218Frames, 5);
     }
 
     private Animation createDoorOpenAnimation219() {
         BufferedImage doorAnimationImage = imageMap.get("doors");
         ArrayList<BufferedImage> doorOpenAnimation219Frames = new ArrayList<>();
-        doorOpenAnimation219Frames.add(doorAnimationImage.getSubimage(7 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        doorOpenAnimation219Frames.add(doorAnimationImage.getSubimage(10 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
         doorOpenAnimation219Frames.add(doorAnimationImage.getSubimage(13 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        doorOpenAnimation219Frames.add(doorAnimationImage.getSubimage(10 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        doorOpenAnimation219Frames.add(doorAnimationImage.getSubimage(7 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
         return new Animation(doorOpenAnimation219Frames, 5);
     }
 
     private Animation createDoorOpenAnimation220() {
         BufferedImage doorAnimationImage = imageMap.get("doors");
         ArrayList<BufferedImage> doorOpenAnimation220Frames = new ArrayList<>();
-        doorOpenAnimation220Frames.add(doorAnimationImage.getSubimage(8 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        doorOpenAnimation220Frames.add(doorAnimationImage.getSubimage(11 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
         doorOpenAnimation220Frames.add(doorAnimationImage.getSubimage(14 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        doorOpenAnimation220Frames.add(doorAnimationImage.getSubimage(11 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        doorOpenAnimation220Frames.add(doorAnimationImage.getSubimage(8 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
         return new Animation(doorOpenAnimation220Frames, 5);
     }
 
@@ -420,27 +419,27 @@ public class AnimationFactory {
     private Animation createDoorCloseAnimation218() {
         BufferedImage doorAnimationImage = imageMap.get("doors");
         ArrayList<BufferedImage> doorCloseAnimation218Frames = new ArrayList<>();
-        doorCloseAnimation218Frames.add(doorAnimationImage.getSubimage(12 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        doorCloseAnimation218Frames.add(doorAnimationImage.getSubimage(9 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
         doorCloseAnimation218Frames.add(doorAnimationImage.getSubimage(6 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        doorCloseAnimation218Frames.add(doorAnimationImage.getSubimage(9 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        doorCloseAnimation218Frames.add(doorAnimationImage.getSubimage(12 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
         return new Animation(doorCloseAnimation218Frames, 5);
     }
 
     private Animation createDoorCloseAnimation219() {
         BufferedImage doorAnimationImage = imageMap.get("doors");
         ArrayList<BufferedImage> doorCloseAnimation219Frames = new ArrayList<>();
-        doorCloseAnimation219Frames.add(doorAnimationImage.getSubimage(13 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        doorCloseAnimation219Frames.add(doorAnimationImage.getSubimage(10 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
         doorCloseAnimation219Frames.add(doorAnimationImage.getSubimage(7 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        doorCloseAnimation219Frames.add(doorAnimationImage.getSubimage(10 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        doorCloseAnimation219Frames.add(doorAnimationImage.getSubimage(13 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
         return new Animation(doorCloseAnimation219Frames, 5);
     }
 
     private Animation createDoorCloseAnimation220() {
         BufferedImage doorAnimationImage = imageMap.get("doors");
         ArrayList<BufferedImage> doorCloseAnimation220Frames = new ArrayList<>();
-        doorCloseAnimation220Frames.add(doorAnimationImage.getSubimage(14 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        doorCloseAnimation220Frames.add(doorAnimationImage.getSubimage(11 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
         doorCloseAnimation220Frames.add(doorAnimationImage.getSubimage(8 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        doorCloseAnimation220Frames.add(doorAnimationImage.getSubimage(11 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        doorCloseAnimation220Frames.add(doorAnimationImage.getSubimage(14 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
         return new Animation(doorCloseAnimation220Frames, 5);
     }
 
