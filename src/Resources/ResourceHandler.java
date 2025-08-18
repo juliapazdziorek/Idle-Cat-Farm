@@ -61,6 +61,7 @@ public class ResourceHandler {
 
         // objects
         loadImageToMap(imageMap, "src/Resources/SproutLands/Objects/barn_structures.png", "barnStructures");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Objects/water_tray.png", "waterTrays");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Objects/work_station.png", "workStation");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Objects/water_well.png", "waterWell");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Objects/piknik_blanket.png", "piknikBlanket");
@@ -461,7 +462,7 @@ public class ResourceHandler {
         entitiesResourcesMap.put("bush", bushMap);
 
         // tree
-        HashMap<String, BufferedImage> treeMap = new HashMap<>(); // using tile IDs for tree parts
+        HashMap<String, BufferedImage> treeMap = new HashMap<>();
         treeMap.put("173", imageMap.get("tree").getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // tree top-left
         treeMap.put("174", imageMap.get("tree").getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // tree top-center
         treeMap.put("175", imageMap.get("tree").getSubimage(2 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // tree top-right
@@ -472,26 +473,6 @@ public class ResourceHandler {
         treeMap.put("180", imageMap.get("tree").getSubimage(Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // tree bottom-center
         treeMap.put("181", imageMap.get("tree").getSubimage(2 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // tree bottom-right
         entitiesResourcesMap.put("tree", treeMap);
-
-        // signs
-        HashMap<String, BufferedImage> signsMap = new HashMap<>();
-        signsMap.put("empty", imageMap.get("signs").getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // empty sign
-        signsMap.put("corn", imageMap.get("signs").getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // corn sign
-        signsMap.put("carrot", imageMap.get("signs").getSubimage(2 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // carrot sign
-        signsMap.put("cauliflower", imageMap.get("signs").getSubimage(3 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // cauliflower sign
-        signsMap.put("tomato", imageMap.get("signs").getSubimage(4 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // tomato sign
-        signsMap.put("eggplant", imageMap.get("signs").getSubimage(5 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // eggplant sign
-        signsMap.put("lettuce", imageMap.get("signs").getSubimage(Farm.tileSize,  Farm.tileSize, Farm.tileSize, Farm.tileSize)); // lettuce sign
-        signsMap.put("wheat", imageMap.get("signs").getSubimage(2 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // wheat sign
-        signsMap.put("pumpkin", imageMap.get("signs").getSubimage(3 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // pumpkin sign
-        signsMap.put("radish", imageMap.get("signs").getSubimage(4 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // radish sign
-        signsMap.put("star", imageMap.get("signs").getSubimage(Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // star sign
-        signsMap.put("cucumber", imageMap.get("signs").getSubimage(2 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // cucumber sign
-        signsMap.put("apple", imageMap.get("signs").getSubimage(3 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // apple sign
-        signsMap.put("orange", imageMap.get("signs").getSubimage(4 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // orange sign
-        signsMap.put("pear", imageMap.get("signs").getSubimage(5 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // pear sign
-        signsMap.put("peach", imageMap.get("signs").getSubimage(0, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // peach sign
-        entitiesResourcesMap.put("signs", signsMap);
 
         // entrances
         HashMap<String, BufferedImage> entrancesMap = new HashMap<>();
@@ -524,6 +505,38 @@ public class ResourceHandler {
         entrancesMap.put("219closed", imageMap.get("doors").getSubimage(16 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // double doors 2
         entrancesMap.put("220closed", imageMap.get("doors").getSubimage(17 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // double doors 3
         entitiesResourcesMap.put("entrances", entrancesMap);
+
+        // water trays
+        HashMap<String, BufferedImage> waterTraysMap = new HashMap<>();
+        waterTraysMap.put("289empty", imageMap.get("waterTrays").getSubimage(4 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // water tray left
+        waterTraysMap.put("290empty", imageMap.get("waterTrays").getSubimage(5 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // water tray right
+        waterTraysMap.put("289half", imageMap.get("waterTrays").getSubimage(2 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // water tray left
+        waterTraysMap.put("290half", imageMap.get("waterTrays").getSubimage(3 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // water tray right
+        waterTraysMap.put("289full", imageMap.get("waterTrays").getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // water tray left
+        waterTraysMap.put("290full", imageMap.get("waterTrays").getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // water tray right
+        entitiesResourcesMap.put("waterTrays", waterTraysMap);
+
+        // signs
+        HashMap<String, BufferedImage> signsMap = new HashMap<>();
+        signsMap.put("empty", imageMap.get("signs").getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // empty sign
+        signsMap.put("corn", imageMap.get("signs").getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // corn sign
+        signsMap.put("carrot", imageMap.get("signs").getSubimage(2 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // carrot sign
+        signsMap.put("cauliflower", imageMap.get("signs").getSubimage(3 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // cauliflower sign
+        signsMap.put("tomato", imageMap.get("signs").getSubimage(4 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // tomato sign
+        signsMap.put("eggplant", imageMap.get("signs").getSubimage(5 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // eggplant sign
+        signsMap.put("lettuce", imageMap.get("signs").getSubimage(Farm.tileSize,  Farm.tileSize, Farm.tileSize, Farm.tileSize)); // lettuce sign
+        signsMap.put("wheat", imageMap.get("signs").getSubimage(2 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // wheat sign
+        signsMap.put("pumpkin", imageMap.get("signs").getSubimage(3 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // pumpkin sign
+        signsMap.put("radish", imageMap.get("signs").getSubimage(4 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // radish sign
+        signsMap.put("star", imageMap.get("signs").getSubimage(Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // star sign
+        signsMap.put("cucumber", imageMap.get("signs").getSubimage(2 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // cucumber sign
+        signsMap.put("apple", imageMap.get("signs").getSubimage(3 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // apple sign
+        signsMap.put("orange", imageMap.get("signs").getSubimage(4 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // orange sign
+        signsMap.put("pear", imageMap.get("signs").getSubimage(5 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // pear sign
+        signsMap.put("peach", imageMap.get("signs").getSubimage(0, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // peach sign
+        entitiesResourcesMap.put("signs", signsMap);
+
+
 
     }
 }

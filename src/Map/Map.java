@@ -6,6 +6,8 @@ import Entities.Nature.TreePart;
 import Entities.Nature.Tree;
 import Entities.BuildingParts.Entrance;
 import Entities.BuildingParts.EntrancePart;
+import Entities.Objects.WaterTray;
+import Entities.Objects.WaterTrayPart;
 import Game.Farm;
 import Pathfinding.AStar;
 
@@ -49,6 +51,10 @@ public class Map {
     ArrayList<Integer> gateHorizontalIds;
     ArrayList<Integer> gateVerticalIds;
     ArrayList<Integer> DoubleDoorsIds;
+
+    // water trays
+    public final ArrayList<WaterTray> waterTrays;
+    ArrayList<Integer> waterTrayIds;
 
     // pathfinder
     public static AStar pathfinder;
@@ -209,6 +215,9 @@ public class Map {
         Collections.addAll(gateVerticalIds, 197, 198, 199, 200, 201, 202, 203, 204);
         Collections.addAll(DoubleDoorsIds, 218, 219, 220);
 
+        waterTrays = new ArrayList<>();
+        waterTrayIds = new ArrayList<>();
+        Collections.addAll(waterTrayIds, 289, 290);
 
         // initialize layers
         createMapLayers();
@@ -298,10 +307,11 @@ public class Map {
 
     private void clearMapEntities() {
         bushPositions.clear();
-        signsPositions.clear();
         trees.clear();
         roofs.clear();
         entrances.clear();
+        waterTrays.clear();
+        signsPositions.clear();
 
         Farm.entitiesHandler.clickableMapEntities.clear();
         Farm.entitiesHandler.renderableMapEntities.clear();
@@ -339,6 +349,7 @@ public class Map {
         // track processed tiles for multi-tiles entities
         boolean[][] processedRoofTiles = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
         boolean[][] processedEntranceTiles = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
+        boolean[][] processedWaterTrayTiles = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
 
         for (int i = 0; i < Farm.mapHeightTiles; i++) {
             for (int j = 0; j < Farm.mapWidthTiles; j++) {
@@ -377,6 +388,13 @@ public class Map {
                     if (entrancesIds.contains(tilesIds[i][j])) {
                         if (!processedEntranceTiles[i][j]) {
                             createEntrance(tilesIds, i, j, processedEntranceTiles);
+                        }
+                        continue;
+                    }
+
+                    if (waterTrayIds.contains(tilesIds[i][j])) {
+                        if (!processedWaterTrayTiles[i][j]) {
+                            createWaterTray(tilesIds, i, j, processedWaterTrayTiles);
                         }
                         continue;
                     }
@@ -460,6 +478,19 @@ public class Map {
             return DoubleDoorsIds;
         }
         return null;
+    }
+
+    private void createWaterTray(int[][] tilesIds, int i, int j, boolean[][] processedEntranceTiles) {
+        WaterTray waterTray = new WaterTray();
+
+        ArrayList<Integer> relevantIds = waterTrayIds;
+        ArrayList<Point> positions = findEntityPositions(tilesIds, i, j, processedEntranceTiles, relevantIds);
+        for (Point position : positions) {
+            int tileY = position.y / Farm.tileSize;
+            int tileX = position.x / Farm.tileSize;
+            waterTray.addPart(new WaterTrayPart(position, tilesIds[tileY][tileX]));
+        }
+        waterTrays.add(waterTray);
     }
 
     // algorithm to find all connected parts of an entity

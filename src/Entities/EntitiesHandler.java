@@ -13,6 +13,7 @@ import Entities.BuildingParts.Entrance;
 import Entities.Nature.Bush;
 import Entities.Nature.Tree;
 import Entities.Objects.Sign;
+import Entities.Objects.WaterTray;
 import Game.Farm;
 import Map.Map;
 
@@ -60,6 +61,11 @@ public class EntitiesHandler implements MouseListener {
             renderableMapEntities.add(tree);
             updatableMapEntities.add(tree);
             clickableMapEntities.addAll(tree.parts);
+        }
+
+        // water trays
+        for (WaterTray waterTray: map.waterTrays) {
+            renderableMapEntities.add(waterTray);
         }
 
         // signs
