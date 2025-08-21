@@ -26,7 +26,7 @@ public class Roof extends Entity {
 
     // mouse handling
     public boolean isMouseOverRoof() {
-        Point mousePoint = Farm.panel.getMousePosition();
+        Point mousePoint = Farm.gamePanel.getMousePosition();
         if (mousePoint == null) {
             return false;
         }

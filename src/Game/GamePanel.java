@@ -5,11 +5,11 @@ import Resources.Colors;
 import javax.swing.*;
 import java.awt.*;
 
-public class Panel extends JPanel {
+public class GamePanel extends JPanel {
 
-    public Panel() {
+    public GamePanel() {
         setPreferredSize(new Dimension(1200, 800));
-        setBackground(Color.decode(Colors.waterColor));
+        setBackground(Colors.waterColor);
         setDoubleBuffered(true);
         setFocusable(true);
     }

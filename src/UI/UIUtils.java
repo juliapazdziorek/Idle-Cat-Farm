@@ -1,0 +1,167 @@
+package UI;
+
+import Resources.Colors;
+
+import javax.swing.*;
+import javax.swing.plaf.basic.BasicScrollBarUI;
+import java.awt.*;
+
+public class UIUtils {
+
+    public static void customizeScrollBar(JScrollPane scrollPane) {
+
+        // scroll bar
+        JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+        verticalScrollBar.setOpaque(false);
+        verticalScrollBar.setBackground(Colors.lightBeigeColor);
+        verticalScrollBar.setUI(new BasicScrollBarUI() {
+            @Override
+            protected void configureScrollBarColors() {
+                this.thumbColor = Colors.darkBeigeColor;
+                this.trackColor = Colors.lightBeigeColor;
+            }
+            
+            @Override
+            protected JButton createDecreaseButton(int orientation) {
+                JButton button = new JButton();
+                button.setPreferredSize(new Dimension(0, 0));
+                button.setMinimumSize(new Dimension(0, 0));
+                button.setMaximumSize(new Dimension(0, 0));
+                return button;
+            }
+            
+            @Override
+            protected JButton createIncreaseButton(int orientation) {
+                JButton button = new JButton();
+                button.setPreferredSize(new Dimension(0, 0));
+                button.setMinimumSize(new Dimension(0, 0));
+                button.setMaximumSize(new Dimension(0, 0));
+                return button;
+            }
+            
+            @Override
+            protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(Colors.darkBeigeColor);
+                g2.fillRoundRect(thumbBounds.x + 2, thumbBounds.y + 2,
+                    thumbBounds.width - 4, thumbBounds.height - 4, 6, 6);
+                g2.dispose();
+            }
+            
+            @Override
+            protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setColor(Colors.lightBeigeColor);
+                g2.fillRect(trackBounds.x, trackBounds.y, trackBounds.width, trackBounds.height);
+                g2.dispose();
+            }
+        });
+        
+        JScrollBar horizontalScrollBar = scrollPane.getHorizontalScrollBar();
+        horizontalScrollBar.setOpaque(false);
+        horizontalScrollBar.setBackground(Colors.lightBeigeColor);
+        horizontalScrollBar.setUI(new BasicScrollBarUI() {
+            @Override
+            protected void configureScrollBarColors() {
+                this.thumbColor = Colors.darkBeigeColor;
+                this.trackColor = Colors.lightBeigeColor;
+            }
+            
+            @Override
+            protected JButton createDecreaseButton(int orientation) {
+                JButton button = new JButton();
+                button.setPreferredSize(new Dimension(0, 0));
+                button.setMinimumSize(new Dimension(0, 0));
+                button.setMaximumSize(new Dimension(0, 0));
+                return button;
+            }
+            
+            @Override
+            protected JButton createIncreaseButton(int orientation) {
+                JButton button = new JButton();
+                button.setPreferredSize(new Dimension(0, 0));
+                button.setMinimumSize(new Dimension(0, 0));
+                button.setMaximumSize(new Dimension(0, 0));
+                return button;
+            }
+            
+            @Override
+            protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(Colors.darkBeigeColor);
+                g2.fillRoundRect(thumbBounds.x + 2, thumbBounds.y + 2, 
+                    thumbBounds.width - 4, thumbBounds.height - 4, 6, 6);
+                g2.dispose();
+            }
+            
+            @Override
+            protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setColor(Colors.lightBeigeColor);
+                g2.fillRect(trackBounds.x, trackBounds.y, trackBounds.width, trackBounds.height);
+                g2.dispose();
+            }
+        });
+    }
+
+
+    // rounded panel
+    public static class RoundedPanel extends JPanel {
+        private final int cornerRadius;
+
+        public RoundedPanel(int cornerRadius) {
+            this.cornerRadius = cornerRadius;
+            setOpaque(false);
+        }
+
+        @Override
+        protected void paintComponent(Graphics graphics) {
+            Graphics2D graphics2D = (Graphics2D) graphics.create();
+            graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            graphics2D.setColor(Colors.lightBeigeColor);
+            graphics2D.fillRoundRect(0, 0, getWidth(), getHeight(), cornerRadius, cornerRadius);
+            graphics2D.dispose();
+            super.paintComponent(graphics);
+        }
+    }
+
+
+    // button
+    public static JButton createStyledButton(String text, int width, int height) {
+        JButton button = new JButton(text);
+        button.setPreferredSize(new Dimension(width, height));
+        button.setFocusPainted(false);
+
+        button.setUI(new javax.swing.plaf.basic.BasicButtonUI() {
+            @Override
+            public void paint(Graphics g, JComponent c) {
+                AbstractButton b = (AbstractButton) c;
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                
+                g2.setColor(b.getBackground());
+                g2.fillRoundRect(0, 0, c.getWidth(), c.getHeight(), 8, 8);
+                
+                g2.setColor(Colors.beigeColor);
+                g2.drawRoundRect(0, 0, c.getWidth() - 1, c.getHeight() - 1, 8, 8);
+                
+                String buttonText = b.getText();
+                if (buttonText != null && !buttonText.isEmpty()) {
+                    g2.setFont(b.getFont());
+                    FontMetrics fm = g2.getFontMetrics();
+                    int x = (c.getWidth() - fm.stringWidth(buttonText)) / 2;
+                    int y = (c.getHeight() - fm.getHeight()) / 2 + fm.getAscent();
+                    
+                    g2.setColor(Colors.darkBeigeColor);
+                    g2.drawString(buttonText, x, y);
+                }
+                
+                g2.dispose();
+            }
+        });
+        
+        return button;
+    }
+}

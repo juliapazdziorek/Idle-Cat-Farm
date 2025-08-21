@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.awt.image.BufferedImage;
-import java.util.function.Supplier;
 
 public class ResourceHandler {
 
@@ -15,6 +14,7 @@ public class ResourceHandler {
     private final Map<String, BufferedImage> imageMap;
     public final Map<Integer, BufferedImage> tilesMap;
     public final Map<String, Map<String, BufferedImage>> entitiesResourcesMap;
+    public final Map<String, BufferedImage> iconsMap;
 
     // animation factory
     public final AnimationFactory animationFactory;
@@ -23,10 +23,12 @@ public class ResourceHandler {
         imageMap = new HashMap<>();
         tilesMap = new HashMap<>();
         entitiesResourcesMap = new HashMap<>();
+        iconsMap = new HashMap<>();
 
         loadResources();
         initializeTilesMap();
         initializeEntitiesResourcesMap();
+        initializeIconsMap();
 
         // animations
         animationFactory = new AnimationFactory(imageMap);
@@ -71,6 +73,9 @@ public class ResourceHandler {
 
         // characters
         loadImageToMap(imageMap, "src/Resources/SproutLands/Characters/farm_cat.png", "farmCat");
+
+        // icons
+        loadImageToMap(imageMap, "src/Resources/SproutLands/UI/items.png", "items");
     }
 
     private void loadImageToMap(Map<String, BufferedImage> map, String path, String key) {
@@ -535,8 +540,31 @@ public class ResourceHandler {
         signsMap.put("pear", imageMap.get("signs").getSubimage(5 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // pear sign
         signsMap.put("peach", imageMap.get("signs").getSubimage(0, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // peach sign
         entitiesResourcesMap.put("signs", signsMap);
+    }
 
 
+    // icons
+    private void initializeIconsMap() {
 
+        BufferedImage icons = imageMap.get("items");
+        iconsMap.put("corn", icons.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        iconsMap.put("carrot", icons.getSubimage(Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        iconsMap.put("cauliflower", icons.getSubimage(Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        iconsMap.put("tomato", icons.getSubimage(Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        iconsMap.put("eggplant", icons.getSubimage(Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        iconsMap.put("lettuce", icons.getSubimage(Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        iconsMap.put("wheat", icons.getSubimage(Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        iconsMap.put("pumpkin", icons.getSubimage(Farm.tileSize, 9 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        iconsMap.put("radish", icons.getSubimage(Farm.tileSize, 10 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        iconsMap.put("star", icons.getSubimage(Farm.tileSize, 13 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        iconsMap.put("cucumber", icons.getSubimage(Farm.tileSize, 14 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        iconsMap.put("apple", icons.getSubimage(2 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        iconsMap.put("orange", icons.getSubimage(2 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        iconsMap.put("pear", icons.getSubimage(2 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        iconsMap.put("peach", icons.getSubimage(2 * Farm.tileSize, 9 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        iconsMap.put("egg", icons.getSubimage(3 * Farm.tileSize, 11 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        iconsMap.put("milk", icons.getSubimage(7 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        iconsMap.put("chockMilk", icons.getSubimage(7 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        iconsMap.put("berryMilk", icons.getSubimage(7 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
     }
 }

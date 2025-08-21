@@ -43,11 +43,11 @@ public class Loop implements Runnable {
 
     // updating & rendering
     private void update() {
-        Farm.panel.update();
+        Farm.gamePanel.update();
         Farm.camera.update();
     }
 
     private void render() {
-        Farm.panel.repaint();
+        Farm.gamePanel.repaint();
     }
 }

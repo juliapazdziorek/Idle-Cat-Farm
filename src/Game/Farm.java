@@ -3,8 +3,10 @@ package Game;
 import Resources.ResourceHandler;
 import Entities.EntitiesHandler;
 import Map.Map;
+import UI.MenuPanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -25,14 +27,23 @@ public class Farm {
 
     // window
     static public JFrame frame;
-    static public Panel panel;
+    static public GamePanel gamePanel;
+    static public MenuPanel menuPanel;
     static public Camera camera;
+    static public FarmResourcesHandler farmResources;
+
+    // fonts
+    static public Resources.Fonts fonts;
+
+    // money
+    static public int money = 0;
 
     // handlers
     static public ResourceHandler resourceHandler;
     static public EntitiesHandler entitiesHandler;
     static public KeyHandler keyHandler;
     static public MouseHandler mouseHandler;
+    static public OrdersHandler ordersHandler;
 
 
     public Farm() {
@@ -43,10 +54,15 @@ public class Farm {
 
         // prepare properties
         resourceHandler = new ResourceHandler();
+        fonts = new Resources.Fonts();
         entitiesHandler = new EntitiesHandler();
         keyHandler = new KeyHandler();
         mouseHandler = new MouseHandler();
-        panel = new Panel();
+        farmResources = new FarmResourcesHandler();
+        ordersHandler = new OrdersHandler(farmResources);
+        ordersHandler.maintainOrderCount(); // Initialize orders based on unlocked resources
+        gamePanel = new GamePanel();
+        menuPanel = new MenuPanel();
         camera = new Camera();
         loop = new Loop();
         
@@ -72,12 +88,34 @@ public class Farm {
         frame.addKeyListener(keyHandler);
         frame.addMouseListener(mouseHandler);
         frame.addMouseListener(entitiesHandler);
-        frame.add(panel);
+
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(gamePanel, BorderLayout.CENTER);
+        mainPanel.add(menuPanel, BorderLayout.EAST);
+        frame.add(mainPanel);
 
         frame.pack();
         frame.setVisible(true);
 
         // launching farm loop
         loop.startLooping();
+    }
+
+
+    // money management methods
+    public static void addMoney(int amount) {
+        money += amount;
+
+        if (menuPanel != null) {
+            menuPanel.refreshResourcesDisplay();
+        }
+    }
+
+    public static void subtractMoney(int amount) {
+        money -= amount;
+
+        if (menuPanel != null) {
+            menuPanel.refreshResourcesDisplay();
+        }
     }
 }

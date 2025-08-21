@@ -41,7 +41,7 @@ public class DebugMenu extends JFrame {
         setLocationRelativeTo(null);
         setAlwaysOnTop(true);
         
-        // main panel
+        // main gamePanel
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
