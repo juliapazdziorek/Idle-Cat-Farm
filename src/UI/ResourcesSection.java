@@ -107,21 +107,74 @@ public class ResourcesSection {
         ));
         resourcePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 35));
 
-        // icon, name and quantity labels
-        JLabel iconLabel = new JLabel();
+        // icon button, name and quantity labels
+        JButton iconButton = new JButton();
+        iconButton.setPreferredSize(new Dimension(28, 28));
+        iconButton.setBackground(Colors.beigeColor);
+        iconButton.setForeground(Colors.darkBeigeColor);
+        iconButton.setBorder(null);
+        iconButton.setContentAreaFilled(false);
+        iconButton.setFocusPainted(false);
+        iconButton.setOpaque(false);
+
+        iconButton.setUI(new javax.swing.plaf.basic.BasicButtonUI() {
+            @Override
+            public void paint(Graphics g, JComponent c) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                
+                JButton button = (JButton) c;
+
+                if (button.getModel().isPressed()) {
+                    g2.setColor(Colors.beigeColor.darker());
+                } else if (button.getModel().isRollover()) {
+                    g2.setColor(Colors.beigeColor.brighter());
+                } else {
+                    g2.setColor(Colors.beigeColor);
+                }
+                g2.fillRoundRect(0, 0, c.getWidth(), c.getHeight(), 8, 8);
+
+                g2.setColor(Colors.beigeColor.darker());
+                g2.drawRoundRect(0, 0, c.getWidth()-1, c.getHeight()-1, 8, 8);
+                
+                g2.dispose();
+
+                if (button.getIcon() != null) {
+                    Icon icon = button.getIcon();
+                    int x = (c.getWidth() - icon.getIconWidth()) / 2;
+                    int y = (c.getHeight() - icon.getIconHeight()) / 2;
+                    icon.paintIcon(c, g, x, y);
+                } else if (button.getText() != null && !button.getText().isEmpty()) {
+                    g.setColor(button.getForeground());
+                    g.setFont(button.getFont());
+                    FontMetrics fm = g.getFontMetrics();
+                    int x = (c.getWidth() - fm.stringWidth(button.getText())) / 2;
+                    int y = (c.getHeight() + fm.getAscent()) / 2 - 2;
+                    g.drawString(button.getText(), x, y);
+                }
+            }
+        });
+        
         try {
             if (Farm.resourceHandler != null && Farm.resourceHandler.iconsMap.containsKey(iconKey)) {
                 ImageIcon icon = new ImageIcon(Farm.resourceHandler.iconsMap.get(iconKey));
                 Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-                iconLabel.setIcon(new ImageIcon(scaledImage));
+                iconButton.setIcon(new ImageIcon(scaledImage));
             } else {
-                iconLabel.setText("?");
-                iconLabel.setFont(new Font("Dialog", Font.PLAIN, 18));
+                iconButton.setText("?");
+                iconButton.setFont(new Font("Dialog", Font.PLAIN, 12));
+                iconButton.setForeground(Colors.darkBeigeColor);
             }
         } catch (Exception exception) {
-            iconLabel.setText("?");
-            iconLabel.setFont(new Font("Dialog", Font.PLAIN, 18));
+            iconButton.setText("?");
+            iconButton.setFont(new Font("Dialog", Font.PLAIN, 12));
+            iconButton.setForeground(Colors.darkBeigeColor);
         }
+        
+        // placeholder action listener (will do nothing for now)
+        iconButton.addActionListener(e -> {
+            System.out.println("clicked on " + name + " resource button");
+        });
 
         // name label
         JLabel nameLabel = new JLabel(name);
@@ -134,7 +187,8 @@ public class ResourcesSection {
         quantityLabel.setFont(Farm.fonts.minecraftiaFont);
         quantityLabel.setForeground(Colors.darkBeigeColor);
         
-        resourcePanel.add(iconLabel);
+        resourcePanel.add(iconButton);
+        resourcePanel.add(Box.createHorizontalStrut(3));
         resourcePanel.add(nameLabel);
         resourcePanel.add(Box.createHorizontalGlue());
         resourcePanel.add(quantityLabel);
