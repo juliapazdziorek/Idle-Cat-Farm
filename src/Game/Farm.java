@@ -41,7 +41,7 @@ public class Farm {
 
     // perfection tracking
     static public int levelUpsDone = 0;
-    static public final int MAX_LEVEL_UPS = 36;
+    static public final int MAX_LEVEL_UPS = 24;
 
     // cats count
     static public int catsCount = 1; // TODO: implement proper cats management system
