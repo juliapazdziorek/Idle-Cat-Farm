@@ -145,7 +145,7 @@ public class ResourcesSection {
         resourcePanel.add(iconButton);
         resourcePanel.add(Box.createHorizontalStrut(3));
         resourcePanel.add(nameLabel);
-        resourcePanel.add(Box.createHorizontalGlue());
+        resourcePanel.add(Box.createHorizontalStrut(80)); // Fixed spacing instead of glue
         resourcePanel.add(quantityLabel);
         
         return resourcePanel;
