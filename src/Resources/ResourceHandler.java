@@ -76,6 +76,7 @@ public class ResourceHandler {
 
         // icons
         loadImageToMap(imageMap, "src/Resources/SproutLands/UI/items.png", "items");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/UI/emojis.png", "emojis");
     }
 
     private void loadImageToMap(Map<String, BufferedImage> map, String path, String key) {
@@ -547,6 +548,8 @@ public class ResourceHandler {
     private void initializeIconsMap() {
 
         BufferedImage icons = imageMap.get("items");
+
+        // resources
         iconsMap.put("corn", icons.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
         iconsMap.put("carrot", icons.getSubimage(Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         iconsMap.put("cauliflower", icons.getSubimage(Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
@@ -566,5 +569,26 @@ public class ResourceHandler {
         iconsMap.put("milk", icons.getSubimage(7 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         iconsMap.put("chockMilk", icons.getSubimage(7 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         iconsMap.put("berryMilk", icons.getSubimage(7 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+
+        BufferedImage emojis = imageMap.get("emojis");
+
+        // cats
+        // TODO colored cats faces
+        iconsMap.put("happyStandingCat", emojis.getSubimage(0, 4 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
+        iconsMap.put("standingCat", emojis.getSubimage(Farm.emojiSize, 4 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
+
+        // icons
+        iconsMap.put("zzz", emojis.getSubimage(4 * Farm.emojiSize, 7 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
+        iconsMap.put("coin", emojis.getSubimage(Farm.emojiSize, 8 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
+        iconsMap.put("star", emojis.getSubimage(4 * Farm.emojiSize, 8 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
+        iconsMap.put("sprout", emojis.getSubimage(0, 12 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
+        iconsMap.put("waterCan", emojis.getSubimage(2 * Farm.emojiSize, 16 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
+
+        // areas
+        iconsMap.put("fields", emojis.getSubimage(Farm.emojiSize, 13 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
+        iconsMap.put("orchard", emojis.getSubimage(0, 14 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
+        iconsMap.put("park", emojis.getSubimage(Farm.emojiSize, 14 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
+        iconsMap.put("coop", emojis.getSubimage(0, 17 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
+        iconsMap.put("cows", emojis.getSubimage(2 * Farm.emojiSize, 17 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
     }
 }
