@@ -82,7 +82,7 @@ public class ResourcesSection {
 
         // add each resource
         for (ResourceInfo resource : resources) {
-            JPanel resourceItem = createListResourceItem(resource.icon, resource.name, getResourceQuantity(resource.type));
+            JPanel resourceItem = createListResourceItem(resource.icon, resource.name, getResourceQuantity(resource.type), resource.type);
             gbc.insets = new Insets(2, 0, 2, 0);
             parent.add(resourceItem, gbc);
             gbc.gridy++;
@@ -96,7 +96,7 @@ public class ResourcesSection {
         }
     }
     
-    private JPanel createListResourceItem(String iconKey, String name, int quantity) {
+    private JPanel createListResourceItem(String iconKey, String name, int quantity, FarmResourcesHandler.ResourceType resourceType) {
 
         // panel
         JPanel resourcePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 5));
@@ -107,53 +107,8 @@ public class ResourcesSection {
         ));
         resourcePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 35));
 
-        // icon button, name and quantity labels
-        JButton iconButton = new JButton();
-        iconButton.setPreferredSize(new Dimension(28, 28));
-        iconButton.setBackground(Colors.beigeColor);
-        iconButton.setForeground(Colors.darkBeigeColor);
-        iconButton.setBorder(null);
-        iconButton.setContentAreaFilled(false);
-        iconButton.setFocusPainted(false);
-        iconButton.setOpaque(false);
-
-        iconButton.setUI(new javax.swing.plaf.basic.BasicButtonUI() {
-            @Override
-            public void paint(Graphics g, JComponent c) {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                
-                JButton button = (JButton) c;
-
-                if (button.getModel().isPressed()) {
-                    g2.setColor(Colors.beigeColor.darker());
-                } else if (button.getModel().isRollover()) {
-                    g2.setColor(Colors.beigeColor.brighter());
-                } else {
-                    g2.setColor(Colors.beigeColor);
-                }
-                g2.fillRoundRect(0, 0, c.getWidth(), c.getHeight(), 8, 8);
-
-                g2.setColor(Colors.beigeColor.darker());
-                g2.drawRoundRect(0, 0, c.getWidth()-1, c.getHeight()-1, 8, 8);
-                
-                g2.dispose();
-
-                if (button.getIcon() != null) {
-                    Icon icon = button.getIcon();
-                    int x = (c.getWidth() - icon.getIconWidth()) / 2;
-                    int y = (c.getHeight() - icon.getIconHeight()) / 2;
-                    icon.paintIcon(c, g, x, y);
-                } else if (button.getText() != null && !button.getText().isEmpty()) {
-                    g.setColor(button.getForeground());
-                    g.setFont(button.getFont());
-                    FontMetrics fm = g.getFontMetrics();
-                    int x = (c.getWidth() - fm.stringWidth(button.getText())) / 2;
-                    int y = (c.getHeight() + fm.getAscent()) / 2 - 2;
-                    g.drawString(button.getText(), x, y);
-                }
-            }
-        });
+        // icon button using unified styling
+        JButton iconButton = UIUtils.createRoundedButton("", 28, 28);
         
         try {
             if (Farm.resourceHandler != null && Farm.resourceHandler.iconsMap.containsKey(iconKey)) {
@@ -171,9 +126,9 @@ public class ResourcesSection {
             iconButton.setForeground(Colors.darkBeigeColor);
         }
         
-        // placeholder action listener (will do nothing for now)
-        iconButton.addActionListener(e -> {
-            System.out.println("clicked on " + name + " resource button");
+        // TODO: replace with proper resource gathering
+        iconButton.addActionListener(_ -> {
+            Farm.farmResourcesHandler.addResource(resourceType, 1);
         });
 
         // name label
@@ -250,19 +205,19 @@ public class ResourcesSection {
     
     // filter only unlocked resources
     private ResourceInfo[] filterUnlockedResources(ResourceInfo[] allResources) {
-        if (Farm.farmResources == null) {
+        if (Farm.farmResourcesHandler == null) {
             return new ResourceInfo[0];
         }
         
         return Arrays.stream(allResources)
-            .filter(resource -> Farm.farmResources.isUnlocked(resource.type))
+            .filter(resource -> Farm.farmResourcesHandler.isUnlocked(resource.type))
             .toArray(ResourceInfo[]::new);
     }
 
     // get the quantity of resource type
     private int getResourceQuantity(FarmResourcesHandler.ResourceType resourceType) {
-        if (Farm.farmResources != null) {
-            return Farm.farmResources.getQuantity(resourceType);
+        if (Farm.farmResourcesHandler != null) {
+            return Farm.farmResourcesHandler.getQuantity(resourceType);
         }
         return 0;
     }

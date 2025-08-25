@@ -164,4 +164,60 @@ public class UIUtils {
         
         return button;
     }
+
+    // rounded button with resource button styling
+    public static JButton createRoundedButton(String text, int width, int height) {
+        JButton button = new JButton(text);
+        button.setPreferredSize(new Dimension(width, height));
+        button.setBackground(Colors.beigeColor);
+        button.setForeground(Colors.darkBeigeColor);
+        button.setBorder(null);
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
+        button.setOpaque(false);
+        
+        // Custom UI for rounded corners matching resource buttons
+        button.setUI(new javax.swing.plaf.basic.BasicButtonUI() {
+            @Override
+            public void paint(Graphics g, JComponent c) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                
+                JButton btn = (JButton) c;
+                
+                // Fill background with rounded corners
+                if (btn.getModel().isPressed()) {
+                    g2.setColor(Colors.beigeColor.darker());
+                } else if (btn.getModel().isRollover()) {
+                    g2.setColor(Colors.beigeColor.brighter());
+                } else {
+                    g2.setColor(Colors.beigeColor);
+                }
+                g2.fillRoundRect(0, 0, c.getWidth(), c.getHeight(), 8, 8);
+                
+                // Draw border
+                g2.setColor(Colors.beigeColor.darker());
+                g2.drawRoundRect(0, 0, c.getWidth()-1, c.getHeight()-1, 8, 8);
+                
+                g2.dispose();
+                
+                // Now paint the icon/text on top
+                if (btn.getIcon() != null) {
+                    Icon icon = btn.getIcon();
+                    int x = (c.getWidth() - icon.getIconWidth()) / 2;
+                    int y = (c.getHeight() - icon.getIconHeight()) / 2;
+                    icon.paintIcon(c, g, x, y);
+                } else if (btn.getText() != null && !btn.getText().isEmpty()) {
+                    g.setColor(btn.getForeground());
+                    g.setFont(btn.getFont());
+                    FontMetrics fm = g.getFontMetrics();
+                    int x = (c.getWidth() - fm.stringWidth(btn.getText())) / 2;
+                    int y = (c.getHeight() - fm.getHeight()) / 2 + fm.getAscent();
+                    g.drawString(btn.getText(), x, y);
+                }
+            }
+        });
+        
+        return button;
+    }
 }

@@ -20,7 +20,7 @@ public class WorkstationTab {
 
         // main panel
         UIUtils.RoundedPanel panel = new UIUtils.RoundedPanel(12);
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         panel.setLayout(new BorderLayout());
         panel.setBackground(Colors.beigeColor);
 

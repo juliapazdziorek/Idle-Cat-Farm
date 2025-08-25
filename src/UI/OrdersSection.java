@@ -115,7 +115,7 @@ public class OrdersSection {
         boolean canFulfill = Farm.ordersHandler != null && Farm.ordersHandler.canFulfillOrder(orderParts);
         
         if (canFulfill) {
-            JButton fulfillButton = UIUtils.createStyledButton("done", 60, 25);
+            JButton fulfillButton = UIUtils.createRoundedButton("done", 60, 25);
             fulfillButton.setFont(Farm.fonts.minecraftiaFont);
             
             fulfillButton.addActionListener(_ -> {
