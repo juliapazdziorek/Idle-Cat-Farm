@@ -139,6 +139,7 @@ public class OrdersSection {
         }
 
         String iconName = switch (resourceType) {
+            case  STAR_FRUIT -> "starFruit";
             case CHOCOLATE_MILK -> "chockMilk";
             case STRAWBERRY_MILK -> "berryMilk";
             default ->
