@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 public class FarmTab {
 
     // upgrade costs for all areas (level 0->1, 1->2, 2->3, 3->Star)
-    private static final int[] UPGRADE_COSTS = {10, 25, 50, 75, 100};
+    private static final int[] UPGRADE_COSTS = {10, 25, 50, 100};
 
     public FarmTab() {
     }
