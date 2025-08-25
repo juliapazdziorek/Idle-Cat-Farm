@@ -128,7 +128,7 @@ public class ResourcesSection {
         
         // TODO: replace with proper resource gathering
         iconButton.addActionListener(_ -> {
-            Farm.farmResourcesHandler.addResource(resourceType, 1);
+            Farm.farmResourcesHandler.addResource(resourceType, 10);
         });
 
         // name label
@@ -175,7 +175,7 @@ public class ResourcesSection {
             new ResourceInfo("cauliflower", "Cauliflower", FarmResourcesHandler.ResourceType.CAULIFLOWER),
             new ResourceInfo("eggplant", "Eggplant", FarmResourcesHandler.ResourceType.EGGPLANT),
             new ResourceInfo("pumpkin", "Pumpkin", FarmResourcesHandler.ResourceType.PUMPKIN),
-            new ResourceInfo("star", "Star", FarmResourcesHandler.ResourceType.STAR)
+            new ResourceInfo("starFruit", "Star fruit", FarmResourcesHandler.ResourceType.STAR_FRUIT)
         };
 
         return filterUnlockedResources(allCrops);

@@ -684,7 +684,7 @@ public class Map {
             }
 
             case LEVEL_3 -> {
-                Farm.farmResourcesHandler.unlockResource(STAR);
+                Farm.farmResourcesHandler.unlockResource(STAR_FRUIT);
 
                 setAreaLevel(MapArea.FIELDS, MapLevels.LEVEL_Star);
             }

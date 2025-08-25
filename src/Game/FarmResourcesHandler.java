@@ -20,7 +20,7 @@ public class FarmResourcesHandler {
         CAULIFLOWER, // lvl 3
         EGGPLANT, // lvl 3
         PUMPKIN, // lvl 3
-        STAR, // lvl star
+        STAR_FRUIT, // lvl star
 
         // fruits
         APPLE, // lvl 1

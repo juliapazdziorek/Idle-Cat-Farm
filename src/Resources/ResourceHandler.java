@@ -559,7 +559,7 @@ public class ResourceHandler {
         iconsMap.put("wheat", icons.getSubimage(Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         iconsMap.put("pumpkin", icons.getSubimage(Farm.tileSize, 9 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         iconsMap.put("radish", icons.getSubimage(Farm.tileSize, 10 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
-        iconsMap.put("star", icons.getSubimage(Farm.tileSize, 13 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        iconsMap.put("starFruit", icons.getSubimage(Farm.tileSize, 13 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         iconsMap.put("cucumber", icons.getSubimage(Farm.tileSize, 14 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         iconsMap.put("apple", icons.getSubimage(2 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
         iconsMap.put("orange", icons.getSubimage(2 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));

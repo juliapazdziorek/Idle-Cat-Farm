@@ -13,7 +13,7 @@ public class Sign extends Entity {
     private final Map<String, BufferedImage> imageMap;
 
     // state
-    public enum SignState {EMPTY, CORN, CARROT, CAULIFLOWER, TOMATO, EGGPLANT, LETTUCE, WHEAT, PUMPKIN, RADISH, STAR, CUCUMBER, APPLE, ORANGE, PEAR, PEACH}
+    public enum SignState {EMPTY, CORN, CARROT, CAULIFLOWER, TOMATO, EGGPLANT, LETTUCE, WHEAT, PUMPKIN, RADISH, STAR_FRUIT, CUCUMBER, APPLE, ORANGE, PEAR, PEACH}
 
     public Sign(Point position) {
         super(position);
@@ -37,7 +37,7 @@ public class Sign extends Entity {
             case WHEAT -> currentImage = imageMap.get("wheat");
             case PUMPKIN -> currentImage = imageMap.get("pumpkin");
             case RADISH -> currentImage = imageMap.get("radish");
-            case STAR -> currentImage = imageMap.get("star");
+            case STAR_FRUIT -> currentImage = imageMap.get("star");
             case CUCUMBER -> currentImage = imageMap.get("cucumber");
             case APPLE -> currentImage = imageMap.get("apple");
             case ORANGE -> currentImage = imageMap.get("orange");
