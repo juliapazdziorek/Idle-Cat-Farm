@@ -39,7 +39,7 @@ public class OrdersHandler {
             return new ArrayList<>();
         }
 
-        int maxOrderParts = Math.min(5, unlockedResources.size());
+        int maxOrderParts = Math.min(3, unlockedResources.size());
         int numOrderParts = random.nextInt(maxOrderParts) + 1;
         ArrayList<OrderPart> newOrder = new ArrayList<>();
 

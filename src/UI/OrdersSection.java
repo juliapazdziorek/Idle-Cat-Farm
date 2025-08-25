@@ -78,7 +78,7 @@ public class OrdersSection {
         ));
         orderPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 35));
 
-        JPanel resourcesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 5));
+        JPanel resourcesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 5));
         resourcesPanel.setBackground(Colors.lightBeigeColor);
         resourcesPanel.setOpaque(false);
 
@@ -103,7 +103,7 @@ public class OrdersSection {
             quantityLabel.setForeground(Colors.darkBeigeColor);
             resourcesPanel.add(quantityLabel);
             
-            resourcesPanel.add(Box.createHorizontalStrut(8));
+            resourcesPanel.add(Box.createHorizontalStrut(4));
         }
         
         // complete button - only show if order can be fulfilled
