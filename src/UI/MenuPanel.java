@@ -11,12 +11,14 @@ public class MenuPanel extends JPanel {
     private final WorkstationTab workstationTab;
     private final CatsTab catsTab;
     private final FarmTab farmTab;
+    private final StatsPanel statsPanel;
     private JTabbedPane tabbedPane;
 
     public MenuPanel() {
         workstationTab = new WorkstationTab();
         catsTab = new CatsTab();
         farmTab = new FarmTab();
+        statsPanel = new StatsPanel();
         initializeMenu();
     }
 
@@ -39,11 +41,13 @@ public class MenuPanel extends JPanel {
         tabbedPane.addTab("Farm", farmTab.createFarmTab());
         
         add(tabbedPane, BorderLayout.CENTER);
+        add(statsPanel, BorderLayout.SOUTH);
     }
 
     public void refreshResourcesDisplay() {
         SwingUtilities.invokeLater(() -> {
             tabbedPane.setComponentAt(0, workstationTab.createWorkstationTab());
+            statsPanel.refreshStats();
             tabbedPane.revalidate();
             tabbedPane.repaint();
         });

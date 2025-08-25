@@ -18,6 +18,7 @@ public class Farm {
 
     // sprites & map numbers
     static public final int tileSize = 16;
+    static public final int emojiSize = 32;
     static public final int scale = 4;
     static public final int scaledTileSize = tileSize * scale;
     static public final int mapWidthTiles = 48;
@@ -37,6 +38,13 @@ public class Farm {
 
     // money
     static public int money = 0;
+
+    // perfection tracking
+    static public int levelUpsDone = 0;
+    static public final int MAX_LEVEL_UPS = 36;
+
+    // cats count
+    static public int catsCount = 1; // TODO: implement proper cats management system
 
     // handlers
     static public ResourceHandler resourceHandler;
