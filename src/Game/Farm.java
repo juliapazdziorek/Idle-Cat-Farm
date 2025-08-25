@@ -30,7 +30,7 @@ public class Farm {
     static public GamePanel gamePanel;
     static public MenuPanel menuPanel;
     static public Camera camera;
-    static public FarmResourcesHandler farmResources;
+    static public FarmResourcesHandler farmResourcesHandler;
 
     // fonts
     static public Resources.Fonts fonts;
@@ -58,9 +58,8 @@ public class Farm {
         entitiesHandler = new EntitiesHandler();
         keyHandler = new KeyHandler();
         mouseHandler = new MouseHandler();
-        farmResources = new FarmResourcesHandler();
-        ordersHandler = new OrdersHandler(farmResources);
-        ordersHandler.maintainOrderCount(); // Initialize orders based on unlocked resources
+        farmResourcesHandler = new FarmResourcesHandler();
+        ordersHandler = new OrdersHandler(farmResourcesHandler);
         gamePanel = new GamePanel();
         menuPanel = new MenuPanel();
         camera = new Camera();
@@ -69,6 +68,13 @@ public class Farm {
         // initialize pathfinder
         Map.initializePathfinder();
 
+        // initialize orders
+        ordersHandler.maintainOrderCount();
+
+        // refresh UI
+        if (menuPanel != null) {
+            menuPanel.refreshResourcesDisplay();
+        }
 
         // window setup
         frame = new JFrame("Cat Farm");
