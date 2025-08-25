@@ -58,6 +58,6 @@ public class Camera {
         blockedUp = position.y + cameraSpeed > 0;
         blockedDown = position.y - cameraSpeed < - Farm.mapHeight + Farm.frame.getHeight();
         blockedLeft = position.x + cameraSpeed > 0;
-        blockedRight = position.x - cameraSpeed < - Farm.mapWidth + Farm.frame.getWidth();
+        blockedRight = position.x - cameraSpeed < - Farm.mapWidth + Farm.gamePanel.getWidth();
     }
 }
