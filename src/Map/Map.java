@@ -698,21 +698,24 @@ public class Map {
     public void levelUpHouseArea() {
         switch (mapAreasLevels.get(MapArea.HOUSE)) {
             case LEVEL_0 -> {
-                // TODO: Add house level up logic
                 setAreaLevel(MapArea.HOUSE, MapLevels.LEVEL_1);
             }
+
             case LEVEL_1 -> {
-                // TODO: Add house level up logic
+                // TODO: add 1 cat -> gray
                 setAreaLevel(MapArea.HOUSE, MapLevels.LEVEL_2);
             }
+
             case LEVEL_2 -> {
-                // TODO: Add house level up logic
+                // TODO: add 1 cat -> orange
                 setAreaLevel(MapArea.HOUSE, MapLevels.LEVEL_3);
             }
+
             case LEVEL_3 -> {
-                // TODO: Add house level up logic
+                // TODO: add 1 cat -> tricolor
                 setAreaLevel(MapArea.HOUSE, MapLevels.LEVEL_Star);
             }
+
             case LEVEL_Star -> {
                 // max level reached
             }
@@ -722,21 +725,28 @@ public class Map {
     public void levelUpCoopArea() {
         switch (mapAreasLevels.get(MapArea.COOP)) {
             case LEVEL_0 -> {
-                // TODO: Add coop level up logic
+                // TODO: add 1 chicken
+
+                Farm.farmResourcesHandler.unlockResource(EGG);
+
                 setAreaLevel(MapArea.COOP, MapLevels.LEVEL_1);
             }
+
             case LEVEL_1 -> {
-                // TODO: Add coop level up logic
+                // TODO: add 1 chicken
                 setAreaLevel(MapArea.COOP, MapLevels.LEVEL_2);
             }
+
             case LEVEL_2 -> {
-                // TODO: Add coop level up logic
+                // TODO: add 1 chicken
                 setAreaLevel(MapArea.COOP, MapLevels.LEVEL_3);
             }
+
             case LEVEL_3 -> {
-                // TODO: Add coop level up logic
+                // TODO: add 2 chickens -> total 5
                 setAreaLevel(MapArea.COOP, MapLevels.LEVEL_Star);
             }
+
             case LEVEL_Star -> {
                 // max level reached
             }
@@ -746,21 +756,34 @@ public class Map {
     public void levelUpCowsArea() {
         switch (mapAreasLevels.get(MapArea.COWS)) {
             case LEVEL_0 -> {
-                // TODO: Add cows/barn level up logic
+                // TODO: add 1 cow
+
+                Farm.farmResourcesHandler.unlockResource(MILK);
+
                 setAreaLevel(MapArea.COWS, MapLevels.LEVEL_1);
             }
+
             case LEVEL_1 -> {
-                // TODO: Add cows/barn level up logic
+                // TODO: add 1 brown cow
+
+                Farm.farmResourcesHandler.unlockResource(CHOCOLATE_MILK);
+
                 setAreaLevel(MapArea.COWS, MapLevels.LEVEL_2);
             }
+
             case LEVEL_2 -> {
-                // TODO: Add cows/barn level up logic
+                // updated to a barn building
                 setAreaLevel(MapArea.COWS, MapLevels.LEVEL_3);
             }
+
             case LEVEL_3 -> {
-                // TODO: Add cows/barn level up logic
+                // TODO: add 1 pink cow -> total 3
+
+                Farm.farmResourcesHandler.unlockResource(STRAWBERRY_MILK);
+
                 setAreaLevel(MapArea.COWS, MapLevels.LEVEL_Star);
             }
+
             case LEVEL_Star -> {
                 // max level reached
             }
@@ -770,28 +793,44 @@ public class Map {
     public void levelUpOrchardArea() {
         switch (mapAreasLevels.get(MapArea.ORCHARD)) {
             case LEVEL_0 -> {
-                // TODO: Add orchard level up logic
+                // TODO: 2 trees
+
+                Farm.farmResourcesHandler.unlockResource(APPLE);
+
                 setAreaLevel(MapArea.ORCHARD, MapLevels.LEVEL_1);
             }
+
             case LEVEL_1 -> {
-                // TODO: Add orchard level up logic
+                // TODO: add 2 trees
+
+                Farm.farmResourcesHandler.unlockResource(PEAR);
+
                 setAreaLevel(MapArea.ORCHARD, MapLevels.LEVEL_2);
             }
+
             case LEVEL_2 -> {
-                // TODO: Add orchard level up logic
+                // TODO: add 2 trees
+
+                Farm.farmResourcesHandler.unlockResource(PEACH);
+
                 setAreaLevel(MapArea.ORCHARD, MapLevels.LEVEL_3);
             }
+
             case LEVEL_3 -> {
-                // TODO: Add orchard level up logic
+                // TODO: add 2 trees
+
+                Farm.farmResourcesHandler.unlockResource(ORANGE);
+
                 setAreaLevel(MapArea.ORCHARD, MapLevels.LEVEL_Star);
             }
+
             case LEVEL_Star -> {
                 // max level reached
             }
         }
     }
 
-    public void levelUpParkArea() {
+    public void levelUpParkArea() { // TODO: implement bush fruits
         switch (mapAreasLevels.get(MapArea.PARK)) {
             case LEVEL_0 -> {
                 // TODO: Add park level up logic
