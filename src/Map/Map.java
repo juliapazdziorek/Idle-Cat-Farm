@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import static Game.FarmResourcesHandler.ResourceType.*;
+
 public class Map {
 
     // layers lists
@@ -55,6 +57,9 @@ public class Map {
     // water trays
     public final ArrayList<WaterTray> waterTrays;
     ArrayList<Integer> waterTrayIds;
+
+    // fields
+    public final ArrayList<Field> fields;
 
     // pathfinder
     public static AStar pathfinder;
@@ -218,6 +223,11 @@ public class Map {
         waterTrays = new ArrayList<>();
         waterTrayIds = new ArrayList<>();
         Collections.addAll(waterTrayIds, 289, 290);
+
+        fields = new ArrayList<>();
+
+        // initialize fields
+        initializeFields();
 
         // initialize layers
         createMapLayers();
@@ -595,6 +605,214 @@ public class Map {
         }
 
         return obstaclesGrid[i][j];
+    }
+
+
+    // fields management
+    public void initializeFields() {
+        Field field = new Field();
+        ArrayList<Point> cropPositions = new ArrayList<>();
+        Collections.addAll(cropPositions,
+                new Point(23, 26),
+                new Point(24, 25),
+                new Point(25, 26),
+                new Point(26, 25),
+                new Point(28, 25) //TODO: positions not checked
+        );
+
+        field.addCropPositions(cropPositions);
+        fields.add(field);
+    }
+
+    public void levelUpFieldsArea() {
+        switch (mapAreasLevels.get(MapArea.FIELDS)) {
+            case LEVEL_0 -> {
+                Field field = fields.getFirst();
+                ArrayList<Point> cropPositions = new ArrayList<>();
+                Collections.addAll(cropPositions,
+                        new Point(29, 26),
+                        new Point(25, 28),
+                        new Point(26, 27),
+                        new Point(27, 28),
+                        new Point(28, 27) //TODO: positions not checked
+                );
+                field.addCropPositions(cropPositions);
+
+                Farm.farmResourcesHandler.unlockResource(CORN);
+                Farm.farmResourcesHandler.unlockResource(CARROT);
+
+                setAreaLevel(MapArea.FIELDS, MapLevels.LEVEL_1);
+            }
+
+            case LEVEL_1 -> {
+                Field field = new Field();
+                ArrayList<Point> cropPositions = new ArrayList<>();
+                Collections.addAll(cropPositions,
+                        new Point(10, 25),
+                        new Point(11, 24),
+                        new Point(11, 26),
+                        new Point(12, 25),
+                        new Point(13, 26) //TODO: positions not checked
+                );
+                field.addCropPositions(cropPositions);
+                fields.add(field);
+
+                Farm.farmResourcesHandler.unlockResource(WHEAT);
+                Farm.farmResourcesHandler.unlockResource(CUCUMBER);
+                Farm.farmResourcesHandler.unlockResource(RADISH);
+
+                setAreaLevel(MapArea.FIELDS, MapLevels.LEVEL_2);
+            }
+
+            case LEVEL_2 -> {
+                Field field = fields.getLast();
+                ArrayList<Point> cropPositions = new ArrayList<>();
+                Collections.addAll(cropPositions,
+                        new Point(8, 29),
+                        new Point(9, 28),
+                        new Point(11, 28),
+                        new Point(12, 29),
+                        new Point(12, 28) //TODO: positions not checked
+                );
+                field.addCropPositions(cropPositions);
+
+                Farm.farmResourcesHandler.unlockResource(CAULIFLOWER);
+                Farm.farmResourcesHandler.unlockResource(EGGPLANT);
+                Farm.farmResourcesHandler.unlockResource(PUMPKIN);
+
+                setAreaLevel(MapArea.FIELDS, MapLevels.LEVEL_3);
+            }
+
+            case LEVEL_3 -> {
+                Farm.farmResourcesHandler.unlockResource(STAR);
+
+                setAreaLevel(MapArea.FIELDS, MapLevels.LEVEL_Star);
+            }
+
+            case LEVEL_Star -> {
+                // max level reached
+            }
+        }
+    }
+
+    public void levelUpHouseArea() {
+        switch (mapAreasLevels.get(MapArea.HOUSE)) {
+            case LEVEL_0 -> {
+                // TODO: Add house level up logic
+                setAreaLevel(MapArea.HOUSE, MapLevels.LEVEL_1);
+            }
+            case LEVEL_1 -> {
+                // TODO: Add house level up logic
+                setAreaLevel(MapArea.HOUSE, MapLevels.LEVEL_2);
+            }
+            case LEVEL_2 -> {
+                // TODO: Add house level up logic
+                setAreaLevel(MapArea.HOUSE, MapLevels.LEVEL_3);
+            }
+            case LEVEL_3 -> {
+                // TODO: Add house level up logic
+                setAreaLevel(MapArea.HOUSE, MapLevels.LEVEL_Star);
+            }
+            case LEVEL_Star -> {
+                // max level reached
+            }
+        }
+    }
+
+    public void levelUpCoopArea() {
+        switch (mapAreasLevels.get(MapArea.COOP)) {
+            case LEVEL_0 -> {
+                // TODO: Add coop level up logic
+                setAreaLevel(MapArea.COOP, MapLevels.LEVEL_1);
+            }
+            case LEVEL_1 -> {
+                // TODO: Add coop level up logic
+                setAreaLevel(MapArea.COOP, MapLevels.LEVEL_2);
+            }
+            case LEVEL_2 -> {
+                // TODO: Add coop level up logic
+                setAreaLevel(MapArea.COOP, MapLevels.LEVEL_3);
+            }
+            case LEVEL_3 -> {
+                // TODO: Add coop level up logic
+                setAreaLevel(MapArea.COOP, MapLevels.LEVEL_Star);
+            }
+            case LEVEL_Star -> {
+                // max level reached
+            }
+        }
+    }
+
+    public void levelUpCowsArea() {
+        switch (mapAreasLevels.get(MapArea.COWS)) {
+            case LEVEL_0 -> {
+                // TODO: Add cows/barn level up logic
+                setAreaLevel(MapArea.COWS, MapLevels.LEVEL_1);
+            }
+            case LEVEL_1 -> {
+                // TODO: Add cows/barn level up logic
+                setAreaLevel(MapArea.COWS, MapLevels.LEVEL_2);
+            }
+            case LEVEL_2 -> {
+                // TODO: Add cows/barn level up logic
+                setAreaLevel(MapArea.COWS, MapLevels.LEVEL_3);
+            }
+            case LEVEL_3 -> {
+                // TODO: Add cows/barn level up logic
+                setAreaLevel(MapArea.COWS, MapLevels.LEVEL_Star);
+            }
+            case LEVEL_Star -> {
+                // max level reached
+            }
+        }
+    }
+
+    public void levelUpOrchardArea() {
+        switch (mapAreasLevels.get(MapArea.ORCHARD)) {
+            case LEVEL_0 -> {
+                // TODO: Add orchard level up logic
+                setAreaLevel(MapArea.ORCHARD, MapLevels.LEVEL_1);
+            }
+            case LEVEL_1 -> {
+                // TODO: Add orchard level up logic
+                setAreaLevel(MapArea.ORCHARD, MapLevels.LEVEL_2);
+            }
+            case LEVEL_2 -> {
+                // TODO: Add orchard level up logic
+                setAreaLevel(MapArea.ORCHARD, MapLevels.LEVEL_3);
+            }
+            case LEVEL_3 -> {
+                // TODO: Add orchard level up logic
+                setAreaLevel(MapArea.ORCHARD, MapLevels.LEVEL_Star);
+            }
+            case LEVEL_Star -> {
+                // max level reached
+            }
+        }
+    }
+
+    public void levelUpParkArea() {
+        switch (mapAreasLevels.get(MapArea.PARK)) {
+            case LEVEL_0 -> {
+                // TODO: Add park level up logic
+                setAreaLevel(MapArea.PARK, MapLevels.LEVEL_1);
+            }
+            case LEVEL_1 -> {
+                // TODO: Add park level up logic
+                setAreaLevel(MapArea.PARK, MapLevels.LEVEL_2);
+            }
+            case LEVEL_2 -> {
+                // TODO: Add park level up logic
+                setAreaLevel(MapArea.PARK, MapLevels.LEVEL_3);
+            }
+            case LEVEL_3 -> {
+                // TODO: Add park level up logic
+                setAreaLevel(MapArea.PARK, MapLevels.LEVEL_Star);
+            }
+            case LEVEL_Star -> {
+                // max level reached
+            }
+        }
     }
 
 

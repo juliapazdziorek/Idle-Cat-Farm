@@ -99,13 +99,13 @@ public class Farm {
             }
         });
 
-        frame.addKeyListener(keyHandler);
         frame.addMouseListener(mouseHandler);
         frame.addMouseListener(entitiesHandler);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(gamePanel, BorderLayout.CENTER);
         mainPanel.add(menuPanel, BorderLayout.EAST);
+        
         frame.add(mainPanel);
 
         frame.pack();
@@ -116,7 +116,7 @@ public class Farm {
     }
 
 
-    // money management methods
+    // money management
     public static void addMoney(int amount) {
         money += amount;
 

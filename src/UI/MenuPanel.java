@@ -47,6 +47,7 @@ public class MenuPanel extends JPanel {
     public void refreshResourcesDisplay() {
         SwingUtilities.invokeLater(() -> {
             tabbedPane.setComponentAt(0, workstationTab.createWorkstationTab());
+            tabbedPane.setComponentAt(2, farmTab.createFarmTab()); // Refresh Farm tab to update buttons
             statsPanel.refreshStats();
             tabbedPane.revalidate();
             tabbedPane.repaint();
