@@ -23,6 +23,9 @@ public class EntitiesHandler implements MouseListener {
     public List<Entity> clickableMapEntities;
     public List<Entity> renderableMapEntities;
     public List<Entity> updatableMapEntities;
+    
+    // queue for entities to be removed safely
+    private final List<Entity> entitiesToRemove;
 
     public FarmCat cat;
 
@@ -30,6 +33,7 @@ public class EntitiesHandler implements MouseListener {
         clickableMapEntities = new ArrayList<>();
         renderableMapEntities = new ArrayList<>();
         updatableMapEntities = new ArrayList<>();
+        entitiesToRemove = new ArrayList<>();
 
         map = new Map();
         cat = new FarmCat(12, 20);
@@ -92,6 +96,23 @@ public class EntitiesHandler implements MouseListener {
         }
 
         cat.update();
+        
+        processRemovalQueue();
+    }
+
+    public void queueEntityForRemoval(Entity entity) {
+        if (!entitiesToRemove.contains(entity)) {
+            entitiesToRemove.add(entity);
+        }
+    }
+
+    private void processRemovalQueue() {
+        for (Entity entity : entitiesToRemove) {
+            clickableMapEntities.remove(entity);
+            renderableMapEntities.remove(entity);
+            updatableMapEntities.remove(entity);
+        }
+        entitiesToRemove.clear();
     }
 
     public void render(Graphics2D graphics2D) {

@@ -81,6 +81,16 @@ public class FarmResourcesHandler {
         }
     }
 
+
+    // check a resource type
+    public static boolean isCropResource(ResourceType resourceType) {
+        return switch (resourceType) {
+            case LETTUCE, TOMATO, CORN, CARROT, WHEAT, CUCUMBER, RADISH,
+                 CAULIFLOWER, EGGPLANT, PUMPKIN, STAR_FRUIT -> true;
+            default -> false;
+        };
+    }
+
     
     // check if resource is unlocked
     public boolean isUnlocked(ResourceType resourceType) {

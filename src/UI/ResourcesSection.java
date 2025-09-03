@@ -40,12 +40,10 @@ public class ResourcesSection {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.NORTH;
         
-        // add resource sections
         addResourceSection(resourcesContent, gbc, "Crops", getCropResources());
         addResourceSection(resourcesContent, gbc, "Fruits", getFruitResources());
         addResourceSection(resourcesContent, gbc, "Animal Products", getAnimalResources());
 
-        // vertical glue to push content to the top
         gbc.weighty = 1.0;
         resourcesContent.add(Box.createVerticalGlue(), gbc);
         
@@ -88,7 +86,6 @@ public class ResourcesSection {
             gbc.gridy++;
         }
 
-        // add small spacing between sections (except after last)
         if (!sectionTitle.equals("Animal Products")) {
             gbc.insets = new Insets(5, 0, 0, 0);
             parent.add(Box.createVerticalStrut(5), gbc);
@@ -99,15 +96,19 @@ public class ResourcesSection {
     private JPanel createListResourceItem(String iconKey, String name, int quantity, FarmResourcesHandler.ResourceType resourceType) {
 
         // panel
-        JPanel resourcePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 5));
+        JPanel resourcePanel = new JPanel(new BorderLayout(8, 0));
         resourcePanel.setBackground(Colors.lightBeigeColor);
         resourcePanel.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(Colors.beigeColor, 1),
-            BorderFactory.createEmptyBorder(3, 8, 3, 8)
+            BorderFactory.createEmptyBorder(5, 8, 5, 8)
         ));
         resourcePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 35));
 
-        // icon button using unified styling
+        // panel for icon and name
+        JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 0));
+        leftPanel.setBackground(Colors.lightBeigeColor);
+
+        // icon button
         JButton iconButton = UIUtils.createRoundedButton("", 28, 28);
         
         try {
@@ -128,7 +129,15 @@ public class ResourcesSection {
         
         // TODO: replace with proper resource gathering
         iconButton.addActionListener(_ -> {
-            Farm.farmResourcesHandler.addResource(resourceType, 10);
+            if (FarmResourcesHandler.isCropResource(resourceType)) {
+
+                // for crop resources, plant the crop
+                plantCropInFields(resourceType);
+            } else {
+
+                // for non-crop resources, add 10 resources TODO: add proper gathering logic
+                Farm.farmResourcesHandler.addResource(resourceType, 10);
+            }
         });
 
         // name label
@@ -141,14 +150,29 @@ public class ResourcesSection {
         JLabel quantityLabel = new JLabel("x" + quantity);
         quantityLabel.setFont(Farm.fonts.minecraftiaFont);
         quantityLabel.setForeground(Colors.darkBeigeColor);
-        
-        resourcePanel.add(iconButton);
-        resourcePanel.add(Box.createHorizontalStrut(3));
-        resourcePanel.add(nameLabel);
-        resourcePanel.add(Box.createHorizontalStrut(80)); // Fixed spacing instead of glue
-        resourcePanel.add(quantityLabel);
+
+        leftPanel.add(iconButton);
+        leftPanel.add(Box.createHorizontalStrut(3));
+        leftPanel.add(nameLabel);
+
+        resourcePanel.add(leftPanel, BorderLayout.WEST);
+        resourcePanel.add(quantityLabel, BorderLayout.EAST);
         
         return resourcePanel;
+    }
+    
+    // plants the specified crop type in the first available field TODO: temporary logic
+    private void plantCropInFields(FarmResourcesHandler.ResourceType cropType) {
+        if (Farm.entitiesHandler == null || Farm.entitiesHandler.map == null || Farm.entitiesHandler.map.fields.isEmpty()) {
+            return;
+        }
+
+        Map.Field firstField = Farm.entitiesHandler.map.fields.getFirst();
+        if (firstField != null) {
+            firstField.plantCrop(cropType);
+
+            Farm.menuPanel.refreshResourcesDisplay();
+        }
     }
     
     // helper class for resource information
