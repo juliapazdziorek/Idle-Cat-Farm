@@ -19,7 +19,7 @@ public class Farm {
     // sprites & map numbers
     static public final int tileSize = 16;
     static public final int emojiSize = 32;
-    static public final int scale = 4;
+    static public final int scale = 3;
     static public final int scaledTileSize = tileSize * scale;
     static public final int mapWidthTiles = 48;
     static public final int mapHeightTiles = 36;
