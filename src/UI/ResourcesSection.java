@@ -132,7 +132,9 @@ public class ResourcesSection {
             if (FarmResourcesHandler.isCropResource(resourceType)) {
 
                 // for crop resources, plant the crop
-                plantCropInFields(resourceType);
+                if (Map.Field.plantCropInAvailableField(resourceType)) {
+                    Farm.menuPanel.refreshResourcesDisplay();
+                }
             } else {
 
                 // for non-crop resources, add 10 resources TODO: add proper gathering logic
@@ -159,20 +161,6 @@ public class ResourcesSection {
         resourcePanel.add(quantityLabel, BorderLayout.EAST);
         
         return resourcePanel;
-    }
-    
-    // plants the specified crop type in the first available field TODO: temporary logic
-    private void plantCropInFields(FarmResourcesHandler.ResourceType cropType) {
-        if (Farm.entitiesHandler == null || Farm.entitiesHandler.map == null || Farm.entitiesHandler.map.fields.isEmpty()) {
-            return;
-        }
-
-        Map.Field firstField = Farm.entitiesHandler.map.fields.getFirst();
-        if (firstField != null) {
-            firstField.plantCrop(cropType);
-
-            Farm.menuPanel.refreshResourcesDisplay();
-        }
     }
     
     // helper class for resource information

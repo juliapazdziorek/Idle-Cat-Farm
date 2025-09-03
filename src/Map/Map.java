@@ -15,6 +15,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import static Game.FarmResourcesHandler.ResourceType.*;
 
@@ -323,9 +324,24 @@ public class Map {
         waterTrays.clear();
         signsPositions.clear();
 
+        // preserve crops before clearing entities
+        List<Entity> existingCrops = new ArrayList<>();
+        for (Entity entity : new ArrayList<>(Farm.entitiesHandler.clickableMapEntities)) {
+            if (entity.getClass().getName().equals("Entities.FarmResources.Crop")) {
+                existingCrops.add(entity);
+            }
+        }
+        
         Farm.entitiesHandler.clickableMapEntities.clear();
         Farm.entitiesHandler.renderableMapEntities.clear();
         Farm.entitiesHandler.updatableMapEntities.clear();
+        
+        // restore crops after clearing
+        for (Entity crop : existingCrops) {
+            Farm.entitiesHandler.clickableMapEntities.add(crop);
+            Farm.entitiesHandler.renderableMapEntities.add(crop);
+            Farm.entitiesHandler.updatableMapEntities.add(crop);
+        }
     }
 
     private void refreshLayersRenderLists() {

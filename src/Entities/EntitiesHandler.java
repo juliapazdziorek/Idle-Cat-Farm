@@ -42,10 +42,7 @@ public class EntitiesHandler implements MouseListener {
     }
     
     public void createEntitiesFromMap() {
-        clickableMapEntities.clear();
-        renderableMapEntities.clear();
-        updatableMapEntities.clear();
-
+        
         // entrances
         for (Entrance entrance : map.entrances) {
             renderableMapEntities.add(entrance);
