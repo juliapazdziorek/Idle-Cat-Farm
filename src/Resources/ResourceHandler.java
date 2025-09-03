@@ -14,6 +14,7 @@ public class ResourceHandler {
     private final Map<String, BufferedImage> imageMap;
     public final Map<Integer, BufferedImage> tilesMap;
     public final Map<String, Map<String, BufferedImage>> entitiesResourcesMap;
+    public final Map<String, BufferedImage> cropsMap;
     public final Map<String, BufferedImage> iconsMap;
 
     // animation factory
@@ -23,11 +24,13 @@ public class ResourceHandler {
         imageMap = new HashMap<>();
         tilesMap = new HashMap<>();
         entitiesResourcesMap = new HashMap<>();
+        cropsMap = new HashMap<>();
         iconsMap = new HashMap<>();
 
         loadResources();
         initializeTilesMap();
         initializeEntitiesResourcesMap();
+        initializeCropsMap();
         initializeIconsMap();
 
         // animations
@@ -60,6 +63,7 @@ public class ResourceHandler {
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/door.png", "doors");
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/roof.png", "roof");
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/coop.png", "coop");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/crops.png", "crops");
 
         // objects
         loadImageToMap(imageMap, "src/Resources/SproutLands/Objects/barn_structures.png", "barnStructures");
@@ -541,6 +545,60 @@ public class ResourceHandler {
         signsMap.put("pear", imageMap.get("signs").getSubimage(5 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // pear sign
         signsMap.put("peach", imageMap.get("signs").getSubimage(0, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // peach sign
         entitiesResourcesMap.put("signs", signsMap);
+    }
+
+
+    // crops
+    private void initializeCropsMap() {
+        
+        BufferedImage crops = imageMap.get("crops");
+        cropsMap.put("corn1", crops.getSubimage( 0, Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("corn2", crops.getSubimage( Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("corn3", crops.getSubimage( 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("corn4bottom", crops.getSubimage( 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("corn4up", crops.getSubimage( 3 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("corn5bottom", crops.getSubimage( 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("corn5up", crops.getSubimage( 4 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("carrot1", crops.getSubimage( 0, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("carrot2", crops.getSubimage( Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("carrot3", crops.getSubimage( 2 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("carrot4", crops.getSubimage( 3 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("cauliflower1", crops.getSubimage( 0, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("cauliflower2", crops.getSubimage( Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("cauliflower3", crops.getSubimage( 2 * Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("cauliflower4", crops.getSubimage( 3 * Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("tomato1", crops.getSubimage( 0, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("tomato2", crops.getSubimage( Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("tomato3", crops.getSubimage( 2 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("tomato4", crops.getSubimage( 3 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("eggplant1", crops.getSubimage( 0, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("eggplant2", crops.getSubimage( Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("eggplant3", crops.getSubimage( 2 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("eggplant4", crops.getSubimage( 3 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("lettuce1", crops.getSubimage( 0, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("lettuce2", crops.getSubimage( Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("lettuce3", crops.getSubimage( 2 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("lettuce4", crops.getSubimage( 3 * Farm.tileSize, 7 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("wheat1", crops.getSubimage( 0, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("wheat2", crops.getSubimage( Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("wheat3", crops.getSubimage( 2 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("wheat4", crops.getSubimage( 3 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("pumpkin1", crops.getSubimage( 0, 9 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("pumpkin2", crops.getSubimage( Farm.tileSize, 9 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("pumpkin3", crops.getSubimage( 2 * Farm.tileSize, 9 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("pumpkin4", crops.getSubimage( 3 * Farm.tileSize, 9 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("radish1", crops.getSubimage( 0, 10 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("radish2", crops.getSubimage( Farm.tileSize, 10 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("radish3", crops.getSubimage( 2 * Farm.tileSize, 10 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("radish4", crops.getSubimage( 3 * Farm.tileSize, 10 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("starFruit1", crops.getSubimage( 0, 13 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("starFruit2", crops.getSubimage( Farm.tileSize, 13 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("starFruit3", crops.getSubimage( 2 * Farm.tileSize, 13 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("starFruit4", crops.getSubimage( 3 * Farm.tileSize, 13 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("cucumber1", crops.getSubimage( 0, 14 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("cucumber2", crops.getSubimage( Farm.tileSize, 14 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("cucumber3", crops.getSubimage( 2 * Farm.tileSize, 14 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
+        cropsMap.put("cucumber4", crops.getSubimage( 3 * Farm.tileSize, 14 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
     }
 
 
