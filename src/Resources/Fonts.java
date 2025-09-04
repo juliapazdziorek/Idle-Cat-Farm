@@ -7,7 +7,6 @@ import java.io.IOException;
 public class Fonts {
 
     // used fonts
-
     public Font dayDreamFont18f;
     public Font dayDreamFont14f;
     public Font dayDreamFont12f;
