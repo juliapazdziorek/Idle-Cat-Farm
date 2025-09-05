@@ -36,9 +36,6 @@ public class Farm {
     // fonts
     static public Resources.Fonts fonts;
 
-    // money
-    static public int money = 1000; // temporary value TODO: implement proper money management system
-
     // perfection tracking
     static public int levelUpsDone = 0;
     static public final int MAX_LEVEL_UPS = 24;
@@ -113,23 +110,5 @@ public class Farm {
 
         // launching farm loop
         loop.startLooping();
-    }
-
-
-    // money management
-    public static void addMoney(int amount) {
-        money += amount;
-
-        if (menuPanel != null) {
-            menuPanel.refreshResourcesDisplay();
-        }
-    }
-
-    public static void subtractMoney(int amount) {
-        money -= amount;
-
-        if (menuPanel != null) {
-            menuPanel.refreshResourcesDisplay();
-        }
     }
 }

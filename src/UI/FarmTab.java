@@ -1,6 +1,7 @@
 package UI;
 
 import Game.Farm;
+import Game.MoneyHandler;
 import Map.Map;
 import Resources.Colors;
 
@@ -198,7 +199,7 @@ public class FarmTab {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         buttonPanel.setOpaque(false);
 
-        if (upgradeCost > 0 && Farm.money >= upgradeCost) {
+        if (upgradeCost > 0 && MoneyHandler.canAfford(upgradeCost)) {
             JButton upgradeButton = UIUtils.createRoundedButton("lvl up!", 70, 22);
             upgradeButton.setFont(Farm.fonts.minecraftiaFont);
             upgradeButton.addActionListener(_ -> upgradeArea(area));
@@ -255,9 +256,9 @@ public class FarmTab {
         Map.MapLevels currentLevel = getCurrentAreaLevel(area);
         int cost = getUpgradeCost(currentLevel);
         
-        if (Farm.money >= cost && cost > 0) {
+        if (MoneyHandler.canAfford(cost) && cost > 0) {
             // deduct money
-            Farm.subtractMoney(cost);
+            MoneyHandler.subtractMoney(cost);
 
             // upgrade area in a map
             if (Farm.entitiesHandler != null && Farm.entitiesHandler.map != null) {

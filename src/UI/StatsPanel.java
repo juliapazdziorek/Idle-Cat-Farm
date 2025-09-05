@@ -1,6 +1,7 @@
 package UI;
 
 import Game.Farm;
+import Game.MoneyHandler;
 import Resources.Colors;
 
 import javax.swing.*;
@@ -23,7 +24,7 @@ public class StatsPanel extends JPanel {
         setPreferredSize(new Dimension(0, 35));
 
         // money info
-        JPanel moneyPanel = createInfoItem("coin", String.valueOf(Farm.money));
+        JPanel moneyPanel = createInfoItem("coin", String.valueOf(MoneyHandler.getMoney()));
 
         // cats info
         JPanel catsPanel = createInfoItem("standingCat", String.valueOf(Farm.catsCount));
