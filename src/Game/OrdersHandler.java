@@ -86,7 +86,7 @@ public class OrdersHandler {
             moneyEarned += orderPart.quantity;
         }
 
-        Farm.addMoney(moneyEarned);
+        MoneyHandler.addMoney(moneyEarned);
         orders.remove(order);
 
         maintainOrderCount();
