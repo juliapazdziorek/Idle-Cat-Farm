@@ -23,36 +23,43 @@ public class Entrance extends Entity {
 
     // path crossing detection
     public boolean isPathCrossingEntrance() {
-        List<Node> currentPath = Farm.entitiesHandler.cat.getCurrentPath();
-        if (currentPath == null || currentPath.isEmpty() || parts == null) {
+        if (Farm.entitiesHandler.farmCatList == null || Farm.entitiesHandler.farmCatList.isEmpty() || parts == null) {
             return false;
         }
 
-        Point catPosition = Farm.entitiesHandler.cat.getPosition();
-        int catTileX = catPosition.x / Farm.tileSize;
-        int catTileY = catPosition.y / Farm.tileSize;
-
-        int catPathIndex = -1;
-        for (int i = 0; i < currentPath.size(); i++) {
-            Node node = currentPath.get(i);
-            int distance = Math.abs(catTileX - node.x) + Math.abs(catTileY - node.y);
-            if (distance <= 1) {
-                catPathIndex = i;
-                break;
+        // check all cats for path crossing
+        for (var cat : Farm.entitiesHandler.farmCatList) {
+            List<Node> currentPath = cat.getCurrentPath();
+            if (currentPath == null || currentPath.isEmpty()) {
+                continue;
             }
-        }
 
-        if (catPathIndex == -1) {
-            return false;
-        }
+            Point catPosition = cat.getPosition();
+            int catTileX = catPosition.x / Farm.tileSize;
+            int catTileY = catPosition.y / Farm.tileSize;
 
-        for (int i = catPathIndex; i < Math.min(currentPath.size(), catPathIndex + 4); i++) {
-            Node node = currentPath.get(i);
-            for (Entity part : parts) {
-                if (part instanceof EntrancePart) {
-                    Point partTile = part.getTilePosition();
-                    if (node.x == partTile.x && node.y == partTile.y) {
-                        return true;
+            int catPathIndex = -1;
+            for (int i = 0; i < currentPath.size(); i++) {
+                Node node = currentPath.get(i);
+                int distance = Math.abs(catTileX - node.x) + Math.abs(catTileY - node.y);
+                if (distance <= 1) {
+                    catPathIndex = i;
+                    break;
+                }
+            }
+
+            if (catPathIndex == -1) {
+                continue;
+            }
+
+            for (int i = catPathIndex; i < Math.min(currentPath.size(), catPathIndex + 4); i++) {
+                Node node = currentPath.get(i);
+                for (Entity part : parts) {
+                    if (part instanceof EntrancePart) {
+                        Point partTile = part.getTilePosition();
+                        if (node.x == partTile.x && node.y == partTile.y) {
+                            return true;
+                        }
                     }
                 }
             }

@@ -18,8 +18,12 @@ public class FarmCat extends Entity {
     public final int catHeight = 42;
 
     // enums
+    public enum FarmCatColor {WHITE, GREY, GINGER, TRICOLOR}
     private enum FarmCatState {STANDING, WALKING, RUNNING, TILLING, CHOPPING, WATERING}
     private enum FarmCatFacing {DOWN, UP, RIGHT, LEFT}
+
+    // color
+    private final FarmCatColor color;
 
     // cat state
     private FarmCatState farmCatState;
@@ -44,8 +48,9 @@ public class FarmCat extends Entity {
     private int moveCounter;
     private int directionChangeCounter;
     
-    public FarmCat(int tileX, int tileY) {
+    public FarmCat(int tileX, int tileY, FarmCatColor color) {
         super(new Point(tileX * Farm.tileSize + Farm.tileSize / 2, tileY * Farm.tileSize + Farm.tileSize / 2));
+        this.color = color;
 
         // get animations
         animations = Farm.resourceHandler.animationFactory.createCatAnimationMap();

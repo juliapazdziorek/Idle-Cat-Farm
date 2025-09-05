@@ -17,26 +17,34 @@ import Entities.Objects.WaterTray;
 import Game.Farm;
 import Map.Map;
 
-public class EntitiesHandler implements MouseListener {
+public class EntitiesHandler {
 
-    public Map map;
+    // entities lists
     public List<Entity> clickableMapEntities;
     public List<Entity> renderableMapEntities;
     public List<Entity> updatableMapEntities;
-    
-    // queue for entities to be removed safely
     private final List<Entity> entitiesToRemove;
 
-    public FarmCat cat;
+    // map
+    public Map map;
+
+    // cats
+    public List<FarmCat> farmCatList;
 
     public EntitiesHandler() {
+
         clickableMapEntities = new ArrayList<>();
         renderableMapEntities = new ArrayList<>();
         updatableMapEntities = new ArrayList<>();
         entitiesToRemove = new ArrayList<>();
 
         map = new Map();
-        cat = new FarmCat(12, 20);
+
+        farmCatList = new ArrayList<>();
+        FarmCat whiteCat = new FarmCat(18, 19, FarmCat.FarmCatColor.WHITE);
+        farmCatList.add(whiteCat);
+        renderableMapEntities.add(whiteCat);
+        updatableMapEntities.add(whiteCat);
 
         createEntitiesFromMap();
     }
@@ -83,20 +91,8 @@ public class EntitiesHandler implements MouseListener {
         }
     }
 
-    // updating & rendering
-    public void update() {
-        map.update();
 
-        Entity[] entities = updatableMapEntities.toArray(new Entity[0]);
-        for (Entity entity : entities) {
-            entity.update();
-        }
-
-        cat.update();
-        
-        processRemovalQueue();
-    }
-
+    // entity removal
     public void queueEntityForRemoval(Entity entity) {
         if (!entitiesToRemove.contains(entity)) {
             entitiesToRemove.add(entity);
@@ -112,11 +108,23 @@ public class EntitiesHandler implements MouseListener {
         entitiesToRemove.clear();
     }
 
+
+    // updating & rendering
+    public void update() {
+
+        map.update();
+
+        Entity[] entities = updatableMapEntities.toArray(new Entity[0]);
+        for (Entity entity : entities) {
+            entity.update();
+        }
+        
+        processRemovalQueue();
+    }
+
     public void render(Graphics2D graphics2D) {
+
         map.renderBottom(graphics2D);
-
-        cat.render(graphics2D);
-
         map.renderTop(graphics2D);
 
         Entity[] entities = renderableMapEntities.toArray(new Entity[0]);
@@ -124,40 +132,4 @@ public class EntitiesHandler implements MouseListener {
             entity.render(graphics2D);
         }
     }
-
-
-    // mouse listener handling
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        int mouseX = e.getX();
-        int mouseY = e.getY();
-
-        for (Entity entity : clickableMapEntities) {
-            if (entity.clickable && entity.isPointInside(mouseX, mouseY)) {
-                entity.onClick();
-            }
-        }
-
-        // mouse cat movement
-        if (Debug.DebugMenu.mouseMovementEnabled) {
-            int worldX = (mouseX - Farm.camera.position.x) / Farm.scale;
-            int worldY = (mouseY - Farm.camera.position.y) / Farm.scale;
-            int tileX = worldX / Farm.tileSize;
-            int tileY = worldY / Farm.tileSize;
-
-            cat.moveToTile(tileX, tileY);
-        }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {}
-
-    @Override
-    public void mouseReleased(MouseEvent e) {}
-
-    @Override
-    public void mouseEntered(MouseEvent e) {}
-
-    @Override
-    public void mouseExited(MouseEvent e) {}
 }
