@@ -23,7 +23,7 @@ public class MenuPanel extends JPanel {
     }
 
     private void initializeMenu() {
-        setPreferredSize(new Dimension(350, 800));
+        setPreferredSize(new Dimension(400, 800));
         setLayout(new BorderLayout());
         setBackground(Colors.beigeColor);
         setBorder(null);
