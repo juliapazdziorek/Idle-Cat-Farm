@@ -37,7 +37,7 @@ public class Farm {
     static public Resources.Fonts fonts;
 
     // money
-    static public int money = 0;
+    static public int money = 1000; // temporary value TODO: implement proper money management system
 
     // perfection tracking
     static public int levelUpsDone = 0;
