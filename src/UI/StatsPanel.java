@@ -30,7 +30,7 @@ public class StatsPanel extends JPanel {
         JPanel catsPanel = createInfoItem("standingCat", String.valueOf(Farm.catsCount));
 
         // perfection info
-        int perfectionPercent = (Farm.levelUpsDone * 100) / Farm.MAX_LEVEL_UPS;
+        int perfectionPercent = (Farm.levelUpsDone * 100) / Farm.maxLvlUps;
         JPanel perfectionPanel = createInfoItem("star", perfectionPercent + "%");
 
         add(moneyPanel);
