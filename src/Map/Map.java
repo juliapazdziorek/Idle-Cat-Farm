@@ -311,9 +311,6 @@ public class Map {
 
         // refresh obstacles to match the new area levels
         refreshObstaclesGrid();
-
-        // update pathfinding grid after obstacle changes
-        pathfinder.updateGrid();
     }
 
     private void clearMapEntities() {
