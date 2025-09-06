@@ -1,7 +1,9 @@
 package Map;
 
 import Entities.BuildingParts.Roof;
+import Entities.Characters.FarmCat;
 import Entities.Entity;
+import Entities.FarmResources.Crop;
 import Entities.Nature.TreePart;
 import Entities.Nature.Tree;
 import Entities.BuildingParts.Entrance;
@@ -321,11 +323,19 @@ public class Map {
         waterTrays.clear();
         signsPositions.clear();
 
-        // preserve crops before clearing entities
+        // preserve entities before clearing
         List<Entity> existingCrops = new ArrayList<>();
+        List<Entity> existingCats = new ArrayList<>();
+        
         for (Entity entity : new ArrayList<>(Farm.entitiesHandler.clickableMapEntities)) {
-            if (entity.getClass().getName().equals("Entities.FarmResources.Crop")) {
+            if (entity instanceof Crop) {
                 existingCrops.add(entity);
+            }
+        }
+        
+        for (Entity entity : new ArrayList<>(Farm.entitiesHandler.renderableMapEntities)) {
+            if (entity instanceof FarmCat) {
+                existingCats.add(entity);
             }
         }
         
@@ -338,6 +348,12 @@ public class Map {
             Farm.entitiesHandler.clickableMapEntities.add(crop);
             Farm.entitiesHandler.renderableMapEntities.add(crop);
             Farm.entitiesHandler.updatableMapEntities.add(crop);
+        }
+        
+        // restore cats after clearing
+        for (Entity cat : existingCats) {
+            Farm.entitiesHandler.renderableMapEntities.add(cat);
+            Farm.entitiesHandler.updatableMapEntities.add(cat);
         }
     }
 
