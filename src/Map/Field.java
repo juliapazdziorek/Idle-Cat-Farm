@@ -36,7 +36,7 @@ public class Field {
 
     // planting operations
     public boolean plantCrop(ResourceType cropType) {
-        if (!isAvailableForPlanting()) {
+        if (isAlreadyPlanted()) {
             return false;
         }
         
@@ -60,37 +60,35 @@ public class Field {
     }
     
     // field status checks
-    public boolean isAvailableForPlanting() {
-        return crops.isEmpty();
-    }
-    
-    public boolean isCompletelyHarvested() {
-        return crops.isEmpty();
+    public boolean isAlreadyPlanted() {
+        return !crops.isEmpty();
     }
     
     public ResourceType getCurrentCropType() {
         return cropType;
     }
     
-    // field maintenance
-    public void completeFieldPlanting() {
-        if (cropType != null) {
-            for (Point position : cropPositions) {
-                if (!crops.containsKey(position)) {
-                    Crop newCrop = new Crop(position.x, position.y, cropType);
-                    crops.put(position, newCrop);
-                    
-                    if (Farm.entitiesHandler != null) {
-                        Farm.entitiesHandler.clickableMapEntities.add(newCrop);
-                        Farm.entitiesHandler.renderableMapEntities.add(newCrop);
-                        Farm.entitiesHandler.updatableMapEntities.add(newCrop);
-                    }
-                }
-            }
+    public void setCropType(ResourceType cropType) {
+        this.cropType = cropType;
+        Sign.updateAllSigns();
+    }
+    
+    public void createCropAtPosition(Point position, ResourceType cropType) {
+        Crop newCrop = new Crop(position.x, position.y, cropType);
+        crops.put(position, newCrop);
+        
+        // set field crop type if not already set
+        if (this.cropType == null) {
+            this.cropType = cropType;
+            Sign.updateAllSigns();
         }
         
-        // update signs after completing planting
-        Sign.updateAllSigns();
+        // add crop to entities
+        if (Farm.entitiesHandler != null) {
+            Farm.entitiesHandler.clickableMapEntities.add(newCrop);
+            Farm.entitiesHandler.renderableMapEntities.add(newCrop);
+            Farm.entitiesHandler.updatableMapEntities.add(newCrop);
+        }
     }
 
     // crop removal
@@ -103,6 +101,7 @@ public class Field {
         }
     }
 
+
     // getters
     public Map<Point, Crop> getCrops() {
         return crops;
@@ -114,45 +113,5 @@ public class Field {
     
     public FieldType getFieldType() {
         return fieldType;
-    }
-    
-    public String getFieldName() {
-        return switch (fieldType) {
-            case EAST -> "east field";
-            case WEST -> "west field";
-        };
-    }
-    
-    // utility methods
-    public static boolean plantCropInAvailableField(ResourceType cropType) {
-        if (Farm.entitiesHandler == null || Farm.entitiesHandler.map == null || 
-            Farm.entitiesHandler.map.fields.isEmpty()) {
-            return false;
-        }
-
-        for (Field field : Farm.entitiesHandler.map.fields) {
-            if (field.isAvailableForPlanting()) {
-                boolean success = field.plantCrop(cropType);
-                if (success) {
-                    return true;
-                }
-            }
-        }
-        
-        return false;
-    }
-    
-    public static Field getFieldByType(FieldType fieldType) {
-        if (Farm.entitiesHandler == null || Farm.entitiesHandler.map == null) {
-            return null;
-        }
-        
-        for (Field field : Farm.entitiesHandler.map.fields) {
-            if (field.getFieldType() == fieldType) {
-                return field;
-            }
-        }
-        
-        return null;
     }
 }

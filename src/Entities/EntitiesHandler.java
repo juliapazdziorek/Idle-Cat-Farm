@@ -137,7 +137,8 @@ public class EntitiesHandler implements MouseListener {
         int mouseX = e.getX();
         int mouseY = e.getY();
 
-        for (Entity entity : clickableMapEntities) {
+        Entity[] entities = clickableMapEntities.toArray(new Entity[0]);
+        for (Entity entity : entities) {
             if (entity.clickable && entity.isPointInside(mouseX, mouseY)) {
                 entity.onClick();
             }

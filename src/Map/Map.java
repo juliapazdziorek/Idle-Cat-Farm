@@ -719,7 +719,7 @@ public class Map {
                         new Point(9, 28),
                         new Point(11, 28),
                         new Point(12, 29),
-                        new Point(12, 28)
+                        new Point(13, 28)
                 );
                 field.addCropPositions(cropPositions);
 
@@ -922,6 +922,16 @@ public class Map {
             case HOUSE -> "House";
             case ORCHARD -> "Orchard";
         };
+    }
+
+    // field utility methods
+    public Field getFieldByType(Field.FieldType fieldType) {
+        for (Field field : fields) {
+            if (field.getFieldType() == fieldType) {
+                return field;
+            }
+        }
+        return null;
     }
 
 

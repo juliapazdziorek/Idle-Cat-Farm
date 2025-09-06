@@ -2,11 +2,15 @@ package Entities.Characters;
 
 import Entities.Entity;
 import Game.Farm;
+import Game.FarmResourcesHandler.ResourceType;
+import Game.FieldsHandler;
+import Map.Field;
 import Resources.Animation;
 import Pathfinding.Node;
 import Map.Map;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,6 +52,17 @@ public class FarmCat extends Entity {
     private int moveCounter;
     private int directionChangeCounter;
     
+    // planting action system
+    public enum CatActionState { IDLE, PLANTING }
+    private CatActionState actionState;
+    private List<Point> plantingPositions;
+    private int currentPlantingIndex;
+    private ResourceType currentCropType;
+    private Field.FieldType currentFieldType;
+    private boolean isAtTillingPosition;
+    private int tillingAnimationCounter;
+    private static final int tillingAnimationDuration = 60;
+
     public FarmCat(int tileX, int tileY, FarmCatColor color) {
         super(new Point(tileX * Farm.tileSize + Farm.tileSize / 2, tileY * Farm.tileSize + Farm.tileSize / 2));
         this.color = color;
@@ -62,6 +77,13 @@ public class FarmCat extends Entity {
 
         // initialize pathfinding and moving variables
         lastDirection = FarmCatFacing.DOWN;
+        
+        // initialize a planting action system
+        actionState = CatActionState.IDLE;
+        plantingPositions = new ArrayList<>();
+        currentPlantingIndex = 0;
+        isAtTillingPosition = false;
+        tillingAnimationCounter = 0;
     }
 
 
@@ -195,6 +217,7 @@ public class FarmCat extends Entity {
 
     // animation handling
     private void setAnimation() {
+        Animation previousAnimation = currentAnimation;
 
         if (!isMoving) {
             if (farmCatState != FarmCatState.TILLING && farmCatState != FarmCatState.CHOPPING && farmCatState != FarmCatState.WATERING) {
@@ -323,10 +346,172 @@ public class FarmCat extends Entity {
                 }
             }
         }
+        
+        // reset animation if it changed for smooth transitions
+        if (previousAnimation != currentAnimation && currentAnimation != null) {
+            currentAnimation.resetFrames();
+        }
     }
 
     public void resetAnimations() {
         animations.values().forEach(Animation::resetFrames);
+    }
+
+
+    // idling
+    public boolean isIdle() {
+        return actionState == CatActionState.IDLE && !isFollowingPath;
+    }
+
+
+    // planting action system
+    public void startPlantingAction(List<Point> cropPositions, ResourceType cropType, Field.FieldType fieldType) {
+        if (!isIdle()) {
+            return;
+        }
+
+        actionState = CatActionState.PLANTING;
+        plantingPositions = new ArrayList<>(cropPositions);
+        currentCropType = cropType;
+        currentFieldType = fieldType;
+        currentPlantingIndex = 0;
+
+        if (!plantingPositions.isEmpty()) {
+            moveToNextPlantingPosition();
+        }
+    }
+
+    private void moveToNextPlantingPosition() {
+        if (currentPlantingIndex >= plantingPositions.size()) {
+
+            // planting complete
+            actionState = CatActionState.IDLE;
+            plantingPositions.clear();
+            return;
+        }
+
+        Point targetCropPosition = plantingPositions.get(currentPlantingIndex);
+        Point tillingPosition = findTillingPosition(targetCropPosition);
+
+        if (tillingPosition != null) {
+            int tillingTileX = tillingPosition.x / Farm.tileSize;
+            int tillingTileY = tillingPosition.y / Farm.tileSize;
+            moveToTile(tillingTileX, tillingTileY);
+            isAtTillingPosition = false;
+        } else {
+            currentPlantingIndex++;
+            moveToNextPlantingPosition();
+        }
+    }
+
+    private Point findTillingPosition(Point cropPosition) {
+        int cropTileX = cropPosition.x;
+        int cropTileY = cropPosition.y;
+
+        // check adjacent tiles
+        int[] adjacentTilePositions = {
+                cropTileX, cropTileY - 1,
+                cropTileX, cropTileY + 1,
+                cropTileX - 1, cropTileY,
+                cropTileX + 1, cropTileY
+        };
+
+        // find the closest accessible position
+        Point closestPosition = null;
+        int shortestPathLength = Integer.MAX_VALUE;
+
+        int startTileX = position.x / Farm.tileSize;
+        int startTileY = position.y / Farm.tileSize;
+
+        for (int i = 0; i < adjacentTilePositions.length; i += 2) {
+            int adjTileX = adjacentTilePositions[i];
+            int adjTileY = adjacentTilePositions[i + 1];
+
+            List<Node> path = Map.pathfinder.findPath(startTileX, startTileY, adjTileX, adjTileY);
+            
+            if (path != null && !path.isEmpty()) {
+                int pathLength = path.size();
+                if (pathLength < shortestPathLength) {
+                    shortestPathLength = pathLength;
+                    closestPosition = new Point(adjTileX * Farm.tileSize + Farm.tileSize / 2,
+                                               adjTileY * Farm.tileSize + Farm.tileSize / 2);
+                }
+            }
+        }
+
+        return closestPosition;
+    }
+
+    private void updatePlantingAction() {
+        if (!isFollowingPath && !isAtTillingPosition) {
+
+            // cat reached the tilling position, start tilling animation
+            isAtTillingPosition = true;
+            tillingAnimationCounter = 0;
+            farmCatState = FarmCatState.TILLING;
+
+            // reset animations for smooth transition
+            resetAnimations();
+
+            // face the crop position when tilling
+            Point cropPosition = plantingPositions.get(currentPlantingIndex);
+            int cropPixelX = cropPosition.x * Farm.tileSize + Farm.tileSize / 2;
+            int cropPixelY = cropPosition.y * Farm.tileSize + Farm.tileSize / 2;
+
+            int deltaX = cropPixelX - position.x;
+            int deltaY = cropPixelY - position.y;
+            int threshold = Farm.tileSize / 4;
+            
+            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > threshold) {
+                if (deltaX > 0) {
+                    farmCatFacing = FarmCatFacing.RIGHT;
+                    currentAnimation = animations.get("farmCatTillingRight");
+                } else {
+                    farmCatFacing = FarmCatFacing.LEFT;
+                    currentAnimation = animations.get("farmCatTillingLeft");
+                }
+            } else if (Math.abs(deltaY) > threshold) {
+                if (deltaY > 0) {
+                    farmCatFacing = FarmCatFacing.DOWN;
+                    currentAnimation = animations.get("farmCatTillingDown");
+                } else {
+                    farmCatFacing = FarmCatFacing.UP;
+                    currentAnimation = animations.get("farmCatTillingUp");
+                }
+            } else {
+                switch (farmCatFacing) {
+                    case RIGHT -> currentAnimation = animations.get("farmCatTillingRight");
+                    case LEFT -> currentAnimation = animations.get("farmCatTillingLeft");
+                    case DOWN -> currentAnimation = animations.get("farmCatTillingDown");
+                    case UP -> currentAnimation = animations.get("farmCatTillingUp");
+                }
+            }
+        }
+
+        if (isAtTillingPosition) {
+            tillingAnimationCounter++;
+            if (tillingAnimationCounter >= tillingAnimationDuration) {
+
+                // tilling animation completes, create the crop
+                Point cropPosition = plantingPositions.get(currentPlantingIndex);
+                
+                // use field method to create crop at position
+                Field field = FieldsHandler.getFieldByTypeFromMap(currentFieldType);
+                if (field != null) {
+                    field.createCropAtPosition(cropPosition, currentCropType);
+                }
+
+                // reset animation for smoother transition
+                resetAnimations();
+                tillingAnimationCounter = 0;
+                
+                // move to the next planting position
+                currentPlantingIndex++;
+                isAtTillingPosition = false;
+                farmCatState = FarmCatState.STANDING;
+                moveToNextPlantingPosition();
+            }
+        }
     }
 
 
@@ -339,6 +524,11 @@ public class FarmCat extends Entity {
     // updating & rendering
     @Override
     public void update() {
+
+        if (actionState == CatActionState.PLANTING) {
+            updatePlantingAction();
+        }
+        
         followPath();
         setAnimation();
         isMoving = isActuallyMoving;

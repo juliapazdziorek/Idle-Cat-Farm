@@ -1,8 +1,9 @@
 package UI;
 
-import Entities.Objects.Sign;
 import Game.Farm;
 import Game.FarmResourcesHandler;
+import Game.FieldsHandler;
+import Map.Field;
 import Resources.Colors;
 
 import javax.swing.*;
@@ -130,13 +131,20 @@ public class ResourcesSection {
         
         // TODO: replace with proper resource gathering
         iconButton.addActionListener(_ -> {
+
             if (FarmResourcesHandler.isCropResource(resourceType)) {
 
-                // for crop resources, plant the crop
-                if (Map.Field.plantCropInAvailableField(resourceType)) {
-                    Farm.menuPanel.refreshResourcesDisplay();
-                    Sign.updateAllSigns();
+                boolean startedPlanting = false;
+                if (FieldsHandler.startPlanting(Field.FieldType.EAST, resourceType)) {
+                    startedPlanting = true;
+                } else if (FieldsHandler.startPlanting(Field.FieldType.WEST, resourceType)) {
+                    startedPlanting = true;
                 }
+                
+                if (startedPlanting) {
+                    Farm.menuPanel.refreshResourcesDisplay();
+                }
+
             } else {
 
                 // for non-crop resources, add 10 resources TODO: add proper gathering logic

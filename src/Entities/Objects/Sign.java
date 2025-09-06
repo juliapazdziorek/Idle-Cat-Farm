@@ -3,11 +3,11 @@ package Entities.Objects;
 import Entities.Entity;
 import Game.Farm;
 import Game.FarmResourcesHandler.ResourceType;
+import Game.FieldsHandler;
 import Map.Field;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.Map;
 
 public class Sign extends Entity {
@@ -50,7 +50,7 @@ public class Sign extends Entity {
             return;
         }
 
-        Field assignedField = Field.getFieldByType(assignedFieldType);
+        Field assignedField = FieldsHandler.getFieldByTypeFromMap(assignedFieldType);
         if (assignedField == null) {
             setSignState(SignState.EMPTY);
             return;
