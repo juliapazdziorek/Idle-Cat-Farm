@@ -1,6 +1,7 @@
 package Map;
 
 import Entities.FarmResources.Crop;
+import Entities.Objects.Sign;
 import Game.Farm;
 import Game.FarmResourcesHandler.ResourceType;
 
@@ -40,6 +41,9 @@ public class Field {
         }
         
         this.cropType = cropType;
+        
+        // update signs immediately when crop type is set
+        Sign.updateAllSigns();
         
         for (Point position : cropPositions) {
             Crop newCrop = new Crop(position.x, position.y, cropType);
@@ -84,6 +88,9 @@ public class Field {
                 }
             }
         }
+        
+        // update signs after completing planting
+        Sign.updateAllSigns();
     }
 
     // crop removal
@@ -92,6 +99,7 @@ public class Field {
         
         if (crops.isEmpty()) {
             cropType = null;
+            Sign.updateAllSigns();
         }
     }
 
@@ -146,32 +154,5 @@ public class Field {
         }
         
         return null;
-    }
-    
-    public static boolean isFieldUnlocked(FieldType fieldType) {
-        return getFieldByType(fieldType) != null;
-    }
-    
-    public static boolean plantCropInSpecificField(FieldType fieldType, ResourceType cropType) {
-        Field field = getFieldByType(fieldType);
-        if (field != null && field.isAvailableForPlanting()) {
-            return field.plantCrop(cropType);
-        }
-        return false;
-    }
-    
-    public static ArrayList<Field> getAvailableFields() {
-        ArrayList<Field> availableFields = new ArrayList<>();
-        if (Farm.entitiesHandler == null || Farm.entitiesHandler.map == null) {
-            return availableFields;
-        }
-        
-        for (Field field : Farm.entitiesHandler.map.fields) {
-            if (field.isAvailableForPlanting()) {
-                availableFields.add(field);
-            }
-        }
-        
-        return availableFields;
     }
 }

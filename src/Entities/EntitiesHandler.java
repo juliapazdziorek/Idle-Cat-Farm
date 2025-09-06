@@ -14,7 +14,6 @@ import Entities.Nature.Bush;
 import Entities.Nature.Tree;
 import Entities.Objects.Sign;
 import Entities.Objects.WaterTray;
-import Game.Farm;
 import Map.Map;
 
 public class EntitiesHandler implements MouseListener {
@@ -77,9 +76,7 @@ public class EntitiesHandler implements MouseListener {
             renderableMapEntities.add(waterTray);
         }
 
-        // signs
-        for (Point position : map.signsPositions) {
-            Sign sign = new Sign(position);
+        for (Sign sign : map.signs) {
             renderableMapEntities.add(sign);
             updatableMapEntities.add(sign);
         }

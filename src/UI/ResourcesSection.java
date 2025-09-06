@@ -1,5 +1,6 @@
 package UI;
 
+import Entities.Objects.Sign;
 import Game.Farm;
 import Game.FarmResourcesHandler;
 import Resources.Colors;
@@ -134,6 +135,7 @@ public class ResourcesSection {
                 // for crop resources, plant the crop
                 if (Map.Field.plantCropInAvailableField(resourceType)) {
                     Farm.menuPanel.refreshResourcesDisplay();
+                    Sign.updateAllSigns();
                 }
             } else {
 

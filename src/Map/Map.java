@@ -8,6 +8,7 @@ import Entities.Nature.TreePart;
 import Entities.Nature.Tree;
 import Entities.BuildingParts.Entrance;
 import Entities.BuildingParts.EntrancePart;
+import Entities.Objects.Sign;
 import Entities.Objects.WaterTray;
 import Entities.Objects.WaterTrayPart;
 import Game.Farm;
@@ -40,7 +41,6 @@ public class Map {
 
     // map entities
     public final ArrayList<Point> bushPositions;
-    public final ArrayList<Point> signsPositions;
 
     // trees
     public final ArrayList<Tree> trees;
@@ -49,6 +49,9 @@ public class Map {
     // roofs
     public final ArrayList<Roof> roofs;
     ArrayList<Integer> roofsIds;
+
+    // signs
+    public final ArrayList<Sign> signs;
 
     // entrances
     public final ArrayList<Entrance> entrances;
@@ -204,7 +207,6 @@ public class Map {
 
         // map entities
         bushPositions = new ArrayList<>();
-        signsPositions = new ArrayList<>();
         trees = new ArrayList<>();
         treesIds = new ArrayList<>();
         Collections.addAll(treesIds, 173, 174, 175, 176, 177, 178, 179, 180, 181);
@@ -212,6 +214,8 @@ public class Map {
         roofs = new ArrayList<>();
         roofsIds = new ArrayList<>();
         Collections.addAll(roofsIds, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243);
+
+        signs = new ArrayList<>();
 
         entrances = new ArrayList<>();
         entrancesIds = new ArrayList<>();
@@ -320,8 +324,8 @@ public class Map {
         trees.clear();
         roofs.clear();
         entrances.clear();
+        signs.clear();
         waterTrays.clear();
-        signsPositions.clear();
 
         // preserve entities before clearing
         List<Entity> existingCrops = new ArrayList<>();
@@ -438,9 +442,23 @@ public class Map {
                         continue;
                     }
 
-                    // signs positions
+                    // create signs
                     if (tilesIds[i][j] == 332) {
-                        signsPositions.add(new Point(j * Farm.tileSize, i * Farm.tileSize));
+                        Point signPosition = new Point(j * Farm.tileSize, i * Farm.tileSize);
+                        Sign sign = new Sign(signPosition);
+                        
+                        // assign to field based on position
+                        if (j == 26 && i == 24) {
+
+                            // east field sign
+                            sign.assignToField(Field.FieldType.EAST);
+                        } else if ((j == 11 && i == 24) || (j == 12 && i == 24)) {
+
+                            // west field signs
+                            sign.assignToField(Field.FieldType.WEST);
+                        }
+                        
+                        signs.add(sign);
                         continue;
                     }
 
