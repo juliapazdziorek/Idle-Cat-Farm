@@ -362,6 +362,10 @@ public class Map {
                 Farm.entitiesHandler.clickableMapEntities.add(crop);
                 Farm.entitiesHandler.topRenderableEntities.add(crop);
                 Farm.entitiesHandler.updatableMapEntities.add(crop);
+                
+                // restore crop obstacle to grid
+                Point tilePos = crop.getTilePosition();
+                addObstacleToTile(tilePos.x, tilePos.y);
             }
         }
     }
@@ -657,6 +661,19 @@ public class Map {
         }
 
         return obstaclesGrid[i][j];
+    }
+    
+    // add/remove obstacles
+    public void addObstacleToTile(int tileX, int tileY) {
+        if (tileY >= 0 && tileY < Farm.mapHeightTiles && tileX >= 0 && tileX < Farm.mapWidthTiles) {
+            obstaclesGrid[tileY][tileX] = true;
+        }
+    }
+    
+    public void removeObstacleFromTile(int tileX, int tileY) {
+        if (tileY >= 0 && tileY < Farm.mapHeightTiles && tileX >= 0 && tileX < Farm.mapWidthTiles) {
+            obstaclesGrid[tileY][tileX] = false;
+        }
     }
 
 

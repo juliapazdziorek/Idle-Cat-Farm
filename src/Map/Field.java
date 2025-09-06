@@ -34,30 +34,6 @@ public class Field {
         cropPositions.addAll(positions);
     }
 
-    // planting operations
-    public boolean plantCrop(ResourceType cropType) {
-        if (isAlreadyPlanted()) {
-            return false;
-        }
-        
-        this.cropType = cropType;
-        
-        // update signs immediately when crop type is set
-        Sign.updateAllSigns();
-        
-        for (Point position : cropPositions) {
-            Crop newCrop = new Crop(position.x, position.y, cropType);
-            crops.put(position, newCrop);
-            
-            if (Farm.entitiesHandler != null) {
-                Farm.entitiesHandler.clickableMapEntities.add(newCrop);
-                Farm.entitiesHandler.topRenderableEntities.add(newCrop);
-                Farm.entitiesHandler.updatableMapEntities.add(newCrop);
-            }
-        }
-        
-        return true;
-    }
     
     // field status checks
     public boolean isAlreadyPlanted() {
@@ -72,7 +48,9 @@ public class Field {
         this.cropType = cropType;
         Sign.updateAllSigns();
     }
-    
+
+
+    // crop creation
     public void createCropAtPosition(Point position, ResourceType cropType) {
         Crop newCrop = new Crop(position.x, position.y, cropType);
         crops.put(position, newCrop);
@@ -88,6 +66,7 @@ public class Field {
             Farm.entitiesHandler.clickableMapEntities.add(newCrop);
             Farm.entitiesHandler.topRenderableEntities.add(newCrop);
             Farm.entitiesHandler.updatableMapEntities.add(newCrop);
+            Farm.entitiesHandler.map.addObstacleToTile(position.x, position.y);
         }
     }
 
@@ -98,6 +77,11 @@ public class Field {
         if (crops.isEmpty()) {
             cropType = null;
             Sign.updateAllSigns();
+        }
+        
+        // remove crop from obstacles
+        if (Farm.entitiesHandler != null) {
+            Farm.entitiesHandler.map.removeObstacleFromTile(position.x, position.y);
         }
     }
 
