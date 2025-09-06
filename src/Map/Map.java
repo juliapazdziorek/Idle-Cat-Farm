@@ -623,14 +623,14 @@ public class Map {
 
     // fields management
     public void initializeFields() {
-        Field field = new Field();
+        Field field = new Field(Field.FieldType.EAST);
         ArrayList<Point> cropPositions = new ArrayList<>();
         Collections.addAll(cropPositions,
                 new Point(23, 26),
                 new Point(24, 25),
                 new Point(25, 26),
                 new Point(26, 25),
-                new Point(28, 25) //TODO: positions not checked
+                new Point(28, 25)
         );
 
         field.addCropPositions(cropPositions);
@@ -647,7 +647,7 @@ public class Map {
                         new Point(25, 28),
                         new Point(26, 27),
                         new Point(27, 28),
-                        new Point(28, 27) //TODO: positions not checked
+                        new Point(28, 27)
                 );
                 field.addCropPositions(cropPositions);
 
@@ -658,14 +658,14 @@ public class Map {
             }
 
             case LEVEL_1 -> {
-                Field field = new Field();
+                Field field = new Field(Field.FieldType.WEST);
                 ArrayList<Point> cropPositions = new ArrayList<>();
                 Collections.addAll(cropPositions,
                         new Point(10, 25),
-                        new Point(11, 24),
+                        new Point(9, 26),
                         new Point(11, 26),
                         new Point(12, 25),
-                        new Point(13, 26) //TODO: positions not checked
+                        new Point(13, 26)
                 );
                 field.addCropPositions(cropPositions);
                 fields.add(field);
@@ -685,7 +685,7 @@ public class Map {
                         new Point(9, 28),
                         new Point(11, 28),
                         new Point(12, 29),
-                        new Point(12, 28) //TODO: positions not checked
+                        new Point(12, 28)
                 );
                 field.addCropPositions(cropPositions);
 

@@ -11,14 +11,19 @@ import java.util.Map;
 
 public class Field {
 
+    // field types
+    public enum FieldType { EAST, WEST }
+
     // field structure
     private final ArrayList<Point> cropPositions;
+    private final FieldType fieldType;
     public ResourceType cropType;
     
     // crop management
     private final Map<Point, Crop> crops;
 
-    public Field() {
+    public Field(FieldType fieldType) {
+        this.fieldType = fieldType;
         cropPositions = new ArrayList<>();
         crops = new HashMap<>();
     }
@@ -99,6 +104,17 @@ public class Field {
         return new ArrayList<>(cropPositions);
     }
     
+    public FieldType getFieldType() {
+        return fieldType;
+    }
+    
+    public String getFieldName() {
+        return switch (fieldType) {
+            case EAST -> "east field";
+            case WEST -> "west field";
+        };
+    }
+    
     // utility methods
     public static boolean plantCropInAvailableField(ResourceType cropType) {
         if (Farm.entitiesHandler == null || Farm.entitiesHandler.map == null || 
@@ -116,5 +132,46 @@ public class Field {
         }
         
         return false;
+    }
+    
+    public static Field getFieldByType(FieldType fieldType) {
+        if (Farm.entitiesHandler == null || Farm.entitiesHandler.map == null) {
+            return null;
+        }
+        
+        for (Field field : Farm.entitiesHandler.map.fields) {
+            if (field.getFieldType() == fieldType) {
+                return field;
+            }
+        }
+        
+        return null;
+    }
+    
+    public static boolean isFieldUnlocked(FieldType fieldType) {
+        return getFieldByType(fieldType) != null;
+    }
+    
+    public static boolean plantCropInSpecificField(FieldType fieldType, ResourceType cropType) {
+        Field field = getFieldByType(fieldType);
+        if (field != null && field.isAvailableForPlanting()) {
+            return field.plantCrop(cropType);
+        }
+        return false;
+    }
+    
+    public static ArrayList<Field> getAvailableFields() {
+        ArrayList<Field> availableFields = new ArrayList<>();
+        if (Farm.entitiesHandler == null || Farm.entitiesHandler.map == null) {
+            return availableFields;
+        }
+        
+        for (Field field : Farm.entitiesHandler.map.fields) {
+            if (field.isAvailableForPlanting()) {
+                availableFields.add(field);
+            }
+        }
+        
+        return availableFields;
     }
 }
