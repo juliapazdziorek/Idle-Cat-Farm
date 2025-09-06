@@ -17,7 +17,7 @@ import Entities.Objects.WaterTray;
 import Game.Farm;
 import Map.Map;
 
-public class EntitiesHandler {
+public class EntitiesHandler implements MouseListener {
 
     // entities lists
     public List<Entity> clickableMapEntities;
@@ -132,4 +132,30 @@ public class EntitiesHandler {
             entity.render(graphics2D);
         }
     }
+
+
+    // mouse handling
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+
+        for (Entity entity : clickableMapEntities) {
+            if (entity.clickable && entity.isPointInside(mouseX, mouseY)) {
+                entity.onClick();
+            }
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {}
+
+    @Override
+    public void mouseReleased(MouseEvent e) {}
+
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+
+    @Override
+    public void mouseExited(MouseEvent e) {}
 }

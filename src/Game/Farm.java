@@ -97,6 +97,7 @@ public class Farm {
         });
 
         frame.addMouseListener(mouseHandler);
+        frame.addMouseListener(entitiesHandler);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(gamePanel, BorderLayout.CENTER);
