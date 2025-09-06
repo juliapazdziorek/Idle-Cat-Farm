@@ -331,7 +331,7 @@ public class Map {
         List<Entity> existingCrops = new ArrayList<>();
         List<Entity> existingCats = new ArrayList<>();
         
-        for (Entity entity : new ArrayList<>(Farm.entitiesHandler.clickableMapEntities)) {
+        for (Entity entity : new ArrayList<>(Farm.entitiesHandler.topRenderableEntities)) {
             if (entity instanceof Crop) {
                 existingCrops.add(entity);
             }
@@ -345,19 +345,24 @@ public class Map {
         
         Farm.entitiesHandler.clickableMapEntities.clear();
         Farm.entitiesHandler.renderableMapEntities.clear();
+        Farm.entitiesHandler.topRenderableEntities.clear();
         Farm.entitiesHandler.updatableMapEntities.clear();
         
-        // restore crops after clearing
-        for (Entity crop : existingCrops) {
-            Farm.entitiesHandler.clickableMapEntities.add(crop);
-            Farm.entitiesHandler.renderableMapEntities.add(crop);
-            Farm.entitiesHandler.updatableMapEntities.add(crop);
+        // restore cats
+        for (Entity cat : existingCats) {
+            if (cat != null) {
+                Farm.entitiesHandler.renderableMapEntities.add(cat);
+                Farm.entitiesHandler.updatableMapEntities.add(cat);
+            }
         }
         
-        // restore cats after clearing
-        for (Entity cat : existingCats) {
-            Farm.entitiesHandler.renderableMapEntities.add(cat);
-            Farm.entitiesHandler.updatableMapEntities.add(cat);
+        // restore crops
+        for (Entity crop : existingCrops) {
+            if (crop != null) {
+                Farm.entitiesHandler.clickableMapEntities.add(crop);
+                Farm.entitiesHandler.topRenderableEntities.add(crop);
+                Farm.entitiesHandler.updatableMapEntities.add(crop);
+            }
         }
     }
 

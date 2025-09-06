@@ -20,7 +20,8 @@ public class EntitiesHandler implements MouseListener {
 
     // entities lists
     public List<Entity> clickableMapEntities;
-    public List<Entity> renderableMapEntities;
+    public List<Entity> renderableMapEntities; // entities that render between map bottom and top layers
+    public List<Entity> topRenderableEntities; // entities that render on top of everything (trees, roofs)
     public List<Entity> updatableMapEntities;
     private final List<Entity> entitiesToRemove;
 
@@ -34,6 +35,7 @@ public class EntitiesHandler implements MouseListener {
 
         clickableMapEntities = new ArrayList<>();
         renderableMapEntities = new ArrayList<>();
+        topRenderableEntities = new ArrayList<>();
         updatableMapEntities = new ArrayList<>();
         entitiesToRemove = new ArrayList<>();
 
@@ -64,9 +66,9 @@ public class EntitiesHandler implements MouseListener {
             updatableMapEntities.add(bush);
         }
 
-        // trees
+        // trees - render on top of everything
         for (Tree tree : map.trees) {
-            renderableMapEntities.add(tree);
+            topRenderableEntities.add(tree);
             updatableMapEntities.add(tree);
             clickableMapEntities.addAll(tree.parts);
         }
@@ -81,9 +83,9 @@ public class EntitiesHandler implements MouseListener {
             updatableMapEntities.add(sign);
         }
 
-        // roofs
+        // roofs - render on top of everything
         for (Roof roof : map.roofs) {
-            renderableMapEntities.add(roof);
+            topRenderableEntities.add(roof);
             updatableMapEntities.add(roof);
         }
     }
@@ -100,6 +102,7 @@ public class EntitiesHandler implements MouseListener {
         for (Entity entity : entitiesToRemove) {
             clickableMapEntities.remove(entity);
             renderableMapEntities.remove(entity);
+            topRenderableEntities.remove(entity);
             updatableMapEntities.remove(entity);
         }
         entitiesToRemove.clear();
@@ -113,7 +116,9 @@ public class EntitiesHandler implements MouseListener {
 
         Entity[] entities = updatableMapEntities.toArray(new Entity[0]);
         for (Entity entity : entities) {
-            entity.update();
+            if (entity != null) {
+                entity.update();
+            }
         }
         
         processRemovalQueue();
@@ -122,11 +127,23 @@ public class EntitiesHandler implements MouseListener {
     public void render(Graphics2D graphics2D) {
 
         map.renderBottom(graphics2D);
-        map.renderTop(graphics2D);
 
+        // render entities between bottom and top map layers (cats, crops, etc.)
         Entity[] entities = renderableMapEntities.toArray(new Entity[0]);
         for (Entity entity : entities) {
-            entity.render(graphics2D);
+            if (entity != null) {
+                entity.render(graphics2D);
+            }
+        }
+        
+        map.renderTop(graphics2D);
+        
+        // render entities on top of everything (trees, roofs)
+        Entity[] topEntities = topRenderableEntities.toArray(new Entity[0]);
+        for (Entity entity : topEntities) {
+            if (entity != null) {
+                entity.render(graphics2D);
+            }
         }
     }
 

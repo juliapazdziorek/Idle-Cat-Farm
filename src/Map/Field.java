@@ -51,7 +51,7 @@ public class Field {
             
             if (Farm.entitiesHandler != null) {
                 Farm.entitiesHandler.clickableMapEntities.add(newCrop);
-                Farm.entitiesHandler.renderableMapEntities.add(newCrop);
+                Farm.entitiesHandler.topRenderableEntities.add(newCrop);
                 Farm.entitiesHandler.updatableMapEntities.add(newCrop);
             }
         }
@@ -86,7 +86,7 @@ public class Field {
         // add crop to entities
         if (Farm.entitiesHandler != null) {
             Farm.entitiesHandler.clickableMapEntities.add(newCrop);
-            Farm.entitiesHandler.renderableMapEntities.add(newCrop);
+            Farm.entitiesHandler.topRenderableEntities.add(newCrop);
             Farm.entitiesHandler.updatableMapEntities.add(newCrop);
         }
     }
