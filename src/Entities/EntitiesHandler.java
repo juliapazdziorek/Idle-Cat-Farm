@@ -14,15 +14,16 @@ import Entities.Nature.Bush;
 import Entities.Nature.Tree;
 import Entities.Objects.Sign;
 import Entities.Objects.WaterTray;
+import Game.Farm;
 import Map.Map;
 
 public class EntitiesHandler implements MouseListener {
 
     // entities lists
     public List<Entity> clickableMapEntities;
-    public List<Entity> renderableMapEntities; // entities that render between map bottom and top layers
-    public List<Entity> topRenderableEntities; // entities that render on top of everything (trees, roofs)
     public List<Entity> updatableMapEntities;
+    public List<Entity> bottomRenderableMapEntities;
+    public List<Entity> topRenderableEntities;
     private final List<Entity> entitiesToRemove;
 
     // map
@@ -34,27 +35,26 @@ public class EntitiesHandler implements MouseListener {
     public EntitiesHandler() {
 
         clickableMapEntities = new ArrayList<>();
-        renderableMapEntities = new ArrayList<>();
-        topRenderableEntities = new ArrayList<>();
         updatableMapEntities = new ArrayList<>();
+        bottomRenderableMapEntities = new ArrayList<>();
+        topRenderableEntities = new ArrayList<>();
         entitiesToRemove = new ArrayList<>();
 
         map = new Map();
+        createEntitiesFromMap();
 
         farmCatList = new ArrayList<>();
         FarmCat whiteCat = new FarmCat(18, 19, FarmCat.FarmCatColor.WHITE);
         farmCatList.add(whiteCat);
-        renderableMapEntities.add(whiteCat);
+        bottomRenderableMapEntities.add(whiteCat);
         updatableMapEntities.add(whiteCat);
-
-        createEntitiesFromMap();
     }
     
     public void createEntitiesFromMap() {
         
         // entrances
         for (Entrance entrance : map.entrances) {
-            renderableMapEntities.add(entrance);
+            bottomRenderableMapEntities.add(entrance);
             updatableMapEntities.add(entrance);
         }
 
@@ -62,7 +62,7 @@ public class EntitiesHandler implements MouseListener {
         for (Point position : map.bushPositions) {
             Bush bush = new Bush(position);
             clickableMapEntities.add(bush);
-            renderableMapEntities.add(bush);
+            bottomRenderableMapEntities.add(bush);
             updatableMapEntities.add(bush);
         }
 
@@ -75,11 +75,11 @@ public class EntitiesHandler implements MouseListener {
 
         // water trays
         for (WaterTray waterTray: map.waterTrays) {
-            renderableMapEntities.add(waterTray);
+            bottomRenderableMapEntities.add(waterTray);
         }
 
         for (Sign sign : map.signs) {
-            renderableMapEntities.add(sign);
+            bottomRenderableMapEntities.add(sign);
             updatableMapEntities.add(sign);
         }
 
@@ -101,7 +101,7 @@ public class EntitiesHandler implements MouseListener {
     private void processRemovalQueue() {
         for (Entity entity : entitiesToRemove) {
             clickableMapEntities.remove(entity);
-            renderableMapEntities.remove(entity);
+            bottomRenderableMapEntities.remove(entity);
             topRenderableEntities.remove(entity);
             updatableMapEntities.remove(entity);
         }
@@ -109,36 +109,53 @@ public class EntitiesHandler implements MouseListener {
     }
 
 
-    // updating & rendering
+    // farm cats handling
+    public static FarmCat findIdleCat() {
+        for (FarmCat cat : Farm.entitiesHandler.farmCatList) {
+            if (cat.isIdle()) {
+                return cat;
+            }
+        }
+
+        return null;
+    }
+
+
+    // updating
     public void update() {
 
-        map.update();
+        map.updateWaterLayer();
 
+        // update entities
         Entity[] entities = updatableMapEntities.toArray(new Entity[0]);
         for (Entity entity : entities) {
             if (entity != null) {
                 entity.update();
             }
         }
-        
+
         processRemovalQueue();
     }
 
+
+    // rendering
     public void render(Graphics2D graphics2D) {
 
+        // map bottom layer
         map.renderBottom(graphics2D);
 
-        // render entities between bottom and top map layers (cats, crops, etc.)
-        Entity[] entities = renderableMapEntities.toArray(new Entity[0]);
+        // bottom entities
+        Entity[] entities = bottomRenderableMapEntities.toArray(new Entity[0]);
         for (Entity entity : entities) {
             if (entity != null) {
                 entity.render(graphics2D);
             }
         }
-        
+
+        // map top layer
         map.renderTop(graphics2D);
-        
-        // render entities on top of everything (trees, roofs)
+
+        // top entities
         Entity[] topEntities = topRenderableEntities.toArray(new Entity[0]);
         for (Entity entity : topEntities) {
             if (entity != null) {

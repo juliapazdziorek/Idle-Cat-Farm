@@ -27,7 +27,7 @@ public class Map {
     // layers lists
     private final ArrayList<MapLayer> mapBottomLayersToRender;
     private final ArrayList<MapLayer> mapTopLayersToRender;
-    private final ArrayList<MapLayer> mapLayersToUpdate;
+    private MapLayer mapWaterLayerToUpdate;
 
     // map areas
     public enum MapLevels {LEVEL_0, LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_Star}
@@ -75,7 +75,7 @@ public class Map {
         // layer lists
         mapBottomLayersToRender = new ArrayList<>();
         mapTopLayersToRender = new ArrayList<>();
-        mapLayersToUpdate = new ArrayList<>();
+        mapWaterLayerToUpdate = null; // will be set when water layer is created
 
         // map areas
         mapAreas = new ArrayList<>();
@@ -256,7 +256,7 @@ public class Map {
         // ground layers
         MapLayer waterLayer = createLayer("src/Map/TileMaps/Ground/ground_water.txt"); // water
         mapBottomLayersToRender.add(waterLayer);
-        mapLayersToUpdate.add(waterLayer);
+        mapWaterLayerToUpdate = waterLayer; // only water layer needs animation updates
 
         mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_soil.txt")); // soil
         mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_grass.txt")); // grass
@@ -337,21 +337,21 @@ public class Map {
             }
         }
         
-        for (Entity entity : new ArrayList<>(Farm.entitiesHandler.renderableMapEntities)) {
+        for (Entity entity : new ArrayList<>(Farm.entitiesHandler.bottomRenderableMapEntities)) {
             if (entity instanceof FarmCat) {
                 existingCats.add(entity);
             }
         }
         
         Farm.entitiesHandler.clickableMapEntities.clear();
-        Farm.entitiesHandler.renderableMapEntities.clear();
+        Farm.entitiesHandler.bottomRenderableMapEntities.clear();
         Farm.entitiesHandler.topRenderableEntities.clear();
         Farm.entitiesHandler.updatableMapEntities.clear();
         
         // restore cats
         for (Entity cat : existingCats) {
             if (cat != null) {
-                Farm.entitiesHandler.renderableMapEntities.add(cat);
+                Farm.entitiesHandler.bottomRenderableMapEntities.add(cat);
                 Farm.entitiesHandler.updatableMapEntities.add(cat);
             }
         }
@@ -957,11 +957,13 @@ public class Map {
     }
 
 
-    // updating & rendering
-    public void update() {
-        mapLayersToUpdate.forEach(MapLayer::update);
+    // updating water layer
+    public void updateWaterLayer() {
+        mapWaterLayerToUpdate.update();
     }
 
+
+    // rendering
     public void renderBottom(Graphics2D graphics2D) {
         mapBottomLayersToRender.forEach(layer -> layer.render(graphics2D));
     }

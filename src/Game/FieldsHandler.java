@@ -1,6 +1,7 @@
 package Game;
 
 import Entities.Characters.FarmCat;
+import Entities.EntitiesHandler;
 import Game.FarmResourcesHandler.ResourceType;
 import Map.Field;
 
@@ -20,7 +21,7 @@ public class FieldsHandler {
         }
         
         // find an idle cat
-        FarmCat idleCat = findIdleCat();
+        FarmCat idleCat = EntitiesHandler.findIdleCat();
         if (idleCat == null) {
             return false;
         }
@@ -49,22 +50,6 @@ public class FieldsHandler {
             return Farm.entitiesHandler.map.getFieldByType(fieldType);
         }
 
-        return null;
-    }
-
-
-    // finding cats
-    private static FarmCat findIdleCat() {
-        if (Farm.entitiesHandler == null || Farm.entitiesHandler.farmCatList == null) {
-            return null;
-        }
-        
-        for (FarmCat cat : Farm.entitiesHandler.farmCatList) {
-            if (cat.isIdle()) {
-                return cat;
-            }
-        }
-        
         return null;
     }
 }
