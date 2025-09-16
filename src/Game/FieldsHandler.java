@@ -34,6 +34,9 @@ public class FieldsHandler {
         // set the field's crop type (this will update signs)
         field.setCropType(cropType);
         
+        // immediately set field as having a cat working on it for UI feedback
+        field.setCatWorkingOnField(true);
+        
         // start the planting action with the cat
         idleCat.startPlantingAction(cropPositions, cropType, fieldType);
         

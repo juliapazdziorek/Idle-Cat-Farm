@@ -385,6 +385,11 @@ public class FarmCat extends Entity {
         if (currentPlantingIndex >= plantingPositions.size()) {
 
             // planting complete
+            Field field = FieldsHandler.getFieldByTypeFromMap(currentFieldType);
+            if (field != null) {
+                field.setCatWorkingOnField(false);
+            }
+            
             actionState = CatActionState.IDLE;
             plantingPositions.clear();
             return;

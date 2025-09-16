@@ -79,6 +79,9 @@ public class Crop extends Entity {
             if (currentGrowthStage == maxGrowthStages) {
                 isFullyGrown = true;
                 clickable = true;
+                
+                // notify field to update state when crop becomes fully grown
+                notifyFieldStateChange();
             }
         }
     }
@@ -86,6 +89,20 @@ public class Crop extends Entity {
     private void updateCurrentImage() {
         String imageKey = getCropImageKey();
         currentImage = Farm.resourceHandler.cropsMap.get(imageKey);
+    }
+    
+    private void notifyFieldStateChange() {
+        // find the field that contains this crop and update its state
+        Point cropPosition = new Point(position.x / Farm.tileSize, position.y / Farm.tileSize);
+        if (Farm.entitiesHandler != null && Farm.entitiesHandler.map != null) {
+            for (Field field : Farm.entitiesHandler.map.fields) {
+                if (field.getCrops().containsKey(cropPosition)) {
+                    // call updateFieldState through a public method
+                    field.setCatWorkingOnField(field.isCatWorkingOnField()); // this will trigger updateFieldState
+                    break;
+                }
+            }
+        }
     }
     
     private String getCropImageKey() {

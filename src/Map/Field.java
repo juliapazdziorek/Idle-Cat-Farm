@@ -14,6 +14,14 @@ public class Field {
 
     // field types
     public enum FieldType { EAST, WEST }
+    
+    // field states
+    public enum FieldState { 
+        EMPTY, // no crops planted
+        PLANTING, // cat is actively planting
+        GROWING, // crops are growing, no cat working
+        READY_TO_HARVEST // crops are ready to be harvested
+    }
 
     // field structure
     private final ArrayList<Point> cropPositions;
@@ -22,11 +30,17 @@ public class Field {
     
     // crop management
     private final Map<Point, Crop> crops;
+    
+    // field state tracking
+    private FieldState currentState;
+    private boolean catWorkingOnField;
 
     public Field(FieldType fieldType) {
         this.fieldType = fieldType;
         cropPositions = new ArrayList<>();
         crops = new HashMap<>();
+        this.currentState = FieldState.EMPTY;
+        this.catWorkingOnField = false;
     }
 
     // field setup methods
@@ -44,9 +58,49 @@ public class Field {
         return cropType;
     }
     
+    // field state management
+    public FieldState getCurrentState() {
+        return currentState;
+    }
+    
+    public void setCatWorkingOnField(boolean working) {
+        this.catWorkingOnField = working;
+        updateFieldState();
+    }
+    
+    public boolean isCatWorkingOnField() {
+        return catWorkingOnField;
+    }
+    
+    private void updateFieldState() {
+        if (catWorkingOnField) {
+            currentState = FieldState.PLANTING;
+
+        } else if (crops.isEmpty()) {
+            currentState = FieldState.EMPTY;
+
+        } else {
+
+            boolean allCropsReady = crops.values().stream()
+                    .allMatch(Crop::isFullyGrown);
+            
+            if (allCropsReady) {
+                currentState = FieldState.READY_TO_HARVEST;
+            } else {
+                currentState = FieldState.GROWING;
+            }
+        }
+        
+        // refresh UI when state changes
+        if (Farm.menuPanel != null) {
+            Farm.menuPanel.refreshResourcesDisplay();
+        }
+    }
+    
     public void setCropType(ResourceType cropType) {
         this.cropType = cropType;
         Sign.updateAllSigns();
+        updateFieldState();
     }
 
 
@@ -68,6 +122,9 @@ public class Field {
             Farm.entitiesHandler.updatableMapEntities.add(newCrop);
             Farm.entitiesHandler.map.addObstacleToTile(position.x, position.y);
         }
+        
+        // update field state
+        updateFieldState();
     }
 
     // crop removal
@@ -83,6 +140,9 @@ public class Field {
         if (Farm.entitiesHandler != null) {
             Farm.entitiesHandler.map.removeObstacleFromTile(position.x, position.y);
         }
+        
+        // update field state
+        updateFieldState();
     }
 
 
