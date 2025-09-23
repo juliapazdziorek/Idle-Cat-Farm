@@ -137,7 +137,7 @@ public class EntitiesHandler implements MouseListener {
         List<FarmCat> suitableCats = new ArrayList<>();
         
         for (FarmCat cat : Farm.entitiesHandler.farmCatList) {
-            if (cat.isIdle() && cat.hasEnoughEnergyForTilling(1)) {
+            if (cat.isIdle() && cat.hasEnoughEnergyForTilling()) {
                 suitableCats.add(cat);
             }
         }
