@@ -25,9 +25,16 @@ public class FarmCat extends Entity {
     public enum FarmCatColor {WHITE, GREY, GINGER, TRICOLOR}
     private enum FarmCatState {STANDING, WALKING, RUNNING, TILLING, CHOPPING, WATERING}
     private enum FarmCatFacing {DOWN, UP, RIGHT, LEFT}
+    public enum FarmingLevel {LVL0, LVL1, LVL2, LVL3, LVLSTAR}
 
     // color
     private final FarmCatColor color;
+    
+    // cat stats
+    private int energy; // 0-100
+    private int wateringCan; // 0-100
+    private FarmingLevel farmingLevel;
+    private int experience; // current experience points
 
     // cat state
     private FarmCatState farmCatState;
@@ -67,8 +74,14 @@ public class FarmCat extends Entity {
         super(new Point(tileX * Farm.tileSize + Farm.tileSize / 2, tileY * Farm.tileSize + Farm.tileSize / 2));
         this.color = color;
 
-        // get animations
-        animations = Farm.resourceHandler.animationFactory.createCatAnimationMap();
+        // initialize cat stats
+        this.energy = 100;
+        this.wateringCan = 100;
+        this.farmingLevel = FarmingLevel.LVL0;
+        this.experience = 0;
+
+        // get animations based on cat color
+        animations = Farm.resourceHandler.animationFactory.createCatAnimationMap(color);
 
         // initialize cat state variables
         farmCatFacing = FarmCatFacing.DOWN;
@@ -394,6 +407,19 @@ public class FarmCat extends Entity {
             plantingPositions.clear();
             return;
         }
+        
+        // check if the cat has enough energy for the next crop before moving
+        if (!hasEnoughEnergyForTilling()) {
+            Field field = FieldsHandler.getFieldByTypeFromMap(currentFieldType);
+            if (field != null) {
+                field.setCatWorkingOnField(false);
+            }
+            
+            actionState = CatActionState.IDLE;
+            farmCatState = FarmCatState.STANDING;
+            plantingPositions.clear();
+            return;
+        }
 
         Point targetCropPosition = plantingPositions.get(currentPlantingIndex);
         Point tillingPosition = findTillingPosition(targetCropPosition);
@@ -497,6 +523,17 @@ public class FarmCat extends Entity {
             tillingAnimationCounter++;
             if (tillingAnimationCounter >= tillingAnimationDuration) {
 
+                // check and consume energy when tilling completes
+                if (!consumeEnergyForTilling()) {
+                    tillingAnimationCounter = 0;
+                    farmCatState = FarmCatState.STANDING;
+                    actionState = CatActionState.IDLE;
+                    return;
+                }
+
+                // tilling completed successfully, gain experience
+                addExperience(1);
+
                 // tilling animation completes, create the crop
                 Point cropPosition = plantingPositions.get(currentPlantingIndex);
                 
@@ -554,6 +591,144 @@ public class FarmCat extends Entity {
                     catWidth * Farm.scale,
                     catHeight * Farm.scale,
                     null);
+        }
+    }
+    
+    // stat management methods
+    public int getEnergy() {
+        return energy;
+    }
+    
+    public void setEnergy(int energy) {
+        this.energy = Math.max(0, Math.min(100, energy));
+    }
+    
+    public void addEnergy(int amount) {
+        setEnergy(energy + amount);
+    }
+    
+    // consume energy for tilling based on cat level, returns true if successful
+    public boolean consumeEnergyForTilling() {
+        int energyCost = getEnergyCostForTilling();
+        
+        if (energy < energyCost) {
+            return false;
+        }
+        
+        setEnergy(energy - energyCost);
+        return true;
+    }
+    
+    private int getEnergyCostForTilling() {
+        switch (farmingLevel) {
+            case LVL0 -> { return 10; }
+            case LVL1 -> { return 7; }
+            case LVL2 -> { return 5; }
+            case LVL3 -> { return 3; }
+            case LVLSTAR -> { return 1; }
+            default -> { return 10; }
+        }
+    }
+    
+    public boolean hasEnoughEnergyForTilling() {
+        return energy >= getEnergyCostForTilling();
+    }
+    
+    public int getWateringCan() {
+        return wateringCan;
+    }
+    
+    public void setWateringCan(int wateringCan) {
+        this.wateringCan = Math.max(0, Math.min(100, wateringCan));
+    }
+    
+    public void addWateringCan(int amount) {
+        setWateringCan(wateringCan + amount);
+    }
+    
+    public void consumeWateringCan(int amount) {
+        setWateringCan(wateringCan - amount);
+    }
+    
+    public FarmingLevel getFarmingLevel() {
+        return farmingLevel;
+    }
+    
+    public void setFarmingLevel(FarmingLevel farmingLevel) {
+        this.farmingLevel = farmingLevel;
+    }
+    
+    public boolean canLevelUp() {
+        return farmingLevel != FarmingLevel.LVLSTAR;
+    }
+    
+    public void levelUp() {
+        if (canLevelUp()) {
+            int requiredExp = getRequiredExperience();
+            int excessExperience = experience - requiredExp;
+            
+            switch (farmingLevel) {
+                case LVL0 -> farmingLevel = FarmingLevel.LVL1;
+                case LVL1 -> farmingLevel = FarmingLevel.LVL2;
+                case LVL2 -> farmingLevel = FarmingLevel.LVL3;
+                case LVL3 -> farmingLevel = FarmingLevel.LVLSTAR;
+                case LVLSTAR -> { /* Already at max level */ }
+            }
+            
+            experience = Math.max(0, excessExperience);
+        }
+    }
+    
+    // experience methods
+    public int getExperience() {
+        return experience;
+    }
+    
+    public void setExperience(int experience) {
+        this.experience = Math.max(0, experience);
+    }
+    
+    public void addExperience(int amount) {
+        setExperience(experience + amount);
+    }
+    
+    public int getRequiredExperience() {
+        switch (farmingLevel) {
+            case LVL0: return 10;
+            case LVL1: return 25;
+            case LVL2: return 50;
+            case LVL3: return 100;
+            case LVLSTAR: return 0; // max level
+            default: return 10;
+        }
+    }
+    
+    public boolean hasEnoughExperienceToLevelUp() {
+        return farmingLevel != FarmingLevel.LVLSTAR && experience >= getRequiredExperience();
+    }
+    
+    public String getFarmingLevelString() {
+        switch (farmingLevel) {
+            case LVL0 -> { return "Level 0"; }
+            case LVL1 -> { return "Level 1"; }
+            case LVL2 -> { return "Level 2"; }
+            case LVL3 -> { return "Level 3"; }
+            case LVLSTAR -> { return "Level ★"; }
+            default -> { return "Level 0"; }
+        }
+    }
+    
+    public FarmCatColor getColor() {
+        return color;
+    }
+    
+    public String getColorString() {
+        switch (color) {
+            case WHITE -> { return "White"; }
+            case GREY -> { return "Grey"; }
+            case GINGER -> { return "Ginger"; }
+            case TRICOLOR -> { return "Tricolor"; }
+            default -> { return "Unknown"; }
         }
     }
 }

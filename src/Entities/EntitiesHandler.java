@@ -110,14 +110,44 @@ public class EntitiesHandler implements MouseListener {
 
 
     // farm cats handling
+    public void addFarmCat(FarmCat cat) {
+        farmCatList.add(cat);
+        bottomRenderableMapEntities.add(cat);
+        updatableMapEntities.add(cat);
+    }
+
     public static FarmCat findIdleCat() {
+        List<FarmCat> idleCats = new ArrayList<>();
+        
         for (FarmCat cat : Farm.entitiesHandler.farmCatList) {
             if (cat.isIdle()) {
-                return cat;
+                idleCats.add(cat);
             }
         }
-
-        return null;
+        
+        if (idleCats.isEmpty()) {
+            return null;
+        }
+        
+        int randomIndex = (int) (Math.random() * idleCats.size());
+        return idleCats.get(randomIndex);
+    }
+    
+    public static FarmCat findIdleCatForTilling() {
+        List<FarmCat> suitableCats = new ArrayList<>();
+        
+        for (FarmCat cat : Farm.entitiesHandler.farmCatList) {
+            if (cat.isIdle() && cat.hasEnoughEnergyForTilling(1)) {
+                suitableCats.add(cat);
+            }
+        }
+        
+        if (suitableCats.isEmpty()) {
+            return null;
+        }
+        
+        int randomIndex = (int) (Math.random() * suitableCats.size());
+        return suitableCats.get(randomIndex);
     }
 
 

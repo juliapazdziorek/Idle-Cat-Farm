@@ -1,5 +1,6 @@
 package Resources;
 
+import Entities.Characters.FarmCat;
 import Game.Farm;
 
 import java.awt.image.BufferedImage;
@@ -445,47 +446,56 @@ public class AnimationFactory {
 
 
     // farm cat
-    public HashMap<String, Animation> createCatAnimationMap() {
-
+    public HashMap<String, Animation> createCatAnimationMap(FarmCat.FarmCatColor farmCatColor) {
         HashMap<String, Animation> catAnimationMap = new HashMap<>();
+        String catResourceKey = getCatResourceKey(farmCatColor);
 
         // standing
-        catAnimationMap.put("farmCatStandingDown", new Animation(imageMap.get("farmCat"), 8, 24, 0, 8, 10));
-        catAnimationMap.put("farmCatStandingUp", new Animation(imageMap.get("farmCat"), 8, 24, 1, 8, 10));
-        catAnimationMap.put("farmCatStandingRight", new Animation(imageMap.get("farmCat"), 8, 24, 2, 8, 10));
-        catAnimationMap.put("farmCatStandingLeft", new Animation(imageMap.get("farmCat"), 8, 24, 3, 8, 10));
+        catAnimationMap.put("farmCatStandingDown", new Animation(imageMap.get(catResourceKey), 8, 24, 0, 8, 10));
+        catAnimationMap.put("farmCatStandingUp", new Animation(imageMap.get(catResourceKey), 8, 24, 1, 8, 10));
+        catAnimationMap.put("farmCatStandingRight", new Animation(imageMap.get(catResourceKey), 8, 24, 2, 8, 10));
+        catAnimationMap.put("farmCatStandingLeft", new Animation(imageMap.get(catResourceKey), 8, 24, 3, 8, 10));
 
         // walking
-        catAnimationMap.put("farmCatWalkingDown", new Animation(imageMap.get("farmCat"), 8, 24, 4, 8, 10));
-        catAnimationMap.put("farmCatWalkingUp", new Animation(imageMap.get("farmCat"), 8, 24, 5, 8, 10));
-        catAnimationMap.put("farmCatWalkingRight", new Animation(imageMap.get("farmCat"), 8, 24, 6, 8, 10));
-        catAnimationMap.put("farmCatWalkingLeft", new Animation(imageMap.get("farmCat"), 8, 24, 7, 8, 10));
+        catAnimationMap.put("farmCatWalkingDown", new Animation(imageMap.get(catResourceKey), 8, 24, 4, 8, 10));
+        catAnimationMap.put("farmCatWalkingUp", new Animation(imageMap.get(catResourceKey), 8, 24, 5, 8, 10));
+        catAnimationMap.put("farmCatWalkingRight", new Animation(imageMap.get(catResourceKey), 8, 24, 6, 8, 10));
+        catAnimationMap.put("farmCatWalkingLeft", new Animation(imageMap.get(catResourceKey), 8, 24, 7, 8, 10));
 
         // running
-        catAnimationMap.put("farmCatRunningDown", new Animation(imageMap.get("farmCat"), 8, 24, 8, 8, 10));
-        catAnimationMap.put("farmCatRunningUp", new Animation(imageMap.get("farmCat"), 8, 24, 9, 8, 10));
-        catAnimationMap.put("farmCatRunningRight", new Animation(imageMap.get("farmCat"), 8, 24, 10, 8, 10));
-        catAnimationMap.put("farmCatRunningLeft", new Animation(imageMap.get("farmCat"), 8, 24, 11, 8, 10));
+        catAnimationMap.put("farmCatRunningDown", new Animation(imageMap.get(catResourceKey), 8, 24, 8, 8, 10));
+        catAnimationMap.put("farmCatRunningUp", new Animation(imageMap.get(catResourceKey), 8, 24, 9, 8, 10));
+        catAnimationMap.put("farmCatRunningRight", new Animation(imageMap.get(catResourceKey), 8, 24, 10, 8, 10));
+        catAnimationMap.put("farmCatRunningLeft", new Animation(imageMap.get(catResourceKey), 8, 24, 11, 8, 10));
 
         // tilling
-        catAnimationMap.put("farmCatTillingDown", new Animation(imageMap.get("farmCat"), 8, 24, 12, 8, 10));
-        catAnimationMap.put("farmCatTillingUp", new Animation(imageMap.get("farmCat"), 8, 24, 13, 8, 10));
-        catAnimationMap.put("farmCatTillingRight", new Animation(imageMap.get("farmCat"), 8, 24, 14, 8, 10));
-        catAnimationMap.put("farmCatTillingLeft", new Animation(imageMap.get("farmCat"), 8, 24, 15, 8, 10));
+        catAnimationMap.put("farmCatTillingDown", new Animation(imageMap.get(catResourceKey), 8, 24, 12, 8, 10));
+        catAnimationMap.put("farmCatTillingUp", new Animation(imageMap.get(catResourceKey), 8, 24, 13, 8, 10));
+        catAnimationMap.put("farmCatTillingRight", new Animation(imageMap.get(catResourceKey), 8, 24, 14, 8, 10));
+        catAnimationMap.put("farmCatTillingLeft", new Animation(imageMap.get(catResourceKey), 8, 24, 15, 8, 10));
 
         // chopping
-        catAnimationMap.put("farmCatChoppingDown", new Animation(imageMap.get("farmCat"), 8, 24, 16, 8, 10));
-        catAnimationMap.put("farmCatChoppingUp", new Animation(imageMap.get("farmCat"), 8, 24, 17, 8, 10));
-        catAnimationMap.put("farmCatChoppingRight", new Animation(imageMap.get("farmCat"), 8, 24, 18, 8, 10));
-        catAnimationMap.put("farmCatChoppingLeft", new Animation(imageMap.get("farmCat"), 8, 24, 19, 8, 10));
+        catAnimationMap.put("farmCatChoppingDown", new Animation(imageMap.get(catResourceKey), 8, 24, 16, 8, 10));
+        catAnimationMap.put("farmCatChoppingUp", new Animation(imageMap.get(catResourceKey), 8, 24, 17, 8, 10));
+        catAnimationMap.put("farmCatChoppingRight", new Animation(imageMap.get(catResourceKey), 8, 24, 18, 8, 10));
+        catAnimationMap.put("farmCatChoppingLeft", new Animation(imageMap.get(catResourceKey), 8, 24, 19, 8, 10));
 
         // watering
-        catAnimationMap.put("farmCatWateringDown", new Animation(imageMap.get("farmCat"), 8, 24, 20, 8, 10));
-        catAnimationMap.put("farmCatWateringUp", new Animation(imageMap.get("farmCat"), 8, 24, 21, 8, 10));
-        catAnimationMap.put("farmCatWateringRight", new Animation(imageMap.get("farmCat"), 8, 24, 22, 8, 10));
-        catAnimationMap.put("farmCatWateringLeft", new Animation(imageMap.get("farmCat"), 8, 24, 23, 8, 10));
+        catAnimationMap.put("farmCatWateringDown", new Animation(imageMap.get(catResourceKey), 8, 24, 20, 8, 10));
+        catAnimationMap.put("farmCatWateringUp", new Animation(imageMap.get(catResourceKey), 8, 24, 21, 8, 10));
+        catAnimationMap.put("farmCatWateringRight", new Animation(imageMap.get(catResourceKey), 8, 24, 22, 8, 10));
+        catAnimationMap.put("farmCatWateringLeft", new Animation(imageMap.get(catResourceKey), 8, 24, 23, 8, 10));
 
         return catAnimationMap;
+    }
+
+    private String getCatResourceKey(FarmCat.FarmCatColor farmCatColor) {
+        return switch (farmCatColor) {
+            case WHITE -> "farmCat";      // TODO for now, all use same path
+            case GREY -> "farmCat";       // TODO for now, all use same path
+            case GINGER -> "farmCat";     // TODO for now, all use same path
+            case TRICOLOR -> "farmCat";   // TODO for now, all use same path
+        };
     }
 
 }

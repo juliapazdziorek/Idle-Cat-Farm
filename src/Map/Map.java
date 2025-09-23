@@ -2,6 +2,7 @@ package Map;
 
 import Entities.BuildingParts.Roof;
 import Entities.Characters.FarmCat;
+import Entities.EntitiesHandler;
 import Entities.Entity;
 import Entities.FarmResources.Crop;
 import Entities.Nature.TreePart;
@@ -767,21 +768,29 @@ public class Map {
     public void levelUpHouseArea() {
         switch (mapAreasLevels.get(MapArea.HOUSE)) {
             case LEVEL_0 -> {
+                // the house is built
+
                 setAreaLevel(MapArea.HOUSE, MapLevels.LEVEL_1);
             }
 
             case LEVEL_1 -> {
-                // TODO: add 1 cat -> gray
+                FarmCat greyCat = new FarmCat(13, 20, FarmCat.FarmCatColor.GREY);
+                Farm.entitiesHandler.addFarmCat(greyCat);
+
                 setAreaLevel(MapArea.HOUSE, MapLevels.LEVEL_2);
             }
 
             case LEVEL_2 -> {
-                // TODO: add 1 cat -> orange
+                FarmCat gingerCat = new FarmCat(22, 21, FarmCat.FarmCatColor.GINGER);
+                Farm.entitiesHandler.addFarmCat(gingerCat);
+
                 setAreaLevel(MapArea.HOUSE, MapLevels.LEVEL_3);
             }
 
             case LEVEL_3 -> {
-                // TODO: add 1 cat -> tricolor
+                FarmCat tricolorCat = new FarmCat(18, 21, FarmCat.FarmCatColor.TRICOLOR);
+                Farm.entitiesHandler.addFarmCat(tricolorCat);
+
                 setAreaLevel(MapArea.HOUSE, MapLevels.LEVEL_Star);
             }
 

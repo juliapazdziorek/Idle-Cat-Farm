@@ -220,4 +220,75 @@ public class UIUtils {
         
         return button;
     }
+
+    // Custom rounded progress bar with beige styling
+    public static JProgressBar createRoundedProgressBar(int minValue, int maxValue, int currentValue, String text, Font font) {
+        JProgressBar progressBar = new JProgressBar(minValue, maxValue);
+        progressBar.setValue(currentValue);
+        progressBar.setStringPainted(true);
+        progressBar.setString(text);
+        progressBar.setFont(font);
+        progressBar.setBorder(null);
+        progressBar.setOpaque(false);
+        
+        // Custom UI with rounded corners matching scroll bar style
+        progressBar.setUI(new javax.swing.plaf.basic.BasicProgressBarUI() {
+            @Override
+            protected void paintDeterminate(Graphics g, javax.swing.JComponent c) {
+                if (!(g instanceof Graphics2D)) {
+                    return;
+                }
+                
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                
+                int width = c.getWidth();
+                int height = c.getHeight();
+                int cornerRadius = 6; // Same as scroll bar thumb
+                
+                // Draw background with rounded corners
+                g2.setColor(Colors.lightBeigeColor);
+                g2.fillRoundRect(0, 0, width, height, cornerRadius, cornerRadius);
+                
+                // Calculate filled area
+                double progress = (double) (progressBar.getValue() - progressBar.getMinimum()) / 
+                                 (progressBar.getMaximum() - progressBar.getMinimum());
+                int filledWidth = (int) (width * progress);
+                
+                // Draw filled area with rounded corners (clipped to progress)
+                if (filledWidth > 0) {
+                    g2.setColor(Colors.beigeColor);
+                    
+                    // Create a clip to ensure filled area doesn't exceed filledWidth
+                    Shape originalClip = g2.getClip();
+                    g2.setClip(0, 0, filledWidth, height);
+                    
+                    // Draw filled rounded rectangle (will be clipped to actual progress)
+                    g2.fillRoundRect(0, 0, width, height, cornerRadius, cornerRadius);
+                    
+                    // Restore original clip
+                    g2.setClip(originalClip);
+                }
+                
+                // Draw border
+                g2.setColor(Colors.darkBeigeColor);
+                g2.drawRoundRect(0, 0, width - 1, height - 1, cornerRadius, cornerRadius);
+                
+                // Draw text
+                if (progressBar.isStringPainted() && progressBar.getString() != null) {
+                    g2.setColor(Colors.darkBeigeColor);
+                    g2.setFont(progressBar.getFont());
+                    String textStr = progressBar.getString();
+                    FontMetrics fm = g2.getFontMetrics();
+                    int x = (width - fm.stringWidth(textStr)) / 2;
+                    int y = (height - fm.getHeight()) / 2 + fm.getAscent();
+                    g2.drawString(textStr, x, y);
+                }
+                
+                g2.dispose();
+            }
+        });
+        
+        return progressBar;
+    }
 }

@@ -20,15 +20,15 @@ public class FieldsHandler {
             return false;
         }
         
-        // find an idle cat
-        FarmCat idleCat = EntitiesHandler.findIdleCat();
-        if (idleCat == null) {
-            return false;
-        }
-        
         // get crop positions from the field
         List<Point> cropPositions = field.getCropPositions();
         if (cropPositions.isEmpty()) {
+            return false;
+        }
+
+        // get an idle cat
+        FarmCat idleCat = EntitiesHandler.findIdleCatForTilling();
+        if (idleCat == null) {
             return false;
         }
         

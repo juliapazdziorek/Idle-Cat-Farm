@@ -38,7 +38,7 @@ public class FarmTab {
         contentPanel.setOpaque(false);
 
         // add area sections in order: house, fields, coop, barn, orchard, park
-        contentPanel.add(createAreaSection(Map.MapArea.HOUSE, "standingCat"));
+        contentPanel.add(createAreaSection(Map.MapArea.HOUSE, "happyStandingCat"));
         contentPanel.add(Box.createVerticalStrut(8));
         contentPanel.add(createFieldsSection());
         contentPanel.add(Box.createVerticalStrut(8));

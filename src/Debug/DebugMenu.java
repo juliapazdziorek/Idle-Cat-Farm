@@ -75,6 +75,32 @@ public class DebugMenu extends JFrame {
         });
         catPanel.add(mouseMovementCheckbox);
         
+        // experience controls
+        JPanel expPanel = new JPanel(new FlowLayout());
+        JButton addExpButton = new JButton("Add 5 EXP");
+        addExpButton.addActionListener(_ -> {
+            if (Farm.entitiesHandler != null && !Farm.entitiesHandler.farmCatList.isEmpty()) {
+                Farm.entitiesHandler.farmCatList.get(0).addExperience(5);
+                if (Farm.menuPanel != null) {
+                    Farm.menuPanel.refreshResourcesDisplay();
+                }
+            }
+        });
+        expPanel.add(addExpButton);
+        
+        JButton addLotExpButton = new JButton("Add 50 EXP");
+        addLotExpButton.addActionListener(_ -> {
+            if (Farm.entitiesHandler != null && !Farm.entitiesHandler.farmCatList.isEmpty()) {
+                Farm.entitiesHandler.farmCatList.get(0).addExperience(50);
+                if (Farm.menuPanel != null) {
+                    Farm.menuPanel.refreshResourcesDisplay();
+                }
+            }
+        });
+        expPanel.add(addLotExpButton);
+        
+        catPanel.add(expPanel);
+        
         mainPanel.add(catPanel);
         mainPanel.add(Box.createVerticalStrut(15));
     }
