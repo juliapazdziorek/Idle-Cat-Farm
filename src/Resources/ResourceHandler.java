@@ -81,6 +81,7 @@ public class ResourceHandler {
         // icons
         loadImageToMap(imageMap, "src/Resources/SproutLands/UI/items.png", "items");
         loadImageToMap(imageMap, "src/Resources/SproutLands/UI/emojis.png", "emojis");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Custom/cat_emojis.png", "catEmojis");
     }
 
     private void loadImageToMap(Map<String, BufferedImage> map, String path, String key) {
@@ -629,9 +630,17 @@ public class ResourceHandler {
         iconsMap.put("berryMilk", icons.getSubimage(7 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
 
         BufferedImage emojis = imageMap.get("emojis");
+        BufferedImage catEmojis = imageMap.get("catEmojis");
 
         // cats
-        // TODO colored cats faces
+        iconsMap.put("whiteCat", catEmojis.getSubimage(0, 0, Farm.emojiSize, Farm.emojiSize));
+        iconsMap.put("whiteCatZzz", catEmojis.getSubimage(Farm.emojiSize, 0, Farm.emojiSize, Farm.emojiSize));
+        iconsMap.put("greyCat", catEmojis.getSubimage(0, Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
+        iconsMap.put("greyCatZzz", catEmojis.getSubimage(Farm.emojiSize, Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
+        iconsMap.put("gingerCat", catEmojis.getSubimage(0, 2 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
+        iconsMap.put("gingerCatZzz", catEmojis.getSubimage(Farm.emojiSize, 2 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
+        iconsMap.put("tricolorCat", catEmojis.getSubimage(0, 3 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
+        iconsMap.put("tricolorCatZzz", catEmojis.getSubimage(Farm.emojiSize, 3 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
         iconsMap.put("happyStandingCat", emojis.getSubimage(0, 4 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
         iconsMap.put("standingCat", emojis.getSubimage(Farm.emojiSize, 4 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
 
