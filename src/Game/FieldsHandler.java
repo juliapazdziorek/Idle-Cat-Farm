@@ -20,6 +20,10 @@ public class FieldsHandler {
             return false;
         }
         
+        if (field.isCatWorkingOnField()) {
+            return false;
+        }
+        
         // get crop positions from the field
         List<Point> cropPositions = field.getCropPositions();
         if (cropPositions.isEmpty()) {
