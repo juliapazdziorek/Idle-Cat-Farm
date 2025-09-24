@@ -77,6 +77,10 @@ public class ResourceHandler {
 
         // characters
         loadImageToMap(imageMap, "src/Resources/SproutLands/Characters/farm_cat.png", "farmCat");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Custom/sleeping_white.png" , "sleepingWhiteCat");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Custom/sleeping_grey.png" , "sleepingGreyCat");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Custom/sleeping_ginger.png" , "sleepingGingerCat");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Custom/sleeping_tricolor.png" , "sleepingTricolorCat");
 
         // icons
         loadImageToMap(imageMap, "src/Resources/SproutLands/UI/items.png", "items");
