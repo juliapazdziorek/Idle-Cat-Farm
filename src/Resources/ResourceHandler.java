@@ -650,6 +650,7 @@ public class ResourceHandler {
 
         // icons
         iconsMap.put("zzz", emojis.getSubimage(4 * Farm.emojiSize, 7 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
+        iconsMap.put("sun", emojis.getSubimage(0, 18 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
         iconsMap.put("coin", emojis.getSubimage(Farm.emojiSize, 8 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
         iconsMap.put("star", emojis.getSubimage(4 * Farm.emojiSize, 8 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
         iconsMap.put("sprout", emojis.getSubimage(0, 12 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize));
