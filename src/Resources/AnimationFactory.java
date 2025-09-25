@@ -554,38 +554,38 @@ public class AnimationFactory {
 
     // speech bubbles
     public Animation createSpeechBubbleSunOpeningAnimation() {
-        return new Animation(imageMap.get("speechBubbleSun"), 6, 3, 1, 7, 8);
+        return new Animation(imageMap.get("speechBubbleSun"), 7, 3, 1, 7, 7);
     }
 
     public Animation createSpeechBubbleSunAnimation() {
-        return new Animation(imageMap.get("speechBubbleSun"), 6, 3, 2, 2, 8);
+        return new Animation(imageMap.get("speechBubbleSun"), 7, 3, 2, 2, 20);
     }
 
     public Animation createSpeechBubbleSunClosingAnimation() {
-        return new Animation(imageMap.get("speechBubbleSun"), 6, 3, 2, 7, 8);
+        return new Animation(imageMap.get("speechBubbleSun"), 7, 3, 2, 7, 7);
     }
 
     public Animation createSpeechBubbleWaterCanOpeningAnimation() {
-        return new Animation(imageMap.get("speechBubbleWaterCan"), 6, 3, 1, 7, 8);
+        return new Animation(imageMap.get("speechBubbleWaterCan"), 7, 3, 1, 7, 7);
     }
 
     public Animation createSpeechBubbleWaterCanAnimation() {
-        return new Animation(imageMap.get("speechBubbleWaterCan"), 6, 3, 2, 2, 8);
+        return new Animation(imageMap.get("speechBubbleWaterCan"), 7, 3, 2, 2, 20);
     }
 
     public Animation createSpeechBubbleWaterCanClosingAnimation() {
-        return new Animation(imageMap.get("speechBubbleWaterCan"), 6, 3, 2, 7, 8);
+        return new Animation(imageMap.get("speechBubbleWaterCan"), 7, 3, 2, 7, 7);
     }
 
     public Animation createSpeechBubbleZzzOpeningAnimation() {
-        return new Animation(imageMap.get("speechBubbleZzz"), 6, 3, 1, 7, 8);
+        return new Animation(imageMap.get("speechBubbleZzz"), 7, 3, 1, 7, 7);
     }
 
     public Animation createSpeechBubbleZzzAnimation() {
-        return new Animation(imageMap.get("speechBubbleZzz"), 6, 3, 2, 2, 8);
+        return new Animation(imageMap.get("speechBubbleZzz"), 7, 3, 2, 2, 20);
     }
 
     public Animation createSpeechBubbleZzzClosingAnimation() {
-        return new Animation(imageMap.get("speechBubbleZzz"), 6, 3, 2, 7, 8);
+        return new Animation(imageMap.get("speechBubbleZzz"), 7, 3, 2, 7, 7);
     }
 }
