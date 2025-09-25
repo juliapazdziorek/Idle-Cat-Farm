@@ -107,13 +107,13 @@ public class CatsTab {
         headerPanel.add(iconLabel);
         headerPanel.add(nameLabel);
         
-        // stats panel - put level first
+        // stats panel
         JPanel statsPanel = new JPanel();
         statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
         statsPanel.setOpaque(false);
         statsPanel.setBorder(BorderFactory.createEmptyBorder(4, 0, 0, 0));
         
-        // create stat bars - level first with spacing
+        // create stat bars
         statsPanel.add(createLevelBarWithButton("farming level", cat));
         statsPanel.add(Box.createVerticalStrut(3));
         statsPanel.add(createStatBar("energy", cat.getEnergy(), 100, cat));
@@ -131,13 +131,13 @@ public class CatsTab {
         JPanel statPanel = new JPanel(new BorderLayout(8, 0));
         statPanel.setOpaque(false);
         
-        // stat label - more space
+        // stat label
         JLabel statLabel = new JLabel(statName + ":");
         statLabel.setFont(Farm.fonts.minecraftiaFont);
         statLabel.setForeground(Colors.darkBeigeColor);
             statLabel.setPreferredSize(new Dimension(120, 22));
         
-        // progress bar - less space
+        // progress bar
         JProgressBar progressBar = UIUtils.createRoundedProgressBar(0, maxValue, currentValue, currentValue + "/" + maxValue, Farm.fonts.minecraftiaFont);
         progressBar.setPreferredSize(new Dimension(175, 22));
         
@@ -152,22 +152,41 @@ public class CatsTab {
         if (statName.equals("energy") || statName.equals("watering can")) {
             JButton actionButton = UIUtils.createRoundedButton("", 22, 22);
             if (statName.equals("energy")) {
-                try {
-                    if (Farm.resourceHandler != null && Farm.resourceHandler.iconsMap.containsKey("zzz")) {
-                        ImageIcon icon = new ImageIcon(Farm.resourceHandler.iconsMap.get("zzz"));
-                        Image scaledImage = icon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
-                        actionButton.setIcon(new ImageIcon(scaledImage));
-                    } else {
+                if (cat.isSleeping() || cat.getActionState() == FarmCat.CatActionState.GOING_TO_SLEEP) {
+                    try {
+                        if (Farm.resourceHandler != null && Farm.resourceHandler.iconsMap.containsKey("sun")) {
+                            ImageIcon icon = new ImageIcon(Farm.resourceHandler.iconsMap.get("sun"));
+                            Image scaledImage = icon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+                            actionButton.setIcon(new ImageIcon(scaledImage));
+                        } else {
+                            actionButton.setText("☀️");
+                        }
+                    } catch (Exception e) {
+                        actionButton.setText("☀️");
+                    }
+                    actionButton.addActionListener(_ -> {
+                        cat.wakeUp();
+                        Farm.menuPanel.refreshResourcesDisplay();
+                    });
+                } else {
+                    // cat is awake - show sleep button
+                    try {
+                        if (Farm.resourceHandler != null && Farm.resourceHandler.iconsMap.containsKey("zzz")) {
+                            ImageIcon icon = new ImageIcon(Farm.resourceHandler.iconsMap.get("zzz"));
+                            Image scaledImage = icon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+                            actionButton.setIcon(new ImageIcon(scaledImage));
+                        } else {
+                            actionButton.setText("+");
+                        }
+                    } catch (Exception e) {
                         actionButton.setText("+");
                     }
-                } catch (Exception e) {
-                    actionButton.setText("+");
+                    actionButton.addActionListener(_ -> {
+                        if (cat.tryGoToSleep()) {
+                            Farm.menuPanel.refreshResourcesDisplay();
+                        }
+                    });
                 }
-                actionButton.setToolTipText("Restore Energy");
-                actionButton.addActionListener(_ -> {
-                    cat.setEnergy(100);
-                    Farm.menuPanel.refreshResourcesDisplay();
-                });
             } else {
                 try {
                     if (Farm.resourceHandler != null && Farm.resourceHandler.iconsMap.containsKey("waterCan")) {
@@ -180,7 +199,6 @@ public class CatsTab {
                 } catch (Exception e) {
                     actionButton.setText("+");
                 }
-                actionButton.setToolTipText("Fill Watering Can");
                 actionButton.addActionListener(_ -> {
                     cat.setWateringCan(100);
                     Farm.menuPanel.refreshResourcesDisplay();
@@ -239,7 +257,7 @@ public class CatsTab {
             JPanel topRowPanel = new JPanel(new BorderLayout(8, 0));
             topRowPanel.setOpaque(false);
             
-            // level label - more space
+            // level label
             JLabel levelLabel = new JLabel(statName + ":");
             levelLabel.setFont(Farm.fonts.minecraftiaFont);
             levelLabel.setForeground(Colors.darkBeigeColor);
@@ -250,7 +268,7 @@ public class CatsTab {
             JPanel levelWithButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 0));
             levelWithButtonPanel.setOpaque(false);
             
-            JLabel levelValueLabel = new JLabel(getLevelText(cat.getFarmingLevel()));
+            JLabel levelValueLabel = new JLabel(cat.getLevelDisplayText());
             levelValueLabel.setFont(Farm.fonts.minecraftiaFont);
             levelValueLabel.setForeground(Colors.darkBeigeColor);
             levelWithButtonPanel.add(levelValueLabel);
@@ -286,17 +304,6 @@ public class CatsTab {
             
             levelPanel.add(expBarPanel);
             return levelPanel;
-        }
-    }
-    
-    private String getLevelText(FarmCat.FarmingLevel level) {
-        switch (level) {
-            case LVL0: return "lvl 0";
-            case LVL1: return "lvl 1";
-            case LVL2: return "lvl 2";
-            case LVL3: return "lvl 3";
-            case LVLSTAR: return "lvl ⭐";
-            default: return "lvl 0";
         }
     }
 }

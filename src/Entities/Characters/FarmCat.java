@@ -1,6 +1,7 @@
 package Entities.Characters;
 
 import Entities.Entity;
+import Entities.Objects.Bed;
 import Game.Farm;
 import Game.FarmResourcesHandler.ResourceType;
 import Game.FieldsHandler;
@@ -60,7 +61,7 @@ public class FarmCat extends Entity {
     private int directionChangeCounter;
     
     // planting action system
-    public enum CatActionState { IDLE, PLANTING }
+    public enum CatActionState { IDLE, PLANTING, GOING_TO_SLEEP, SLEEPING }
     private CatActionState actionState;
     private List<Point> plantingPositions;
     private int currentPlantingIndex;
@@ -69,6 +70,14 @@ public class FarmCat extends Entity {
     private boolean isAtTillingPosition;
     private int tillingAnimationCounter;
     private static final int tillingAnimationDuration = 60;
+    
+    // for bed sleeping functionality
+    private Bed targetBed;
+    private Point targetBedPosition;
+    private int sleepEnergyTimer;
+    
+    // visibility
+    private boolean visible;
 
     public FarmCat(int tileX, int tileY, FarmCatColor color) {
         super(new Point(tileX * Farm.tileSize + Farm.tileSize / 2, tileY * Farm.tileSize + Farm.tileSize / 2));
@@ -97,6 +106,13 @@ public class FarmCat extends Entity {
         currentPlantingIndex = 0;
         isAtTillingPosition = false;
         tillingAnimationCounter = 0;
+        
+        // initialize a sleeping action system
+        targetBed = null;
+        targetBedPosition = null;
+        sleepEnergyTimer = 0;
+
+        visible = true;
     }
 
 
@@ -375,6 +391,33 @@ public class FarmCat extends Entity {
     public boolean isIdle() {
         return actionState == CatActionState.IDLE && !isFollowingPath;
     }
+    
+    public boolean isSleeping() {
+        return actionState == CatActionState.SLEEPING;
+    }
+    
+    public CatActionState getActionState() {
+        return actionState;
+    }
+    
+    public String getLevelDisplayText() {
+        switch (farmingLevel) {
+            case LVL0: return "lvl 0";
+            case LVL1: return "lvl 1";
+            case LVL2: return "lvl 2";
+            case LVL3: return "lvl 3";
+            case LVLSTAR: return "lvl star";
+            default: return "lvl 0";
+        }
+    }
+    
+    public void setActionState(CatActionState state) {
+        this.actionState = state;
+    }
+    
+    public void setTargetBed(Bed bed) {
+        this.targetBed = bed;
+    }
 
 
     // planting action system
@@ -408,7 +451,6 @@ public class FarmCat extends Entity {
             return;
         }
         
-        // check if the cat has enough energy for the next crop before moving
         if (!hasEnoughEnergyForTilling()) {
             Field field = FieldsHandler.getFieldByTypeFromMap(currentFieldType);
             if (field != null) {
@@ -556,6 +598,142 @@ public class FarmCat extends Entity {
         }
     }
 
+    // sleeping action methods
+    public void startGoingToSleep(Bed bed) {
+        if (!isIdle()) {
+            return;
+        }
+
+        // Reserve the bed first to prevent other cats from using it
+        if (!bed.reserveBed(this)) {
+            return;
+        }
+
+        actionState = CatActionState.GOING_TO_SLEEP;
+        targetBed = bed;
+        targetBedPosition = bed.getToBedPosition();
+
+        if (targetBedPosition != null) {
+            // move directly to the bed position
+            moveToTile(targetBedPosition.x, targetBedPosition.y);
+        } else {
+            // no valid position, cancel sleep action and free the bed
+            if (targetBed != null) {
+                targetBed.setCatAwake();
+            }
+            actionState = CatActionState.IDLE;
+            targetBed = null;
+        }
+    }
+
+    private void reachBedAndSleep() {
+        // cat has reached the bed area, now disappear and sleep
+        if (targetBed != null) {
+            setVisible(false);
+            targetBed.setCatSleeping(this);
+            
+            // set cat to sleeping state (keep targetBed reference)
+            actionState = CatActionState.SLEEPING;
+            
+            // reset energy timer for gradual restoration
+            sleepEnergyTimer = 0;
+        }
+        
+        // clear temporary position data
+        targetBedPosition = null;
+    }
+
+    public void restoreEnergy() {
+        setEnergy(100);
+    }
+    
+    // sleep management methods
+    public boolean tryGoToSleep() {
+        // check if cat is available for sleeping action
+        if (!isIdle()) {
+            return false;
+        }
+        
+        // find an empty bed
+        if (Farm.entitiesHandler != null && Farm.entitiesHandler.map != null && Farm.entitiesHandler.map.beds != null) {
+            java.util.ArrayList<Bed> availableBeds = new java.util.ArrayList<>();
+            
+            // collect available beds with accessible positions
+            for (Bed bed : Farm.entitiesHandler.map.beds) {
+                if (bed.isAvailable() && bed.hasValidPosition()) {
+                    availableBeds.add(bed);
+                }
+            }
+            
+            // if there are empty beds, choose one randomly
+            if (!availableBeds.isEmpty()) {
+                java.util.Random random = new java.util.Random();
+                Bed chosenBed = availableBeds.get(random.nextInt(availableBeds.size()));
+                
+                // start the realistic "going to sleep" action
+                startGoingToSleep(chosenBed);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public Bed getCurrentBed() {
+        // find which bed the cat is currently sleeping in or reserved for
+        if (Farm.entitiesHandler != null && Farm.entitiesHandler.map != null && Farm.entitiesHandler.map.beds != null) {
+            for (Bed bed : Farm.entitiesHandler.map.beds) {
+                if ((bed.getBedState() == Bed.BedState.OCCUPIED || 
+                     bed.getBedState() == Bed.BedState.RESERVED) && 
+                    bed.getOccupyingCat() == this) {
+                    return bed;
+                }
+            }
+        }
+        return null;
+    }
+    
+    public void wakeUp() {
+        if ((actionState == CatActionState.SLEEPING || actionState == CatActionState.GOING_TO_SLEEP) && targetBed != null) {
+            // if cat is sleeping, find a non-obstacle position next to the bed to place the cat
+            if (actionState == CatActionState.SLEEPING) {
+                Point bedPosition = targetBed.getToBedPosition();
+                if (bedPosition != null && Farm.entitiesHandler != null && Farm.entitiesHandler.map != null && 
+                    !Farm.entitiesHandler.map.hasObstacleAt(bedPosition.y, bedPosition.x)) {
+                    // convert tile position to pixel position
+                    position.x = bedPosition.x * Farm.tileSize + Farm.tileSize / 2;
+                    position.y = bedPosition.y * Farm.tileSize + Farm.tileSize / 2;
+                }
+            } else if (actionState == CatActionState.GOING_TO_SLEEP) {
+                // cat is walking to bed - stop pathfinding and stay at current position
+                currentPath = null;
+                currentPathIndex = 0;
+                isFollowingPath = false;
+            }
+            
+            // wake up the cat and free the bed
+            setVisible(true);
+            targetBed.setCatAwake();
+            
+            // reset to idle state
+            actionState = CatActionState.IDLE;
+            targetBed = null;
+            targetBedPosition = null;
+            sleepEnergyTimer = 0;
+        }
+    }
+
+    private void updateSleepingAction() {
+        if (actionState == CatActionState.GOING_TO_SLEEP) {
+            // check if cat has reached the bed position
+            if (!isFollowingPath) {
+                // reached the bed area, go to sleep
+                reachBedAndSleep();
+            }
+        } else if (actionState == CatActionState.SLEEPING) {
+            // restore energy while sleeping
+            restoreEnergyWhileSleeping();
+        }
+    }
 
     // getters
     public List<Node> getCurrentPath() {
@@ -569,6 +747,8 @@ public class FarmCat extends Entity {
 
         if (actionState == CatActionState.PLANTING) {
             updatePlantingAction();
+        } else if (actionState == CatActionState.GOING_TO_SLEEP || actionState == CatActionState.SLEEPING) {
+            updateSleepingAction();
         }
         
         followPath();
@@ -584,7 +764,7 @@ public class FarmCat extends Entity {
 
     @Override
     public void render(Graphics2D graphics2D) {
-        if (currentImage != null) {
+        if (visible && currentImage != null) {
             graphics2D.drawImage(currentImage,
                     (position.x - catWidth / 2) * Farm.scale + Farm.camera.position.x,
                     (position.y - catHeight / 2) * Farm.scale + Farm.camera.position.y,
@@ -605,6 +785,35 @@ public class FarmCat extends Entity {
     
     public void addEnergy(int amount) {
         setEnergy(energy + amount);
+    }
+    
+    // restore energy while sleeping based on farming level
+    private void restoreEnergyWhileSleeping() {
+        sleepEnergyTimer++;
+        
+        // restore energy every second (60 frames at 60 FPS)
+        if (sleepEnergyTimer >= 60) {
+            sleepEnergyTimer = 0;
+            
+            // energy restoration based on farming level
+            int energyRestoration = switch (farmingLevel) {
+                case LVL0 -> 1;
+                case LVL1 -> 2;
+                case LVL2 -> 3;
+                case LVL3 -> 4;
+                case LVLSTAR -> 5;
+            };
+            
+            // only restore if not at full energy
+            if (energy < 100) {
+                addEnergy(energyRestoration);
+                
+                // refresh UI to update the energy bar
+                if (Farm.menuPanel != null) {
+                    Farm.menuPanel.refreshResourcesDisplay();
+                }
+            }
+        }
     }
     
     // consume energy for tilling based on cat level, returns true if successful
@@ -730,5 +939,13 @@ public class FarmCat extends Entity {
             case TRICOLOR -> { return "Tricolor"; }
             default -> { return "Unknown"; }
         }
+    }
+    
+    public boolean isVisible() {
+        return visible;
+    }
+    
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 }

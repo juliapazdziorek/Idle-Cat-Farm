@@ -73,13 +73,15 @@ public class Farm {
         // initialize pathfinder
         Map.initializePathfinder();
 
+        // calculate to bed positions
+        entitiesHandler.map.calculateAllBedPositions();
+
         // initialize orders
         ordersHandler.maintainOrderCount();
 
         // refresh UI
-        if (menuPanel != null) {
-            menuPanel.refreshResourcesDisplay();
-        }
+        menuPanel.refreshResourcesDisplay();
+
 
         // window setup
         frame = new JFrame("Cat Farm");

@@ -2,13 +2,14 @@ package Map;
 
 import Entities.BuildingParts.Roof;
 import Entities.Characters.FarmCat;
-import Entities.EntitiesHandler;
 import Entities.Entity;
 import Entities.FarmResources.Crop;
 import Entities.Nature.TreePart;
 import Entities.Nature.Tree;
 import Entities.BuildingParts.Entrance;
 import Entities.BuildingParts.EntrancePart;
+import Entities.Objects.Bed;
+import Entities.Objects.BedPart;
 import Entities.Objects.Sign;
 import Entities.Objects.WaterTray;
 import Entities.Objects.WaterTrayPart;
@@ -65,6 +66,11 @@ public class Map {
     public final ArrayList<WaterTray> waterTrays;
     ArrayList<Integer> waterTrayIds;
 
+    // beds
+    public final ArrayList<Bed> beds;
+    ArrayList<Integer> bedIds;
+    private final List<FarmCat> sleepingCatsToReassign;
+
     // fields
     public final ArrayList<Field> fields;
 
@@ -76,7 +82,7 @@ public class Map {
         // layer lists
         mapBottomLayersToRender = new ArrayList<>();
         mapTopLayersToRender = new ArrayList<>();
-        mapWaterLayerToUpdate = null; // will be set when water layer is created
+        mapWaterLayerToUpdate = null;
 
         // map areas
         mapAreas = new ArrayList<>();
@@ -232,6 +238,11 @@ public class Map {
         waterTrayIds = new ArrayList<>();
         Collections.addAll(waterTrayIds, 289, 290);
 
+        beds = new ArrayList<>();
+        bedIds = new ArrayList<>();
+        Collections.addAll(bedIds, 313, 317); // bed top tiles
+        sleepingCatsToReassign = new ArrayList<>();
+
         fields = new ArrayList<>();
 
         // initialize fields
@@ -315,6 +326,12 @@ public class Map {
         // refresh the rendered layers to reflect the changes
         refreshLayersRenderLists();
         Farm.entitiesHandler.createEntitiesFromMap();
+        
+        // calculate bed positions after beds are recreated
+        calculateAllBedPositions();
+
+        // reassign sleeping cats to new beds
+        reassignSleepingCats();
 
         // refresh obstacles to match the new area levels
         refreshObstaclesGrid();
@@ -331,6 +348,17 @@ public class Map {
         // preserve entities before clearing
         List<Entity> existingCrops = new ArrayList<>();
         List<Entity> existingCats = new ArrayList<>();
+        
+        // clear and collect sleeping cats directly
+        sleepingCatsToReassign.clear();
+        for (Bed bed : beds) {
+            if (bed.getBedState() == Bed.BedState.OCCUPIED && bed.getOccupyingCat() != null) {
+                sleepingCatsToReassign.add(bed.getOccupyingCat());
+            }
+        }
+        
+        // clear beds
+        beds.clear();
         
         for (Entity entity : new ArrayList<>(Farm.entitiesHandler.topRenderableEntities)) {
             if (entity instanceof Crop) {
@@ -352,11 +380,15 @@ public class Map {
         // restore cats
         for (Entity cat : existingCats) {
             if (cat != null) {
+                if (cat instanceof FarmCat farmCat && sleepingCatsToReassign.contains(farmCat)) {
+                    farmCat.setVisible(true);
+                }
+
                 Farm.entitiesHandler.bottomRenderableMapEntities.add(cat);
                 Farm.entitiesHandler.updatableMapEntities.add(cat);
             }
         }
-        
+
         // restore crops
         for (Entity crop : existingCrops) {
             if (crop != null) {
@@ -389,6 +421,49 @@ public class Map {
         updateAreasLayers();
     }
 
+    private void reassignSleepingCats() {
+        if (sleepingCatsToReassign == null || sleepingCatsToReassign.isEmpty()) {
+            return;
+        }
+
+        // find available beds for reassignment
+        ArrayList<Bed> availableBeds = new ArrayList<>();
+        for (Bed bed : beds) {
+            if (bed.isAvailable() && bed.hasValidPosition()) {
+                availableBeds.add(bed);
+            }
+        }
+
+        // reassign sleeping cats to available beds
+        for (FarmCat cat : sleepingCatsToReassign) {
+            if (!availableBeds.isEmpty()) {
+                Bed chosenBed = availableBeds.remove(0);
+                if (chosenBed.reserveBed(cat)) {
+                    cat.setActionState(FarmCat.CatActionState.SLEEPING);
+                    cat.setTargetBed(chosenBed);
+                    chosenBed.setCatSleeping(cat);
+                    cat.setVisible(false);
+                    cat.restoreEnergy();
+                }
+            } else {
+
+                // no beds available, wake up the cat
+                cat.setActionState(FarmCat.CatActionState.IDLE);
+                cat.setTargetBed(null);
+                cat.setVisible(true);
+            }
+        }
+
+        // clear the list after reassignment
+        sleepingCatsToReassign.clear();
+    }
+
+    public void calculateAllBedPositions() {
+        for (Bed bed : beds) {
+            bed.calculateToBedPosition();
+        }
+    }
+
     public MapLevels getAreaLevel(MapArea area) {
         return mapAreasLevels.get(area);
     }
@@ -403,6 +478,7 @@ public class Map {
         boolean[][] processedRoofTiles = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
         boolean[][] processedEntranceTiles = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
         boolean[][] processedWaterTrayTiles = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
+        boolean[][] processedBedTiles = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
 
         for (int i = 0; i < Farm.mapHeightTiles; i++) {
             for (int j = 0; j < Farm.mapWidthTiles; j++) {
@@ -448,6 +524,14 @@ public class Map {
                     if (waterTrayIds.contains(tilesIds[i][j])) {
                         if (!processedWaterTrayTiles[i][j]) {
                             createWaterTray(tilesIds, i, j, processedWaterTrayTiles);
+                        }
+                        continue;
+                    }
+
+                    // beds
+                    if (bedIds.contains(tilesIds[i][j])) {
+                        if (!processedBedTiles[i][j]) {
+                            createBed(tilesIds, i, j, processedBedTiles);
                         }
                         continue;
                     }
@@ -558,6 +642,29 @@ public class Map {
             waterTray.addPart(new WaterTrayPart(position, tilesIds[tileY][tileX]));
         }
         waterTrays.add(waterTray);
+    }
+
+    private void createBed(int[][] tilesIds, int i, int j, boolean[][] processedBedTiles) {
+        int topTileId = tilesIds[i][j];
+        Bed bed = new Bed(topTileId);
+        processedBedTiles[i][j] = true;
+
+        // add the top part
+        Point topPosition = new Point(j * Farm.tileSize, i * Farm.tileSize);
+        bed.addPart(new BedPart(topPosition, topTileId, true));
+
+        // find and add the bottom part
+        int bottomRow = i + 1;
+        if (bottomRow < Farm.mapHeightTiles) {
+            int bottomTileId = tilesIds[bottomRow][j];
+            if (bottomTileId != 0) { // if there's a tile below
+                processedBedTiles[bottomRow][j] = true;
+                Point bottomPosition = new Point(j * Farm.tileSize, bottomRow * Farm.tileSize);
+                bed.addPart(new BedPart(bottomPosition, bottomTileId, false));
+            }
+        }
+
+        beds.add(bed);
     }
 
     // algorithm to find all connected parts of an entity

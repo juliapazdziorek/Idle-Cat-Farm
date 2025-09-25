@@ -12,6 +12,7 @@ import Entities.BuildingParts.Roof;
 import Entities.BuildingParts.Entrance;
 import Entities.Nature.Bush;
 import Entities.Nature.Tree;
+import Entities.Objects.Bed;
 import Entities.Objects.Sign;
 import Entities.Objects.WaterTray;
 import Game.Farm;
@@ -71,6 +72,12 @@ public class EntitiesHandler implements MouseListener {
             topRenderableEntities.add(tree);
             updatableMapEntities.add(tree);
             clickableMapEntities.addAll(tree.parts);
+        }
+
+        // beds - render above ground objects
+        for (Bed bed : map.beds) {
+            topRenderableEntities.add(bed);
+            updatableMapEntities.add(bed);
         }
 
         // water trays
