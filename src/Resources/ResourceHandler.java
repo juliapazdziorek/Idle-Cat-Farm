@@ -82,6 +82,11 @@ public class ResourceHandler {
         loadImageToMap(imageMap, "src/Resources/SproutLands/Custom/sleeping_ginger.png" , "sleepingGingerCat");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Custom/sleeping_tricolor.png" , "sleepingTricolorCat");
 
+        // speech bubbles
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Custom/speech_bubble_sun.png", "speechBubbleSun");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Custom/speech_bubble_water_can.png", "speechBubbleWaterCan");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Custom/speech_bubble_zzz.png", "speechBubbleZzz");
+
         // icons
         loadImageToMap(imageMap, "src/Resources/SproutLands/UI/items.png", "items");
         loadImageToMap(imageMap, "src/Resources/SproutLands/UI/emojis.png", "emojis");

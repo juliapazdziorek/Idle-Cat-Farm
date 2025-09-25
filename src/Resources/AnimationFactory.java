@@ -550,4 +550,42 @@ public class AnimationFactory {
         String catImageKey = getSleepingCatImageKey(farmCatColor);
         return new Animation(imageMap.get(catImageKey), 8, 12, 3, 8, 10);
     }
+
+
+    // speech bubbles
+    public Animation createSpeechBubbleSunOpeningAnimation() {
+        return new Animation(imageMap.get("speechBubbleSun"), 6, 3, 1, 7, 8);
+    }
+
+    public Animation createSpeechBubbleSunAnimation() {
+        return new Animation(imageMap.get("speechBubbleSun"), 6, 3, 2, 2, 8);
+    }
+
+    public Animation createSpeechBubbleSunClosingAnimation() {
+        return new Animation(imageMap.get("speechBubbleSun"), 6, 3, 2, 7, 8);
+    }
+
+    public Animation createSpeechBubbleWaterCanOpeningAnimation() {
+        return new Animation(imageMap.get("speechBubbleWaterCan"), 6, 3, 1, 7, 8);
+    }
+
+    public Animation createSpeechBubbleWaterCanAnimation() {
+        return new Animation(imageMap.get("speechBubbleWaterCan"), 6, 3, 2, 2, 8);
+    }
+
+    public Animation createSpeechBubbleWaterCanClosingAnimation() {
+        return new Animation(imageMap.get("speechBubbleWaterCan"), 6, 3, 2, 7, 8);
+    }
+
+    public Animation createSpeechBubbleZzzOpeningAnimation() {
+        return new Animation(imageMap.get("speechBubbleZzz"), 6, 3, 1, 7, 8);
+    }
+
+    public Animation createSpeechBubbleZzzAnimation() {
+        return new Animation(imageMap.get("speechBubbleZzz"), 6, 3, 2, 2, 8);
+    }
+
+    public Animation createSpeechBubbleZzzClosingAnimation() {
+        return new Animation(imageMap.get("speechBubbleZzz"), 6, 3, 2, 7, 8);
+    }
 }
