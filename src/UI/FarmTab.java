@@ -379,22 +379,24 @@ public class FarmTab {
                 fieldsStatusPanel.setBorder(BorderFactory.createEmptyBorder(6, 0, 0, 0));
 
                 // add fields in specific order: EAST on top, then WEST
-                boolean first = true;
-                
-                // add EAST field
-                Field eastField = activeFields.get(Field.FieldType.EAST);
-                if (eastField != null) {
-                    fieldsStatusPanel.add(createFieldEntry(eastField));
-                    first = false;
-                }
-                
-                // add WEST field
-                Field westField = activeFields.get(Field.FieldType.WEST);
-                if (westField != null) {
-                    if (!first) {
-                        fieldsStatusPanel.add(Box.createVerticalStrut(2));
+                int unlockedFields = activeFields.size();
+                if (unlockedFields == 1) {
+                    Field singleField = activeFields.values().iterator().next();
+                    fieldsStatusPanel.add(createFieldEntry(singleField, true));
+                } else {
+                    boolean first = true;
+                    Field eastField = activeFields.get(Field.FieldType.EAST);
+                    if (eastField != null) {
+                        fieldsStatusPanel.add(createFieldEntry(eastField, false));
+                        first = false;
                     }
-                    fieldsStatusPanel.add(createFieldEntry(westField));
+                    Field westField = activeFields.get(Field.FieldType.WEST);
+                    if (westField != null) {
+                        if (!first) {
+                            fieldsStatusPanel.add(Box.createVerticalStrut(2));
+                        }
+                        fieldsStatusPanel.add(createFieldEntry(westField, false));
+                    }
                 }
 
                 levelDisplayPanel.add(fieldsStatusPanel);
@@ -438,21 +440,29 @@ public class FarmTab {
     }
 
     private JPanel createFieldEntry(Field field) {
+    return createFieldEntry(field, false);
+    }
+
+    // Overloaded to support single field label logic
+    private JPanel createFieldEntry(Field field, boolean singleField) {
         JPanel fieldPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 0));
         fieldPanel.setOpaque(false);
         fieldPanel.setPreferredSize(new Dimension(200, 20));
         fieldPanel.setMaximumSize(new Dimension(200, 20));
         fieldPanel.setMinimumSize(new Dimension(200, 20));
 
-        // field name with colon and lowercase
-        String fieldName = field.getFieldType().name().toLowerCase() + " field:";
+        String fieldName;
+        if (singleField) {
+            fieldName = "field:";
+        } else {
+            fieldName = field.getFieldType().name().toLowerCase() + " field:";
+        }
         JLabel fieldNameLabel = new JLabel(fieldName);
         fieldNameLabel.setFont(Farm.fonts.minecraftiaFont);
         fieldNameLabel.setForeground(Colors.darkBeigeColor);
-        int labelWidth = fieldName.contains("east") || fieldName.contains("west") ? 90 : 50;
+        int labelWidth = fieldName.equals("field:") ? 50 : 90;
         fieldNameLabel.setPreferredSize(new Dimension(labelWidth, 16));
 
-        // field status panel to show state and icon
         JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 0));
         statusPanel.setOpaque(false);
 
