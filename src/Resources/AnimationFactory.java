@@ -498,6 +498,19 @@ public class AnimationFactory {
         return catAnimationMap;
     }
 
+    // bed sleeping animations
+    public Animation createBedSleepingAnimation(int bedTileId, FarmCat.FarmCatColor farmCatColor) {
+        return switch (bedTileId) {
+            case 313 -> createCatSleepingAnimation313(farmCatColor);
+            case 314 -> createCatSleepingAnimation314(farmCatColor);
+            case 315 -> createCatSleepingAnimation315(farmCatColor);
+            case 316 -> createCatSleepingAnimation316(farmCatColor);
+            case 317 -> createCatSleepingAnimation317(farmCatColor);
+            case 318 -> createCatSleepingAnimation318(farmCatColor);
+            default -> throw new IllegalArgumentException("Invalid bed tile ID: " + bedTileId);
+        };
+    }
+
     // cat sleeping
     private String getSleepingCatImageKey(FarmCat.FarmCatColor farmCatColor) {
         return switch (farmCatColor) {
@@ -510,31 +523,31 @@ public class AnimationFactory {
 
     public Animation createCatSleepingAnimation313(FarmCat.FarmCatColor farmCatColor) {
         String catImageKey = getSleepingCatImageKey(farmCatColor);
-        return new Animation(imageMap.get(catImageKey), 8, 18, 0, 8, 10);
+        return new Animation(imageMap.get(catImageKey), 8, 12, 0, 8, 10);
     }
 
     public Animation createCatSleepingAnimation314(FarmCat.FarmCatColor farmCatColor) {
         String catImageKey = getSleepingCatImageKey(farmCatColor);
-        return new Animation(imageMap.get(catImageKey), 8, 18, 9, 8, 10);
+        return new Animation(imageMap.get(catImageKey), 8, 12, 9, 8, 10);
     }
 
     public Animation createCatSleepingAnimation315(FarmCat.FarmCatColor farmCatColor) {
         String catImageKey = getSleepingCatImageKey(farmCatColor);
-        return new Animation(imageMap.get(catImageKey), 8, 18, 5, 8, 10);
+        return new Animation(imageMap.get(catImageKey), 8, 12, 5, 8, 10);
     }
 
     public Animation createCatSleepingAnimation316(FarmCat.FarmCatColor farmCatColor) {
         String catImageKey = getSleepingCatImageKey(farmCatColor);
-        return new Animation(imageMap.get(catImageKey), 8, 18, 1, 8, 10);
+        return new Animation(imageMap.get(catImageKey), 8, 12, 1, 8, 10);
     }
 
     public Animation createCatSleepingAnimation317(FarmCat.FarmCatColor farmCatColor) {
         String catImageKey = getSleepingCatImageKey(farmCatColor);
-        return new Animation(imageMap.get(catImageKey), 8, 18, 2, 8, 10);
+        return new Animation(imageMap.get(catImageKey), 8, 12, 2, 8, 10);
     }
 
     public Animation createCatSleepingAnimation318(FarmCat.FarmCatColor farmCatColor) {
         String catImageKey = getSleepingCatImageKey(farmCatColor);
-        return new Animation(imageMap.get(catImageKey), 8, 18, 3, 8, 10);
+        return new Animation(imageMap.get(catImageKey), 8, 12, 3, 8, 10);
     }
 }
