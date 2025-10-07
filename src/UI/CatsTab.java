@@ -153,6 +153,7 @@ public class CatsTab {
             JButton actionButton = UIUtils.createRoundedButton("", 22, 22);
             if (statName.equals("energy")) {
                 if (cat.isSleeping() || cat.getActionState() == FarmCat.CatActionState.GOING_TO_SLEEP) {
+                    // cat is sleeping - show wake up button
                     try {
                         if (Farm.resourceHandler != null && Farm.resourceHandler.iconsMap.containsKey("sun")) {
                             ImageIcon icon = new ImageIcon(Farm.resourceHandler.iconsMap.get("sun"));
@@ -168,6 +169,23 @@ public class CatsTab {
                         cat.wakeUp();
                         Farm.menuPanel.refreshResourcesDisplay();
                     });
+                } else if (cat.isTired()) {
+                    // cat is tired - show sleep button with different style/tooltip
+                    try {
+                        if (Farm.resourceHandler != null && Farm.resourceHandler.iconsMap.containsKey("zzz")) {
+                            ImageIcon icon = new ImageIcon(Farm.resourceHandler.iconsMap.get("zzz"));
+                            Image scaledImage = icon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+                            actionButton.setIcon(new ImageIcon(scaledImage));
+                        } else {
+                            actionButton.setText("😴");
+                        }
+                    } catch (Exception e) {
+                        actionButton.setText("😴");
+                    }
+                    actionButton.addActionListener(_ -> {
+                        cat.handleTiredCatClick();
+                        Farm.menuPanel.refreshResourcesDisplay();
+                    });
                 } else {
                     // cat is awake - show sleep button
                     try {
@@ -176,10 +194,10 @@ public class CatsTab {
                             Image scaledImage = icon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
                             actionButton.setIcon(new ImageIcon(scaledImage));
                         } else {
-                            actionButton.setText("+");
+                            actionButton.setText("💤");
                         }
                     } catch (Exception e) {
-                        actionButton.setText("+");
+                        actionButton.setText("💤");
                     }
                     actionButton.addActionListener(_ -> {
                         if (cat.tryGoToSleep()) {
@@ -216,7 +234,7 @@ public class CatsTab {
     }
     
     private JPanel createLevelBarWithButton(String statName, FarmCat cat) {
-        if (cat.getFarmingLevel() == FarmCat.FarmingLevel.LVLSTAR) {
+        if (cat.getFarmingLevel() == FarmCat.FarmingLevel.LVL_STAR) {
             JPanel levelPanel = new JPanel(new BorderLayout(8, 0));
             levelPanel.setOpaque(false);
             

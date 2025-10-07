@@ -19,7 +19,6 @@ public class Farm {
     // sprites & map numbers
     static public final int tileSize = 16;
     static public final int emojiSize = 32;
-    static public final int speechBubbleSize = 64;
     static public final int scale = 3;
     static public final int scaledTileSize = tileSize * scale;
     static public final int mapWidthTiles = 48;
@@ -42,7 +41,7 @@ public class Farm {
     static public final int maxLvlUps = 24;
 
     // cats count
-    static public int catsCount = 1; // TODO: implement proper cats management system
+    static public int catsCount = 1;
 
     // handlers
     static public ResourceHandler resourceHandler;
@@ -75,7 +74,7 @@ public class Farm {
         Map.initializePathfinder();
 
         // calculate to bed positions
-        entitiesHandler.map.calculateAllBedPositions();
+        entitiesHandler.map.calculateBedPositions();
 
         // initialize orders
         ordersHandler.maintainOrderCount();

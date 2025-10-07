@@ -199,6 +199,19 @@ public class EntitiesHandler implements MouseListener {
                 entity.render(graphics2D);
             }
         }
+
+
+        for (FarmCat cat : farmCatList) {
+            if (cat.isShowingSpeechBubble()) {
+                cat.renderSpeechBubble(graphics2D);
+            }
+        }
+
+        for (Bed bed : map.beds) {
+            if (bed.isShowingSunBubble()) {
+                bed.renderSunSpeechBubble(graphics2D);
+            }
+        }
     }
 
 

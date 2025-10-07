@@ -14,19 +14,25 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 
 public class FarmCat extends Entity {
+    private CatActionState previousActionState = CatActionState.IDLE;
 
     // properties
     public final int catWidth = 42;
     public final int catHeight = 42;
 
-    // enums
+        // enums
     public enum FarmCatColor {WHITE, GREY, GINGER, TRICOLOR}
     private enum FarmCatState {STANDING, WALKING, RUNNING, TILLING, CHOPPING, WATERING}
     private enum FarmCatFacing {DOWN, UP, RIGHT, LEFT}
-    public enum FarmingLevel {LVL0, LVL1, LVL2, LVL3, LVLSTAR}
+    public enum FarmingLevel {LVL0, LVL1, LVL2, LVL3, LVL_STAR}
+    
+    // speech bubble system enums
+    public enum SpeechBubbleType { ZZZ }
+    public enum SpeechBubbleState { HIDDEN, OPENING, LOOPING, CLOSING }
 
     // color
     private final FarmCatColor color;
@@ -43,6 +49,11 @@ public class FarmCat extends Entity {
 
     // animations
     HashMap<String, Animation> animations;
+    
+    // speech bubble for tired cats
+    private Animation speechBubbleAnimation;
+    private SpeechBubbleType currentBubbleType;
+    private SpeechBubbleState bubbleState;
 
     // pathfinding
     private List<Node> currentPath;
@@ -61,7 +72,7 @@ public class FarmCat extends Entity {
     private int directionChangeCounter;
     
     // planting action system
-    public enum CatActionState { IDLE, PLANTING, GOING_TO_SLEEP, SLEEPING }
+    public enum CatActionState { IDLE, PLANTING, GOING_TO_SLEEP, SLEEPING, TIRED }
     private CatActionState actionState;
     private List<Point> plantingPositions;
     private int currentPlantingIndex;
@@ -111,6 +122,11 @@ public class FarmCat extends Entity {
         targetBed = null;
         targetBedPosition = null;
         sleepEnergyTimer = 0;
+        
+        // speech bubble initialization
+        speechBubbleAnimation = null;
+        currentBubbleType = null;
+        bubbleState = SpeechBubbleState.HIDDEN;
 
         visible = true;
     }
@@ -396,19 +412,22 @@ public class FarmCat extends Entity {
         return actionState == CatActionState.SLEEPING;
     }
     
+    public boolean isTired() {
+        return actionState == CatActionState.TIRED;
+    }
+    
     public CatActionState getActionState() {
         return actionState;
     }
     
     public String getLevelDisplayText() {
-        switch (farmingLevel) {
-            case LVL0: return "lvl 0";
-            case LVL1: return "lvl 1";
-            case LVL2: return "lvl 2";
-            case LVL3: return "lvl 3";
-            case LVLSTAR: return "lvl star";
-            default: return "lvl 0";
-        }
+        return switch (farmingLevel) {
+            case LVL0 -> "lvl 0";
+            case LVL1 -> "lvl 1";
+            case LVL2 -> "lvl 2";
+            case LVL3 -> "lvl 3";
+            case LVL_STAR -> "lvl star";
+        };
     }
     
     public void setActionState(CatActionState state) {
@@ -451,14 +470,13 @@ public class FarmCat extends Entity {
             return;
         }
         
-        if (!hasEnoughEnergyForTilling()) {
+    if (!hasEnoughEnergyForAction()) {
             Field field = FieldsHandler.getFieldByTypeFromMap(currentFieldType);
             if (field != null) {
                 field.setCatWorkingOnField(false);
             }
             
-            actionState = CatActionState.IDLE;
-            farmCatState = FarmCatState.STANDING;
+            becomeTired();
             plantingPositions.clear();
             return;
         }
@@ -569,7 +587,15 @@ public class FarmCat extends Entity {
                 if (!consumeEnergyForTilling()) {
                     tillingAnimationCounter = 0;
                     farmCatState = FarmCatState.STANDING;
-                    actionState = CatActionState.IDLE;
+                    
+                    // set field as not being worked on
+                    Field field = FieldsHandler.getFieldByTypeFromMap(currentFieldType);
+                    if (field != null) {
+                        field.setCatWorkingOnField(false);
+                    }
+                    
+                    becomeTired();
+                    plantingPositions.clear();
                     return;
                 }
 
@@ -593,18 +619,40 @@ public class FarmCat extends Entity {
                 currentPlantingIndex++;
                 isAtTillingPosition = false;
                 farmCatState = FarmCatState.STANDING;
-                moveToNextPlantingPosition();
+                
+                // check energy
+                if (!hasEnoughEnergyForAction()) {
+                    Field currentField = FieldsHandler.getFieldByTypeFromMap(currentFieldType);
+                    if (currentField != null) {
+                        currentField.setCatWorkingOnField(false);
+                    }
+                    becomeTired();
+                    plantingPositions.clear();
+
+                } else if (currentPlantingIndex >= plantingPositions.size()) {
+
+                    // planting complete
+                    Field currentField = FieldsHandler.getFieldByTypeFromMap(currentFieldType);
+                    if (currentField != null) {
+                        currentField.setCatWorkingOnField(false);
+                    }
+
+                    actionState = CatActionState.IDLE;
+                    plantingPositions.clear();
+                } else {
+                    // continue to next position
+                    moveToNextPlantingPosition();
+                }
             }
         }
     }
 
     // sleeping action methods
     public void startGoingToSleep(Bed bed) {
-        if (!isIdle()) {
+        if (!isIdle() && actionState != CatActionState.TIRED) {
             return;
         }
 
-        // Reserve the bed first to prevent other cats from using it
         if (!bed.reserveBed(this)) {
             return;
         }
@@ -614,9 +662,11 @@ public class FarmCat extends Entity {
         targetBedPosition = bed.getToBedPosition();
 
         if (targetBedPosition != null) {
+
             // move directly to the bed position
             moveToTile(targetBedPosition.x, targetBedPosition.y);
         } else {
+
             // no valid position, cancel sleep action and free the bed
             if (targetBed != null) {
                 targetBed.setCatAwake();
@@ -627,93 +677,61 @@ public class FarmCat extends Entity {
     }
 
     private void reachBedAndSleep() {
-        // cat has reached the bed area, now disappear and sleep
-        if (targetBed != null) {
+        if (targetBed != null && targetBedPosition != null && position.x == targetBedPosition.x * Farm.tileSize + Farm.tileSize / 2 && position.y == targetBedPosition.y * Farm.tileSize + Farm.tileSize / 2) {
             setVisible(false);
             targetBed.setCatSleeping(this);
-            
-            // set cat to sleeping state (keep targetBed reference)
             actionState = CatActionState.SLEEPING;
-            
-            // reset energy timer for gradual restoration
             sleepEnergyTimer = 0;
         }
-        
-        // clear temporary position data
-        targetBedPosition = null;
-    }
 
-    public void restoreEnergy() {
-        setEnergy(100);
+        targetBedPosition = null;
     }
     
     // sleep management methods
     public boolean tryGoToSleep() {
-        // check if cat is available for sleeping action
-        if (!isIdle()) {
+        if (!isIdle() && actionState != CatActionState.TIRED) {
             return false;
         }
-        
-        // find an empty bed
+
         if (Farm.entitiesHandler != null && Farm.entitiesHandler.map != null && Farm.entitiesHandler.map.beds != null) {
-            java.util.ArrayList<Bed> availableBeds = new java.util.ArrayList<>();
-            
-            // collect available beds with accessible positions
+            ArrayList<Bed> availableBeds = new ArrayList<>();
             for (Bed bed : Farm.entitiesHandler.map.beds) {
                 if (bed.isAvailable() && bed.hasValidPosition()) {
                     availableBeds.add(bed);
                 }
             }
-            
-            // if there are empty beds, choose one randomly
-            if (!availableBeds.isEmpty()) {
-                java.util.Random random = new java.util.Random();
-                Bed chosenBed = availableBeds.get(random.nextInt(availableBeds.size()));
-                
-                // start the realistic "going to sleep" action
-                startGoingToSleep(chosenBed);
-                return true;
+
+            int startTileX = position.x / Farm.tileSize;
+            int startTileY = position.y / Farm.tileSize;
+            for (Bed bed : availableBeds) {
+                Point bedPos = bed.getToBedPosition();
+                List<Node> path = Map.pathfinder.findPath(startTileX, startTileY, bedPos.x, bedPos.y);
+                if (path != null && !path.isEmpty()) {
+                    startGoingToSleep(bed);
+                    return true;
+                }
             }
         }
         return false;
     }
     
-    public Bed getCurrentBed() {
-        // find which bed the cat is currently sleeping in or reserved for
-        if (Farm.entitiesHandler != null && Farm.entitiesHandler.map != null && Farm.entitiesHandler.map.beds != null) {
-            for (Bed bed : Farm.entitiesHandler.map.beds) {
-                if ((bed.getBedState() == Bed.BedState.OCCUPIED || 
-                     bed.getBedState() == Bed.BedState.RESERVED) && 
-                    bed.getOccupyingCat() == this) {
-                    return bed;
-                }
-            }
-        }
-        return null;
-    }
-    
     public void wakeUp() {
         if ((actionState == CatActionState.SLEEPING || actionState == CatActionState.GOING_TO_SLEEP) && targetBed != null) {
-            // if cat is sleeping, find a non-obstacle position next to the bed to place the cat
             if (actionState == CatActionState.SLEEPING) {
                 Point bedPosition = targetBed.getToBedPosition();
-                if (bedPosition != null && Farm.entitiesHandler != null && Farm.entitiesHandler.map != null && 
-                    !Farm.entitiesHandler.map.hasObstacleAt(bedPosition.y, bedPosition.x)) {
-                    // convert tile position to pixel position
-                    position.x = bedPosition.x * Farm.tileSize + Farm.tileSize / 2;
-                    position.y = bedPosition.y * Farm.tileSize + Farm.tileSize / 2;
-                }
-            } else if (actionState == CatActionState.GOING_TO_SLEEP) {
+                moveToTile(bedPosition.x, bedPosition.y);
+
+            } else {
                 // cat is walking to bed - stop pathfinding and stay at current position
                 currentPath = null;
                 currentPathIndex = 0;
                 isFollowingPath = false;
             }
-            
+
             // wake up the cat and free the bed
             setVisible(true);
             targetBed.setCatAwake();
-            
+
             // reset to idle state
             actionState = CatActionState.IDLE;
             targetBed = null;
@@ -724,13 +742,10 @@ public class FarmCat extends Entity {
 
     private void updateSleepingAction() {
         if (actionState == CatActionState.GOING_TO_SLEEP) {
-            // check if cat has reached the bed position
-            if (!isFollowingPath) {
-                // reached the bed area, go to sleep
+            if (!isFollowingPath && targetBedPosition != null && position.x == targetBedPosition.x * Farm.tileSize + Farm.tileSize / 2 && position.y == targetBedPosition.y * Farm.tileSize + Farm.tileSize / 2) {
                 reachBedAndSleep();
             }
         } else if (actionState == CatActionState.SLEEPING) {
-            // restore energy while sleeping
             restoreEnergyWhileSleeping();
         }
     }
@@ -744,23 +759,121 @@ public class FarmCat extends Entity {
     // updating & rendering
     @Override
     public void update() {
+        if ((previousActionState == CatActionState.IDLE || previousActionState == CatActionState.TIRED)
+            && !(actionState == CatActionState.IDLE || actionState == CatActionState.TIRED)
+            && isShowingSpeechBubble() && currentBubbleType == SpeechBubbleType.ZZZ && bubbleState != SpeechBubbleState.CLOSING) {
+            closeSpeechBubble();
+        }
+        previousActionState = actionState;
 
         if (actionState == CatActionState.PLANTING) {
             updatePlantingAction();
         } else if (actionState == CatActionState.GOING_TO_SLEEP || actionState == CatActionState.SLEEPING) {
             updateSleepingAction();
+        } else if (actionState == CatActionState.TIRED) {
+            updateTiredAction();
         }
         
         followPath();
         setAnimation();
         isMoving = isActuallyMoving;
         
-        // Set the current image from the current animation
         if (currentAnimation != null) {
             currentImage = currentAnimation.getCurrentFrameImage();
             currentAnimation.update();
         }
+        
+        if (isIdle() && !hasEnoughEnergyForAction() && !isShowingSpeechBubble()) {
+            showSpeechBubble(SpeechBubbleType.ZZZ);
+        }
+        if (isShowingSpeechBubble() && speechBubbleAnimation != null) {
+            speechBubbleAnimation.update();
+            if (bubbleState == SpeechBubbleState.OPENING && speechBubbleAnimation.getCurrentFrame() == speechBubbleAnimation.getNumberOfFrames() - 1) {
+                startSpeechBubbleLooping();
+            } else if (bubbleState == SpeechBubbleState.CLOSING && speechBubbleAnimation.getCurrentFrame() == speechBubbleAnimation.getNumberOfFrames() - 1) {
+                hideSpeechBubble();
+            }
+        }
     }
+    
+    // tired cat methods
+    private void becomeTired() {
+        actionState = CatActionState.TIRED;
+        farmCatState = FarmCatState.STANDING;
+        farmCatFacing = FarmCatFacing.DOWN;
+        
+        // show ZZZ speech bubble
+        showSpeechBubble(SpeechBubbleType.ZZZ);
+    }
+    
+    private void updateTiredAction() {
+        farmCatState = FarmCatState.STANDING;
+        farmCatFacing = FarmCatFacing.DOWN;
+    }
+    
+    private void showSpeechBubble(SpeechBubbleType bubbleType) {
+        if (bubbleState == SpeechBubbleState.HIDDEN || bubbleState == SpeechBubbleState.CLOSING) {
+            currentBubbleType = bubbleType;
+            try {
+                if (Objects.requireNonNull(bubbleType) == SpeechBubbleType.ZZZ) {
+                    speechBubbleAnimation = Farm.resourceHandler.animationFactory.createSpeechBubbleZzzOpeningAnimation();
+                }
+                bubbleState = SpeechBubbleState.OPENING;
+            } catch (Exception e) {
+                hideSpeechBubble();
+            }
+        }
+    }
+    
+    private void startSpeechBubbleLooping() {
+        if (currentBubbleType != null) {
+            if (currentBubbleType == SpeechBubbleType.ZZZ) {
+                speechBubbleAnimation = Farm.resourceHandler.animationFactory.createSpeechBubbleZzzAnimation();
+            }
+            bubbleState = SpeechBubbleState.LOOPING;
+        }
+    }
+    
+    public void handleTiredCatClick() {
+        if (actionState == CatActionState.TIRED) {
+            // close the speech bubble with animation
+            closeSpeechBubble();
+            // attempt to go to sleep
+            tryGoToSleep();
+        }
+    }
+    
+    private void closeSpeechBubble() {
+        if (isShowingSpeechBubble() && currentBubbleType != null) {
+            if (currentBubbleType == SpeechBubbleType.ZZZ) {
+                speechBubbleAnimation = Farm.resourceHandler.animationFactory.createSpeechBubbleZzzClosingAnimation();
+            }
+            bubbleState = SpeechBubbleState.CLOSING;
+        }
+    }
+    
+    private void hideSpeechBubble() {
+        bubbleState = SpeechBubbleState.HIDDEN;
+        speechBubbleAnimation = null;
+        currentBubbleType = null;
+    }
+    
+    public boolean isShowingSpeechBubble() {
+        return bubbleState != SpeechBubbleState.HIDDEN;
+    }
+    
+    public void renderSpeechBubble(Graphics2D graphics2D) {
+        if (speechBubbleAnimation != null) {
+            int bubbleX = (position.x - 24) * Farm.scale + Farm.camera.position.x;
+            int bubbleY = (position.y - catHeight - 20) * Farm.scale + Farm.camera.position.y;
+            int bubbleSize = 48 * Farm.scale;
+            
+            graphics2D.drawImage(speechBubbleAnimation.getCurrentFrameImage(),
+                    bubbleX, bubbleY, bubbleSize, bubbleSize, null);
+        }
+    }
+    
+
 
     @Override
     public void render(Graphics2D graphics2D) {
@@ -801,7 +914,7 @@ public class FarmCat extends Entity {
                 case LVL1 -> 2;
                 case LVL2 -> 3;
                 case LVL3 -> 4;
-                case LVLSTAR -> 5;
+                case LVL_STAR -> 5;
             };
             
             // only restore if not at full energy
@@ -834,12 +947,16 @@ public class FarmCat extends Entity {
             case LVL1 -> { return 7; }
             case LVL2 -> { return 5; }
             case LVL3 -> { return 3; }
-            case LVLSTAR -> { return 1; }
+            case LVL_STAR -> { return 1; }
             default -> { return 10; }
         }
     }
     
     public boolean hasEnoughEnergyForTilling() {
+        return energy >= getEnergyCostForTilling();
+    }
+
+    public boolean hasEnoughEnergyForAction() {
         return energy >= getEnergyCostForTilling();
     }
     
@@ -868,7 +985,7 @@ public class FarmCat extends Entity {
     }
     
     public boolean canLevelUp() {
-        return farmingLevel != FarmingLevel.LVLSTAR;
+        return farmingLevel != FarmingLevel.LVL_STAR;
     }
     
     public void levelUp() {
@@ -880,8 +997,8 @@ public class FarmCat extends Entity {
                 case LVL0 -> farmingLevel = FarmingLevel.LVL1;
                 case LVL1 -> farmingLevel = FarmingLevel.LVL2;
                 case LVL2 -> farmingLevel = FarmingLevel.LVL3;
-                case LVL3 -> farmingLevel = FarmingLevel.LVLSTAR;
-                case LVLSTAR -> { /* Already at max level */ }
+                case LVL3 -> farmingLevel = FarmingLevel.LVL_STAR;
+                case LVL_STAR -> { /* Already at max level */ }
             }
             
             experience = Math.max(0, excessExperience);
@@ -907,22 +1024,21 @@ public class FarmCat extends Entity {
             case LVL1: return 25;
             case LVL2: return 50;
             case LVL3: return 100;
-            case LVLSTAR: return 0; // max level
+            case LVL_STAR: return 0; // max level
             default: return 10;
         }
     }
     
     public boolean hasEnoughExperienceToLevelUp() {
-        return farmingLevel != FarmingLevel.LVLSTAR && experience >= getRequiredExperience();
+        return farmingLevel != FarmingLevel.LVL_STAR && experience >= getRequiredExperience();
     }
     
     public String getFarmingLevelString() {
         switch (farmingLevel) {
-            case LVL0 -> { return "Level 0"; }
             case LVL1 -> { return "Level 1"; }
             case LVL2 -> { return "Level 2"; }
             case LVL3 -> { return "Level 3"; }
-            case LVLSTAR -> { return "Level ★"; }
+            case LVL_STAR -> { return "Level ★"; }
             default -> { return "Level 0"; }
         }
     }

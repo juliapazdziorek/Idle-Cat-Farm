@@ -326,15 +326,13 @@ public class Map {
         // refresh the rendered layers to reflect the changes
         refreshLayersRenderLists();
         Farm.entitiesHandler.createEntitiesFromMap();
-        
-        // calculate bed positions after beds are recreated
-        calculateAllBedPositions();
-
-        // reassign sleeping cats to new beds
-        reassignSleepingCats();
 
         // refresh obstacles to match the new area levels
         refreshObstaclesGrid();
+
+        // manage beds
+        calculateBedPositions();
+        reassignSleepingCats();
     }
 
     private void clearMapEntities() {
@@ -443,7 +441,6 @@ public class Map {
                     cat.setTargetBed(chosenBed);
                     chosenBed.setCatSleeping(cat);
                     cat.setVisible(false);
-                    cat.restoreEnergy();
                 }
             } else {
 
@@ -458,7 +455,7 @@ public class Map {
         sleepingCatsToReassign.clear();
     }
 
-    public void calculateAllBedPositions() {
+    public void calculateBedPositions() {
         for (Bed bed : beds) {
             bed.calculateToBedPosition();
         }
@@ -883,6 +880,7 @@ public class Map {
             case LEVEL_1 -> {
                 FarmCat greyCat = new FarmCat(13, 20, FarmCat.FarmCatColor.GREY);
                 Farm.entitiesHandler.addFarmCat(greyCat);
+                Farm.catsCount++;
 
                 setAreaLevel(MapArea.HOUSE, MapLevels.LEVEL_2);
             }
@@ -890,6 +888,7 @@ public class Map {
             case LEVEL_2 -> {
                 FarmCat gingerCat = new FarmCat(22, 21, FarmCat.FarmCatColor.GINGER);
                 Farm.entitiesHandler.addFarmCat(gingerCat);
+                Farm.catsCount++;
 
                 setAreaLevel(MapArea.HOUSE, MapLevels.LEVEL_3);
             }
@@ -897,6 +896,7 @@ public class Map {
             case LEVEL_3 -> {
                 FarmCat tricolorCat = new FarmCat(18, 21, FarmCat.FarmCatColor.TRICOLOR);
                 Farm.entitiesHandler.addFarmCat(tricolorCat);
+                Farm.catsCount++;
 
                 setAreaLevel(MapArea.HOUSE, MapLevels.LEVEL_Star);
             }
