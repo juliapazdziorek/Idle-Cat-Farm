@@ -1,144 +1,155 @@
-# 🌱 FocusFarm
+# Idle Cat Farm 🐾
 
-FocusFarm is a 2D farming simulation game built with Java and Swing. It's an indie game that combines the relaxing vibes of farming with focus-building mechanics - think [Stardew Valley](https://www.stardewvalley.net) meets [Forest](https://www.forestapp.cc) app. Originally started as a university project, it's now evolving into something bigger.
+Idle Cat Farm is a relaxing 2D farming simulation and management game built in Java with Swing. Guide a team of adorable cats as they autonomously plant crops, fulfill customer orders, and expand their cozy island farm. The project showcases sophisticated game architecture with AI, smooth animations, and engaging gameplay mechanics.
 
-## 🌾 Features
+## Gameplay Overview
 
-### Currently Implemented
+- **Autonomous Cat Management:** Watch cats work independently with realistic behaviors, energy systems, and sleep cycles
+- **Dynamic Order System:** Fulfill randomized customer orders requiring specific resources in varying quantities
+- **Progressive Farm Development:** Unlock and expand multiple map areas including fields, orchards, animal zones, and living spaces
+- **Advanced Cat AI:** Cats exhibit realistic behaviors with pathfinding, energy management, rest cycles, and visual feedback systems
+- **Resource Economy:** Manage 20+ different crops, fruits, and animal products with unlockable progression tiers
 
-- **🏗️ Modular Architecture**: Clean, extensible codebase with separation of concepts
-- **🎒 Resource Management**: Comprehensive sprite and animation loading system
-- **🎬 Animation System**: Smooth character animations with direction change cooldown
-- **🗺️ 2D Tile-based Map**: Cozy farm island world built with layered rendering and text-based map data
-- **📷 Camera System**: Smooth camera movement and world navigation
-- **🐝 Entities System**: Including static and animated entities
-- **😼 Farm Cat Character**: Animated player character with multiple states (standing, walking, running)
-- **🧭 AStar Pathfinding**: Intelligent pathfinding system for smooth character movement
+## Key Features
 
-### In Development
+### Cat AI System
 
-- 🗺️ Map obstacle detection for pathfinding
+- **Intelligent Pathfinding:** A* algorithm for smart navigation around obstacles and terrain
+- **Energy Management:** Cats have stamina that depletes during work and regenerates during sleep
+- **Autonomous Task Assignment:** Cats automatically choose and execute farming tasks
+- **Visual Communication:** Speech bubble system (ZZZ for tired cats, sun icons for well-rested)
+- **Realistic Sleep Cycles:** Cats find and use beds, with sleeping animations and energy restoration
+- **Multiple Cat Colors:** White, Grey, Ginger, and Tricolor varieties with unique animations
 
-### In the Future
+### Farming System
 
-- 🌱 Basic farming mechanics
-- 🖥️ Simple UI elements
+- **20+ Crop Varieties:** From basic lettuce and tomatoes to advanced star fruits and pumpkins
+- **Fruit Trees:** Apple, pear, peach, and orange trees with seasonal growth cycles
+- **Animal Products:** Eggs and specialty milk varieties (chocolate, strawberry)
+- **Progressive Unlocks:** Crops and resources unlock as your farm levels advance (LVL0 → LVL⭐)
+- **Field Management:** East and West fields with planting, growing, and harvesting states
 
-## ⚙️ Technical Details
+### Architecture
 
-### Built With
+- **Entity Component System:** Modular design for cats, buildings, nature elements, and objects
+- **Layered Tile System:** Multi-layer world built from text-based tilemaps with dynamic loading
+- **Handler-Based Design:** Separate systems for resources, entities, orders, pathfinding, and UI
+- **Custom Animation System:** Smooth sprite animations for all entities and UI elements
+- **Memory-Efficient Rendering:** Optimized graphics pipeline with camera culling and layer management
 
-- **Language**: Java
-- **GUI Framework**: Swing
-- **Graphics**: Java 2D Graphics API
-- **Architecture**: Entity-Component pattern with layer-based rendering
+### User Experience
 
-### 📁 Project Structure
+- **Tabbed Interface System:**
+  - **Farm Tab:** Field management and crop overview with dynamic labels
+  - **Cats Tab:** Individual cat statistics and management
+  - **Workstation Tab:** Production and crafting interface
+  - **Orders Tab:** Active customer orders and fulfillment tracking
+- **Responsive Controls:** WASD/Arrow key movement with smooth camera following
+- **Debug Console:** F3 toggles comprehensive debug tools and area management
+- **Visual Feedback:** Rich animations, particle effects, and UI state indicators
+- **AI-Assisted Development:** User interface components developed with GitHub Copilot integration for enhanced productivity and code quality
 
-``` text
+## Getting Started
+
+### Prerequisites
+
+- Java 8 or higher
+- Any Java IDE (IntelliJ IDEA, Eclipse, VS Code, etc.)
+
+### Installation
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/juliapazdziorek/Idle-Cat-Farm.git
+   ```
+
+2. **Open in your Java IDE**.
+3. **Run `Main.java`** to start the game.
+
+### Controls
+
+- **Movement:** WASD
+- **Debug Menu:** F3 (toggle area management and debug information)
+- **Interaction:** Mouse clicks on UI elements and entities
+
+## Project Structure
+
+```text
 src/
-├── Entities/              # Game entities and components
-│   ├── Entity.java        
-│   ├── AnimatedEntity.java
-│   ├── StaticEntity.java
-│   └── Characters/        # Character entities
-│       └── FarmCat.java   
-├── Map/                   # Map and layer management
-│   ├── Map.java           # Main map class
-│   ├── MapLayer.java      
-│   └── TextMapLayers/     # Map data files
-├── Pathfinding/           # A* pathfinding system
-│   ├── AStar.java         
-│   └── Node.java          
-├── Resources/             # Assets management
-│   ├── Animation.java     
-│   ├── Colors.java        # Color definitions
-│   ├── ResourceHandler.java # Resource management
-│   └── SproutLands/       # Game assets
-├── Game/                  # Core game systems
-│   ├── Camera.java        
-│   ├── EntitiesHandler.java # Entity management
-│   ├── FocusFarm.java     # Main game class
-│   ├── KeyHandler.java    
-│   ├── Loop.java          
-│   ├── MouseHandler.java  
-│   └── Panel.java         # Main rendering panel
-└── Main.java              # Application entry point
+├── Game/           # Core game systems and handlers
+│   ├── Farm.java           # Main game class and initialization
+│   ├── OrdersHandler.java  # Customer order management
+│   ├── FarmResourcesHandler.java  # Resource types and inventory
+│   └── FieldsHandler.java  # Field management system
+├── Entities/       # All game entities with ECS architecture
+│   ├── Characters/         # Cat entities and AI systems
+│   ├── Objects/           # Interactive objects (beds, signs, etc.)
+│   ├── BuildingParts/     # Modular building components
+│   ├── Nature/           # Trees, bushes, and natural elements
+│   └── FarmResources/    # Crops and harvestable resources
+├── Map/            # World generation and tile management
+│   ├── Map.java           # Main map system and area management
+│   ├── Field.java         # Individual field logic
+│   └── TileMaps/         # Text-based map data files
+├── Pathfinding/    # A* pathfinding implementation
+├── UI/             # User interface components
+│   ├── MenuPanel.java     # Main tabbed interface
+│   ├── OrdersSection.java # Order management UI
+│   └── Various tab implementations
+├── Resources/      # Asset management and animations
+└── Debug/          # Development and debugging tools
 ```
 
-## 🎨 Assets
+## Game Mechanics Deep Dive
 
-The game uses pixel art assets from the [SproutLands](https://cupnooble.itch.io/sprout-lands-asset-pack) tileset.
+### Resource Progression System
 
-## 🌟 Getting Started
+The game features a tiered unlock system across 5 levels:
 
-### 📋 Prerequisites
+- **Level 0:** Basic crops (Lettuce, Tomato)
+- **Level 1:** Expanded crops (Corn, Carrot) + Fruit trees (Apple) + Animal products (Egg, Milk)
+- **Level 2:** Advanced crops (Wheat, Cucumber, Radish, Pear) + Specialty milk (Chocolate)
+- **Level 3:** Premium crops (Cauliflower, Eggplant, Pumpkin, Peach)
+- **Level ⭐:** Ultimate crops (Star Fruit, Orange) + Rare products (Strawberry Milk)
 
-- Java 11 or higher
-- Any Java IDE (IntelliJ IDEA, Eclipse, VS Code)
+### Cat Behavior System
 
-### 🚀 Running the Game
+Each cat operates with sophisticated AI:
 
-1. Clone the repository
-2. Open the project in your preferred Java IDE
-3. Run the `Main.java` file
+- **State Machine:** IDLE → TIRED → GOING_TO_SLEEP → SLEEPING → IDLE
+- **Energy Depletion:** Work activities consume energy over time
+- **Autonomous Rest:** Cats automatically seek beds when tired
+- **Visual Indicators:** Speech bubbles communicate cat status
+- **Pathfinding:** Smart navigation around obstacles and terrain features
 
-### 🎮 Controls
+## Technical Highlights
 
-- **Arrow Keys/WASD**: Move camera
+### Architecture Patterns
 
-## Development Roadmap
+- **Entity-Component System:** Modular entity design for easy extension
+- **Observer Pattern:** Event-driven updates between systems
+- **State Machine:** Clean state management for complex behaviors
+- **Factory Pattern:** Centralized animation and entity creation
+- **Handler Pattern:** Separation of concerns across game systems
+- **Type-Safe Design:** Comprehensive enum usage for game states, resources, and entity types
+- **Error Handling:** Robust exception handling and graceful degradation
 
-### Phase 1: Core Systems
+### Performance Features
 
-- [x] 🔄 Basic game loop and rendering
-- [x] 📷 Camera system
-- [x] 🗺️ Map loading and display
-- [x] 🎬 Animation system
-- [x] 🎒 Resource management
+- **60 FPS Game Loop:** Consistent frame timing with delta-time calculations
+- **Efficient Rendering:** Layer-based rendering with camera culling
+- **Memory Management:** Object pooling for frequently created entities
+- **Optimized Pathfinding:** A* with cached results and intelligent grid updates
 
-### Phase 2: Character and Movement
+## Contributing
 
-- [x] � Farm cat character with animations
-- [x] 🧭 A* pathfinding algorithm
-- [x] 🚀 Dynamic movement system (walk/run)
-- [x] 🎯 Smooth character movement with direction cooldown
-- [x] 🚧 Map obstacle detection
+This project showcases advanced game development concepts in Java. Feel free to explore the codebase to learn about:
 
-### Phase 3: Basic Game Mechanics
+## Credits
 
-- [ ] 🌱 Basic farming mechanics
-- [ ] 🖥️ Simple UI elements
-
-### Phase 4: Advanced Game Mechanics
-
-- [ ] 🌾 Crop growth system
-- [ ] 🎒 Inventory management
-- [ ] 🔨 Tool system
-- [ ] 🌙 Day/night cycle
-
-### Phase 5: Focus System
-
-- [ ] 🎯 Focus features
-
-### Phase 6: Advanced Features
-
-- [ ] 💅 Fancy UI
-- [ ] 🐄 Farming animals
-- [ ] 💰 Market and money system
-- [ ] 🏘️ Developing buildings
-
-## 🤝 Contributing
-
-This is primarily a solo development project for learning purposes, but feedback and suggestions are always welcome! If you'd like to contribute:
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request with a clear description
-
-## License
-
-This project is developed for educational purposes. Asset credits go to their respective creators.
+- **Pixel Art Assets:** [cupnooble.itch.io](https://cupnooble.itch.io) - Beautiful Sprout Lands asset pack
 
 ---
+
+🐾 **Enjoy managing your farm and watching your cat friends work their magic!**
