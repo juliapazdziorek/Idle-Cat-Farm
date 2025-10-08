@@ -71,8 +71,7 @@ public class Farm {
         menuPanel = new MenuPanel();
         camera = new Camera();
         loop = new Loop();
-        
-        // Setup camera input bindings on the game panel
+
         camera.setupInputBindings(gamePanel);
 
         Map.initializePathfinder();
