@@ -4,85 +4,71 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Manages farm resources.
+ * Handles all resource types from basic crops to premium products across 5 levels.
+ */
 public class FarmResourcesHandler {
 
-    // farm resources
+    /**
+     * All resource types available in the game, organized by progression level.
+     * Level 0: Starting resources, Level Star: end-game resources.
+     */
     public enum ResourceType {
 
-        // crops
-        LETTUCE, // lvl 0
-        TOMATO, // lvl 0
-        CORN, // lvl 1
-        CARROT, // lvl 1
-        WHEAT, // lvl 2
-        CUCUMBER, // lvl 2
-        RADISH, // lvl 2
-        CAULIFLOWER, // lvl 3
-        EGGPLANT, // lvl 3
-        PUMPKIN, // lvl 3
-        STAR_FRUIT, // lvl star
+        // Crops
+        LETTUCE, TOMATO, // lvl 0
+        CORN, CARROT, // lvl 1
+        WHEAT, CUCUMBER, RADISH, // lvl 2
+        CAULIFLOWER, EGGPLANT, PUMPKIN, // lvl 3
+        STAR_FRUIT,  // lvl star
 
-        // fruits
-        APPLE, // lvl 1
-        PEAR, // lvl 2
-        PEACH, // lvl 3
-        ORANGE, // lvl star
+        // Tree fruits
+        APPLE,        // lvl 1
+        PEAR,         // lvl 2
+        PEACH,        // lvl 3
+        ORANGE,       // lvl star
 
-        // eggs
-        EGG, // lvl 1
+        // Bush fruits #TODO
 
-        // milk
-        MILK, // lvl 1
-        CHOCOLATE_MILK, // lvl 2
-        STRAWBERRY_MILK, // lvl star
+        // Animal products
+        EGG,                // lvl 1
+        MILK,              // lvl 1
+        CHOCOLATE_MILK,    // lvl 2
+        STRAWBERRY_MILK,   // lvl star
     }
 
-    // quantities
     public HashMap<ResourceType, Integer> quantities = new HashMap<>();
-
-    // unlocked resources
     public HashMap<ResourceType, Boolean> unlocked = new HashMap<>();
 
     public FarmResourcesHandler() {
-
-        // initialize quantities
         for (ResourceType resource : ResourceType.values()) {
             quantities.put(resource, 0);
             unlocked.put(resource, false);
         }
 
-        // set initially unlocked resources
         unlocked.put(ResourceType.LETTUCE, true);
         unlocked.put(ResourceType.TOMATO, true);
     }
     
 
-    // add resources
+    /** Adds resources to inventory and updates UI display. */
     public void addResource(ResourceType resourceType, int amount) {
         int currentQuantity = quantities.getOrDefault(resourceType, 0);
         quantities.put(resourceType, currentQuantity + amount);
-        
-        // notify GUI to refresh
-        if (Farm.menuPanel != null) {
-            Farm.menuPanel.refreshResourcesDisplay();
-        }
+        Farm.menuPanel.refreshResourcesDisplay();
     }
     
-    // remove resources
+    /** Removes resources from inventory if a sufficient quantity exists. */
     public void removeResource(ResourceType resourceType, int amount) {
         int currentQuantity = quantities.getOrDefault(resourceType, 0);
         if (currentQuantity >= amount) {
             quantities.put(resourceType, currentQuantity - amount);
-            
-            // notify GUI to refresh
-            if (Farm.menuPanel != null) {
-                Farm.menuPanel.refreshResourcesDisplay();
-            }
+            Farm.menuPanel.refreshResourcesDisplay();
         }
     }
 
-
-    // check a resource type
+    /** Categorizes resources to crop category. */
     public static boolean isCropResource(ResourceType resourceType) {
         return switch (resourceType) {
             case LETTUCE, TOMATO, CORN, CARROT, WHEAT, CUCUMBER, RADISH,
@@ -91,31 +77,24 @@ public class FarmResourcesHandler {
         };
     }
 
-    
-    // check if resource is unlocked
+    /** Checks if a resource type is available for use in game progression. */
     public boolean isUnlocked(ResourceType resourceType) {
         return unlocked.getOrDefault(resourceType, false);
     }
     
-    // unlock a resource
+    /** Unlocks a new resource type. */
     public void unlockResource(ResourceType resourceType) {
         unlocked.put(resourceType, true);
-
-        if (Farm.ordersHandler != null) {
-            Farm.ordersHandler.maintainOrderCount();
-        }
-
-        if (Farm.menuPanel != null) {
-            Farm.menuPanel.refreshResourcesDisplay();
-        }
+        Farm.ordersHandler.maintainOrderCount();
+        Farm.menuPanel.refreshResourcesDisplay();
     }
 
-
-    // getters
+    /** Returns current inventory quantity for a specific resource. */
     public int getQuantity(ResourceType resourceType) {
         return quantities.getOrDefault(resourceType, 0);
     }
 
+    /** Provides a list of all currently unlocked resources. */
     public List<ResourceType> getUnlockedResources() {
         List<ResourceType> unlockedResources = new ArrayList<>();
         for (ResourceType resourceType : ResourceType.values()) {

@@ -8,52 +8,42 @@ import Map.Field;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * Manages field operations and cat assignments for farming activities.
+ * Coordinates between cats, fields, and crop planting operations.
+ */
 public class FieldsHandler {
     
+    /** Initiates crop planting on a field by assigning an idle cat to the task. */
     public static boolean startPlanting(Field.FieldType fieldType, ResourceType cropType) {
         Field field = getFieldByTypeFromMap(fieldType);
-        if (field == null) {
+
+        if (field == null || field.isAlreadyPlanted() || field.isCatWorkingOnField()) {
             return false;
         }
 
-        if (field.isAlreadyPlanted()) {
-            return false;
-        }
-        
-        if (field.isCatWorkingOnField()) {
-            return false;
-        }
-        
-        // get crop positions from the field
         List<Point> cropPositions = field.getCropPositions();
         if (cropPositions.isEmpty()) {
             return false;
         }
 
-        // get an idle cat
         FarmCat idleCat = EntitiesHandler.findIdleCatForTilling();
         if (idleCat == null) {
             return false;
         }
         
-        // set the field's crop type (this will update signs)
         field.setCropType(cropType);
-        
-        // immediately set field as having a cat working on it for UI feedback
         field.setCatWorkingOnField(true);
-        
-        // start the planting action with the cat
         idleCat.startPlantingAction(cropPositions, cropType, fieldType);
-        
         return true;
     }
 
-    // getting fields by type from the map
+    /** Retrieves a field instance by its type from the game map. */
     public static Field getFieldByTypeFromMap(Field.FieldType fieldType) {
         if (Farm.entitiesHandler != null && Farm.entitiesHandler.map != null) {
             return Farm.entitiesHandler.map.getFieldByType(fieldType);
+        } else {
+            return null;
         }
-
-        return null;
     }
 }
