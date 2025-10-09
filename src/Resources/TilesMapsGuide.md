@@ -223,19 +223,19 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Path Tiles
 
-**File:** `MapTiles/paths.png`
+**File:** `Resources/SproutLands/MapTiles/paths.png`
 
-| ID      | Tile Name       | Notes              |
-|---------|-----------------|--------------------|
-| 100     | Path up         |                    |
-| 101     | Path vertical   |                    |
-| 102     | Path bottom     |                    |
-| 103     | Path left       |                    |
-| 104     | Path horizontal |                    |
-| 105     | Path right      |                    |
-| 106     | Path arc 1      | Curved path pieces |
-| 107     | Path arc 2      | Curved path pieces |
-| 108     | Path arc 3      | Curved path pieces |
+| ID  | Tile Name       | Notes |
+|-----|-----------------|-------|
+| 100 | Path up         |       |
+| 101 | Path vertical   |       |
+| 102 | Path bottom     |       |
+| 103 | Path left       |       |
+| 104 | Path horizontal |       |
+| 105 | Path right      |       |
+| 106 | Path arc 1      |       |
+| 107 | Path arc 2      |       |
+| 108 | Path arc 3      |       |
 
 ---
 
@@ -245,7 +245,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Water Decorations
 
-**File:** `Nature/water_decor.png`
+**File:** `Resources/SproutLands/Nature/water_decor.png`
 
 | ID  | Tile Name          | Notes |
 |-----|--------------------|-------|
@@ -266,7 +266,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Grass Decorations
 
-**File:** `Nature/grass_decor.png`
+**File:** `Resources/SproutLands/Nature/grass_decor.png`
 
 | ID  | Tile Name                | Notes    |
 |-----|--------------------------|----------|
@@ -297,7 +297,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Trees
 
-**File:** `Nature/trees.png`
+**File:** `Resources/SproutLands/Nature/trees.png`
 
 | ID  | Tile Name                | Notes              |
 |-----|--------------------------|--------------------|
@@ -325,7 +325,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 | 171 | Big shroomy log left     | Obstacle           |
 | 172 | Big shroomy log right    | Obstacle           |
 
-**File:** `Nature/tree.png`
+**File:** `Resources/SproutLands/Nature/tree.png`
 
 | ID  | Tile Name          | Notes              |
 |-----|--------------------|--------------------|
@@ -347,7 +347,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Fences
 
-**File:** `BuildingParts/fences.png`
+**File:** `Resources/SproutLands/BuildingParts/fences.png`
 
 | ID  | Tile Name             | Notes    |
 |-----|-----------------------|----------|
@@ -367,7 +367,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Gates
 
-**File:** `BuildingParts/gates.png`
+**File:** `Resources/SproutLands/BuildingParts/gates.png`
 
 | ID  | Tile Name                     | Notes              |
 |-----|-------------------------------|--------------------|
@@ -388,7 +388,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Walls
 
-**File:** `BuildingParts/walls.png`
+**File:** `Resources/SproutLands/BuildingParts/walls.png`
 
 | ID  | Tile Name                      | Notes    |
 |-----|--------------------------------|----------|
@@ -409,7 +409,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Doors
 
-**File:** `BuildingParts/doors.png`
+**File:** `Resources/SproutLands/BuildingParts/doors.png`
 
 | ID  | Tile Name      | Notes              |
 |-----|----------------|--------------------|
@@ -422,7 +422,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Roof
 
-**File:** `BuildingParts/roof.png`
+**File:** `Resources/SproutLands/BuildingParts/roof.png`
 
 | ID  | Tile Name                         | Notes |
 |-----|-----------------------------------|-------|
@@ -454,7 +454,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Coop
 
-**File:** `BuildingParts/coop.png`
+**File:** `Resources/SproutLands/BuildingParts/coop.png`
 
 | ID  | Tile Name     | Notes    |
 |-----|---------------|----------|
@@ -502,7 +502,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Barn Structures
 
-**File:** `Objects/barn_structures.png`
+**File:** `Resources/SproutLands/Objects/barn_structures.png`
 
 | ID  | Tile Name              | Notes    |
 |-----|------------------------|----------|
@@ -521,7 +521,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Water Tray
 
-**File:** `Objects/water_tray.png`
+**File:** `Resources/SproutLands/Objects/water_tray.png`
 
 | ID  | Tile Name        | Notes    |
 |-----|------------------|----------|
@@ -532,7 +532,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Mailbox
 
-**File:** `Objects/mailbox.png`
+**File:** `Resources/SproutLands/Objects/mailbox.png`
 
 | ID  | Tile Name      | Notes              |
 |-----|----------------|--------------------|
@@ -543,7 +543,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Work Station
 
-**File:** `Objects/work_station.png`
+**File:** `Resources/SproutLands/Objects/work_station.png`
 
 | ID  | Tile Name                 | Notes    |
 |-----|---------------------------|----------|
@@ -556,7 +556,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Water Well
 
-**File:** `Objects/water_well.png`
+**File:** `Resources/SproutLands/Objects/water_well.png`
 
 | ID  | Tile Name               | Notes    |
 |-----|-------------------------|----------|
@@ -569,7 +569,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Piknik Blanket
 
-**File:** `Objects/piknik_blanket.png`
+**File:** `Resources/SproutLands/Objects/piknik_blanket.png`
 
 | ID  | Tile Name        | Notes    |
 |-----|------------------|----------|
@@ -587,7 +587,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Piknik Basket
 
-**File:** `Objects/piknik_basket.png`
+**File:** `Resources/SproutLands/Objects/piknik_basket.png`
 
 | ID  | Tile Name     | Notes    |
 |-----|---------------|----------|
@@ -597,7 +597,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Furniture
 
-**File:** `BuildingParts/basic_furniture.png`
+**File:** `Resources/SproutLands/Objects/furniture.png`
 
 | ID  | Tile Name                    | Notes    |
 |-----|------------------------------|----------|
@@ -627,7 +627,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Sign
 
-**File:** `BuildingParts/sign.png`
+**File:** `Resources/SproutLands/Objects/signs.png`
 
 | ID  | Tile Name | Notes                         |
 |-----|-----------|-------------------------------|
