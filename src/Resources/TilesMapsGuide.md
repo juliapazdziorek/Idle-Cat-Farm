@@ -1,4 +1,4 @@
-# 🗺️ Tilemap Reference Guide
+# Tile Maps Guide
 
 This guide provides a detailed reference for all tile IDs used in the FocusFarm tiles map system.
 
@@ -74,7 +74,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Water Tiles
 
-**File:** `MapTiles/water.png`
+**File:** `Resources/SproutLands/MapTiles/water.png`
 
 | ID | Tile Name | Notes              |
 |----|-----------|--------------------|
@@ -84,7 +84,7 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Soil Tiles
 
-**File:** `MapTiles/soil.png`
+**File:** `Resources/SproutLands/MapTiles/soil.png`
 
 | ID | Tile Name               | Notes |
 |----|-------------------------|-------|
@@ -100,117 +100,117 @@ This guide provides a detailed reference for all tile IDs used in the FocusFarm 
 
 ### Grass Tiles
 
-**File:** `MapTiles/grass_water.png`
+**File:** `Resources/SproutLands/MapTiles/grass_water.png`
 
-| ID    | Tile Name                        | Notes                     |
-|-------|----------------------------------|---------------------------|
-| 9     | Plain grass                      |                           |
-| 10    | Up grass water                   | Top border                |
-| 11    | Left grass water                 | Left border               |
-| 12    | Right grass water                | Right border              |
-| 13    | Bottom grass water               | Bottom border             |
-| 14    | Left-up corner grass water       | Outer corner              |
-| 15    | Left-bottom corner grass water   | Outer corner              |
-| 16    | Right-up corner grass water      | Outer corner              |
-| 17    | Right-bottom corner grass water  | Outer corner              |
-| 18    | Left-up inner grass water        | Inner corner              |
-| 19    | Left-bottom inner grass water    | Inner corner              |
-| 20    | Right-up inner grass water       | Inner corner              |
-| 21    | Right-bottom inner grass water   | Inner corner              |
-| 22    | Special transition grass water 1 | Special transition pieces |
-| 23    | Special transition grass water 2 | Special transition pieces |
-| 24    | Special transition grass water 3 | Special transition pieces |
-| 25    | Special transition grass water 4 | Special transition pieces |
-| 26    | Special transition grass water 5 | Special transition pieces |
-| 27    | Special transition grass water 6 | Special transition pieces |
-| 28    | Special transition grass water 7 | Special transition pieces |
-| 29    | Green decor grass                |                           |
-| 30    | Green two flowers grass          |                           |
-| 31    | Green three flowers grass        |                           |
-| 32    | Light decor grass                |                           |
-| 33    | Light decor one flower grass     |                           |
-| 34    | Light decor two flowers grass    |                           |
-| 35    | Two dark rocks grass             |                           |
-| 36    | Three dark rocks grass           |                           |
-| 37    | Two light rocks grass            |                           |
-| 38    | Three light rocks grass          |                           |
-| 39    | Three flowers grass              |                           |
-| 40    | Two flowers grass                |                           |
+| ID | Tile Name                        | Notes |
+|----|----------------------------------|-------|
+| 9  | Plain grass                      |       |
+| 10 | Up grass water                   |       |
+| 11 | Left grass water                 |       |
+| 12 | Right grass water                |       |
+| 13 | Bottom grass water               |       |
+| 14 | Left-up corner grass water       |       |
+| 15 | Left-bottom corner grass water   |       |
+| 16 | Right-up corner grass water      |       |
+| 17 | Right-bottom corner grass water  |       |
+| 18 | Left-up inner grass water        |       |
+| 19 | Left-bottom inner grass water    |       |
+| 20 | Right-up inner grass water       |       |
+| 21 | Right-bottom inner grass water   |       |
+| 22 | Special transition grass water 1 |       |
+| 23 | Special transition grass water 2 |       |
+| 24 | Special transition grass water 3 |       |
+| 25 | Special transition grass water 4 |       |
+| 26 | Special transition grass water 5 |       |
+| 27 | Special transition grass water 6 |       |
+| 28 | Special transition grass water 7 |       |
+| 29 | Green decor grass                |       |
+| 30 | Green two flowers grass          |       |
+| 31 | Green three flowers grass        |       |
+| 32 | Light decor grass                |       |
+| 33 | Light decor one flower grass     |       |
+| 34 | Light decor two flowers grass    |       |
+| 35 | Two dark rocks grass             |       |
+| 36 | Three dark rocks grass           |       |
+| 37 | Two light rocks grass            |       |
+| 38 | Three light rocks grass          |       |
+| 39 | Three flowers grass              |       |
+| 40 | Two flowers grass                |       |
 
-**File:** `MapTiles/grass_layer.png`
+**File:** `Resources/SproutLands/MapTiles/grass_layer.png`
 
-| ID    | Tile Name                        | Notes                     |
-|-------|----------------------------------|---------------------------|
-| 41    | Bottom grass layer               | Bottom border             |
-| 42    | Left grass layer                 | Left border               |
-| 43    | Right grass layer                | Right border              |
-| 44    | Left-up corner grass layer       | Outer corner              |
-| 45    | Left-bottom corner grass layer   | Outer corner              |
-| 46    | Right-up corner grass layer      | Outer corner              |
-| 47    | Right-bottom corner grass layer  | Outer corner              |
-| 48    | Left-up inner grass layer        | Inner corner              |
-| 49    | Left-bottom inner grass layer    | Inner corner              |
-| 50    | Right-up inner grass layer       | Inner corner              |
-| 51    | Right-bottom inner grass layer   | Inner corner              |
-| 52    | Special transition grass layer 1 | Special transition pieces |
-| 53    | Special transition grass layer 2 | Special transition pieces |
-| 54    | Special transition grass layer 3 | Special transition pieces |
-| 55    | Special transition grass layer 4 | Special transition pieces |
-| 56    | Special transition grass layer 5 | Special transition pieces |
-| 57    | Special transition grass layer 6 | Special transition pieces |
+| ID | Tile Name                        | Notes |
+|----|----------------------------------|-------|
+| 41 | Bottom grass layer               |       |
+| 42 | Left grass layer                 |       |
+| 43 | Right grass layer                |       |
+| 44 | Left-up corner grass layer       |       |
+| 45 | Left-bottom corner grass layer   |       |
+| 46 | Right-up corner grass layer      |       |
+| 47 | Right-bottom corner grass layer  |       |
+| 48 | Left-up inner grass layer        |       |
+| 49 | Left-bottom inner grass layer    |       |
+| 50 | Right-up inner grass layer       |       |
+| 51 | Right-bottom inner grass layer   |       |
+| 52 | Special transition grass layer 1 |       |
+| 53 | Special transition grass layer 2 |       |
+| 54 | Special transition grass layer 3 |       |
+| 55 | Special transition grass layer 4 |       |
+| 56 | Special transition grass layer 5 |       |
+| 57 | Special transition grass layer 6 |       |
 
 ---
 
 ### Dark Grass Tiles
 
-**File:** `MapTiles/dark_grass.png`
+**File:** `Resources/SproutLands/MapTiles/dark_grass.png`
 
-| ID | Tile Name                          | Notes                     |
-|----|------------------------------------|---------------------------|
-| 58 | Plain dark grass                   |                           |
-| 59 | Up dark grass                      | Top border                |
-| 60 | Left dark grass                    | Left border               |
-| 61 | Bottom dark grass                  | Bottom border             |
-| 62 | Right dark grass                   | Right border              |
-| 63 | Left-up corner dark grass          | Outer corner              |
-| 64 | Left-bottom corner dark grass      | Outer corner              |
-| 65 | Right-up corner dark grass         | Outer corner              |
-| 66 | Right-bottom corner dark grass     | Outer corner              |
-| 67 | Left-up inner dark grass           | Inner corner              |
-| 68 | Left-bottom inner dark grass       | Inner corner              |
-| 69 | Right-up inner dark grass          | Inner corner              |
-| 70 | Right-bottom inner dark grass      | Inner corner              |
-| 71 | Special transition dark grass 1    | Special transition pieces |
-| 72 | Special transition dark grass 2    | Special transition pieces |
-| 73 | Special transition dark grass 3    | Special transition pieces |
-| 74 | Special transition dark grass 4    | Special transition pieces |
-| 75 | Special transition dark grass 5    | Special transition pieces |
-| 76 | Special transition dark grass 6    | Special transition pieces |
-| 77 | Special transition dark grass 7    | Special transition pieces |
-| 78 | Special transition dark grass 8    | Special transition pieces |
-| 79 | Special transition dark grass 9    | Special transition pieces |
-| 80 | Special transition dark grass 10   | Special transition pieces |
-| 81 | Special transition dark grass 11   | Special transition pieces |
-| 82 | Special transition dark grass 12   | Special transition pieces |
-| 83 | Special transition dark grass 13   | Special transition pieces |
-| 84 | Special transition dark grass 14   | Special transition pieces |
-| 85 | Special transition dark grass 15   | Special transition pieces |
-| 86 | Special transition dark grass 16   | Special transition pieces |
-| 87 | Special transition dark grass 17   | Special transition pieces |
-| 88 | Special transition dark grass 18   | Special transition pieces |
-| 89 | Special transition dark grass 19   | Special transition pieces |
-| 90 | Special transition dark grass 20   | Special transition pieces |
-| 91 | Special transition dark grass 21   | Special transition pieces |
-| 92 | Green decor dark grass             |                           |
-| 93 | Green three flowers dark grass     |                           |
-| 94 | Three dark stones dark grass       |                           |
-| 95 | Two dark stones dark grass         |                           |
+| ID | Tile Name                        | Notes |
+|----|----------------------------------|-------|
+| 58 | Plain dark grass                 |       |
+| 59 | Up dark grass                    |       |
+| 60 | Left dark grass                  |       |
+| 61 | Bottom dark grass                |       |
+| 62 | Right dark grass                 |       |
+| 63 | Left-up corner dark grass        |       |
+| 64 | Left-bottom corner dark grass    |       |
+| 65 | Right-up corner dark grass       |       |
+| 66 | Right-bottom corner dark grass   |       |
+| 67 | Left-up inner dark grass         |       |
+| 68 | Left-bottom inner dark grass     |       |
+| 69 | Right-up inner dark grass        |       |
+| 70 | Right-bottom inner dark grass    |       |
+| 71 | Special transition dark grass 1  |       |
+| 72 | Special transition dark grass 2  |       |
+| 73 | Special transition dark grass 3  |       |
+| 74 | Special transition dark grass 4  |       |
+| 75 | Special transition dark grass 5  |       |
+| 76 | Special transition dark grass 6  |       |
+| 77 | Special transition dark grass 7  |       |
+| 78 | Special transition dark grass 8  |       |
+| 79 | Special transition dark grass 9  |       |
+| 80 | Special transition dark grass 10 |       |
+| 81 | Special transition dark grass 11 |       |
+| 82 | Special transition dark grass 12 |       |
+| 83 | Special transition dark grass 13 |       |
+| 84 | Special transition dark grass 14 |       |
+| 85 | Special transition dark grass 15 |       |
+| 86 | Special transition dark grass 16 |       |
+| 87 | Special transition dark grass 17 |       |
+| 88 | Special transition dark grass 18 |       |
+| 89 | Special transition dark grass 19 |       |
+| 90 | Special transition dark grass 20 |       |
+| 91 | Special transition dark grass 21 |       |
+| 92 | Green decor dark grass           |       |
+| 93 | Green three flowers dark grass   |       |
+| 94 | Three dark stones dark grass     |       |
+| 95 | Two dark stones dark grass       |       |
 
 ---
 
 ### Bridge Tiles
 
-**File:** `MapTiles/bridges.png`
+**File:** `Resources/SproutLands/MapTiles/bridges.png`
 
 | ID | Tile Name         | Notes |
 |----|-------------------|-------|
