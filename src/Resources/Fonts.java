@@ -4,14 +4,21 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Font management system providing pixel-perfect typography for the farm game.
+ * Loads custom fonts that maintain visual consistency with the pixel art aesthetic.
+ */
 public class Fonts {
 
-    // used fonts
     public Font dayDreamFont18f;
     public Font dayDreamFont14f;
     public Font dayDreamFont12f;
+
     public Font minecraftiaFont;
 
+    /**
+     * Loads all custom fonts from TTF files and creates size variants.
+     */
     public Fonts() {
         try {
             dayDreamFont18f = Font.createFont(Font.TRUETYPE_FONT, new File("src/Resources/Fonts/Daydream.ttf"));
