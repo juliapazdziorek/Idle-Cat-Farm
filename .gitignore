@@ -206,3 +206,6 @@ README.html
 *.iml
 .idea
 .exercism
+
+### Tiled map files
+Map.tmx
