@@ -50,7 +50,7 @@ public class Sign extends Entity {
             return;
         }
 
-        Field assignedField = FieldsHandler.getFieldByTypeFromMap(assignedFieldType);
+        Field assignedField = FieldsHandler.getFieldByType(assignedFieldType);
         if (assignedField == null) {
             setSignState(SignState.EMPTY);
             return;

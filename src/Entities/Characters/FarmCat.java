@@ -460,7 +460,7 @@ public class FarmCat extends Entity {
         if (currentPlantingIndex >= plantingPositions.size()) {
 
             // planting complete
-            Field field = FieldsHandler.getFieldByTypeFromMap(currentFieldType);
+            Field field = FieldsHandler.getFieldByType(currentFieldType);
             if (field != null) {
                 field.setCatWorkingOnField(false);
             }
@@ -471,7 +471,7 @@ public class FarmCat extends Entity {
         }
         
     if (!hasEnoughEnergyForAction()) {
-            Field field = FieldsHandler.getFieldByTypeFromMap(currentFieldType);
+            Field field = FieldsHandler.getFieldByType(currentFieldType);
             if (field != null) {
                 field.setCatWorkingOnField(false);
             }
@@ -589,7 +589,7 @@ public class FarmCat extends Entity {
                     farmCatState = FarmCatState.STANDING;
                     
                     // set field as not being worked on
-                    Field field = FieldsHandler.getFieldByTypeFromMap(currentFieldType);
+                    Field field = FieldsHandler.getFieldByType(currentFieldType);
                     if (field != null) {
                         field.setCatWorkingOnField(false);
                     }
@@ -606,7 +606,7 @@ public class FarmCat extends Entity {
                 Point cropPosition = plantingPositions.get(currentPlantingIndex);
                 
                 // use field method to create crop at position
-                Field field = FieldsHandler.getFieldByTypeFromMap(currentFieldType);
+                Field field = FieldsHandler.getFieldByType(currentFieldType);
                 if (field != null) {
                     field.createCropAtPosition(cropPosition, currentCropType);
                 }
@@ -622,7 +622,7 @@ public class FarmCat extends Entity {
                 
                 // check energy
                 if (!hasEnoughEnergyForAction()) {
-                    Field currentField = FieldsHandler.getFieldByTypeFromMap(currentFieldType);
+                    Field currentField = FieldsHandler.getFieldByType(currentFieldType);
                     if (currentField != null) {
                         currentField.setCatWorkingOnField(false);
                     }
@@ -632,7 +632,7 @@ public class FarmCat extends Entity {
                 } else if (currentPlantingIndex >= plantingPositions.size()) {
 
                     // planting complete
-                    Field currentField = FieldsHandler.getFieldByTypeFromMap(currentFieldType);
+                    Field currentField = FieldsHandler.getFieldByType(currentFieldType);
                     if (currentField != null) {
                         currentField.setCatWorkingOnField(false);
                     }

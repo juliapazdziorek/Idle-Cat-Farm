@@ -1,6 +1,7 @@
 package UI;
 
 import Game.Farm;
+import Game.FieldsHandler;
 import Game.MoneyHandler;
 import Map.Map;
 import Map.Field;
@@ -426,12 +427,12 @@ public class FarmTab {
     private java.util.Map<Field.FieldType, Field> getActiveFields(Map map) {
         java.util.Map<Field.FieldType, Field> activeFields = new HashMap<>();
         
-        Field eastField = map.getFieldByType(Field.FieldType.EAST);
+        Field eastField = FieldsHandler.getFieldByType(Field.FieldType.EAST);
         if (eastField != null) {
             activeFields.put(Field.FieldType.EAST, eastField);
         }
         
-        Field westField = map.getFieldByType(Field.FieldType.WEST);
+        Field westField = FieldsHandler.getFieldByType(Field.FieldType.WEST);
         if (westField != null) {
             activeFields.put(Field.FieldType.WEST, westField);
         }

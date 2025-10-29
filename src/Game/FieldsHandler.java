@@ -16,7 +16,7 @@ public class FieldsHandler {
     
     /** Initiates crop planting on a field by assigning an idle cat to the task. */
     public static boolean startPlanting(Field.FieldType fieldType, ResourceType cropType) {
-        Field field = getFieldByTypeFromMap(fieldType);
+        Field field = getFieldByType(fieldType);
 
         if (field == null || field.isAlreadyPlanted() || field.isCatWorkingOnField()) {
             return false;
@@ -39,11 +39,14 @@ public class FieldsHandler {
     }
 
     /** Retrieves a field instance by its type from the game map. */
-    public static Field getFieldByTypeFromMap(Field.FieldType fieldType) {
+    public static Field getFieldByType(Field.FieldType fieldType) {
         if (Farm.entitiesHandler != null && Farm.entitiesHandler.map != null) {
-            return Farm.entitiesHandler.map.getFieldByType(fieldType);
-        } else {
-            return null;
+            for (Field field : Farm.entitiesHandler.map.fields) {
+                if (field.getFieldType() == fieldType) {
+                    return field;
+                }
+            }
         }
+        return null;
     }
 }

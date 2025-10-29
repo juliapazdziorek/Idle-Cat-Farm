@@ -1099,17 +1099,6 @@ public class Map {
         };
     }
 
-    /** Retrieves the field entity matching the specified type classification. */
-    public Field getFieldByType(Field.FieldType fieldType) {
-        for (Field field : fields) {
-            if (field.getFieldType() == fieldType) {
-                return field;
-            }
-        }
-        return null;
-    }
-
-
     /** Updates animated water layer tiles for continuous visual effects. */
     public void updateWaterLayer() {
         mapWaterLayerToUpdate.update();
