@@ -4,16 +4,25 @@ import Game.Farm;
 
 import java.util.*;
 
-
+/**
+ * A* pathfinding algorithm implementation for efficient navigation across the game world.
+ * Provides optimal path calculation between two points while avoiding obstacles and boundaries.
+ */
 public class AStar {
 
-    // grid
+    /** Two-dimensional grid representing all navigable positions in the game world. */
     private final Node[][] grid;
 
-    // sets
+    /** Priority queue for nodes to be evaluated, ordered by lowest f-cost for optimal pathfinding. */
     private final PriorityQueue<Node> openSet;
+    
+    /** Set of nodes that have been fully evaluated and should not be reconsidered. */
     private final Set<Node> closedSet;
 
+    /**
+     * Initializes the A* pathfinder with a complete node grid and empty evaluation sets.
+     * Sets up priority queue ordering for optimal node selection during pathfinding.
+     */
     public AStar() {
         grid = new Node[Farm.mapHeightTiles][Farm.mapWidthTiles];
         openSet = new PriorityQueue<>(Comparator.comparingDouble((Node node) -> node.fCost)
@@ -23,6 +32,7 @@ public class AStar {
         initializeGrid();
     }
 
+    /** Creates a fresh node for each position in the game world grid. */
     private void initializeGrid() {
         for (int y = 0; y < Farm.mapHeightTiles; y++) {
             for (int x = 0; x < Farm.mapWidthTiles; x++) {
@@ -32,10 +42,12 @@ public class AStar {
     }
 
 
-    // check walkable positions
+    /**
+     * Determines if a position is blocked for pathfinding navigation.
+     * Checks both map boundaries and obstacle placement for complete validation.
+     */
     private boolean isPositionBlocked(int x, int y) {
-
-        // out of bounds
+        // Boundary validation
         if (x < 0 || x >= Farm.mapWidthTiles || y < 0 || y >= Farm.mapHeightTiles) {
             return true;
         }
@@ -43,16 +55,21 @@ public class AStar {
         return isObstacleAt(x, y);
     }
 
+    /** Checks for obstacles at specified coordinates using the game world's collision system. */
     private boolean isObstacleAt(int x, int y) {
-        return Farm.entitiesHandler.map.hasObstacleAt(y, x); // swap x,y to match map's [row][col] convention
+        return Farm.entitiesHandler.map.hasObstacleAt(y, x); // Swap x,y to match map's [row][col] convention
     }
 
 
     // A*
+    /**
+     * Calculates the optimal path between two points using A* algorithm.
+     * Returns null if no valid path exists or if start/end positions are blocked.
+     * Automatically handles obstacle avoidance and boundary checking.
+     */
     public List<Node> findPath(int startX, int startY, int endX, int endY) {
         resetGridNodes();
 
-        // can't path to blocked positions
         if (isPositionBlocked(startX, startY) || isPositionBlocked(endX, endY)) {
             return null;
         }
@@ -65,21 +82,21 @@ public class AStar {
         openSet.add(startNode);
         startNode.isInOpenSet = true;
 
-        // main A* loop
+        // Main A* evaluation loop
         while (!openSet.isEmpty()) {
 
-            // get lowest f-cost node
+            // Select node with lowest f-cost for evaluation
             Node currentNode = openSet.poll();
             currentNode.isInOpenSet = false;
             closedSet.add(currentNode);
             currentNode.isInClosedSet = true;
 
-            // reached target
+            // Path found - reconstruct and return
             if (currentNode.equals(endNode)) {
                 return reconstructPath(endNode);
             }
 
-            // check all neighbors
+            // Evaluate all neighboring positions
             for (Node neighbor : getNeighbors(currentNode)) {
                 if (isPositionBlocked(neighbor.x, neighbor.y) || closedSet.contains(neighbor)) {
                     continue;
@@ -87,7 +104,7 @@ public class AStar {
 
                 double tentativeGCost = currentNode.gCost + getDistance(currentNode, neighbor);
 
-                // found a better path or new node
+                // Update neighbor if we found a better path
                 if (!neighbor.isInOpenSet || tentativeGCost < neighbor.gCost) {
                     neighbor.parent = currentNode;
                     neighbor.gCost = tentativeGCost;
@@ -102,11 +119,14 @@ public class AStar {
             }
         }
 
-        return null; // no path found :(
+        return null; // No valid path exists
     }
 
 
-    // get 4-directional neighbors
+    /**
+     * Retrieves all valid neighboring nodes in four cardinal directions.
+     * Only returns neighbors within grid boundaries for safe pathfinding evaluation.
+     */
     private List<Node> getNeighbors(Node node) {
         List<Node> neighbors = new ArrayList<>();
 
@@ -125,13 +145,16 @@ public class AStar {
     }
 
 
-    // manhattan distance
+    /** Calculates Manhattan distance between two nodes for pathfinding cost estimation. */
     private float getDistance(Node a, Node b) {
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
     }
 
 
-    // build a path from end to start
+    /**
+     * Reconstructs the optimal path by following parent references from end to start.
+     * Returns a properly ordered list of nodes representing the complete navigation route.
+     */
     private List<Node> reconstructPath(Node endNode) {
         List<Node> path = new ArrayList<>();
         Node current = endNode;
@@ -146,7 +169,7 @@ public class AStar {
     }
 
 
-    // grid handling
+    /** Resets all nodes to initial state for fresh pathfinding calculations. */
     private void resetGridNodes() {
         for (int y = 0; y < Farm.mapHeightTiles; y++) {
             for (int x = 0; x < Farm.mapWidthTiles; x++) {
