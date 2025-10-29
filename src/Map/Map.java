@@ -24,67 +24,61 @@ import java.util.List;
 
 import static Game.FarmResourcesHandler.ResourceType.*;
 
+/**
+ * Complete game world representation managing all map layers, entities, and interactive elements.
+ * Handles map construction, entity placement, obstacle tracking, and area progression systems.
+ */
 public class Map {
 
-    // layers lists
     private final ArrayList<MapLayer> mapBottomLayersToRender;
     private final ArrayList<MapLayer> mapTopLayersToRender;
     private MapLayer mapWaterLayerToUpdate;
 
-    // map areas
     public enum MapLevels {LEVEL_0, LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_Star}
     public enum MapArea {PARK, COOP, COWS, FIELDS, HOUSE, ORCHARD}
     public final ArrayList<MapArea> mapAreas;
     public final HashMap<MapArea, MapLevels> mapAreasLevels;
 
-    // obstacles
     private final boolean[][] obstaclesGrid;
     private final ArrayList<Integer> obstaclesIds;
 
-    // map entities
     public final ArrayList<Point> bushPositions;
 
-    // trees
     public final ArrayList<Tree> trees;
     ArrayList<Integer> treesIds;
 
-    // roofs
     public final ArrayList<Roof> roofs;
     ArrayList<Integer> roofsIds;
 
-    // signs
     public final ArrayList<Sign> signs;
 
-    // entrances
     public final ArrayList<Entrance> entrances;
     ArrayList<Integer> entrancesIds;
     ArrayList<Integer> gateHorizontalIds;
     ArrayList<Integer> gateVerticalIds;
     ArrayList<Integer> DoubleDoorsIds;
 
-    // water trays
     public final ArrayList<WaterTray> waterTrays;
     ArrayList<Integer> waterTrayIds;
 
-    // beds
     public final ArrayList<Bed> beds;
     ArrayList<Integer> bedIds;
     private final List<FarmCat> sleepingCatsToReassign;
 
-    // fields
     public final ArrayList<Field> fields;
 
-    // pathfinder
     public static AStar pathfinder;
 
+    /**
+     * Initializes the complete game world with empty collections and default configurations.
+     * Prepares all entity systems, collision detection, and area progression management.
+     */
     public Map() {
 
-        // layer lists
         mapBottomLayersToRender = new ArrayList<>();
         mapTopLayersToRender = new ArrayList<>();
         mapWaterLayerToUpdate = null;
 
-        // map areas
         mapAreas = new ArrayList<>();
         Collections.addAll(mapAreas, MapArea.PARK, MapArea.COOP, MapArea.COWS, MapArea.FIELDS, MapArea.HOUSE, MapArea.ORCHARD);
         mapAreasLevels = new HashMap<>();
@@ -92,9 +86,9 @@ public class Map {
             mapAreasLevels.put(area, MapLevels.LEVEL_0);
         }
 
-        // obstacles
         obstaclesGrid = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
         obstaclesIds = new ArrayList<>();
+        
         Collections.addAll(obstaclesIds, 1, // water
                 123, // big shroom
                 124, // poison shroom
@@ -212,8 +206,8 @@ public class Map {
                 322, // table
                 332); // sign
 
-        // map entities
         bushPositions = new ArrayList<>();
+        
         trees = new ArrayList<>();
         treesIds = new ArrayList<>();
         Collections.addAll(treesIds, 173, 174, 175, 176, 177, 178, 179, 180, 181);
@@ -245,16 +239,12 @@ public class Map {
 
         fields = new ArrayList<>();
 
-        // initialize fields
         initializeFields();
-
-        // initialize layers
         createMapLayers();
-
-        // create obstacles grid
         createObstaclesGrid();
     }
 
+    /** Initializes the pathfinding system for navigation across the game world. */
     public static void initializePathfinder() {
         if (pathfinder == null) {
             pathfinder = new AStar();
@@ -262,27 +252,31 @@ public class Map {
     }
 
 
-    // handling map layers
+    /**
+     * Creates and organizes all map rendering layers from ground tiles to area-specific content.
+     * Builds the complete visual foundation for the game world with proper layering hierarchy.
+     */
     private void createMapLayers() {
 
-        // ground layers
-        MapLayer waterLayer = createLayer("src/Map/TileMaps/Ground/ground_water.txt"); // water
+        // Base terrain layers
+        MapLayer waterLayer = createLayer("src/Map/TileMaps/Ground/ground_water.txt"); // Animated water
         mapBottomLayersToRender.add(waterLayer);
-        mapWaterLayerToUpdate = waterLayer; // only water layer needs animation updates
+        mapWaterLayerToUpdate = waterLayer;
 
-        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_soil.txt")); // soil
-        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_grass.txt")); // grass
-        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_darkGrass.txt")); // dark grass
-        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_bridges.txt")); // bridges
-        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_groundDecor.txt")); // ground decor
+        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_soil.txt")); // Farmable soil
+        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_grass.txt")); // Standard grass
+        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_darkGrass.txt")); // Shaded areas
+        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_bridges.txt")); // Walkable bridges
+        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/Ground/ground_groundDecor.txt")); // Decorative elements
 
-        // create area layers
         createAreasLayersFiles();
-
-        // add area layers to render list
         addAreaLayersForRender();
     }
 
+    /**
+     * Generates layer files for all active farm areas based on their current upgrade levels.
+     * Merges area templates with base layers to create the complete game world layout.
+     */
     private void createAreasLayersFiles() {
         MapFileUtils.prepareEmptyLayerFiles();
 
@@ -300,41 +294,43 @@ public class Map {
         }
     }
 
+    /**
+     * Registers all area-specific layers with the rendering system in correct depth order.
+     * Separates layers into background and foreground collections for proper visual hierarchy.
+     */
     private void addAreaLayersForRender() {
 
-        // bottom layers for current tile maps
-        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/InGameTileMaps/floor_first.txt")); // first floor
-        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/InGameTileMaps/floor_second.txt")); // second floor
+        // Background rendering layers
+        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/InGameTileMaps/floor_first.txt")); // Primary floor tiles
+        mapBottomLayersToRender.add(createLayer("src/Map/TileMaps/InGameTileMaps/floor_second.txt")); // Secondary floor details
 
-        // top layers for current tile maps
-        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/InGameTileMaps/layer_first.txt")); // first layer
-        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/InGameTileMaps/layer_second.txt")); // second layer
-        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/InGameTileMaps/layer_third.txt")); // third layer
-        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/InGameTileMaps/roof.txt")); // roof
+        // Foreground rendering layers
+        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/InGameTileMaps/layer_first.txt")); // Base structures
+        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/InGameTileMaps/layer_second.txt")); // Mid-level details
+        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/InGameTileMaps/layer_third.txt")); // Upper decorations
+        mapTopLayersToRender.add(createLayer("src/Map/TileMaps/InGameTileMaps/roof.txt")); // Roof coverage
     }
 
 
-    // managing areas
+    // Area management system
+    /**
+     * Updates all area layers when farm areas are upgraded or modified.
+     * Handles complete regeneration of map content and entity placement for level changes.
+     */
     private void updateAreasLayers() {
-
-        // clear map entities from previous levels
         clearMapEntities();
-
-        // recreate the current tile maps with updated levels
         createAreasLayersFiles();
-
-        // refresh the rendered layers to reflect the changes
         refreshLayersRenderLists();
         Farm.entitiesHandler.createEntitiesFromMap();
-
-        // refresh obstacles to match the new area levels
         refreshObstaclesGrid();
-
-        // manage beds
         calculateBedPositions();
         reassignSleepingCats();
     }
 
+    /**
+     * Removes all map-based entities while preserving essential game state like crops and cats.
+     * Prepares the map for complete reconstruction during area level updates.
+     */
     private void clearMapEntities() {
         bushPositions.clear();
         trees.clear();
@@ -343,11 +339,9 @@ public class Map {
         signs.clear();
         waterTrays.clear();
 
-        // preserve entities before clearing
         List<Entity> existingCrops = new ArrayList<>();
         List<Entity> existingCats = new ArrayList<>();
         
-        // clear and collect sleeping cats directly
         sleepingCatsToReassign.clear();
         for (Bed bed : beds) {
             if (bed.getBedState() == Bed.BedState.OCCUPIED && bed.getOccupyingCat() != null) {
@@ -355,7 +349,6 @@ public class Map {
             }
         }
         
-        // clear beds
         beds.clear();
         
         for (Entity entity : new ArrayList<>(Farm.entitiesHandler.topRenderableEntities)) {
@@ -375,7 +368,6 @@ public class Map {
         Farm.entitiesHandler.topRenderableEntities.clear();
         Farm.entitiesHandler.updatableMapEntities.clear();
         
-        // restore cats
         for (Entity cat : existingCats) {
             if (cat != null) {
                 if (cat instanceof FarmCat farmCat && sleepingCatsToReassign.contains(farmCat)) {
@@ -387,44 +379,47 @@ public class Map {
             }
         }
 
-        // restore crops
         for (Entity crop : existingCrops) {
             if (crop != null) {
                 Farm.entitiesHandler.clickableMapEntities.add(crop);
                 Farm.entitiesHandler.topRenderableEntities.add(crop);
                 Farm.entitiesHandler.updatableMapEntities.add(crop);
                 
-                // restore crop obstacle to grid
                 Point tilePos = crop.getTilePosition();
                 addObstacleToTile(tilePos.x, tilePos.y);
             }
         }
     }
 
+    /**
+     * Refreshes the rendering layer collections after area level changes.
+     * Preserves base ground layers while rebuilding area-specific content layers.
+     */
     private void refreshLayersRenderLists() {
-
-        // remove the existing area layers from rendering lists
-        // keep ground layers (first 6 layers in mapBottomLayersToRender)
+        // Keep ground layers (first 6 layers in mapBottomLayersToRender)
         while (mapBottomLayersToRender.size() > 6) {
             mapBottomLayersToRender.removeLast();
         }
         mapTopLayersToRender.clear();
 
-        // recreate and add area layers for render
         addAreaLayersForRender();
     }
 
+    /** Updates a specific farm area to a new upgrade level and rebuilds the map accordingly. */
     public void setAreaLevel(MapArea area, MapLevels newLevel) {
         mapAreasLevels.put(area, newLevel);
         updateAreasLayers();
     }
 
+    /**
+     * Reassigns displaced sleeping cats to available beds after map reconstruction.
+     * Handles bed availability checking and cat state management for seamless transitions.
+     */
     private void reassignSleepingCats() {
         if (sleepingCatsToReassign == null || sleepingCatsToReassign.isEmpty()) {
             return;
         }
 
-        // find available beds for reassignment
         ArrayList<Bed> availableBeds = new ArrayList<>();
         for (Bed bed : beds) {
             if (bed.isAvailable() && bed.hasValidPosition()) {
@@ -432,10 +427,9 @@ public class Map {
             }
         }
 
-        // reassign sleeping cats to available beds
         for (FarmCat cat : sleepingCatsToReassign) {
             if (!availableBeds.isEmpty()) {
-                Bed chosenBed = availableBeds.remove(0);
+                Bed chosenBed = availableBeds.removeFirst();
                 if (chosenBed.reserveBed(cat)) {
                     cat.setActionState(FarmCat.CatActionState.SLEEPING);
                     cat.setTargetBed(chosenBed);
@@ -444,34 +438,36 @@ public class Map {
                 }
             } else {
 
-                // no beds available, wake up the cat
                 cat.setActionState(FarmCat.CatActionState.IDLE);
                 cat.setTargetBed(null);
                 cat.setVisible(true);
             }
         }
 
-        // clear the list after reassignment
         sleepingCatsToReassign.clear();
     }
 
+    /** Recalculates optimal positioning for all bed entities in the current map layout. */
     public void calculateBedPositions() {
         for (Bed bed : beds) {
             bed.calculateToBedPosition();
         }
     }
 
+    /** Returns the current upgrade level for the specified farm area. */
     public MapLevels getAreaLevel(MapArea area) {
         return mapAreasLevels.get(area);
     }
 
 
-    // creating map layer from a file
+    /**
+     * Creates a complete map layer from tile data file with automatic entity generation.
+     * Processes multi-tile entities like roofs, entrances, and beds with collision tracking.
+     */
     private MapLayer createLayer(String path) {
         int[][] tilesIds = MapFileUtils.readFileToGrid(path);
         MapLayer layer = new MapLayer(Farm.mapHeightTiles, Farm.mapWidthTiles);
 
-        // track processed tiles for multi-tiles entities
         boolean[][] processedRoofTiles = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
         boolean[][] processedEntranceTiles = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
         boolean[][] processedWaterTrayTiles = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
@@ -482,19 +478,19 @@ public class Map {
 
                 if (tilesIds[i][j] != 0) {
 
-                    // water
+                    // Water
                     if (tilesIds[i][j] == 1) {
                         layer.tiles[i][j] = new Entities.Entity(new Point(j * Farm.tileSize, i * Farm.tileSize), Farm.resourceHandler.animationFactory.createWaterAnimation());
                         continue;
                     }
 
-                    // bush positions
+                    // Bushes
                     if (tilesIds[i][j] == 152) {
                         bushPositions.add(new Point(j * Farm.tileSize, i * Farm.tileSize));
                         continue;
                     }
 
-                    // trees
+                    // Trees
                     if (treesIds.contains(tilesIds[i][j])) {
                         if (tilesIds[i][j] == 177) {
                             createTree(tilesIds, i, j);
@@ -502,7 +498,7 @@ public class Map {
                         continue;
                     }
 
-                    // roofs
+                    // Roof
                     if (roofsIds.contains(tilesIds[i][j])) {
                         if (!processedRoofTiles[i][j]) {
                             createRoof(tilesIds, i, j, processedRoofTiles);
@@ -510,7 +506,7 @@ public class Map {
                         continue;
                     }
 
-                    // entrances
+                    // Entrances
                     if (entrancesIds.contains(tilesIds[i][j])) {
                         if (!processedEntranceTiles[i][j]) {
                             createEntrance(tilesIds, i, j, processedEntranceTiles);
@@ -518,6 +514,7 @@ public class Map {
                         continue;
                     }
 
+                    // Water tray
                     if (waterTrayIds.contains(tilesIds[i][j])) {
                         if (!processedWaterTrayTiles[i][j]) {
                             createWaterTray(tilesIds, i, j, processedWaterTrayTiles);
@@ -525,7 +522,7 @@ public class Map {
                         continue;
                     }
 
-                    // beds
+                    // Beds
                     if (bedIds.contains(tilesIds[i][j])) {
                         if (!processedBedTiles[i][j]) {
                             createBed(tilesIds, i, j, processedBedTiles);
@@ -533,19 +530,14 @@ public class Map {
                         continue;
                     }
 
-                    // create signs
+                    // Signs
                     if (tilesIds[i][j] == 332) {
                         Point signPosition = new Point(j * Farm.tileSize, i * Farm.tileSize);
                         Sign sign = new Sign(signPosition);
                         
-                        // assign to field based on position
                         if (j == 26 && i == 24) {
-
-                            // east field sign
                             sign.assignToField(Field.FieldType.EAST);
                         } else if ((j == 11 && i == 24) || (j == 12 && i == 24)) {
-
-                            // west field signs
                             sign.assignToField(Field.FieldType.WEST);
                         }
                         
@@ -553,7 +545,7 @@ public class Map {
                         continue;
                     }
 
-                    // static tiles
+                    // Standard static tile entities
                     layer.tiles[i][j] = new Entities.Entity(new Point(j * Farm.tileSize, i * Farm.tileSize), tilesIds[i][j]);
                 }
             }
@@ -561,7 +553,11 @@ public class Map {
         return layer;
     }
 
-    // create a tree
+
+    /**
+     * Constructs a complete tree entity from surrounding tree part tiles.
+     * Scans a 3x3 grid around the center tile to collect all connected tree components.
+     */
     private void createTree(int[][] tilesIds, int i, int j) {
         Tree tree = new Tree();
 
@@ -580,7 +576,10 @@ public class Map {
         trees.add(tree);
     }
 
-    // create a roof
+    /**
+     * Creates a building roof entity by collecting all connected roof tile positions.
+     * Uses flood-fill algorithm to identify complete roof structures automatically.
+     */
     private void createRoof(int[][] tilesIds, int i, int j, boolean[][] processedRoofTiles) {
         Roof roof = new Roof();
         ArrayList<Point> positions = findEntityPositions(tilesIds, i, j, processedRoofTiles, roofsIds);
@@ -593,17 +592,18 @@ public class Map {
         roofs.add(roof);
     }
 
-    // create an entrance
+    /**
+     * Constructs entrance entities with proper type detection and multi-tile processing.
+     * Handles single doors, gates, and double doors with appropriate part assignment.
+     */
     private void createEntrance(int[][] tilesIds, int i, int j, boolean[][] processedEntranceTiles) {
         Entrance entrance = new Entrance();
 
-        // single door
         if (tilesIds[i][j] == 217) {
             Point position = new Point(j * Farm.tileSize, i * Farm.tileSize);
             entrance.addPart(new EntrancePart(position, tilesIds[i][j], entrance));
             processedEntranceTiles[i][j] = true;
         }
-        // multi-tile entrances
         else {
             ArrayList<Integer> relevantIds = getEntranceTypeIds(tilesIds[i][j]);
             ArrayList<Point> positions = findEntityPositions(tilesIds, i, j, processedEntranceTiles, relevantIds);
@@ -617,6 +617,7 @@ public class Map {
         entrances.add(entrance);
     }
     
+    /** Determines the appropriate tile ID collection based on entrance type classification. */
     private ArrayList<Integer> getEntranceTypeIds(int tileId) {
         if (gateHorizontalIds.contains(tileId)) {
             return gateHorizontalIds;
@@ -628,6 +629,10 @@ public class Map {
         return null;
     }
 
+    /**
+     * Creates water tray entities for animal hydration with multi-tile support.
+     * Processes connected water tray components into unified interactive structures.
+     */
     private void createWaterTray(int[][] tilesIds, int i, int j, boolean[][] processedEntranceTiles) {
         WaterTray waterTray = new WaterTray();
 
@@ -641,20 +646,22 @@ public class Map {
         waterTrays.add(waterTray);
     }
 
+    /**
+     * Constructs bed entities for cat rest areas with automatic top-bottom part detection.
+     * Handles vertical bed structures by linking top and bottom tile components.
+     */
     private void createBed(int[][] tilesIds, int i, int j, boolean[][] processedBedTiles) {
         int topTileId = tilesIds[i][j];
         Bed bed = new Bed(topTileId);
         processedBedTiles[i][j] = true;
 
-        // add the top part
         Point topPosition = new Point(j * Farm.tileSize, i * Farm.tileSize);
         bed.addPart(new BedPart(topPosition, topTileId, true));
 
-        // find and add the bottom part
         int bottomRow = i + 1;
         if (bottomRow < Farm.mapHeightTiles) {
             int bottomTileId = tilesIds[bottomRow][j];
-            if (bottomTileId != 0) { // if there's a tile below
+            if (bottomTileId != 0) { // Tile exists below
                 processedBedTiles[bottomRow][j] = true;
                 Point bottomPosition = new Point(j * Farm.tileSize, bottomRow * Farm.tileSize);
                 bed.addPart(new BedPart(bottomPosition, bottomTileId, false));
@@ -664,13 +671,21 @@ public class Map {
         beds.add(bed);
     }
 
-    // algorithm to find all connected parts of an entity
+
+    /**
+     * Identifies all connected tile positions belonging to a multi-tile entity structure.
+     * Initiates flood-fill algorithm to discover complete entity boundaries automatically.
+     */
     private ArrayList<Point> findEntityPositions(int[][] tilesIds, int i, int j, boolean[][] processedEntityTiles, ArrayList<Integer> idList) {
         boolean[][] visited = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
         ArrayList<Point> foundPositions = new ArrayList<>();
         return findEntityPositionsRecursive(tilesIds, i, j, processedEntityTiles, idList, visited, foundPositions);
     }
 
+    /**
+     * Recursive flood-fill implementation for connected entity component discovery.
+     * Explores all adjacent tiles matching the entity type to build complete structures.
+     */
     private ArrayList<Point> findEntityPositionsRecursive(int[][] tilesIds, int i, int j, boolean[][] processedEntityTiles, ArrayList<Integer> idList, boolean[][] visited, ArrayList<Point> foundPositions) {
         if (i < 0 || i >= Farm.mapHeightTiles || j < 0 || j >= Farm.mapWidthTiles || visited[i][j]) {
             return foundPositions;
@@ -696,30 +711,30 @@ public class Map {
     }
 
 
-    // handling obstacles
+    /**
+     * Builds the complete obstacle grid for pathfinding and collision detection.
+     * Combines ground-based obstacles with entity-placed barriers for navigation.
+     */
     private void createObstaclesGrid() {
-        // obstacles from ground layers
         addObstaclesFromGround();
-
-        // add obstacles from current area levels
         addObstaclesFromCurrentAreas();
     }
 
+    /** Rebuilds the entire obstacle grid after map changes or area level updates. */
     public void refreshObstaclesGrid() {
-        // clear current obstacles grid
         clearObstaclesGrid();
-
-        // re-add obstacles
         addObstaclesFromGround();
         addObstaclesFromCurrentAreas();
     }
 
+    /** Processes ground-level terrain obstacles including water and decorative elements. */
     private void addObstaclesFromGround() {
         setObstacleValueByLayer("src/Map/TileMaps/Ground/ground_water.txt", true);
         setObstacleValueByLayer("src/Map/TileMaps/Ground/ground_bridges.txt", false);
         addObstaclesFromIdList("src/Map/TileMaps/Ground/ground_groundDecor.txt");
     }
 
+    /** Integrates obstacles from all current area-specific layer files. */
     private void addObstaclesFromCurrentAreas() {
         addObstaclesFromIdList("src/Map/TileMaps/InGameTileMaps/floor_first.txt");
         addObstaclesFromIdList("src/Map/TileMaps/InGameTileMaps/floor_second.txt");
@@ -729,8 +744,9 @@ public class Map {
         addObstaclesFromIdList("src/Map/TileMaps/InGameTileMaps/roof.txt");
     }
 
+    /** Resets all obstacle grid positions to passable state for complete reconstruction. */
     private void clearObstaclesGrid() {
-        // reset obstacles grid to false
+        // Reset obstacles grid to false
         for (int i = 0; i < Farm.mapHeightTiles; i++) {
             for (int j = 0; j < Farm.mapWidthTiles; j++) {
                 obstaclesGrid[i][j] = false;
@@ -738,6 +754,10 @@ public class Map {
         }
     }
 
+    /**
+     * Sets obstacle status for all non-zero tiles in a layer to the specified value.
+     * Used for layer-wide obstacle assignment like water or bridge passability.
+     */
     private void setObstacleValueByLayer(String path, boolean value) {
         int[][] tilesIds = MapFileUtils.readFileToGrid(path);
         for (int i = 0; i < Farm.mapHeightTiles; i++) {
@@ -749,6 +769,10 @@ public class Map {
         }
     }
 
+    /**
+     * Marks tiles as obstacles based on their tile ID matching the predefined obstacle list.
+     * Processes layer files to identify and register collision-causing terrain elements.
+     */
     private void addObstaclesFromIdList(String path) {
         int[][] tilesIds = MapFileUtils.readFileToGrid(path);
         for (int i = 0; i < Farm.mapHeightTiles; i++) {
@@ -760,6 +784,7 @@ public class Map {
         }
     }
 
+    /** Checks if the specified grid position contains an obstacle for pathfinding validation. */
     public boolean hasObstacleAt(int i, int j) {
         if (i < 0 || i >= Farm.mapHeightTiles || j < 0 || j >= Farm.mapWidthTiles) {
             return true;
@@ -768,13 +793,15 @@ public class Map {
         return obstaclesGrid[i][j];
     }
     
-    // add/remove obstacles
+    // Dynamic obstacle management
+    /** Adds a collision obstacle at the specified tile coordinates for pathfinding avoidance. */
     public void addObstacleToTile(int tileX, int tileY) {
         if (tileY >= 0 && tileY < Farm.mapHeightTiles && tileX >= 0 && tileX < Farm.mapWidthTiles) {
             obstaclesGrid[tileY][tileX] = true;
         }
     }
     
+    /** Removes a collision obstacle from the specified tile coordinates to restore passability. */
     public void removeObstacleFromTile(int tileX, int tileY) {
         if (tileY >= 0 && tileY < Farm.mapHeightTiles && tileX >= 0 && tileX < Farm.mapWidthTiles) {
             obstaclesGrid[tileY][tileX] = false;
@@ -782,7 +809,10 @@ public class Map {
     }
 
 
-    // fields management
+    /**
+     * Creates and configures all farm fields with their designated planting positions.
+     * Establishes east and west field areas with predefined crop coordinate layouts.
+     */
     public void initializeFields() {
         Field field = new Field(Field.FieldType.EAST);
         ArrayList<Point> cropPositions = new ArrayList<>();
@@ -798,6 +828,7 @@ public class Map {
         fields.add(field);
     }
 
+    /** Manages agricultural field area leveling. */
     public void levelUpFieldsArea() {
         switch (mapAreasLevels.get(MapArea.FIELDS)) {
             case LEVEL_0 -> {
@@ -869,10 +900,11 @@ public class Map {
         }
     }
 
+    /** Handles house area leveling */
     public void levelUpHouseArea() {
         switch (mapAreasLevels.get(MapArea.HOUSE)) {
             case LEVEL_0 -> {
-                // the house is built
+                // House construction completion
 
                 setAreaLevel(MapArea.HOUSE, MapLevels.LEVEL_1);
             }
@@ -902,11 +934,12 @@ public class Map {
             }
 
             case LEVEL_Star -> {
-                // max level reached
+                // Maximum level reached
             }
         }
     }
 
+    /** Manages chicken coop area leveling */
     public void levelUpCoopArea() {
         switch (mapAreasLevels.get(MapArea.COOP)) {
             case LEVEL_0 -> {
@@ -933,11 +966,12 @@ public class Map {
             }
 
             case LEVEL_Star -> {
-                // max level reached
+                // Maximum level reached
             }
         }
     }
 
+    /** Handles cattle area leveling. */
     public void levelUpCowsArea() {
         switch (mapAreasLevels.get(MapArea.COWS)) {
             case LEVEL_0 -> {
@@ -957,7 +991,7 @@ public class Map {
             }
 
             case LEVEL_2 -> {
-                // updated to a barn building
+                // Barn building upgrade
                 setAreaLevel(MapArea.COWS, MapLevels.LEVEL_3);
             }
 
@@ -970,11 +1004,12 @@ public class Map {
             }
 
             case LEVEL_Star -> {
-                // max level reached
+                // Maximum level reached
             }
         }
     }
 
+    /** Manages orchard area leveling. */
     public void levelUpOrchardArea() {
         switch (mapAreasLevels.get(MapArea.ORCHARD)) {
             case LEVEL_0 -> {
@@ -1010,11 +1045,12 @@ public class Map {
             }
 
             case LEVEL_Star -> {
-                // max level reached
+                // Maximum level reached
             }
         }
     }
 
+    /** Handles park area leveling. */
     public void levelUpParkArea() { // TODO: implement bush fruits
         switch (mapAreasLevels.get(MapArea.PARK)) {
             case LEVEL_0 -> {
@@ -1034,13 +1070,13 @@ public class Map {
                 setAreaLevel(MapArea.PARK, MapLevels.LEVEL_Star);
             }
             case LEVEL_Star -> {
-                // max level reached
+                // Maximum level reached
             }
         }
     }
 
 
-    // enums utility methods
+    /** Converts map level enum to corresponding file system directory path string. */
     private String getLevelPath(MapLevels level) {
         return switch (level) {
             case LEVEL_0 -> "Lvl0";
@@ -1051,6 +1087,7 @@ public class Map {
         };
     }
 
+    /** Converts map area enum to corresponding file system directory path string. */
     private String getAreaPath(MapArea area) {
         return switch (area) {
             case PARK -> "Park";
@@ -1062,7 +1099,7 @@ public class Map {
         };
     }
 
-    // field utility methods
+    /** Retrieves the field entity matching the specified type classification. */
     public Field getFieldByType(Field.FieldType fieldType) {
         for (Field field : fields) {
             if (field.getFieldType() == fieldType) {
@@ -1073,17 +1110,18 @@ public class Map {
     }
 
 
-    // updating water layer
+    /** Updates animated water layer tiles for continuous visual effects. */
     public void updateWaterLayer() {
         mapWaterLayerToUpdate.update();
     }
 
 
-    // rendering
+    /** Renders all background map layers beneath entities in proper depth order. */
     public void renderBottom(Graphics2D graphics2D) {
         mapBottomLayersToRender.forEach(layer -> layer.render(graphics2D));
     }
 
+    /** Renders all foreground map layers above entities for overlay effects. */
     public void renderTop(Graphics2D graphics2D) {
         mapTopLayersToRender.forEach(layer -> layer.render(graphics2D));
     }
