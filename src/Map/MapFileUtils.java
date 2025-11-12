@@ -8,16 +8,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-/**
- * File I/O utilities for map data persistence and template management.
- * Handles reading, writing, and copying of tile grid configurations between files.
- */
 public class MapFileUtils {
 
-    /**
-     * Loads a tile grid configuration from a text file into a two-dimensional array.
-     * Creates an empty grid if the file is not found, throws exceptions for other errors.
-     */
     public static int[][] readFileToGrid(String filePath) {
         int[][] grid = new int[Farm.mapHeightTiles][Farm.mapWidthTiles];
 
@@ -41,10 +33,6 @@ public class MapFileUtils {
         return grid;
     }
 
-    /**
-     * Saves a tile grid configuration to a text file with automatic directory creation.
-     * Formats grid data with space-separated values for easy parsing and readability.
-     */
     public static void writeGridToFile(int[][] grid, String filePath) {
         try {
 
@@ -70,10 +58,6 @@ public class MapFileUtils {
         }
     }
 
-    /**
-     * Creates empty tile map files for all current game layers filled with zeros.
-     * Prepares a clean slate for map construction and area template application.
-     */
     public static void prepareEmptyLayerFiles() {
         writeGridToFile(createEmptyGrid(), "src/Map/TileMaps/InGameTileMaps/floor_first.txt");
         writeGridToFile(createEmptyGrid(), "src/Map/TileMaps/InGameTileMaps/floor_second.txt");
@@ -83,15 +67,10 @@ public class MapFileUtils {
         writeGridToFile(createEmptyGrid(), "src/Map/TileMaps/InGameTileMaps/roof.txt");
     }
 
-    /** Creates a new empty grid filled with zeros using current map dimensions. */
     private static int[][] createEmptyGrid() {
         return new int[Farm.mapHeightTiles][Farm.mapWidthTiles];
     }
 
-    /**
-     * Copies non-zero tile values from area template files to current game layer files.
-     * Merges area-specific layouts into the active map without overwriting existing tiles.
-     */
     public static void copyAreaLayer(String areaPath, String levelPath, String layerFileName) {
         String sourcePath = "src/Map/TileMaps/AreasTemplates/" + levelPath + "/" + areaPath + "/" + layerFileName;
         String targetPath = "src/Map/TileMaps/InGameTileMaps/" + layerFileName;
