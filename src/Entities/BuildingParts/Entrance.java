@@ -1,4 +1,3 @@
-
 package Entities.BuildingParts;
 
 import Entities.Entity;
@@ -15,19 +14,29 @@ public class Entrance extends Entity {
     public Entrance() {
         super();
 
-        // set flags
         isParent = true;
         isOpen = false;
     }
 
+    @Override
+    public void update() {
+        boolean pathCrossing = isPathCrossingEntrance();
 
-    // path crossing detection
+        if (pathCrossing && !isOpen && !isAnimating) {
+            playOpenAnimation();
+        } else if (!pathCrossing && isOpen && !isAnimating) {
+            playCloseAnimation();
+        }
+
+        super.update();
+    }
+
+
     public boolean isPathCrossingEntrance() {
         if (Farm.entitiesHandler.farmCatList == null || Farm.entitiesHandler.farmCatList.isEmpty() || parts == null) {
             return false;
         }
 
-        // check all cats for path crossing
         for (var cat : Farm.entitiesHandler.farmCatList) {
             List<Node> currentPath = cat.getCurrentPath();
             if (currentPath == null || currentPath.isEmpty()) {
@@ -68,7 +77,6 @@ public class Entrance extends Entity {
     }
 
 
-    // animation handling
     public void playOpenAnimation() {
         if (!isAnimating && parts != null) {
             isAnimating = true;
@@ -97,21 +105,4 @@ public class Entrance extends Entity {
         isAnimating = false;
         isOpen = ((EntrancePart) parts.getFirst()).isOpen;
     }
-
-    // updating
-    @Override
-    public void update() {
-        boolean pathCrossing = isPathCrossingEntrance();
-
-        if (pathCrossing && !isOpen && !isAnimating) {
-            playOpenAnimation();
-        } else if (!pathCrossing && isOpen && !isAnimating) {
-            playCloseAnimation();
-        }
-
-        super.update();
-    }
 }
-
-
-

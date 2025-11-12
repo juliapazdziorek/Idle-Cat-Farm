@@ -20,18 +20,42 @@ public class EntrancePart extends Entity {
         this.isOpen = false;
         setParent(parentEntrance);
 
-        // set image and animation
         openImage = Farm.resourceHandler.entitiesResourcesMap.get("entrances").get(tileId + "open");
         closedImage = Farm.resourceHandler.entitiesResourcesMap.get("entrances").get(tileId + "closed");
         openAnimation = Farm.resourceHandler.animationFactory.createEntranceOpenAnimation(tileId);
         closeAnimation = Farm.resourceHandler.animationFactory.createEntranceCloseAnimation(tileId);
 
-        // start closed
         currentImage = closedImage;
     }
 
+    @Override
+    public void update() {
+        if (isAnimating) {
+            int previousFrame = currentAnimation.getCurrentFrame();
+            super.update();
 
-    // animation handling
+            if (previousFrame == currentAnimation.getNumberOfFrames() - 1 && currentAnimation.getCurrentFrame() == 0) {
+                frameCounter++;
+
+                if (frameCounter >= 1) {
+                    isAnimating = false;
+                    currentAnimation = null;
+
+                    if (isOpen) {
+                        isOpen = false;
+                        currentImage = closedImage;
+                    } else {
+                        isOpen = true;
+                        currentImage = openImage;
+                    }
+
+                    ((Entrance) parent).CompleteAnimation();
+                }
+            }
+        }
+    }
+
+
     public void startOpenAnimation() {
         if (!isAnimating && !isOpen) {
             currentAnimation = openAnimation;
@@ -47,35 +71,6 @@ public class EntrancePart extends Entity {
             currentAnimation.resetFrames();
             isAnimating = true;
             frameCounter = 0;
-        }
-    }
-
-
-    // updating
-    @Override
-    public void update() {
-        if (isAnimating) {
-            int previousFrame = currentAnimation.getCurrentFrame();
-            super.update();
-
-            if (previousFrame == currentAnimation.getNumberOfFrames() - 1 && currentAnimation.getCurrentFrame() == 0) {
-                frameCounter++;
-
-                if (frameCounter >= 1) {
-                    isAnimating = false;
-                    currentAnimation = null;
-                    
-                    if (isOpen) {
-                        isOpen = false;
-                        currentImage = closedImage;
-                    } else {
-                        isOpen = true;
-                        currentImage = openImage;
-                    }
-
-                    ((Entrance) parent).CompleteAnimation();
-                }
-            }
         }
     }
 }

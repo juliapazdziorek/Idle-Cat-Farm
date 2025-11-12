@@ -11,21 +11,17 @@ public class Bed extends Entity {
 
     public enum BedState { EMPTY, RESERVED, OCCUPIED }
     public enum SunBubbleState { HIDDEN, OPENING, LOOPING, CLOSING }
-    
+
     private BedState bedState;
     private FarmCat occupyingCat;
     private final int topTileId;
     private Point toBedPosition;
-    
-    // sun speech bubble
     private Animation sunSpeechBubbleAnimation;
     private SunBubbleState sunBubbleState = SunBubbleState.HIDDEN;
 
-
     public Bed(int topTileId) {
         super();
-        
-        // set flags
+
         isParent = true;
         clickable = false;
         
@@ -33,6 +29,25 @@ public class Bed extends Entity {
         this.bedState = BedState.EMPTY;
         this.occupyingCat = null;
     }
+
+    @Override
+    public void update() {
+        super.update();
+
+        updateSunSpeechBubble();
+
+        if (isShowingSunBubble() && sunSpeechBubbleAnimation != null) {
+            sunSpeechBubbleAnimation.update();
+
+            if (sunBubbleState == SunBubbleState.OPENING && sunSpeechBubbleAnimation.getCurrentFrame() == sunSpeechBubbleAnimation.getNumberOfFrames() - 1) {
+                startSunBubbleLooping();
+
+            } else if (sunBubbleState == SunBubbleState.CLOSING && sunSpeechBubbleAnimation.getCurrentFrame() == sunSpeechBubbleAnimation.getNumberOfFrames() - 1) {
+                hideSunSpeechBubble();
+            }
+        }
+    }
+
 
     public BedState getBedState() {
         return bedState;
@@ -87,7 +102,7 @@ public class Bed extends Entity {
             }
         }
     }
-    
+
     public void calculateToBedPosition() {
         toBedPosition = null;
         
@@ -108,10 +123,10 @@ public class Bed extends Entity {
                 }
             }
         }
-        
-        // calculate accessible positions based on bed orientation
+
         if (topTileId == 313) {
             // Bed 313: priority order - bottom, right, left
+            assert bottomPartTilePos != null;
             Point[] priorityPositions = {
                 new Point(bottomPartTilePos.x, bottomPartTilePos.y + 1),
                 new Point(bottomPartTilePos.x + 1, bottomPartTilePos.y + 1),
@@ -129,6 +144,7 @@ public class Bed extends Entity {
             }
         } else {
             // Bed 317: priority order - top, top-right, top-left (only choose the first available)
+            assert topPartTilePos != null;
             Point[] priorityPositions = {
                 new Point(topPartTilePos.x, topPartTilePos.y - 1),
                 new Point(topPartTilePos.x + 1, topPartTilePos.y - 1),
@@ -144,7 +160,6 @@ public class Bed extends Entity {
                 }
             }
         }
-        System.out.println("Calculated toBedPosition for bed at: " + toBedPosition);
     }
     
     public Point getToBedPosition() {
@@ -154,26 +169,7 @@ public class Bed extends Entity {
     public boolean hasValidPosition() {
         return toBedPosition != null;
     }
-    
-    // sun speech bubble methods
-    @Override
-    public void update() {
-        super.update();
-        
-        updateSunSpeechBubble();
-        
-        if (isShowingSunBubble() && sunSpeechBubbleAnimation != null) {
-            sunSpeechBubbleAnimation.update();
-            
-            if (sunBubbleState == SunBubbleState.OPENING && sunSpeechBubbleAnimation.getCurrentFrame() == sunSpeechBubbleAnimation.getNumberOfFrames() - 1) {
-                startSunBubbleLooping();
 
-            } else if (sunBubbleState == SunBubbleState.CLOSING && sunSpeechBubbleAnimation.getCurrentFrame() == sunSpeechBubbleAnimation.getNumberOfFrames() - 1) {
-                hideSunSpeechBubble();
-            }
-        }
-    }
-    
     private void updateSunSpeechBubble() {
         boolean shouldShowSunBubble = bedState == BedState.OCCUPIED && 
                                      occupyingCat != null && 
@@ -187,12 +183,12 @@ public class Bed extends Entity {
             closeSunBubble();
         }
     }
-    
+
     private void showSunSpeechBubble() {
         try {
             sunSpeechBubbleAnimation = Farm.resourceHandler.animationFactory.createSpeechBubbleSunOpeningAnimation();
             sunBubbleState = SunBubbleState.OPENING;
-        } catch (Exception e) {
+        } catch (Exception exception) {
             hideSunSpeechBubble();
         }
     }
@@ -215,7 +211,7 @@ public class Bed extends Entity {
     public boolean isShowingSunBubble() {
         return sunBubbleState != SunBubbleState.HIDDEN;
     }
-    
+
     public void renderSunSpeechBubble(Graphics2D graphics2D) {
         if (isShowingSunBubble() && sunSpeechBubbleAnimation != null) {
             Point topPartPosition = null;
@@ -237,13 +233,5 @@ public class Bed extends Entity {
                 graphics2D.drawImage(bubbleImage, bubbleX, bubbleY, bubbleSize, bubbleSize, null);
             }
         }
-    }
-    
-    @Override
-    public void render(Graphics2D graphics2D) {
-        super.render(graphics2D);
-        
-
-
     }
 }

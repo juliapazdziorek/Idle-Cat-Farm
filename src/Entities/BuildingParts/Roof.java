@@ -7,24 +7,34 @@ import java.awt.*;
 
 public class Roof extends Entity {
 
-    protected boolean visible;
+    protected boolean isVisible;
 
     public Roof() {
         super();
 
-        // set flags
         isParent = true;
-        visible = true;
+        isVisible = true;
+    }
+
+    @Override
+    public void update() {
+        setVisible(!isMouseOverRoof());
+    }
+
+    @Override
+    public void render(Graphics2D graphics2D) {
+        if (isVisible && isParent && parts != null) {
+            for (Entity part : parts) {
+                part.render(graphics2D);
+            }
+        }
     }
 
 
-    // visibility handling
     public void setVisible(boolean visible) {
-        this.visible = visible;
+        this.isVisible = visible;
     }
 
-
-    // mouse handling
     public boolean isMouseOverRoof() {
         Point mousePoint = Farm.gamePanel.getMousePosition();
         if (mousePoint == null) {
@@ -42,21 +52,5 @@ public class Roof extends Entity {
             }
         }
         return false;
-    }
-
-
-    // updating & rendering
-    @Override
-    public void update() {
-        setVisible(!isMouseOverRoof());
-    }
-
-    @Override
-    public void render(Graphics2D graphics2D) {
-        if (visible && isParent && parts != null) {
-            for (Entity part : parts) {
-                part.render(graphics2D);
-            }
-        }
     }
 }

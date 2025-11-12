@@ -9,36 +9,20 @@ import java.util.Map;
 
 public class Bush extends Entity {
 
-    // images
     private final Map<String, BufferedImage> imageMap;
 
     public Bush(Point position) {
         super(position);
 
-        // set image
         imageMap = Farm.resourceHandler.entitiesResourcesMap.get("bush");
         this.currentImage = imageMap.get("bush grown");
 
-        // set flags
         clickable = true;
     }
 
-
-    // mouse handling
-    public void onClick() {
-        if (!isClicked) {
-            isClicked = true;
-            currentImage = imageMap.get("bush shrunken");
-            frameCounter = 0;
-        }
-    }
-
-
-    // updating & rendering
     @Override
     public void update() {
 
-        // handle shrinking
         if (isClicked) {
             frameCounter++;
             if (frameCounter >= 30) { // shrink duration
@@ -46,6 +30,15 @@ public class Bush extends Entity {
                 currentImage = imageMap.get("bush grown");
                 frameCounter = 0;
             }
+        }
+    }
+
+    @Override
+    public void onClick() {
+        if (!isClicked) {
+            isClicked = true;
+            currentImage = imageMap.get("bush shrunken");
+            frameCounter = 0;
         }
     }
 }

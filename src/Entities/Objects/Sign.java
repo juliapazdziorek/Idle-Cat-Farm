@@ -12,38 +12,32 @@ import java.util.Map;
 
 public class Sign extends Entity {
 
-    // images
-    private final Map<String, BufferedImage> imageMap;
-
-    // field assignment
-    private Field.FieldType assignedFieldType;
-
-    // state
     public enum SignState {EMPTY, CORN, CARROT, CAULIFLOWER, TOMATO, EGGPLANT, LETTUCE, WHEAT, PUMPKIN, RADISH, STAR_FRUIT, CUCUMBER, APPLE, ORANGE, PEAR, PEACH}
+
+    private final Map<String, BufferedImage> imageMap;
+    private Field.FieldType assignedFieldType;
 
     public Sign(Point position) {
         super(position);
 
-        // set image
         imageMap = Farm.resourceHandler.entitiesResourcesMap.get("signs");
         currentImage = imageMap.get("empty");
         
-        // no field assigned initially
         assignedFieldType = null;
     }
 
-    // assign sign to a field
+    @Override
+    public void update() {
+        super.update();
+        updateSignDisplay();
+    }
+
+
     public void assignToField(Field.FieldType fieldType) {
         this.assignedFieldType = fieldType;
         updateSignDisplay();
     }
 
-    // get assigned field type
-    public Field.FieldType getAssignedFieldType() {
-        return assignedFieldType;
-    }
-
-    // update sign display based on assigned field's current crop
     public void updateSignDisplay() {
         if (assignedFieldType == null) {
             setSignState(SignState.EMPTY);
@@ -66,7 +60,6 @@ public class Sign extends Entity {
         }
     }
 
-    // convert a resource type to sign state
     private SignState getSignStateFromResourceType(ResourceType resourceType) {
         return switch (resourceType) {
             case CORN -> SignState.CORN;
@@ -88,7 +81,6 @@ public class Sign extends Entity {
         };
     }
 
-    // handle state
     public void setSignState(SignState state) {
         switch (state) {
             case EMPTY -> currentImage = imageMap.get("empty");
@@ -110,14 +102,6 @@ public class Sign extends Entity {
         }
     }
 
-    // update method to automatically refresh sign display
-    @Override
-    public void update() {
-        super.update();
-        updateSignDisplay();
-    }
-    
-    // static method to update all signs
     public static void updateAllSigns() {
         if (Farm.entitiesHandler != null && Farm.entitiesHandler.map != null) {
             for (Sign sign : Farm.entitiesHandler.map.signs) {

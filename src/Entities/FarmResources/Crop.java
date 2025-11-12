@@ -12,19 +12,17 @@ import java.util.Map;
 
 public class Crop extends Entity {
 
-    // crop properties
-    private ResourceType cropType;
+    private final ResourceType cropType;
     private int currentGrowthStage;
-    private int maxGrowthStages;
+    private final int maxGrowthStages;
     private boolean isFullyGrown;
-    
-    // growth timing
+
     private long lastGrowthTime;
-    private long growthDuration;
+    private final long growthDuration;
 
     private static final Map<ResourceType, Integer> CROP_GROWTH_STAGES = new HashMap<>();
     private static final Map<ResourceType, Long> CROP_GROWTH_DURATIONS = new HashMap<>();
-    
+
     static {
         CROP_GROWTH_STAGES.put(ResourceType.LETTUCE, 4);
         CROP_GROWTH_STAGES.put(ResourceType.TOMATO, 4);
@@ -39,7 +37,7 @@ public class Crop extends Entity {
         CROP_GROWTH_STAGES.put(ResourceType.STAR_FRUIT, 4);
 
         for (ResourceType type : CROP_GROWTH_STAGES.keySet()) {
-            CROP_GROWTH_DURATIONS.put(type, 3000L); // 3 seconds per stage for testing
+            CROP_GROWTH_DURATIONS.put(type, 3000L);
         }
     }
 
@@ -69,6 +67,35 @@ public class Crop extends Entity {
             grow();
         }
     }
+
+    @Override
+    public void render(Graphics2D g2) {
+        g2.drawImage(currentImage,
+                Farm.camera.position.x + position.x * Farm.scale,
+                Farm.camera.position.y + position.y * Farm.scale,
+                Farm.scaledTileSize,
+                Farm.scaledTileSize,
+                null);
+
+        if (cropType == ResourceType.CORN && currentGrowthStage >= 4) {
+            String topImageKey = "corn" + currentGrowthStage + "up";
+            BufferedImage topImage = Farm.resourceHandler.cropsMap.get(topImageKey);
+            if (topImage != null) {
+                g2.drawImage(topImage,
+                        Farm.camera.position.x + position.x * Farm.scale,
+                        Farm.camera.position.y + position.y * Farm.scale - Farm.scaledTileSize,
+                        Farm.scaledTileSize, Farm.scaledTileSize, null);
+            }
+        }
+    }
+
+    @Override
+    public void onClick() {
+        if (clickable && isFullyGrown) {
+            harvest();
+        }
+    }
+
     
     private void grow() {
         if (currentGrowthStage < maxGrowthStages) {
@@ -80,7 +107,6 @@ public class Crop extends Entity {
                 isFullyGrown = true;
                 clickable = true;
                 
-                // notify field to update state when crop becomes fully grown
                 notifyFieldStateChange();
             }
         }
@@ -92,13 +118,11 @@ public class Crop extends Entity {
     }
     
     private void notifyFieldStateChange() {
-        // find the field that contains this crop and update its state
         Point cropPosition = new Point(position.x / Farm.tileSize, position.y / Farm.tileSize);
         if (Farm.entitiesHandler != null && Farm.entitiesHandler.map != null) {
             for (Field field : Farm.entitiesHandler.map.fields) {
                 if (field.getCrops().containsKey(cropPosition)) {
-                    // call updateFieldState through a public method
-                    field.setCatWorkingOnField(field.isCatWorkingOnField()); // this will trigger updateFieldState
+                    field.setCatWorkingOnField(field.isCatWorkingOnField());
                     break;
                 }
             }
@@ -122,7 +146,6 @@ public class Crop extends Entity {
         
         return cropName + currentGrowthStage;
     }
-    
 
     public void harvest() {
         if (!isFullyGrown) {
@@ -143,74 +166,9 @@ public class Crop extends Entity {
         if (Farm.entitiesHandler != null) {
             Farm.entitiesHandler.queueEntityForRemoval(this);
         }
-
-    }
-    
-    public void instantGrow() {
-        currentGrowthStage = maxGrowthStages;
-        isFullyGrown = true;
-        clickable = true;
-        updateCurrentImage();
     }
 
-    @Override
-    public void render(Graphics2D g2) {
-        g2.drawImage(currentImage,
-                Farm.camera.position.x + position.x * Farm.scale,
-                Farm.camera.position.y + position.y * Farm.scale,
-                Farm.scaledTileSize,
-                Farm.scaledTileSize,
-                null);
-
-        if (cropType == ResourceType.CORN && currentGrowthStage >= 4) {
-            String topImageKey = "corn" + currentGrowthStage + "up";
-            BufferedImage topImage = Farm.resourceHandler.cropsMap.get(topImageKey);
-            if (topImage != null) {
-                g2.drawImage(topImage,
-                        Farm.camera.position.x + position.x * Farm.scale,
-                        Farm.camera.position.y + position.y * Farm.scale - Farm.scaledTileSize,
-                        Farm.scaledTileSize, Farm.scaledTileSize, null);
-            }
-        }
-    }
-    
-    @Override
-    public void onClick() {
-        if (clickable && isFullyGrown) {
-            harvest();
-        }
-    }
-    
-    public ResourceType getCropType() {
-        return cropType;
-    }
-    
-    public int getCurrentGrowthStage() {
-        return currentGrowthStage;
-    }
-    
-    public int getMaxGrowthStages() {
-        return maxGrowthStages;
-    }
-    
     public boolean isFullyGrown() {
         return isFullyGrown;
-    }
-    
-    public long getGrowthProgress() {
-        if (isFullyGrown) return 100;
-        long timeSinceLastGrowth = System.currentTimeMillis() - lastGrowthTime;
-        return Math.min(100, (timeSinceLastGrowth * 100) / growthDuration);
-    }
-    
-    public void setGrowthDuration(long duration) {
-        this.growthDuration = duration;
-    }
-    
-    public void setCropType(ResourceType newType) {
-        this.cropType = newType;
-        this.maxGrowthStages = CROP_GROWTH_STAGES.getOrDefault(newType, 4);
-        this.growthDuration = CROP_GROWTH_DURATIONS.getOrDefault(newType, 30000L);
-        updateCurrentImage();
     }
 }

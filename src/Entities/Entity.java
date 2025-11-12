@@ -10,25 +10,20 @@ import java.util.List;
 
 public class Entity {
 
-    // position
+
     protected Point position;
 
-    // parts
     public boolean isParent;
     public List<Entity> parts;
     public Entity parent;
 
-    // image & animation
     protected BufferedImage currentImage;
-
     protected Animation currentAnimation;
     public boolean isAnimating;
     protected int frameCounter;
 
-    // clicks
     public boolean clickable;
     public boolean isClicked;
-
 
     public Entity() {}
 
@@ -47,47 +42,6 @@ public class Entity {
         this.isAnimating = true;
     }
 
-
-    // parts handling
-    public void addPart(Entity part) {
-        if (parts == null) {
-            parts = new ArrayList<>();
-        }
-
-        parts.add(part);
-        part.setParent(this);
-    }
-
-    public void setParent(Entity parent) {
-        this.parent = parent;
-    }
-
-
-    // getters
-    public Point getPosition() {
-        return new Point(position);
-    }
-
-    public Point getTilePosition() {
-        return new Point(getPosition().x / Farm.tileSize, getPosition().y / Farm.tileSize);
-    }
-
-
-    // mouse handling
-    public void onClick() {};
-
-    public boolean isPointInside(int mouseX, int mouseY) {
-        // convert mouse screen coordinates to world coordinates
-        int worldMouseX = (mouseX - Farm.camera.position.x) / Farm.scale;
-        int worldMouseY = (mouseY - Farm.camera.position.y) / Farm.scale;
-
-        int halfTile = Farm.tileSize / 2;
-        return worldMouseX >= position.x - halfTile && worldMouseX <= position.x + Farm.tileSize + halfTile &&
-               worldMouseY >= position.y + halfTile && worldMouseY <= position.y + Farm.tileSize + halfTile;
-    }
-
-
-    // updating
     public void update() {
         if (isAnimating && currentAnimation != null) {
             currentImage = currentAnimation.getCurrentFrameImage();
@@ -101,8 +55,6 @@ public class Entity {
         }
     }
 
-
-    // rendering
     public void render(Graphics2D graphics2D) {
         if (currentImage != null && !isParent) {
             graphics2D.drawImage(currentImage,
@@ -116,5 +68,38 @@ public class Entity {
                 part.render(graphics2D);
             }
         }
+    }
+
+
+    public void addPart(Entity part) {
+        if (parts == null) {
+            parts = new ArrayList<>();
+        }
+
+        parts.add(part);
+        part.setParent(this);
+    }
+
+    public void setParent(Entity parent) {
+        this.parent = parent;
+    }
+
+    public Point getPosition() {
+        return new Point(position);
+    }
+
+    public Point getTilePosition() {
+        return new Point(getPosition().x / Farm.tileSize, getPosition().y / Farm.tileSize);
+    }
+
+    public void onClick() {}
+
+    public boolean isPointInside(int mouseX, int mouseY) {
+        int worldMouseX = (mouseX - Farm.camera.position.x) / Farm.scale;
+        int worldMouseY = (mouseY - Farm.camera.position.y) / Farm.scale;
+
+        int halfTile = Farm.tileSize / 2;
+        return worldMouseX >= position.x - halfTile && worldMouseX <= position.x + Farm.tileSize + halfTile &&
+               worldMouseY >= position.y + halfTile && worldMouseY <= position.y + Farm.tileSize + halfTile;
     }
 }

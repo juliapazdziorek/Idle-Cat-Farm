@@ -9,43 +9,18 @@ import java.awt.image.BufferedImage;
 
 public class TreePart extends Entity {
 
-    // images
     public BufferedImage staticImage;
     public Animation clickAnimation;
 
     public TreePart(Point position, int tileId) {
         super(position);
-
-        // set image and animation
         staticImage = Farm.resourceHandler.entitiesResourcesMap.get("tree").get(String.valueOf(tileId));
         clickAnimation = Farm.resourceHandler.animationFactory.createClickTreePartAnimation(tileId);
-        
-        // initialize current image
         currentImage = staticImage;
 
-        // set flags
         clickable = true;
     }
 
-
-    // mouse handling
-    @Override
-    public void onClick() {
-        ((Tree) parent).playTreeClickAnimation();
-    }
-
-
-    // animation
-    public void startTreeClickAnimation() {
-        if (clickAnimation != null) {
-            clickAnimation.resetFrames();
-            currentAnimation = clickAnimation;
-            isAnimating = true;
-            frameCounter = 0;
-        }
-    }
-
-    // updating
     @Override
     public void update() {
         if (isAnimating && currentAnimation != null) {
@@ -64,6 +39,21 @@ public class TreePart extends Entity {
             }
         } else {
             currentImage = staticImage;
+        }
+    }
+
+    @Override
+    public void onClick() {
+        ((Tree) parent).playTreeClickAnimation();
+    }
+
+
+    public void startTreeClickAnimation() {
+        if (clickAnimation != null) {
+            clickAnimation.resetFrames();
+            currentAnimation = clickAnimation;
+            isAnimating = true;
+            frameCounter = 0;
         }
     }
 }

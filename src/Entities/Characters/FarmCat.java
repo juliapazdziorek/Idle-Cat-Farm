@@ -931,7 +931,7 @@ public class FarmCat extends Entity {
     
     // consume energy for tilling based on cat level, returns true if successful
     public boolean consumeEnergyForTilling() {
-        int energyCost = getEnergyCostForTilling();
+        int energyCost = getEnergyCostForAction();
         
         if (energy < energyCost) {
             return false;
@@ -941,7 +941,7 @@ public class FarmCat extends Entity {
         return true;
     }
     
-    private int getEnergyCostForTilling() {
+    private int getEnergyCostForAction() {
         switch (farmingLevel) {
             case LVL0 -> { return 10; }
             case LVL1 -> { return 7; }
@@ -951,13 +951,9 @@ public class FarmCat extends Entity {
             default -> { return 10; }
         }
     }
-    
-    public boolean hasEnoughEnergyForTilling() {
-        return energy >= getEnergyCostForTilling();
-    }
 
     public boolean hasEnoughEnergyForAction() {
-        return energy >= getEnergyCostForTilling();
+        return energy >= getEnergyCostForAction();
     }
     
     public int getWateringCan() {
