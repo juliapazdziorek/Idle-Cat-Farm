@@ -8,10 +8,6 @@ import java.io.IOException;
 import java.util.*;
 import java.awt.image.BufferedImage;
 
-/**
- * Central resource management system that loads, processes, and organizes all game assets.
- * Handles sprite sheets, tile mapping, entity resources, and animation factory initialization.
- */
 public class ResourceHandler {
 
     private final Map<String, BufferedImage> imageMap;
@@ -22,10 +18,6 @@ public class ResourceHandler {
 
     public final AnimationFactory animationFactory;
 
-    /**
-     * Initializes all resource maps and processes sprite sheets into usable game assets.
-     * Complete resource loading pipeline from raw files to organized sprite collections.
-     */
     public ResourceHandler() {
         imageMap = new HashMap<>();
         tilesMap = new HashMap<>();
@@ -42,14 +34,8 @@ public class ResourceHandler {
         animationFactory = new AnimationFactory(imageMap);
     }
 
-
-    /**
-     * Loads all sprite sheet files from the SproutLands asset pack.
-     * Organized by asset category for maintainable resource management.
-     */
     private void loadResources() {
 
-        // Ground
         loadImageToMap(imageMap, "src/Resources/SproutLands/MapTiles/water.png", "water");
         loadImageToMap(imageMap, "src/Resources/SproutLands/MapTiles/soil.png", "soil");
         loadImageToMap(imageMap, "src/Resources/SproutLands/MapTiles/grass_water.png", "grassWater");
@@ -58,14 +44,12 @@ public class ResourceHandler {
         loadImageToMap(imageMap, "src/Resources/SproutLands/MapTiles/bridges.png", "bridges");
         loadImageToMap(imageMap, "src/Resources/SproutLands/MapTiles/paths.png", "paths");
 
-        // Nature
         loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/water_decor.png", "waterDecor");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/grass_decor.png", "grassDecor");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/trees.png", "trees");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/tree.png", "tree");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/crops.png", "crops");
 
-        // Building parts
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/fences.png", "fences");
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/gates.png", "gates");
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/walls.png", "walls");
@@ -73,7 +57,6 @@ public class ResourceHandler {
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/roof.png", "roof");
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/coop.png", "coop");
 
-        // Objects
         loadImageToMap(imageMap, "src/Resources/SproutLands/Objects/barn_structures.png", "barnStructures");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Objects/water_tray.png", "waterTrays");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Objects/work_station.png", "workStation");
@@ -83,28 +66,21 @@ public class ResourceHandler {
         loadImageToMap(imageMap, "src/Resources/SproutLands/Objects/furniture.png", "furniture");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Objects/signs.png", "signs");
 
-        // Characters
         loadImageToMap(imageMap, "src/Resources/SproutLands/Characters/farm_cat.png", "farmCat");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Custom/sleeping_white.png" , "sleepingWhiteCat");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Custom/sleeping_grey.png" , "sleepingGreyCat");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Custom/sleeping_ginger.png" , "sleepingGingerCat");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Custom/sleeping_tricolor.png" , "sleepingTricolorCat");
 
-        // Speech bubbles
         loadImageToMap(imageMap, "src/Resources/SproutLands/Custom/speech_bubble_sun.png", "speechBubbleSun");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Custom/speech_bubble_water_can.png", "speechBubbleWaterCan");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Custom/speech_bubble_zzz.png", "speechBubbleZzz");
 
-        // User interface elements
         loadImageToMap(imageMap, "src/Resources/SproutLands/UI/items.png", "items");
         loadImageToMap(imageMap, "src/Resources/SproutLands/UI/emojis.png", "emojis");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Custom/cat_emojis.png", "catEmojis");
     }
 
-    /**
-     * Loads a single image file and stores it in the resource map.
-     * Provides centralized error handling for asset loading failures.
-     */
     private void loadImageToMap(Map<String, BufferedImage> map, String path, String key) {
         try {
             BufferedImage image = ImageIO.read(new File(path));
@@ -115,15 +91,8 @@ public class ResourceHandler {
         }
     }
 
-
-    /**
-     * Initializes the tiles by extracting individual tiles from sprite sheets.
-     */
     private void initializeTilesMap() {
 
-        // Map tiles
-
-        // Soil
         BufferedImage soilSheet = imageMap.get("soil");
         tilesMap.put(2, soilSheet.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // plain soil
         tilesMap.put(3, soilSheet.getSubimage(2 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // dark sand soil
@@ -133,7 +102,6 @@ public class ResourceHandler {
         tilesMap.put(7, soilSheet.getSubimage(3 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // two light stones soil
         tilesMap.put(8, soilSheet.getSubimage(4 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // three light stones soil
 
-        // Grass water
         BufferedImage grassWaterSheet = imageMap.get("grassWater");
         tilesMap.put(9, grassWaterSheet.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // plain grass
         tilesMap.put(10, grassWaterSheet.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // up grass water
@@ -168,7 +136,6 @@ public class ResourceHandler {
         tilesMap.put(39, grassWaterSheet.getSubimage(5 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // three flowers grass
         tilesMap.put(40, grassWaterSheet.getSubimage(5 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // two flowers grass
 
-        // Grass layer
         BufferedImage grassSheet = imageMap.get("grass");
         tilesMap.put(41, grassSheet.getSubimage(Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // bottom grass layer
         tilesMap.put(42, grassSheet.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // left grass layer
@@ -188,7 +155,6 @@ public class ResourceHandler {
         tilesMap.put(56, grassSheet.getSubimage(0, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // special transition grass layer 5
         tilesMap.put(57, grassSheet.getSubimage(2 * Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // special transition grass layer 6
 
-        // Dark grass
         BufferedImage darkGrassSheet = imageMap.get("darkGrass");
         tilesMap.put(58, darkGrassSheet.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // plain dark grass
         tilesMap.put(59, darkGrassSheet.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // up dark grass
@@ -229,14 +195,12 @@ public class ResourceHandler {
         tilesMap.put(94, darkGrassSheet.getSubimage(4 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // three dark stones dark grass
         tilesMap.put(95, darkGrassSheet.getSubimage(3 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // two dark stones dark grass
 
-        // Bridges
         BufferedImage bridgesSheet = imageMap.get("bridges");
         tilesMap.put(96, bridgesSheet.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // left bridge
         tilesMap.put(97, bridgesSheet.getSubimage(0, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // horizontal bridge
         tilesMap.put(98, bridgesSheet.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // right bridge
         tilesMap.put(99, bridgesSheet.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // water left bridge
 
-        // Paths
         BufferedImage paths = imageMap.get("paths");
         tilesMap.put(100, paths.getSubimage( 0, 0, Farm.tileSize, Farm.tileSize)); // path up
         tilesMap.put(101, paths.getSubimage( 0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // path vertical
@@ -248,9 +212,6 @@ public class ResourceHandler {
         tilesMap.put(107, paths.getSubimage( 2 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // path arc 2
         tilesMap.put(108, paths.getSubimage( Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // path arc 3
 
-        // Nature
-
-        // Water decor
         BufferedImage waterDecor = imageMap.get("waterDecor");
         tilesMap.put(109, waterDecor.getSubimage( 0, 0, Farm.tileSize, Farm.tileSize)); // water stone 1
         tilesMap.put(110, waterDecor.getSubimage( Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // water stone 2
@@ -265,7 +226,6 @@ public class ResourceHandler {
         tilesMap.put(119, waterDecor.getSubimage( 10 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // water lily 3
         tilesMap.put(120, waterDecor.getSubimage( 11 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // water lily 4
 
-        // Grass decor
         BufferedImage grassDecor = imageMap.get("grassDecor");
         tilesMap.put(121, grassDecor.getSubimage( 3 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // small shroom
         tilesMap.put(122, grassDecor.getSubimage( 4 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // two small shrooms
@@ -290,7 +250,6 @@ public class ResourceHandler {
         tilesMap.put(141, grassDecor.getSubimage( 2 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // small bush 3
         tilesMap.put(142, grassDecor.getSubimage( 3 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // small bush 4
 
-        // Trees
         BufferedImage trees = imageMap.get("trees");
         tilesMap.put(150, trees.getSubimage( 0, 0, Farm.tileSize, Farm.tileSize)); // small tree top
         tilesMap.put(151, trees.getSubimage( 0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // small tree bottom
@@ -315,9 +274,6 @@ public class ResourceHandler {
         tilesMap.put(171, trees.getSubimage( 9 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big shroomy log left
         tilesMap.put(172, trees.getSubimage( 10 * Farm.tileSize, 6 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big shroomy log right
 
-        // Building parts
-
-        // Fences
         BufferedImage fences = imageMap.get("fences");
         tilesMap.put(182, fences.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // fence up
         tilesMap.put(183, fences.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // fence vertical
@@ -331,12 +287,10 @@ public class ResourceHandler {
         tilesMap.put(191, fences.getSubimage(5 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // left fence broken
         tilesMap.put(192, fences.getSubimage(6 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // right fence broken
 
-        // Gates
         BufferedImage gates = imageMap.get("gates");
         tilesMap.put(193, gates.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // gate horizontal left
         tilesMap.put(196, gates.getSubimage(3 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // gate horizontal right
 
-        // Walls
         BufferedImage walls = imageMap.get("walls");
         tilesMap.put(205, walls.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // wall front
         tilesMap.put(206, walls.getSubimage(2 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // wall left
@@ -351,7 +305,6 @@ public class ResourceHandler {
         tilesMap.put(215, walls.getSubimage(3 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // window
         tilesMap.put(216, walls.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // floor
 
-        // Roof
         BufferedImage roof = imageMap.get("roof");
         tilesMap.put(221, roof.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // roof edge corner up-left
         tilesMap.put(222, roof.getSubimage( Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // roof edge up
@@ -377,7 +330,6 @@ public class ResourceHandler {
         tilesMap.put(242, roof.getSubimage(4 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // roof edge inner corner down-right
         tilesMap.put(243, roof.getSubimage(5 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // roof chimney
 
-        // Coop
         BufferedImage coop = imageMap.get("coop");
         tilesMap.put(244, coop.getSubimage(10 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // small coop 1
         tilesMap.put(245, coop.getSubimage(11 * Farm.tileSize, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // small coop 2
@@ -415,9 +367,6 @@ public class ResourceHandler {
         tilesMap.put(277, coop.getSubimage(2 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 19
         tilesMap.put(278, coop.getSubimage(3 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // large coop 20
 
-        // Objects
-
-        // Barn structures
         BufferedImage barnStructures = imageMap.get("barnStructures");
         tilesMap.put(279, barnStructures.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // box
         tilesMap.put(280, barnStructures.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // two boxes top-left
@@ -430,21 +379,18 @@ public class ResourceHandler {
         tilesMap.put(287, barnStructures.getSubimage(0, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // patch of hay
         tilesMap.put(288, barnStructures.getSubimage(Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // big patch of hay
 
-        // Work station
         BufferedImage workStation = imageMap.get("workStation");
         tilesMap.put(293, workStation.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // work station left-up
         tilesMap.put(294, workStation.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // work station left-bottom
         tilesMap.put(295, workStation.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // work station right-up
         tilesMap.put(296, workStation.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // work station right-bottom
 
-        // Water well
         BufferedImage waterWell = imageMap.get("waterWell");
         tilesMap.put(297, waterWell.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // water well left-up
         tilesMap.put(298, waterWell.getSubimage(0, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // water well left-bottom
         tilesMap.put(299, waterWell.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // water well right-up
         tilesMap.put(300, waterWell.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // water well right-bottom
 
-        // Piknik blanket
         BufferedImage piknikBlanket = imageMap.get("piknikBlanket");
         tilesMap.put(301, piknikBlanket.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // piknik blanket 1
         tilesMap.put(302, piknikBlanket.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // piknik blanket 2
@@ -456,11 +402,9 @@ public class ResourceHandler {
         tilesMap.put(308, piknikBlanket.getSubimage(Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // piknik blanket 8
         tilesMap.put(309, piknikBlanket.getSubimage(2 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // piknik blanket 9
 
-        // Piknik basket
         BufferedImage piknikBasket = imageMap.get("piknikBasket");
         tilesMap.put(310, piknikBasket.getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // piknik basket
 
-        // Furniture
         BufferedImage furniture = imageMap.get("furniture");
         tilesMap.put(311, furniture.getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // painting
         tilesMap.put(312, furniture.getSubimage(3 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // flower pot
@@ -485,16 +429,14 @@ public class ResourceHandler {
         tilesMap.put(331, furniture.getSubimage(0, 5 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // green small carpet
     }
 
-    /** Initializes entity resource maps by extracting sprites for interactive game objects. */
+
     private void initializeEntitiesResourcesMap() {
 
-        // Bush
         HashMap<String, BufferedImage> bushMap = new HashMap<>();
         bushMap.put("bush grown", imageMap.get("trees").getSubimage(Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // bush grown
         bushMap.put("bush shrunken", imageMap.get("trees").getSubimage(0, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // bush shrunken
         entitiesResourcesMap.put("bush", bushMap);
 
-        // Tree
         HashMap<String, BufferedImage> treeMap = new HashMap<>();
         treeMap.put("173", imageMap.get("tree").getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // tree top-left
         treeMap.put("174", imageMap.get("tree").getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // tree top-center
@@ -507,7 +449,6 @@ public class ResourceHandler {
         treeMap.put("181", imageMap.get("tree").getSubimage(2 * Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // tree bottom-right
         entitiesResourcesMap.put("tree", treeMap);
 
-        // Entrances
         HashMap<String, BufferedImage> entrancesMap = new HashMap<>();
         entrancesMap.put("194open", imageMap.get("gates").getSubimage(17 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // gate horizontal left gate
         entrancesMap.put("195open", imageMap.get("gates").getSubimage(18 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // gate horizontal right gate
@@ -539,7 +480,6 @@ public class ResourceHandler {
         entrancesMap.put("220closed", imageMap.get("doors").getSubimage(17 * Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // double doors 3
         entitiesResourcesMap.put("entrances", entrancesMap);
 
-        // Water trays
         HashMap<String, BufferedImage> waterTraysMap = new HashMap<>();
         waterTraysMap.put("289empty", imageMap.get("waterTrays").getSubimage(4 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // water tray left
         waterTraysMap.put("290empty", imageMap.get("waterTrays").getSubimage(5 * Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // water tray right
@@ -549,7 +489,6 @@ public class ResourceHandler {
         waterTraysMap.put("290full", imageMap.get("waterTrays").getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // water tray right
         entitiesResourcesMap.put("waterTrays", waterTraysMap);
 
-        // Signs
         HashMap<String, BufferedImage> signsMap = new HashMap<>();
         signsMap.put("empty", imageMap.get("signs").getSubimage(0, 0, Farm.tileSize, Farm.tileSize)); // empty sign
         signsMap.put("corn", imageMap.get("signs").getSubimage(Farm.tileSize, 0, Farm.tileSize, Farm.tileSize)); // corn sign
@@ -570,10 +509,6 @@ public class ResourceHandler {
         entitiesResourcesMap.put("signs", signsMap);
     }
 
-    /**
-     * Initializes a crop sprite map with all growth stages for different crop types.
-     * Extracts individual crop sprites at various growth stages.
-     */
     private void initializeCropsMap() {
         
         BufferedImage crops = imageMap.get("crops");
@@ -626,14 +561,12 @@ public class ResourceHandler {
         cropsMap.put("cucumber4", crops.getSubimage( 3 * Farm.tileSize, 14 * Farm.tileSize, Farm.tileSize, Farm.tileSize));
     }
 
-    /** Initializes UI icon map for inventory, resources, and interface elements. */
     private void initializeIconsMap() {
 
         BufferedImage icons = imageMap.get("items");
         BufferedImage catEmojis = imageMap.get("catEmojis");
         BufferedImage emojis = imageMap.get("emojis");
 
-        // Resources
         iconsMap.put("corn", icons.getSubimage(Farm.tileSize, Farm.tileSize, Farm.tileSize, Farm.tileSize)); // corn
         iconsMap.put("carrot", icons.getSubimage(Farm.tileSize, 2 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // carrot
         iconsMap.put("cauliflower", icons.getSubimage(Farm.tileSize, 3 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // cauliflower
@@ -654,7 +587,6 @@ public class ResourceHandler {
         iconsMap.put("chockMilk", icons.getSubimage(7 * Farm.tileSize, 4 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // chocolate milk
         iconsMap.put("berryMilk", icons.getSubimage(7 * Farm.tileSize, 8 * Farm.tileSize, Farm.tileSize, Farm.tileSize)); // berry milk
 
-        // Cats
         iconsMap.put("whiteCat", catEmojis.getSubimage(0, 0, Farm.emojiSize, Farm.emojiSize)); // white cat
         iconsMap.put("whiteCatZzz", catEmojis.getSubimage(Farm.emojiSize, 0, Farm.emojiSize, Farm.emojiSize)); // white cat zzz
         iconsMap.put("greyCat", catEmojis.getSubimage(0, Farm.emojiSize, Farm.emojiSize, Farm.emojiSize)); // grey cat
@@ -665,7 +597,6 @@ public class ResourceHandler {
         iconsMap.put("tricolorCatZzz", catEmojis.getSubimage(Farm.emojiSize, 3 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize)); // tricolor cat zzz
         iconsMap.put("happyStandingCat", emojis.getSubimage(0, 4 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize)); // happy standing cat
 
-        // Icons
         iconsMap.put("standingCat", emojis.getSubimage(Farm.emojiSize, 4 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize)); // standing cat
         iconsMap.put("zzz", emojis.getSubimage(4 * Farm.emojiSize, 7 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize)); // zzz
         iconsMap.put("sun", emojis.getSubimage(0, 18 * Farm.emojiSize, Farm.emojiSize, Farm.emojiSize)); // sun

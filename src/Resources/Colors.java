@@ -2,10 +2,6 @@ package Resources;
 
 import java.awt.*;
 
-/**
- * Centralized color palette for consistent visual theming across the game.
- * Provides nature-inspired colors that match the farming aesthetic.
- */
 public class Colors {
 
     static public Color waterColor = Color.decode("#9bd4c3");

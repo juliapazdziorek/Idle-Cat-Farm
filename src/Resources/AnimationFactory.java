@@ -8,31 +8,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Central animation factory for creating game-specific animation sequences.
- * Uses sprite sheets from ResourceHandler.
- */
 public class AnimationFactory {
 
-    /** Repository of loaded sprite sheets and images for animation creation. */
     private final Map<String, BufferedImage> imageMap;
 
-    /** Initializes animation factory with access to all loaded game sprites. */
     public AnimationFactory(Map<String, BufferedImage> imageMap) {
         this.imageMap = imageMap;
     }
 
-
-    /** Water animation. */
     public Animation createWaterAnimation() {
         return new Animation(imageMap.get("water"), 4, 1, 0, 4, 20);
     }
 
-
-    /**
-     * Creates tree interaction animation based on tree part identifier.
-     * Each tree part has a unique animation sequence.
-     */
     public Animation createClickTreePartAnimation(int id) {
         return switch (id) {
             case 173 -> createClickTreePartAnimation173();
@@ -156,12 +143,6 @@ public class AnimationFactory {
         return new Animation(treeClickAnimation181Frames, 8);
     }
 
-
-    /**
-     * Creates entrance opening animation (gates and doors) based on entrance identifier.
-     * Handles both gate animations (194-204) and door animations (217-220) with
-     * smooth opening transitions for interactive building access.
-     */
     public Animation createEntranceOpenAnimation(int id) {
         return switch (id) {
             case 194 -> createGateOpenAnimation194();
@@ -182,11 +163,6 @@ public class AnimationFactory {
         };
     }
 
-    /**
-     * Creates entrance closing animation (gates and doors) based on entrance identifier.
-     * Provides smooth closing transitions that reverse the opening animation sequence
-     * for proper interactive building access feedback.
-     */
     public Animation createEntranceCloseAnimation(int id) {
         return switch (id) {
             case 194 -> createGateCloseAnimation194();
@@ -459,8 +435,6 @@ public class AnimationFactory {
         return new Animation(doorCloseAnimation220Frames, 5);
     }
 
-
-    /** Maps farm cat color variants to their corresponding sprite sheet keys. */
     private String getCatImageKey(FarmCat.FarmCatColor farmCatColor) {
         return switch (farmCatColor) {
             case WHITE -> "farmCat";      // TODO for now, all use same path
@@ -470,46 +444,35 @@ public class AnimationFactory {
         };
     }
 
-    /**
-     * Creates complete animation set for farm cat characters including movement,
-     * work activities (tilling, watering, harvesting), and idle states.
-     * Each animation supports 4-directional movement with appropriate timing.
-     */
     public HashMap<String, Animation> createCatAnimationMap(FarmCat.FarmCatColor farmCatColor) {
         HashMap<String, Animation> catAnimationMap = new HashMap<>();
         String catImageKey = getCatImageKey(farmCatColor);
 
-        // Idle standing animations for each direction
         catAnimationMap.put("farmCatStandingDown", new Animation(imageMap.get(catImageKey), 8, 24, 0, 8, 10));
         catAnimationMap.put("farmCatStandingUp", new Animation(imageMap.get(catImageKey), 8, 24, 1, 8, 10));
         catAnimationMap.put("farmCatStandingRight", new Animation(imageMap.get(catImageKey), 8, 24, 2, 8, 10));
         catAnimationMap.put("farmCatStandingLeft", new Animation(imageMap.get(catImageKey), 8, 24, 3, 8, 10));
 
-        // Normal walking movement animations
         catAnimationMap.put("farmCatWalkingDown", new Animation(imageMap.get(catImageKey), 8, 24, 4, 8, 10));
         catAnimationMap.put("farmCatWalkingUp", new Animation(imageMap.get(catImageKey), 8, 24, 5, 8, 10));
         catAnimationMap.put("farmCatWalkingRight", new Animation(imageMap.get(catImageKey), 8, 24, 6, 8, 10));
         catAnimationMap.put("farmCatWalkingLeft", new Animation(imageMap.get(catImageKey), 8, 24, 7, 8, 10));
 
-        // Fast running movement animations
         catAnimationMap.put("farmCatRunningDown", new Animation(imageMap.get(catImageKey), 8, 24, 8, 8, 10));
         catAnimationMap.put("farmCatRunningUp", new Animation(imageMap.get(catImageKey), 8, 24, 9, 8, 10));
         catAnimationMap.put("farmCatRunningRight", new Animation(imageMap.get(catImageKey), 8, 24, 10, 8, 10));
         catAnimationMap.put("farmCatRunningLeft", new Animation(imageMap.get(catImageKey), 8, 24, 11, 8, 10));
 
-        // Tilling animations
         catAnimationMap.put("farmCatTillingDown", new Animation(imageMap.get(catImageKey), 8, 24, 12, 8, 10));
         catAnimationMap.put("farmCatTillingUp", new Animation(imageMap.get(catImageKey), 8, 24, 13, 8, 10));
         catAnimationMap.put("farmCatTillingRight", new Animation(imageMap.get(catImageKey), 8, 24, 14, 8, 10));
         catAnimationMap.put("farmCatTillingLeft", new Animation(imageMap.get(catImageKey), 8, 24, 15, 8, 10));
 
-        // Chopping animations
         catAnimationMap.put("farmCatChoppingDown", new Animation(imageMap.get(catImageKey), 8, 24, 16, 8, 10));
         catAnimationMap.put("farmCatChoppingUp", new Animation(imageMap.get(catImageKey), 8, 24, 17, 8, 10));
         catAnimationMap.put("farmCatChoppingRight", new Animation(imageMap.get(catImageKey), 8, 24, 18, 8, 10));
         catAnimationMap.put("farmCatChoppingLeft", new Animation(imageMap.get(catImageKey), 8, 24, 19, 8, 10));
 
-        // Watering animations
         catAnimationMap.put("farmCatWateringDown", new Animation(imageMap.get(catImageKey), 8, 24, 20, 8, 10));
         catAnimationMap.put("farmCatWateringUp", new Animation(imageMap.get(catImageKey), 8, 24, 21, 8, 10));
         catAnimationMap.put("farmCatWateringRight", new Animation(imageMap.get(catImageKey), 8, 24, 22, 8, 10));
@@ -518,11 +481,6 @@ public class AnimationFactory {
         return catAnimationMap;
     }
 
-
-    /**
-     * Creates animation set for beds with cats sleeping on them based on bed tile ID,
-     * animations handle cat colors as well as bed colors.
-     */
     public Animation createBedSleepingAnimation(int bedTileId, FarmCat.FarmCatColor farmCatColor) {
         return switch (bedTileId) {
             case 313 -> createCatSleepingAnimation313(farmCatColor);
@@ -574,11 +532,6 @@ public class AnimationFactory {
         return new Animation(imageMap.get(catImageKey), 8, 12, 3, 8, 10);
     }
 
-    
-    /**
-     * Speech bubble animation system for cat communication and status display.
-     * Creates opening/idle/closing animations for different bubble types.
-     */
     public Animation createSpeechBubbleSunOpeningAnimation() {
         return new Animation(imageMap.get("speechBubbleSun"), 7, 3, 1, 7, 7);
     }
