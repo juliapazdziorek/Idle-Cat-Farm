@@ -5,10 +5,6 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-/**
- * Self-contained camera system with integrated input handling for smooth movement.
- * Manages viewport position and captures keyboard input directly.
- */
 public class Camera implements KeyListener {
 
     public Point position;
@@ -24,7 +20,6 @@ public class Camera implements KeyListener {
     private boolean leftPressed;
     private boolean rightPressed;
 
-    /** Input action types for camera movement and debug controls. */
     private enum KeyActionType {
         MOVE_UP_PRESS, MOVE_UP_RELEASE,
         MOVE_DOWN_PRESS, MOVE_DOWN_RELEASE, 
@@ -33,15 +28,10 @@ public class Camera implements KeyListener {
         DEBUG_TOGGLE
     }
 
-    /** Initializes the camera at starting position and sets up input handling. */
     public Camera() {
         position = new Point(-375, -500);
     }
-    
-    /**
-     * Configures camera input bindings on the game panel.
-     * Call this after GamePanel is created to enable camera controls.
-     */
+
     public void setupInputBindings(JPanel gamePanel) {
         InputMap inputMap = gamePanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = gamePanel.getActionMap();
@@ -77,7 +67,6 @@ public class Camera implements KeyListener {
         }
     }
 
-    /** Updates camera position based on input and boundary constraints. */
     public void update() {
         if (upPressed && !blockedUp) {
             position.y += cameraSpeed;
@@ -95,7 +84,6 @@ public class Camera implements KeyListener {
         checkIfBlocked();
     }
 
-    /** Calculates movement boundaries to prevent the camera from going out of bounds. */
     private void checkIfBlocked() {
         blockedUp = position.y + cameraSpeed > 0;
         blockedDown = position.y - cameraSpeed < - Farm.mapHeight + Farm.frame.getHeight();
@@ -103,7 +91,6 @@ public class Camera implements KeyListener {
         blockedRight = position.x - cameraSpeed < - Farm.mapWidth + Farm.gamePanel.getWidth();
     }
 
-    /** KeyListener implementation for direct input handling. **/
     @Override
     public void keyTyped(KeyEvent keyEvent) {
     }
@@ -129,10 +116,6 @@ public class Camera implements KeyListener {
         }
     }
 
-    /**
-     * Action handler that processes camera input commands.
-     * Handles both movement and debug toggle functionality.
-     */
     private class CameraInputAction extends AbstractAction {
         private final KeyActionType actionType;
         
