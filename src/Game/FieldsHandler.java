@@ -86,6 +86,7 @@ public class FieldsHandler {
             return false;
         }
 
+        field.setCatWatering(true);
         field.setCatWorkingOnField(true);
         idleCat.startWateringAction(unwateredPositions, cropType, fieldType);
         return true;

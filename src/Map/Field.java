@@ -17,6 +17,7 @@ public class Field {
     public enum FieldState {
         EMPTY,
         PLANTING,
+        WATERING,
         NEEDS_WATERING,
         GROWING,
         READY_TO_HARVEST
@@ -31,6 +32,7 @@ public class Field {
     private FieldState currentState;
 
     private boolean catWorkingOnField;
+    private boolean catWatering;
 
     public Field(FieldType fieldType) {
         this.fieldType = fieldType;
@@ -38,6 +40,7 @@ public class Field {
         crops = new HashMap<>();
         this.currentState = FieldState.EMPTY;
         this.catWorkingOnField = false;
+        this.catWatering = false;
     }
 
     public void addCropPositions(ArrayList<Point> positions) {
@@ -58,16 +61,23 @@ public class Field {
     
     public void setCatWorkingOnField(boolean working) {
         this.catWorkingOnField = working;
+        if (!working) {
+            this.catWatering = false;
+        }
         updateFieldState();
     }
-    
+
+    public void setCatWatering(boolean watering) {
+        this.catWatering = watering;
+    }
+
     public boolean isCatWorkingOnField() {
         return catWorkingOnField;
     }
 
     private void updateFieldState() {
         if (catWorkingOnField) {
-            currentState = FieldState.PLANTING;
+            currentState = catWatering ? FieldState.WATERING : FieldState.PLANTING;
 
         } else if (crops.isEmpty()) {
             currentState = FieldState.EMPTY;

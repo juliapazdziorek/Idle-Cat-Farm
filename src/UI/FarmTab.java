@@ -1,5 +1,6 @@
 package UI;
 
+import Entities.Characters.FarmCat;
 import Game.Farm;
 import Game.FieldsHandler;
 import Game.MoneyHandler;
@@ -198,6 +199,35 @@ public class FarmTab {
             levelDisplayPanel.add(costPanel);
         }
 
+        // cat status for the house, listed like the fields
+        if (area == Map.MapArea.HOUSE) {
+            JPanel catsDivider = new JPanel();
+            catsDivider.setOpaque(false);
+            catsDivider.setPreferredSize(new Dimension(180, 1));
+            catsDivider.setMaximumSize(new Dimension(Integer.MAX_VALUE, 1));
+            catsDivider.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Colors.beigeColor));
+            levelDisplayPanel.add(Box.createVerticalStrut(6));
+            levelDisplayPanel.add(catsDivider);
+
+            JPanel catsStatusPanel = new JPanel();
+            catsStatusPanel.setLayout(new BoxLayout(catsStatusPanel, BoxLayout.Y_AXIS));
+            catsStatusPanel.setOpaque(false);
+            catsStatusPanel.setBorder(BorderFactory.createEmptyBorder(6, 0, 0, 0));
+
+            if (Farm.entitiesHandler != null && Farm.entitiesHandler.farmCatList != null) {
+                boolean first = true;
+                for (FarmCat cat : Farm.entitiesHandler.farmCatList) {
+                    if (!first) {
+                        catsStatusPanel.add(Box.createVerticalStrut(2));
+                    }
+                    catsStatusPanel.add(createCatEntry(cat));
+                    first = false;
+                }
+            }
+
+            levelDisplayPanel.add(catsStatusPanel);
+        }
+
         // upgrade button (only show if upgrade is possible and affordable)
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         buttonPanel.setOpaque(false);
@@ -212,20 +242,83 @@ public class FarmTab {
         infoPanel.add(levelDisplayPanel, BorderLayout.WEST);
         infoPanel.add(buttonPanel, BorderLayout.EAST);
 
-        // TODO: action handling
-        JLabel actionLabel = new JLabel("action handling coming soon!");
-        actionLabel.setFont(Farm.fonts.minecraftiaFont);
-        actionLabel.setForeground(Colors.darkBeigeColor);
-
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setOpaque(false);
         topPanel.add(headerPanel, BorderLayout.NORTH);
         topPanel.add(infoPanel, BorderLayout.CENTER);
 
         sectionPanel.add(topPanel, BorderLayout.NORTH);
-        sectionPanel.add(actionLabel, BorderLayout.SOUTH);
+
+        // other areas keep the placeholder until their own action handling exists
+        if (area != Map.MapArea.HOUSE) {
+            JLabel actionLabel = new JLabel("action handling coming soon!");
+            actionLabel.setFont(Farm.fonts.minecraftiaFont);
+            actionLabel.setForeground(Colors.darkBeigeColor);
+            sectionPanel.add(actionLabel, BorderLayout.SOUTH);
+        }
 
         return sectionPanel;
+    }
+
+    private JPanel createCatEntry(FarmCat cat) {
+        JPanel catPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 0));
+        catPanel.setOpaque(false);
+        catPanel.setPreferredSize(new Dimension(200, 20));
+        catPanel.setMaximumSize(new Dimension(200, 20));
+        catPanel.setMinimumSize(new Dimension(200, 20));
+
+        JLabel iconLabel = new JLabel();
+        String iconKey = getCatIconKey(cat.getColor());
+        try {
+            if (Farm.resourceHandler != null && Farm.resourceHandler.iconsMap.containsKey(iconKey)) {
+                BufferedImage catImage = Farm.resourceHandler.iconsMap.get(iconKey);
+                iconLabel.setIcon(new ImageIcon(catImage.getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+            } else {
+                iconLabel.setText("?");
+                iconLabel.setFont(new Font("Dialog", Font.PLAIN, 12));
+                iconLabel.setForeground(Colors.darkBeigeColor);
+            }
+        } catch (Exception exception) {
+            iconLabel.setText("?");
+            iconLabel.setFont(new Font("Dialog", Font.PLAIN, 12));
+            iconLabel.setForeground(Colors.darkBeigeColor);
+        }
+
+        JLabel nameLabel = new JLabel(cat.getColorString() + ":");
+        nameLabel.setFont(Farm.fonts.minecraftiaFont);
+        nameLabel.setForeground(Colors.darkBeigeColor);
+        nameLabel.setPreferredSize(new Dimension(80, 16));
+
+        JLabel actionLabel = new JLabel(getCatActionLabel(cat.getActionState()));
+        actionLabel.setFont(Farm.fonts.minecraftiaFont);
+        actionLabel.setForeground(Colors.darkBeigeColor);
+
+        catPanel.add(iconLabel);
+        catPanel.add(nameLabel);
+        catPanel.add(actionLabel);
+        return catPanel;
+    }
+
+    private String getCatActionLabel(FarmCat.CatActionState state) {
+        return switch (state) {
+            case IDLE -> "idle";
+            case PLANTING -> "planting...";
+            case WATERING -> "watering...";
+            case GOING_TO_WELL -> "to the well...";
+            case REFILLING -> "refilling...";
+            case GOING_TO_SLEEP -> "to bed...";
+            case SLEEPING -> "sleeping";
+            case TIRED -> "tired";
+        };
+    }
+
+    private String getCatIconKey(FarmCat.FarmCatColor color) {
+        return switch (color) {
+            case WHITE -> "whiteCat";
+            case GREY -> "greyCat";
+            case GINGER -> "gingerCat";
+            case TRICOLOR -> "tricolorCat";
+        };
     }
 
     private JPanel createFieldsSection() {
@@ -488,6 +581,7 @@ public class FarmTab {
         return switch (state) {
             case EMPTY -> "empty";
             case PLANTING -> "planting...";
+            case WATERING -> "watering...";
             case NEEDS_WATERING -> "needs water";
             case GROWING -> "growing...";
             case READY_TO_HARVEST -> "ready!";

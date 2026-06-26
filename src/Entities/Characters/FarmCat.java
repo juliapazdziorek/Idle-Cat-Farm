@@ -1093,6 +1093,11 @@ public class FarmCat extends Entity {
             && isShowingSpeechBubble() && currentBubbleType == SpeechBubbleType.ZZZ && bubbleState != SpeechBubbleState.CLOSING) {
             closeSpeechBubble();
         }
+
+        // refresh the farm panel's cat status whenever a cat changes what it's doing
+        if (actionState != previousActionState && Farm.menuPanel != null) {
+            Farm.menuPanel.refreshResourcesDisplay();
+        }
         previousActionState = actionState;
 
         if (actionState == CatActionState.PLANTING) {
