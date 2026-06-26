@@ -16,6 +16,7 @@ public class Crop extends Entity {
     private int currentGrowthStage;
     private final int maxGrowthStages;
     private boolean isFullyGrown;
+    private boolean watered;
 
     private long lastGrowthTime;
     private final long growthDuration;
@@ -49,6 +50,7 @@ public class Crop extends Entity {
         this.maxGrowthStages = CROP_GROWTH_STAGES.getOrDefault(cropType, 4);
         this.growthDuration = CROP_GROWTH_DURATIONS.getOrDefault(cropType, 30000L);
         this.isFullyGrown = false;
+        this.watered = false;
         this.lastGrowthTime = System.currentTimeMillis();
         this.clickable = false;
         
@@ -63,8 +65,19 @@ public class Crop extends Entity {
     public void update() {
         super.update();
 
-        if (!isFullyGrown && System.currentTimeMillis() - lastGrowthTime >= growthDuration) {
+        if (watered && !isFullyGrown && System.currentTimeMillis() - lastGrowthTime >= growthDuration) {
             grow();
+        }
+    }
+
+    public boolean isWatered() {
+        return watered;
+    }
+
+    public void setWatered() {
+        if (!watered) {
+            watered = true;
+            lastGrowthTime = System.currentTimeMillis();
         }
     }
 

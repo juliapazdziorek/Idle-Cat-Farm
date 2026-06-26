@@ -567,4 +567,16 @@ public class AnimationFactory {
     public Animation createSpeechBubbleZzzClosingAnimation() {
         return new Animation(imageMap.get("speechBubbleZzz"), 7, 3, 2, 7, 7);
     }
+
+    public Animation createWateringWaterDownAnimation() {
+        return new Animation(imageMap.get("waterWateringCan"), 9, 3, 0, 9, 7);
+    }
+
+    public Animation createWateringWaterUpAnimation() {
+        return new Animation(imageMap.get("waterWateringCan"), 9, 3, 1, 9, 7);
+    }
+
+    public Animation createWateringWaterSideAnimation() {
+        return new Animation(imageMap.get("waterWateringCan"), 9, 3, 2, 9, 7);
+    }
 }

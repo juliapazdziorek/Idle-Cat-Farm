@@ -73,7 +73,7 @@ public class Bed extends Entity {
     public void setCatSleeping(FarmCat cat) {
         if (bedState == BedState.RESERVED && cat != null && occupyingCat == cat) {
             this.bedState = BedState.OCCUPIED;
-            
+
             if (parts != null) {
                 for (Entity part : parts) {
                     if (part instanceof BedPart bedPart) {
@@ -137,7 +137,6 @@ public class Bed extends Entity {
                 if (position.x >= 0 && position.x < Farm.mapWidthTiles &&
                     position.y >= 0 && position.y < Farm.mapHeightTiles &&
                     !Farm.entitiesHandler.map.hasObstacleAt(position.y, position.x)) {
-                    System.out.println("Found valid toBedPosition at: " + position);
                     toBedPosition = position;
                     break;
                 }

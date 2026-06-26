@@ -218,7 +218,7 @@ public class CatsTab {
                     actionButton.setText("+");
                 }
                 actionButton.addActionListener(_ -> {
-                    cat.setWateringCan(100);
+                    cat.startGoingToWell();
                     Farm.menuPanel.refreshResourcesDisplay();
                 });
             }

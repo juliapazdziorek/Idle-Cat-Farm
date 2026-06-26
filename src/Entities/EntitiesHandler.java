@@ -15,6 +15,7 @@ import Entities.Nature.Tree;
 import Entities.Objects.Bed;
 import Entities.Objects.Sign;
 import Entities.Objects.WaterTray;
+import Entities.Objects.Well;
 import Game.Farm;
 import Map.Map;
 
@@ -64,8 +65,8 @@ public class EntitiesHandler implements MouseListener {
     public void render(Graphics2D graphics2D) {
         map.renderBottom(graphics2D);
 
-        Entity[] entities = bottomRenderableMapEntities.toArray(new Entity[0]);
-        for (Entity entity : entities) {
+        Entity[] bottomEntities = bottomRenderableMapEntities.toArray(new Entity[0]);
+        for (Entity entity : bottomEntities) {
             if (entity != null) {
                 entity.render(graphics2D);
             }
@@ -123,6 +124,10 @@ public class EntitiesHandler implements MouseListener {
             bottomRenderableMapEntities.add(waterTray);
         }
 
+        for (Well well : map.wells) {
+            topRenderableEntities.add(well);
+        }
+
         for (Sign sign : map.signs) {
             bottomRenderableMapEntities.add(sign);
             updatableMapEntities.add(sign);
@@ -169,6 +174,23 @@ public class EntitiesHandler implements MouseListener {
             return null;
         }
         
+        int randomIndex = (int) (Math.random() * suitableCats.size());
+        return suitableCats.get(randomIndex);
+    }
+
+    public static FarmCat findIdleCatForWatering() {
+        List<FarmCat> suitableCats = new ArrayList<>();
+
+        for (FarmCat cat : Farm.entitiesHandler.farmCatList) {
+            if (cat.isIdle() && cat.hasEnoughWaterForAction()) {
+                suitableCats.add(cat);
+            }
+        }
+
+        if (suitableCats.isEmpty()) {
+            return null;
+        }
+
         int randomIndex = (int) (Math.random() * suitableCats.size());
         return suitableCats.get(randomIndex);
     }

@@ -13,6 +13,7 @@ import Entities.Objects.BedPart;
 import Entities.Objects.Sign;
 import Entities.Objects.WaterTray;
 import Entities.Objects.WaterTrayPart;
+import Entities.Objects.Well;
 import Game.Farm;
 import Pathfinding.AStar;
 
@@ -60,6 +61,9 @@ public class Map {
     public final ArrayList<Bed> beds;
     ArrayList<Integer> bedIds;
     private final List<FarmCat> sleepingCatsToReassign;
+
+    public final ArrayList<Well> wells;
+    ArrayList<Integer> wellIds;
 
     public final ArrayList<Field> fields;
 
@@ -229,6 +233,10 @@ public class Map {
         Collections.addAll(bedIds, 313, 317); // bed top tiles
         sleepingCatsToReassign = new ArrayList<>();
 
+        wells = new ArrayList<>();
+        wellIds = new ArrayList<>();
+        Collections.addAll(wellIds, 297, 298, 299, 300);
+
         fields = new ArrayList<>();
 
         initializeFields();
@@ -301,13 +309,16 @@ public class Map {
         entrances.clear();
         signs.clear();
         waterTrays.clear();
+        wells.clear();
 
         List<Entity> existingCrops = new ArrayList<>();
         List<Entity> existingCats = new ArrayList<>();
         
         sleepingCatsToReassign.clear();
         for (Bed bed : beds) {
-            if (bed.getBedState() == Bed.BedState.OCCUPIED && bed.getOccupyingCat() != null) {
+            // RESERVED too, so cats still walking to a bed aren't stranded on a discarded one
+            if ((bed.getBedState() == Bed.BedState.OCCUPIED || bed.getBedState() == Bed.BedState.RESERVED)
+                    && bed.getOccupyingCat() != null) {
                 sleepingCatsToReassign.add(bed.getOccupyingCat());
             }
         }
@@ -419,6 +430,7 @@ public class Map {
         boolean[][] processedEntranceTiles = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
         boolean[][] processedWaterTrayTiles = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
         boolean[][] processedBedTiles = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
+        boolean[][] processedWellTiles = new boolean[Farm.mapHeightTiles][Farm.mapWidthTiles];
 
         for (int i = 0; i < Farm.mapHeightTiles; i++) {
             for (int j = 0; j < Farm.mapWidthTiles; j++) {
@@ -473,6 +485,14 @@ public class Map {
                     if (bedIds.contains(tilesIds[i][j])) {
                         if (!processedBedTiles[i][j]) {
                             createBed(tilesIds, i, j, processedBedTiles);
+                        }
+                        continue;
+                    }
+
+                    // Water well
+                    if (wellIds.contains(tilesIds[i][j])) {
+                        if (!processedWellTiles[i][j]) {
+                            createWell(tilesIds, i, j, processedWellTiles);
                         }
                         continue;
                     }
@@ -573,6 +593,18 @@ public class Map {
             waterTray.addPart(new WaterTrayPart(position, tilesIds[tileY][tileX]));
         }
         waterTrays.add(waterTray);
+    }
+
+    private void createWell(int[][] tilesIds, int i, int j, boolean[][] processedWellTiles) {
+        Well well = new Well();
+
+        ArrayList<Point> positions = findEntityPositions(tilesIds, i, j, processedWellTiles, wellIds);
+        for (Point position : positions) {
+            int tileY = position.y / Farm.tileSize;
+            int tileX = position.x / Farm.tileSize;
+            well.addPart(new Entity(position, tilesIds[tileY][tileX]));
+        }
+        wells.add(well);
     }
 
     private void createBed(int[][] tilesIds, int i, int j, boolean[][] processedBedTiles) {

@@ -488,6 +488,7 @@ public class FarmTab {
         return switch (state) {
             case EMPTY -> "empty";
             case PLANTING -> "planting...";
+            case NEEDS_WATERING -> "needs water";
             case GROWING -> "growing...";
             case READY_TO_HARVEST -> "ready!";
         };

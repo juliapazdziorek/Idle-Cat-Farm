@@ -134,13 +134,8 @@ public class ResourcesSection {
 
             if (FarmResourcesHandler.isCropResource(resourceType)) {
 
-                boolean startedPlanting = false;
-                if (FieldsHandler.startPlanting(Field.FieldType.EAST, resourceType)) {
-                    startedPlanting = true;
-                } else if (FieldsHandler.startPlanting(Field.FieldType.WEST, resourceType)) {
-                    startedPlanting = true;
-                }
-                
+                boolean startedPlanting = FieldsHandler.startPlantingPrioritized(resourceType);
+
                 if (startedPlanting) {
                     Farm.menuPanel.refreshResourcesDisplay();
                 }
@@ -165,6 +160,41 @@ public class ResourcesSection {
 
         leftPanel.add(iconButton);
         leftPanel.add(Box.createHorizontalStrut(3));
+
+        // watering-can button for crops: disabled until a field of this crop type has
+        // unwatered crops; clicking sends a free cat to water that field
+        if (FarmResourcesHandler.isCropResource(resourceType)) {
+            JButton wateringButton = UIUtils.createRoundedButton("", 28, 28);
+
+            try {
+                if (Farm.resourceHandler != null && Farm.resourceHandler.iconsMap.containsKey("waterCan")) {
+                    ImageIcon waterIcon = new ImageIcon(Farm.resourceHandler.iconsMap.get("waterCan"));
+                    Image scaledWaterIcon = waterIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+                    wateringButton.setIcon(new ImageIcon(scaledWaterIcon));
+                } else {
+                    wateringButton.setText("~");
+                    wateringButton.setFont(new Font("Dialog", Font.PLAIN, 12));
+                    wateringButton.setForeground(Colors.darkBeigeColor);
+                }
+            } catch (Exception exception) {
+                wateringButton.setText("~");
+                wateringButton.setFont(new Font("Dialog", Font.PLAIN, 12));
+                wateringButton.setForeground(Colors.darkBeigeColor);
+            }
+
+            wateringButton.setEnabled(FieldsHandler.canWaterCropType(resourceType));
+            wateringButton.addActionListener(_ -> {
+                boolean startedWatering = FieldsHandler.startWatering(Field.FieldType.EAST, resourceType)
+                        || FieldsHandler.startWatering(Field.FieldType.WEST, resourceType);
+                if (startedWatering) {
+                    Farm.menuPanel.refreshResourcesDisplay();
+                }
+            });
+
+            leftPanel.add(wateringButton);
+            leftPanel.add(Box.createHorizontalStrut(3));
+        }
+
         leftPanel.add(nameLabel);
 
         resourcePanel.add(leftPanel, BorderLayout.WEST);

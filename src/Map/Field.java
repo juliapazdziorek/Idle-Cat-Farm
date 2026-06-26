@@ -14,9 +14,10 @@ public class Field {
 
     public enum FieldType { EAST, WEST }
 
-    public enum FieldState { 
+    public enum FieldState {
         EMPTY,
         PLANTING,
+        NEEDS_WATERING,
         GROWING,
         READY_TO_HARVEST
     }
@@ -71,11 +72,14 @@ public class Field {
         } else if (crops.isEmpty()) {
             currentState = FieldState.EMPTY;
 
+        } else if (hasUnwateredCrops()) {
+            currentState = FieldState.NEEDS_WATERING;
+
         } else {
 
             boolean allCropsReady = crops.values().stream()
                     .allMatch(Crop::isFullyGrown);
-            
+
             if (allCropsReady) {
                 currentState = FieldState.READY_TO_HARVEST;
             } else {
@@ -132,8 +136,32 @@ public class Field {
         return crops;
     }
 
+    public boolean hasUnwateredCrops() {
+        return crops.values().stream().anyMatch(crop -> !crop.isWatered());
+    }
+
+    public ArrayList<Point> getUnwateredCropPositions() {
+        ArrayList<Point> unwateredPositions = new ArrayList<>();
+        for (Map.Entry<Point, Crop> entry : crops.entrySet()) {
+            if (!entry.getValue().isWatered()) {
+                unwateredPositions.add(entry.getKey());
+            }
+        }
+        return unwateredPositions;
+    }
+
     public ArrayList<Point> getCropPositions() {
         return new ArrayList<>(cropPositions);
+    }
+
+    public ArrayList<Point> getEmptyCropPositions() {
+        ArrayList<Point> emptyPositions = new ArrayList<>();
+        for (Point position : cropPositions) {
+            if (!crops.containsKey(position)) {
+                emptyPositions.add(position);
+            }
+        }
+        return emptyPositions;
     }
     
     public FieldType getFieldType() {

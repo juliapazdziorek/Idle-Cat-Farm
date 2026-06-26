@@ -184,9 +184,12 @@ public class UIUtils {
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 
                 JButton btn = (JButton) c;
-                
+                boolean enabled = c.isEnabled();
+
                 // Fill background with rounded corners
-                if (btn.getModel().isPressed()) {
+                if (!enabled) {
+                    g2.setColor(Colors.lightBeigeColor);
+                } else if (btn.getModel().isPressed()) {
                     g2.setColor(Colors.beigeColor.darker());
                 } else if (btn.getModel().isRollover()) {
                     g2.setColor(Colors.beigeColor.brighter());
@@ -194,19 +197,26 @@ public class UIUtils {
                     g2.setColor(Colors.beigeColor);
                 }
                 g2.fillRoundRect(0, 0, c.getWidth(), c.getHeight(), 8, 8);
-                
+
                 // Draw border
-                g2.setColor(Colors.beigeColor.darker());
+                g2.setColor(enabled ? Colors.beigeColor.darker() : Colors.beigeColor);
                 g2.drawRoundRect(0, 0, c.getWidth()-1, c.getHeight()-1, 8, 8);
-                
+
                 g2.dispose();
-                
-                // Now paint the icon/text on top
+
+                // Now paint the icon/text on top (dimmed when disabled)
                 if (btn.getIcon() != null) {
                     Icon icon = btn.getIcon();
                     int x = (c.getWidth() - icon.getIconWidth()) / 2;
                     int y = (c.getHeight() - icon.getIconHeight()) / 2;
-                    icon.paintIcon(c, g, x, y);
+                    if (!enabled) {
+                        Graphics2D ig = (Graphics2D) g.create();
+                        ig.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.35f));
+                        icon.paintIcon(c, ig, x, y);
+                        ig.dispose();
+                    } else {
+                        icon.paintIcon(c, g, x, y);
+                    }
                 } else if (btn.getText() != null && !btn.getText().isEmpty()) {
                     g.setColor(btn.getForeground());
                     g.setFont(btn.getFont());

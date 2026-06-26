@@ -1,7 +1,9 @@
 package Entities.Characters;
 
 import Entities.Entity;
+import Entities.FarmResources.Crop;
 import Entities.Objects.Bed;
+import Entities.Objects.Well;
 import Game.Farm;
 import Game.FarmResourcesHandler.ResourceType;
 import Game.FieldsHandler;
@@ -31,7 +33,7 @@ public class FarmCat extends Entity {
     public enum FarmingLevel {LVL0, LVL1, LVL2, LVL3, LVL_STAR}
     
     // speech bubble system enums
-    public enum SpeechBubbleType { ZZZ }
+    public enum SpeechBubbleType { ZZZ, WATERING_CAN }
     public enum SpeechBubbleState { HIDDEN, OPENING, LOOPING, CLOSING }
 
     // color
@@ -72,7 +74,7 @@ public class FarmCat extends Entity {
     private int directionChangeCounter;
     
     // planting action system
-    public enum CatActionState { IDLE, PLANTING, GOING_TO_SLEEP, SLEEPING, TIRED }
+    public enum CatActionState { IDLE, PLANTING, WATERING, GOING_TO_WELL, REFILLING, GOING_TO_SLEEP, SLEEPING, TIRED }
     private CatActionState actionState;
     private List<Point> plantingPositions;
     private int currentPlantingIndex;
@@ -81,6 +83,20 @@ public class FarmCat extends Entity {
     private boolean isAtTillingPosition;
     private int tillingAnimationCounter;
     private static final int tillingAnimationDuration = 60;
+
+    // watering action system
+    private List<Point> wateringPositions;
+    private int currentWateringIndex;
+    private boolean isAtWateringPosition;
+    private Animation wateringWaterAnimation;
+    private int wateringAnimationCounter;
+    private static final int wateringAnimationDuration = 60;
+
+    // well refill action system
+    private Well targetWell;
+    private Point targetWellPosition;
+    private int refillAnimationCounter;
+    private static final int refillAnimationDuration = 120;
     
     // for bed sleeping functionality
     private Bed targetBed;
@@ -117,6 +133,18 @@ public class FarmCat extends Entity {
         currentPlantingIndex = 0;
         isAtTillingPosition = false;
         tillingAnimationCounter = 0;
+
+        // initialize a watering action system
+        wateringPositions = new ArrayList<>();
+        currentWateringIndex = 0;
+        isAtWateringPosition = false;
+        wateringWaterAnimation = null;
+        wateringAnimationCounter = 0;
+
+        // initialize a well refill action system
+        targetWell = null;
+        targetWellPosition = null;
+        refillAnimationCounter = 0;
         
         // initialize a sleeping action system
         targetBed = null;
@@ -481,6 +509,9 @@ public class FarmCat extends Entity {
             return;
         }
 
+        // visit the nearest remaining crop next
+        selectNearestRemaining(plantingPositions, currentPlantingIndex);
+
         Point targetCropPosition = plantingPositions.get(currentPlantingIndex);
         Point tillingPosition = findTillingPosition(targetCropPosition);
 
@@ -531,6 +562,48 @@ public class FarmCat extends Entity {
         }
 
         return closestPosition;
+    }
+
+    // shortest A* path length to a tile next to the crop
+    private int shortestAccessPathLength(int fromTileX, int fromTileY, Point cropPosition) {
+        int[] adjacentTilePositions = {
+                cropPosition.x, cropPosition.y - 1,
+                cropPosition.x, cropPosition.y + 1,
+                cropPosition.x - 1, cropPosition.y,
+                cropPosition.x + 1, cropPosition.y
+        };
+
+        int shortestPathLength = Integer.MAX_VALUE;
+        for (int i = 0; i < adjacentTilePositions.length; i += 2) {
+            List<Node> path = Map.pathfinder.findPath(fromTileX, fromTileY,
+                    adjacentTilePositions[i], adjacentTilePositions[i + 1]);
+            if (path != null && !path.isEmpty()) {
+                shortestPathLength = Math.min(shortestPathLength, path.size());
+            }
+        }
+        return shortestPathLength;
+    }
+
+    // move the nearest remaining position to fromIndex
+    private void selectNearestRemaining(List<Point> positions, int fromIndex) {
+        int catTileX = position.x / Farm.tileSize;
+        int catTileY = position.y / Farm.tileSize;
+
+        int bestIndex = fromIndex;
+        int bestLength = Integer.MAX_VALUE;
+        for (int i = fromIndex; i < positions.size(); i++) {
+            int length = shortestAccessPathLength(catTileX, catTileY, positions.get(i));
+            if (length < bestLength) {
+                bestLength = length;
+                bestIndex = i;
+            }
+        }
+
+        if (bestIndex != fromIndex) {
+            Point nearest = positions.get(bestIndex);
+            positions.set(bestIndex, positions.get(fromIndex));
+            positions.set(fromIndex, nearest);
+        }
     }
 
     private void updatePlantingAction() {
@@ -642,6 +715,262 @@ public class FarmCat extends Entity {
                 } else {
                     // continue to next position
                     moveToNextPlantingPosition();
+                }
+            }
+        }
+    }
+
+    // face a target tile and play the given action animation (e.g. "farmCatWatering")
+    private void faceTargetAndAnimate(int targetPixelX, int targetPixelY, String animationPrefix) {
+        int deltaX = targetPixelX - position.x;
+        int deltaY = targetPixelY - position.y;
+        int threshold = Farm.tileSize / 4;
+
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > threshold) {
+            if (deltaX > 0) {
+                farmCatFacing = FarmCatFacing.RIGHT;
+                currentAnimation = animations.get(animationPrefix + "Right");
+            } else {
+                farmCatFacing = FarmCatFacing.LEFT;
+                currentAnimation = animations.get(animationPrefix + "Left");
+            }
+        } else if (Math.abs(deltaY) > threshold) {
+            if (deltaY > 0) {
+                farmCatFacing = FarmCatFacing.DOWN;
+                currentAnimation = animations.get(animationPrefix + "Down");
+            } else {
+                farmCatFacing = FarmCatFacing.UP;
+                currentAnimation = animations.get(animationPrefix + "Up");
+            }
+        } else {
+            switch (farmCatFacing) {
+                case RIGHT -> currentAnimation = animations.get(animationPrefix + "Right");
+                case LEFT -> currentAnimation = animations.get(animationPrefix + "Left");
+                case DOWN -> currentAnimation = animations.get(animationPrefix + "Down");
+                case UP -> currentAnimation = animations.get(animationPrefix + "Up");
+            }
+        }
+    }
+
+    // watering action system
+    public void startWateringAction(List<Point> unwateredPositions, ResourceType cropType, Field.FieldType fieldType) {
+        if (!isIdle()) {
+            return;
+        }
+
+        actionState = CatActionState.WATERING;
+        wateringPositions = new ArrayList<>(unwateredPositions);
+        currentCropType = cropType;
+        currentFieldType = fieldType;
+        currentWateringIndex = 0;
+
+        if (!wateringPositions.isEmpty()) {
+            moveToNextWateringPosition();
+        }
+    }
+
+    private void moveToNextWateringPosition() {
+        if (currentWateringIndex >= wateringPositions.size() || !hasEnoughWaterForAction()) {
+
+            // watering complete, or cat ran out of water - stop and free the field
+            Field field = FieldsHandler.getFieldByType(currentFieldType);
+            if (field != null) {
+                field.setCatWorkingOnField(false);
+            }
+
+            actionState = CatActionState.IDLE;
+            wateringPositions.clear();
+            return;
+        }
+
+        // water the nearest remaining crop next
+        selectNearestRemaining(wateringPositions, currentWateringIndex);
+
+        Point targetCropPosition = wateringPositions.get(currentWateringIndex);
+        Point wateringPosition = findTillingPosition(targetCropPosition);
+
+        if (wateringPosition != null) {
+            int wateringTileX = wateringPosition.x / Farm.tileSize;
+            int wateringTileY = wateringPosition.y / Farm.tileSize;
+            moveToTile(wateringTileX, wateringTileY);
+            isAtWateringPosition = false;
+        } else {
+            currentWateringIndex++;
+            moveToNextWateringPosition();
+        }
+    }
+
+    private void updateWateringAction() {
+        if (!isFollowingPath && !isAtWateringPosition) {
+
+            // cat reached the watering position, start watering animation
+            isAtWateringPosition = true;
+            wateringAnimationCounter = 0;
+            farmCatState = FarmCatState.WATERING;
+            resetAnimations();
+
+            // face the crop being watered
+            Point cropPosition = wateringPositions.get(currentWateringIndex);
+            int cropPixelX = cropPosition.x * Farm.tileSize + Farm.tileSize / 2;
+            int cropPixelY = cropPosition.y * Farm.tileSize + Farm.tileSize / 2;
+            faceTargetAndAnimate(cropPixelX, cropPixelY, "farmCatWatering");
+            wateringWaterAnimation = createWateringWaterAnimation();
+        }
+
+        if (isAtWateringPosition) {
+            wateringAnimationCounter++;
+            if (wateringAnimationCounter >= wateringAnimationDuration) {
+
+                // check and consume water when watering completes; if empty, stop and
+                // wait for the player to refill the cat at the well
+                if (!consumeWaterForWatering()) {
+                    wateringAnimationCounter = 0;
+                    farmCatState = FarmCatState.STANDING;
+
+                    Field field = FieldsHandler.getFieldByType(currentFieldType);
+                    if (field != null) {
+                        field.setCatWorkingOnField(false);
+                    }
+
+                    actionState = CatActionState.IDLE;
+                    isAtWateringPosition = false;
+                    wateringPositions.clear();
+                    return;
+                }
+
+                // watering succeeded, gain experience (same as tilling)
+                addExperience(1);
+
+                // watering completed for this crop - let it start growing
+                Point cropPosition = wateringPositions.get(currentWateringIndex);
+                Field field = FieldsHandler.getFieldByType(currentFieldType);
+                if (field != null) {
+                    Crop crop = field.getCrops().get(cropPosition);
+                    if (crop != null) {
+                        crop.setWatered();
+                    }
+                }
+
+                resetAnimations();
+                wateringAnimationCounter = 0;
+                currentWateringIndex++;
+                isAtWateringPosition = false;
+                farmCatState = FarmCatState.STANDING;
+
+                if (!hasEnoughWaterForAction()) {
+
+                    // out of water - stop, remaining crops wait for a refilled cat
+                    Field currentField = FieldsHandler.getFieldByType(currentFieldType);
+                    if (currentField != null) {
+                        currentField.setCatWorkingOnField(false);
+                    }
+                    actionState = CatActionState.IDLE;
+                    wateringPositions.clear();
+
+                } else if (currentWateringIndex >= wateringPositions.size()) {
+
+                    // watering complete
+                    Field currentField = FieldsHandler.getFieldByType(currentFieldType);
+                    if (currentField != null) {
+                        currentField.setCatWorkingOnField(false);
+                    }
+                    actionState = CatActionState.IDLE;
+                    wateringPositions.clear();
+
+                } else {
+                    // continue to next crop
+                    moveToNextWateringPosition();
+                }
+            }
+        }
+    }
+
+    private Animation createWateringWaterAnimation() {
+        return switch (farmCatFacing) {
+            case UP -> Farm.resourceHandler.animationFactory.createWateringWaterUpAnimation();
+            case DOWN -> Farm.resourceHandler.animationFactory.createWateringWaterDownAnimation();
+            case LEFT, RIGHT -> Farm.resourceHandler.animationFactory.createWateringWaterSideAnimation();
+        };
+    }
+
+    // well refill action system
+    public boolean startGoingToWell() {
+        if (!isIdle()) {
+            return false;
+        }
+
+        if (Farm.entitiesHandler == null || Farm.entitiesHandler.map == null || Farm.entitiesHandler.map.wells == null) {
+            return false;
+        }
+
+        int startTileX = position.x / Farm.tileSize;
+        int startTileY = position.y / Farm.tileSize;
+
+        Well nearestWell = null;
+        Point nearestWellPosition = null;
+        int shortestPathLength = Integer.MAX_VALUE;
+
+        for (Well well : Farm.entitiesHandler.map.wells) {
+            for (Point access : well.getAccessPositions()) {
+                List<Node> path = Map.pathfinder.findPath(startTileX, startTileY, access.x, access.y);
+                if (path != null && !path.isEmpty() && path.size() < shortestPathLength) {
+                    shortestPathLength = path.size();
+                    nearestWell = well;
+                    nearestWellPosition = access;
+                }
+            }
+        }
+
+        if (nearestWell == null) {
+            return false;
+        }
+
+        actionState = CatActionState.GOING_TO_WELL;
+        targetWell = nearestWell;
+        targetWellPosition = nearestWellPosition;
+        refillAnimationCounter = 0;
+        moveToTile(nearestWellPosition.x, nearestWellPosition.y);
+        return true;
+    }
+
+    private void updateWellAction() {
+        if (actionState == CatActionState.GOING_TO_WELL) {
+            if (!isFollowingPath && targetWellPosition != null
+                    && position.x == targetWellPosition.x * Farm.tileSize + Farm.tileSize / 2
+                    && position.y == targetWellPosition.y * Farm.tileSize + Farm.tileSize / 2) {
+
+                // reached the well, start the refill animation
+                actionState = CatActionState.REFILLING;
+                refillAnimationCounter = 0;
+                farmCatState = FarmCatState.WATERING;
+                resetAnimations();
+
+                // face toward the well while refilling
+                if (targetWell != null && targetWell.getReferenceTilePosition() != null) {
+                    Point reference = targetWell.getReferenceTilePosition();
+                    int wellPixelX = reference.x * Farm.tileSize + Farm.tileSize / 2;
+                    int wellPixelY = reference.y * Farm.tileSize + Farm.tileSize / 2;
+                    faceTargetAndAnimate(wellPixelX, wellPixelY, "farmCatWatering");
+                }
+            }
+
+        } else if (actionState == CatActionState.REFILLING) {
+            farmCatState = FarmCatState.WATERING;
+            refillAnimationCounter++;
+
+            if (refillAnimationCounter >= refillAnimationDuration) {
+                setWateringCan(100);
+                refillAnimationCounter = 0;
+                farmCatState = FarmCatState.STANDING;
+                actionState = CatActionState.IDLE;
+                targetWell = null;
+                targetWellPosition = null;
+
+                // refilling the watering can also grants experience
+                addExperience(1);
+
+                if (Farm.menuPanel != null) {
+                    Farm.menuPanel.refreshResourcesDisplay();
                 }
             }
         }
@@ -768,6 +1097,10 @@ public class FarmCat extends Entity {
 
         if (actionState == CatActionState.PLANTING) {
             updatePlantingAction();
+        } else if (actionState == CatActionState.WATERING) {
+            updateWateringAction();
+        } else if (actionState == CatActionState.GOING_TO_WELL || actionState == CatActionState.REFILLING) {
+            updateWellAction();
         } else if (actionState == CatActionState.GOING_TO_SLEEP || actionState == CatActionState.SLEEPING) {
             updateSleepingAction();
         } else if (actionState == CatActionState.TIRED) {
@@ -782,9 +1115,25 @@ public class FarmCat extends Entity {
             currentImage = currentAnimation.getCurrentFrameImage();
             currentAnimation.update();
         }
+
+        if (wateringWaterAnimation != null && farmCatState == FarmCatState.WATERING && isAtWateringPosition) {
+            wateringWaterAnimation.update();
+        }
         
-        if (isIdle() && !hasEnoughEnergyForAction() && !isShowingSpeechBubble()) {
-            showSpeechBubble(SpeechBubbleType.ZZZ);
+        // idle hints, lowest priority
+        if (isIdle() && !isShowingSpeechBubble()) {
+            if (!hasEnoughEnergyForAction()) {
+                showSpeechBubble(SpeechBubbleType.ZZZ);
+            } else if (!hasEnoughWaterForAction()) {
+                showSpeechBubble(SpeechBubbleType.WATERING_CAN);
+            }
+        }
+
+        // dismiss the watering-can hint once busy or refilled
+        if (isShowingSpeechBubble() && currentBubbleType == SpeechBubbleType.WATERING_CAN
+                && bubbleState != SpeechBubbleState.CLOSING
+                && (!isIdle() || hasEnoughWaterForAction())) {
+            closeSpeechBubble();
         }
         if (isShowingSpeechBubble() && speechBubbleAnimation != null) {
             speechBubbleAnimation.update();
@@ -815,8 +1164,11 @@ public class FarmCat extends Entity {
         if (bubbleState == SpeechBubbleState.HIDDEN || bubbleState == SpeechBubbleState.CLOSING) {
             currentBubbleType = bubbleType;
             try {
-                if (Objects.requireNonNull(bubbleType) == SpeechBubbleType.ZZZ) {
+                SpeechBubbleType type = Objects.requireNonNull(bubbleType);
+                if (type == SpeechBubbleType.ZZZ) {
                     speechBubbleAnimation = Farm.resourceHandler.animationFactory.createSpeechBubbleZzzOpeningAnimation();
+                } else if (type == SpeechBubbleType.WATERING_CAN) {
+                    speechBubbleAnimation = Farm.resourceHandler.animationFactory.createSpeechBubbleWaterCanOpeningAnimation();
                 }
                 bubbleState = SpeechBubbleState.OPENING;
             } catch (Exception e) {
@@ -829,6 +1181,8 @@ public class FarmCat extends Entity {
         if (currentBubbleType != null) {
             if (currentBubbleType == SpeechBubbleType.ZZZ) {
                 speechBubbleAnimation = Farm.resourceHandler.animationFactory.createSpeechBubbleZzzAnimation();
+            } else if (currentBubbleType == SpeechBubbleType.WATERING_CAN) {
+                speechBubbleAnimation = Farm.resourceHandler.animationFactory.createSpeechBubbleWaterCanAnimation();
             }
             bubbleState = SpeechBubbleState.LOOPING;
         }
@@ -836,9 +1190,7 @@ public class FarmCat extends Entity {
     
     public void handleTiredCatClick() {
         if (actionState == CatActionState.TIRED) {
-            // close the speech bubble with animation
             closeSpeechBubble();
-            // attempt to go to sleep
             tryGoToSleep();
         }
     }
@@ -847,6 +1199,8 @@ public class FarmCat extends Entity {
         if (isShowingSpeechBubble() && currentBubbleType != null) {
             if (currentBubbleType == SpeechBubbleType.ZZZ) {
                 speechBubbleAnimation = Farm.resourceHandler.animationFactory.createSpeechBubbleZzzClosingAnimation();
+            } else if (currentBubbleType == SpeechBubbleType.WATERING_CAN) {
+                speechBubbleAnimation = Farm.resourceHandler.animationFactory.createSpeechBubbleWaterCanClosingAnimation();
             }
             bubbleState = SpeechBubbleState.CLOSING;
         }
@@ -877,6 +1231,33 @@ public class FarmCat extends Entity {
 
     @Override
     public void render(Graphics2D graphics2D) {
+        // water pouring overlay, rendered under the cat and nudged in front
+        if (visible && wateringWaterAnimation != null
+                && farmCatState == FarmCatState.WATERING && isAtWateringPosition) {
+            int frontOffset = 8;
+            int offsetX = 0;
+            int offsetY = 0;
+            switch (farmCatFacing) {
+                case DOWN -> offsetY = frontOffset;
+                case UP -> offsetY = -frontOffset;
+                case LEFT -> offsetX = -frontOffset;
+                case RIGHT -> offsetX = frontOffset;
+            }
+            int dx = (position.x - catWidth / 2 + offsetX) * Farm.scale + Farm.camera.position.x;
+            int dy = (position.y - catHeight / 2 + offsetY) * Farm.scale + Farm.camera.position.y;
+            int dw = catWidth * Farm.scale;
+            int dh = catHeight * Farm.scale;
+            var frame = wateringWaterAnimation.getCurrentFrameImage();
+            if (frame != null) {
+                if (farmCatFacing == FarmCatFacing.LEFT) {
+                    graphics2D.drawImage(frame, dx + dw, dy, dx, dy + dh,
+                            0, 0, frame.getWidth(), frame.getHeight(), null);
+                } else {
+                    graphics2D.drawImage(frame, dx, dy, dw, dh, null);
+                }
+            }
+        }
+
         if (visible && currentImage != null) {
             graphics2D.drawImage(currentImage,
                     (position.x - catWidth / 2) * Farm.scale + Farm.camera.position.x,
@@ -887,7 +1268,6 @@ public class FarmCat extends Entity {
         }
     }
     
-    // stat management methods
     public int getEnergy() {
         return energy;
     }
@@ -900,7 +1280,6 @@ public class FarmCat extends Entity {
         setEnergy(energy + amount);
     }
     
-    // restore energy while sleeping based on farming level
     private void restoreEnergyWhileSleeping() {
         sleepEnergyTimer++;
         
@@ -908,7 +1287,6 @@ public class FarmCat extends Entity {
         if (sleepEnergyTimer >= 60) {
             sleepEnergyTimer = 0;
             
-            // energy restoration based on farming level
             int energyRestoration = switch (farmingLevel) {
                 case LVL0 -> 1;
                 case LVL1 -> 2;
@@ -917,11 +1295,9 @@ public class FarmCat extends Entity {
                 case LVL_STAR -> 5;
             };
             
-            // only restore if not at full energy
             if (energy < 100) {
                 addEnergy(energyRestoration);
                 
-                // refresh UI to update the energy bar
                 if (Farm.menuPanel != null) {
                     Farm.menuPanel.refreshResourcesDisplay();
                 }
@@ -929,7 +1305,6 @@ public class FarmCat extends Entity {
         }
     }
     
-    // consume energy for tilling based on cat level, returns true if successful
     public boolean consumeEnergyForTilling() {
         int energyCost = getEnergyCostForAction();
         
@@ -955,7 +1330,33 @@ public class FarmCat extends Entity {
     public boolean hasEnoughEnergyForAction() {
         return energy >= getEnergyCostForAction();
     }
-    
+
+    private int getWaterCostForAction() {
+        switch (farmingLevel) {
+            case LVL0 -> { return 10; }
+            case LVL1 -> { return 7; }
+            case LVL2 -> { return 5; }
+            case LVL3 -> { return 3; }
+            case LVL_STAR -> { return 1; }
+            default -> { return 10; }
+        }
+    }
+
+    public boolean hasEnoughWaterForAction() {
+        return wateringCan >= getWaterCostForAction();
+    }
+
+    public boolean consumeWaterForWatering() {
+        int waterCost = getWaterCostForAction();
+
+        if (wateringCan < waterCost) {
+            return false;
+        }
+
+        setWateringCan(wateringCan - waterCost);
+        return true;
+    }
+
     public int getWateringCan() {
         return wateringCan;
     }
