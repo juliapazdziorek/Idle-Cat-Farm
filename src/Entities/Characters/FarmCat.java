@@ -2,6 +2,7 @@ package Entities.Characters;
 
 import Entities.Entity;
 import Entities.FarmResources.Crop;
+import Entities.Nature.FruitTree;
 import Entities.Objects.Bed;
 import Entities.Objects.Well;
 import Game.Farm;
@@ -74,7 +75,7 @@ public class FarmCat extends Entity {
     private int directionChangeCounter;
     
     // planting action system
-    public enum CatActionState { IDLE, PLANTING, WATERING, GOING_TO_WELL, REFILLING, GOING_TO_SLEEP, SLEEPING, TIRED }
+    public enum CatActionState { IDLE, PLANTING, WATERING, COLLECTING_FRUIT, GOING_TO_WELL, REFILLING, GOING_TO_SLEEP, SLEEPING, TIRED }
     private CatActionState actionState;
     private List<Point> plantingPositions;
     private int currentPlantingIndex;
@@ -91,6 +92,12 @@ public class FarmCat extends Entity {
     private Animation wateringWaterAnimation;
     private int wateringAnimationCounter;
     private static final int wateringAnimationDuration = 60;
+
+    // fruit collection action system
+    private FruitTree targetFruitTree;
+    private boolean isAtFruitTree;
+    private int fruitCollectionCounter;
+    private static final int fruitCollectionDuration = 60;
 
     // well refill action system
     private Well targetWell;
@@ -140,6 +147,11 @@ public class FarmCat extends Entity {
         isAtWateringPosition = false;
         wateringWaterAnimation = null;
         wateringAnimationCounter = 0;
+
+        // initialize a fruit collection action system
+        targetFruitTree = null;
+        isAtFruitTree = false;
+        fruitCollectionCounter = 0;
 
         // initialize a well refill action system
         targetWell = null;
@@ -976,6 +988,75 @@ public class FarmCat extends Entity {
         }
     }
 
+    // fruit collection action system
+    public boolean startFruitCollectionAction(FruitTree tree) {
+        if (!isIdle() || tree == null) {
+            return false;
+        }
+
+        int startTileX = position.x / Farm.tileSize;
+        int startTileY = position.y / Farm.tileSize;
+
+        // walk to the nearest reachable tile around the tree
+        Point nearestAccess = null;
+        int shortestPathLength = Integer.MAX_VALUE;
+        for (Point access : tree.getAccessPositions()) {
+            List<Node> path = Map.pathfinder.findPath(startTileX, startTileY, access.x, access.y);
+            if (path != null && !path.isEmpty() && path.size() < shortestPathLength) {
+                shortestPathLength = path.size();
+                nearestAccess = access;
+            }
+        }
+
+        if (nearestAccess == null) {
+            return false;
+        }
+
+        actionState = CatActionState.COLLECTING_FRUIT;
+        targetFruitTree = tree;
+        tree.setBeingCollected();
+        isAtFruitTree = false;
+        fruitCollectionCounter = 0;
+        moveToTile(nearestAccess.x, nearestAccess.y);
+        return true;
+    }
+
+    private void updateFruitCollectionAction() {
+        if (targetFruitTree == null) {
+            actionState = CatActionState.IDLE;
+            return;
+        }
+
+        if (!isFollowingPath && !isAtFruitTree) {
+
+            // cat reached the tree, start collecting (reuse the chopping pose)
+            isAtFruitTree = true;
+            fruitCollectionCounter = 0;
+            farmCatState = FarmCatState.CHOPPING;
+            resetAnimations();
+
+            Point treeCenter = targetFruitTree.getCenterPixel();
+            faceTargetAndAnimate(treeCenter.x, treeCenter.y, "farmCatChopping");
+        }
+
+        if (isAtFruitTree) {
+            fruitCollectionCounter++;
+            if (fruitCollectionCounter >= fruitCollectionDuration) {
+
+                // collecting finished, the tree hands over its fruit and frees up
+                addExperience(1);
+                targetFruitTree.onCollected();
+
+                resetAnimations();
+                fruitCollectionCounter = 0;
+                isAtFruitTree = false;
+                farmCatState = FarmCatState.STANDING;
+                actionState = CatActionState.IDLE;
+                targetFruitTree = null;
+            }
+        }
+    }
+
     // sleeping action methods
     public void startGoingToSleep(Bed bed) {
         if (!isIdle() && actionState != CatActionState.TIRED) {
@@ -1104,6 +1185,8 @@ public class FarmCat extends Entity {
             updatePlantingAction();
         } else if (actionState == CatActionState.WATERING) {
             updateWateringAction();
+        } else if (actionState == CatActionState.COLLECTING_FRUIT) {
+            updateFruitCollectionAction();
         } else if (actionState == CatActionState.GOING_TO_WELL || actionState == CatActionState.REFILLING) {
             updateWellAction();
         } else if (actionState == CatActionState.GOING_TO_SLEEP || actionState == CatActionState.SLEEPING) {

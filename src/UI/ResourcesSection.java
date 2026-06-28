@@ -3,6 +3,7 @@ package UI;
 import Game.Farm;
 import Game.FarmResourcesHandler;
 import Game.FieldsHandler;
+import Game.FruitTreesHandler;
 import Map.Field;
 import Resources.Colors;
 
@@ -129,21 +130,18 @@ public class ResourcesSection {
             iconButton.setForeground(Colors.darkBeigeColor);
         }
         
-        // TODO: replace with proper resource gathering
+        // crops: clicking plants them; fruits: clicking sends a cat to collect a ready orchard tree
         iconButton.addActionListener(_ -> {
-
             if (FarmResourcesHandler.isCropResource(resourceType)) {
-
                 boolean startedPlanting = FieldsHandler.startPlantingPrioritized(resourceType);
-
                 if (startedPlanting) {
                     Farm.menuPanel.refreshResourcesDisplay();
                 }
-
-            } else {
-
-                // for non-crop resources, add 10 resources TODO: add proper gathering logic
-                Farm.farmResourcesHandler.addResource(resourceType, 10);
+            } else if (FarmResourcesHandler.isFruitResource(resourceType)) {
+                boolean startedCollecting = FruitTreesHandler.collectFruit(resourceType);
+                if (startedCollecting) {
+                    Farm.menuPanel.refreshResourcesDisplay();
+                }
             }
         });
 

@@ -12,6 +12,7 @@ import Entities.BuildingParts.Roof;
 import Entities.BuildingParts.Entrance;
 import Entities.Nature.Bush;
 import Entities.Nature.Tree;
+import Entities.Nature.FruitTree;
 import Entities.Objects.Bed;
 import Entities.Objects.Sign;
 import Entities.Objects.WaterTray;
@@ -115,6 +116,12 @@ public class EntitiesHandler implements MouseListener {
             clickableMapEntities.addAll(tree.parts);
         }
 
+        for (FruitTree fruitTree : map.fruitTrees) {
+            topRenderableEntities.add(fruitTree);
+            updatableMapEntities.add(fruitTree);
+            clickableMapEntities.add(fruitTree);
+        }
+
         for (Bed bed : map.beds) {
             topRenderableEntities.add(bed);
             updatableMapEntities.add(bed);
@@ -183,6 +190,23 @@ public class EntitiesHandler implements MouseListener {
 
         for (FarmCat cat : Farm.entitiesHandler.farmCatList) {
             if (cat.isIdle() && cat.hasEnoughWaterForAction()) {
+                suitableCats.add(cat);
+            }
+        }
+
+        if (suitableCats.isEmpty()) {
+            return null;
+        }
+
+        int randomIndex = (int) (Math.random() * suitableCats.size());
+        return suitableCats.get(randomIndex);
+    }
+
+    public static FarmCat findIdleCatForFruitCollection() {
+        List<FarmCat> suitableCats = new ArrayList<>();
+
+        for (FarmCat cat : Farm.entitiesHandler.farmCatList) {
+            if (cat.isIdle()) {
                 suitableCats.add(cat);
             }
         }

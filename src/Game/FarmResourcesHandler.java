@@ -14,17 +14,17 @@ public class FarmResourcesHandler {
         CAULIFLOWER, EGGPLANT, PUMPKIN, // lvl 3
         STAR_FRUIT,  // lvl star
 
-        APPLE,        // lvl 1
-        PEAR,         // lvl 2
-        PEACH,        // lvl 3
-        ORANGE,       // lvl star
+        APPLE, // lvl 1
+        PEAR, // lvl 2
+        PEACH, // lvl 3
+        ORANGE,  // lvl star
 
         // Bush fruits #TODO
 
-        EGG,                // lvl 1
-        MILK,              // lvl 1
-        CHOCOLATE_MILK,    // lvl 2
-        STRAWBERRY_MILK,   // lvl star
+        EGG, // lvl 1
+        MILK, // lvl 1
+        CHOCOLATE_MILK, // lvl 2
+        STRAWBERRY_MILK, // lvl star
     }
 
     public HashMap<ResourceType, Integer> quantities = new HashMap<>();
@@ -61,6 +61,27 @@ public class FarmResourcesHandler {
                  CAULIFLOWER, EGGPLANT, PUMPKIN, STAR_FRUIT -> true;
             default -> false;
         };
+    }
+
+    public static boolean isFruitResource(ResourceType resourceType) {
+        return switch (resourceType) {
+            case APPLE, PEAR, PEACH, ORANGE -> true;
+            default -> false;
+        };
+    }
+
+    public ResourceType getRandomUnlockedFruit() {
+        ResourceType[] treeFruits = {ResourceType.APPLE, ResourceType.PEAR, ResourceType.PEACH, ResourceType.ORANGE};
+        List<ResourceType> available = new ArrayList<>();
+        for (ResourceType fruit : treeFruits) {
+            if (isUnlocked(fruit)) {
+                available.add(fruit);
+            }
+        }
+        if (available.isEmpty()) {
+            return null;
+        }
+        return available.get((int) (Math.random() * available.size()));
     }
 
     public boolean isUnlocked(ResourceType resourceType) {

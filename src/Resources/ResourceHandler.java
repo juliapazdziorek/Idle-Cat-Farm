@@ -48,6 +48,10 @@ public class ResourceHandler {
         loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/grass_decor.png", "grassDecor");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/trees.png", "trees");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/tree.png", "tree");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/apple_tree.png", "appleTree");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/pear_tree.png", "pearTree");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/peach_tree.png", "peachTree");
+        loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/orange_tree.png", "orangeTree");
         loadImageToMap(imageMap, "src/Resources/SproutLands/Nature/crops.png", "crops");
 
         loadImageToMap(imageMap, "src/Resources/SproutLands/BuildingParts/fences.png", "fences");

@@ -250,7 +250,7 @@ public class FarmTab {
         sectionPanel.add(topPanel, BorderLayout.NORTH);
 
         // other areas keep the placeholder until their own action handling exists
-        if (area != Map.MapArea.HOUSE) {
+        if (area != Map.MapArea.HOUSE && area != Map.MapArea.ORCHARD) {
             JLabel actionLabel = new JLabel("action handling coming soon!");
             actionLabel.setFont(Farm.fonts.minecraftiaFont);
             actionLabel.setForeground(Colors.darkBeigeColor);
@@ -304,6 +304,7 @@ public class FarmTab {
             case IDLE -> "idle";
             case PLANTING -> "planting...";
             case WATERING -> "watering...";
+            case COLLECTING_FRUIT -> "collecting...";
             case GOING_TO_WELL -> "to the well...";
             case REFILLING -> "refilling...";
             case GOING_TO_SLEEP -> "to bed...";

@@ -143,6 +143,37 @@ public class AnimationFactory {
         return new Animation(treeClickAnimation181Frames, 8);
     }
 
+    public Animation createFruitTreeGrowthAnimation(String fruitKey) {
+        return new Animation(imageMap.get(fruitKey), 12, 4, 1, 4, 6);
+    }
+
+    public Animation createFruitTreeWiggleAnimation(String fruitKey) {
+        return new Animation(imageMap.get(fruitKey), 12, 4, 2, 6, 8);
+    }
+
+    public Animation createFruitTreeDropAnimation(String fruitKey) {
+        return new Animation(imageMap.get(fruitKey), 12, 4, 3, 12, 4);
+    }
+
+    public BufferedImage getEmptyTreeIdleImage() {
+        int cell = 3 * Farm.tileSize;
+        return imageMap.get("tree").getSubimage(0, 0, cell, cell);
+    }
+
+    public Animation createEmptyTreeWiggleAnimation() {
+        return new Animation(imageMap.get("tree"), 12, 4, 2, 6, 8);
+    }
+
+    public BufferedImage getFruitTreeRipeImage(String fruitKey) {
+        int cell = 3 * Farm.tileSize;
+        return imageMap.get(fruitKey).getSubimage(0, 0, cell, cell);
+    }
+
+    public BufferedImage getFruitTreeDroppedImage(String fruitKey) {
+        int cell = 3 * Farm.tileSize;
+        return imageMap.get(fruitKey).getSubimage(11 * cell, 3 * cell, cell, cell);
+    }
+
     public Animation createEntranceOpenAnimation(int id) {
         return switch (id) {
             case 194 -> createGateOpenAnimation194();

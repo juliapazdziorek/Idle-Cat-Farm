@@ -6,6 +6,7 @@ import Entities.Entity;
 import Entities.FarmResources.Crop;
 import Entities.Nature.TreePart;
 import Entities.Nature.Tree;
+import Entities.Nature.FruitTree;
 import Entities.BuildingParts.Entrance;
 import Entities.BuildingParts.EntrancePart;
 import Entities.Objects.Bed;
@@ -43,6 +44,9 @@ public class Map {
 
     public final ArrayList<Tree> trees;
     ArrayList<Integer> treesIds;
+
+    public final ArrayList<FruitTree> fruitTrees;
+    private final int[][] fruitTreeLevels;
 
     public final ArrayList<Roof> roofs;
     ArrayList<Integer> roofsIds;
@@ -208,6 +212,9 @@ public class Map {
         treesIds = new ArrayList<>();
         Collections.addAll(treesIds, 173, 174, 175, 176, 177, 178, 179, 180, 181);
 
+        fruitTrees = new ArrayList<>();
+        fruitTreeLevels = MapFileUtils.readFileToGrid("src/Map/TileMaps/LevelHandling/fruit_tree_levels.txt");
+
         roofs = new ArrayList<>();
         roofsIds = new ArrayList<>();
         Collections.addAll(roofsIds, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243);
@@ -305,6 +312,7 @@ public class Map {
     private void clearMapEntities() {
         bushPositions.clear();
         trees.clear();
+        fruitTrees.clear();
         roofs.clear();
         entrances.clear();
         signs.clear();
@@ -452,7 +460,12 @@ public class Map {
                     // Trees
                     if (treesIds.contains(tilesIds[i][j])) {
                         if (tilesIds[i][j] == 177) {
-                            createTree(tilesIds, i, j);
+                            int requiredLevel = fruitTreeLevels[i][j];
+                            if (requiredLevel > 0 && getAreaLevel(MapArea.ORCHARD).ordinal() >= requiredLevel) {
+                                createFruitTree(i, j);
+                            } else {
+                                createTree(tilesIds, i, j);
+                            }
                         }
                         continue;
                     }
@@ -536,6 +549,16 @@ public class Map {
         }
 
         trees.add(tree);
+    }
+
+    private void createFruitTree(int i, int j) {
+        Point topLeft = new Point(j - 1, i - 1);
+        for (FruitTree existing : fruitTrees) {
+            if (existing.getTilePosition().equals(topLeft)) {
+                return; // same center already created from another layer
+            }
+        }
+        fruitTrees.add(new FruitTree(j, i));
     }
 
     private void createRoof(int[][] tilesIds, int i, int j, boolean[][] processedRoofTiles) {
@@ -928,32 +951,24 @@ public class Map {
     public void levelUpOrchardArea() {
         switch (mapAreasLevels.get(MapArea.ORCHARD)) {
             case LEVEL_0 -> {
-                // TODO: 2 trees
-
                 Farm.farmResourcesHandler.unlockResource(APPLE);
 
                 setAreaLevel(MapArea.ORCHARD, MapLevels.LEVEL_1);
             }
 
             case LEVEL_1 -> {
-                // TODO: add 2 trees
-
                 Farm.farmResourcesHandler.unlockResource(PEAR);
 
                 setAreaLevel(MapArea.ORCHARD, MapLevels.LEVEL_2);
             }
 
             case LEVEL_2 -> {
-                // TODO: add 2 trees
-
                 Farm.farmResourcesHandler.unlockResource(PEACH);
 
                 setAreaLevel(MapArea.ORCHARD, MapLevels.LEVEL_3);
             }
 
             case LEVEL_3 -> {
-                // TODO: add 2 trees
-
                 Farm.farmResourcesHandler.unlockResource(ORANGE);
 
                 setAreaLevel(MapArea.ORCHARD, MapLevels.LEVEL_Star);
