@@ -7,6 +7,7 @@ import Entities.FarmResources.Crop;
 import Entities.Nature.TreePart;
 import Entities.Nature.Tree;
 import Entities.Nature.FruitTree;
+import Entities.Nature.FruitTreePart;
 import Entities.BuildingParts.Entrance;
 import Entities.BuildingParts.EntrancePart;
 import Entities.Objects.Bed;
@@ -462,7 +463,7 @@ public class Map {
                         if (tilesIds[i][j] == 177) {
                             int requiredLevel = fruitTreeLevels[i][j];
                             if (requiredLevel > 0 && getAreaLevel(MapArea.ORCHARD).ordinal() >= requiredLevel) {
-                                createFruitTree(i, j);
+                                createFruitTree(tilesIds, i, j);
                             } else {
                                 createTree(tilesIds, i, j);
                             }
@@ -551,14 +552,28 @@ public class Map {
         trees.add(tree);
     }
 
-    private void createFruitTree(int i, int j) {
+    private void createFruitTree(int[][] tilesIds, int i, int j) {
         Point topLeft = new Point(j - 1, i - 1);
         for (FruitTree existing : fruitTrees) {
             if (existing.getTilePosition().equals(topLeft)) {
                 return; // same center already created from another layer
             }
         }
-        fruitTrees.add(new FruitTree(j, i));
+
+        FruitTree fruitTree = new FruitTree(j, i);
+        for (int deltaI = -1; deltaI <= 1; deltaI++) {
+            for (int deltaJ = -1; deltaJ <= 1; deltaJ++) {
+                int newI = i + deltaI;
+                int newJ = j + deltaJ;
+
+                if (newI >= 0 && newI < Farm.mapHeightTiles && newJ >= 0 && newJ < Farm.mapWidthTiles && treesIds.contains(tilesIds[newI][newJ])) {
+                    Point partPosition = new Point(newJ * Farm.tileSize, newI * Farm.tileSize);
+                    fruitTree.addPart(new FruitTreePart(partPosition, deltaI + 1, deltaJ + 1, tilesIds[newI][newJ]));
+                }
+            }
+        }
+
+        fruitTrees.add(fruitTree);
     }
 
     private void createRoof(int[][] tilesIds, int i, int j, boolean[][] processedRoofTiles) {

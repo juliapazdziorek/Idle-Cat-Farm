@@ -246,15 +246,13 @@ public class FarmTab {
                 treesStatusPanel.setOpaque(false);
                 treesStatusPanel.setBorder(BorderFactory.createEmptyBorder(6, 0, 0, 0));
 
-                int index = 1;
                 boolean first = true;
                 for (FruitTree tree : fruitTrees) {
                     if (!first) {
                         treesStatusPanel.add(Box.createVerticalStrut(2));
                     }
-                    treesStatusPanel.add(createFruitTreeEntry(tree, index));
+                    treesStatusPanel.add(createFruitTreeEntry(tree));
                     first = false;
-                    index++;
                 }
 
                 levelDisplayPanel.add(treesStatusPanel);
@@ -293,14 +291,14 @@ public class FarmTab {
         return sectionPanel;
     }
 
-    private JPanel createFruitTreeEntry(FruitTree tree, int index) {
+    private JPanel createFruitTreeEntry(FruitTree tree) {
         JPanel treePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 0));
         treePanel.setOpaque(false);
         treePanel.setPreferredSize(new Dimension(200, 20));
         treePanel.setMaximumSize(new Dimension(200, 20));
         treePanel.setMinimumSize(new Dimension(200, 20));
 
-        JLabel nameLabel = new JLabel("tree " + index + ":");
+        JLabel nameLabel = new JLabel("tree:");
         nameLabel.setFont(Farm.fonts.minecraftiaFont);
         nameLabel.setForeground(Colors.darkBeigeColor);
         nameLabel.setPreferredSize(new Dimension(60, 16));

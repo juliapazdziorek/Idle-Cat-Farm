@@ -174,6 +174,46 @@ public class AnimationFactory {
         return imageMap.get(fruitKey).getSubimage(11 * cell, 3 * cell, cell, cell);
     }
 
+    private Animation createTileFramesAnimation(BufferedImage sheet, int blockRow, int frameCount, int tileRow, int tileCol, int delay) {
+        int cell = 3 * Farm.tileSize;
+        int tile = Farm.tileSize;
+        ArrayList<BufferedImage> frames = new ArrayList<>();
+        for (int frame = 0; frame < frameCount; frame++) {
+            frames.add(sheet.getSubimage(frame * cell + tileCol * tile, blockRow * cell + tileRow * tile, tile, tile));
+        }
+        return new Animation(frames, delay);
+    }
+
+    private BufferedImage getBlockTile(BufferedImage sheet, int blockCol, int blockRow, int tileRow, int tileCol) {
+        int cell = 3 * Farm.tileSize;
+        int tile = Farm.tileSize;
+        return sheet.getSubimage(blockCol * cell + tileCol * tile, blockRow * cell + tileRow * tile, tile, tile);
+    }
+
+    public Animation createEmptyTreeWiggleTileAnimation(int tileRow, int tileCol) {
+        return createTileFramesAnimation(imageMap.get("tree"), 2, 6, tileRow, tileCol, 8);
+    }
+
+    public Animation createFruitTreeGrowthTileAnimation(String fruitKey, int tileRow, int tileCol) {
+        return createTileFramesAnimation(imageMap.get(fruitKey), 1, 4, tileRow, tileCol, 6);
+    }
+
+    public Animation createFruitTreeWiggleTileAnimation(String fruitKey, int tileRow, int tileCol) {
+        return createTileFramesAnimation(imageMap.get(fruitKey), 2, 6, tileRow, tileCol, 8);
+    }
+
+    public Animation createFruitTreeDropTileAnimation(String fruitKey, int tileRow, int tileCol) {
+        return createTileFramesAnimation(imageMap.get(fruitKey), 3, 12, tileRow, tileCol, 4);
+    }
+
+    public BufferedImage getFruitTreeRipeTile(String fruitKey, int tileRow, int tileCol) {
+        return getBlockTile(imageMap.get(fruitKey), 0, 0, tileRow, tileCol);
+    }
+
+    public BufferedImage getFruitTreeDroppedTile(String fruitKey, int tileRow, int tileCol) {
+        return getBlockTile(imageMap.get(fruitKey), 11, 3, tileRow, tileCol);
+    }
+
     public Animation createEntranceOpenAnimation(int id) {
         return switch (id) {
             case 194 -> createGateOpenAnimation194();

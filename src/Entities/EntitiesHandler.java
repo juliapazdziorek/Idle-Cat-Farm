@@ -119,7 +119,7 @@ public class EntitiesHandler implements MouseListener {
         for (FruitTree fruitTree : map.fruitTrees) {
             topRenderableEntities.add(fruitTree);
             updatableMapEntities.add(fruitTree);
-            clickableMapEntities.add(fruitTree);
+            clickableMapEntities.addAll(fruitTree.parts);
         }
 
         for (Bed bed : map.beds) {

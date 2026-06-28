@@ -6,9 +6,9 @@ import Game.FarmResourcesHandler.ResourceType;
 import Resources.Animation;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class FruitTree extends Entity {
 
@@ -23,16 +23,10 @@ public class FruitTree extends Entity {
     private ResourceType currentFruit;
     private long lastFruitTime;
 
-    // empty (fruitless) look, shared with decorative trees
-    private BufferedImage emptyIdleImage;
     private Animation emptyWiggleAnimation;
-
-    // fruited look, loaded from the rolled fruit's sheet once it starts growing
     private Animation growthAnimation;
     private Animation wiggleAnimation;
     private Animation dropAnimation;
-    private BufferedImage ripeImage;
-    private BufferedImage droppedImage;
 
     public FruitTree(int centerTileX, int centerTileY) {
         super();
@@ -40,29 +34,23 @@ public class FruitTree extends Entity {
         this.centerTileY = centerTileY;
 
         this.position = new Point((centerTileX - 1) * Farm.tileSize, (centerTileY - 1) * Farm.tileSize);
+        this.isParent = true;
 
-        // starts as a plain fruitless tree, fruit is rolled later when it grows
-        loadEmptyTreeSprites();
+        loadEmptyTreeClock();
         this.currentFruit = ResourceType.APPLE;
-
         this.state = State.IDLE;
-        this.currentImage = emptyIdleImage;
-        this.clickable = true;
         this.lastFruitTime = System.currentTimeMillis();
     }
 
-    private void loadEmptyTreeSprites() {
-        emptyIdleImage = Farm.resourceHandler.animationFactory.getEmptyTreeIdleImage();
+    private void loadEmptyTreeClock() {
         emptyWiggleAnimation = Farm.resourceHandler.animationFactory.createEmptyTreeWiggleAnimation();
     }
 
-    private void loadFruitSprites() {
+    private void loadFruitClocks() {
         String fruitKey = fruitKey(currentFruit);
         growthAnimation = Farm.resourceHandler.animationFactory.createFruitTreeGrowthAnimation(fruitKey);
         wiggleAnimation = Farm.resourceHandler.animationFactory.createFruitTreeWiggleAnimation(fruitKey);
         dropAnimation = Farm.resourceHandler.animationFactory.createFruitTreeDropAnimation(fruitKey);
-        ripeImage = Farm.resourceHandler.animationFactory.getFruitTreeRipeImage(fruitKey);
-        droppedImage = Farm.resourceHandler.animationFactory.getFruitTreeDroppedImage(fruitKey);
     }
 
     private static String fruitKey(ResourceType fruit) {
@@ -72,6 +60,15 @@ public class FruitTree extends Entity {
             case ORANGE -> "orangeTree";
             default -> "appleTree";
         };
+    }
+
+    private void forEachPart(Consumer<FruitTreePart> action) {
+        if (parts == null) {
+            return;
+        }
+        for (Entity part : parts) {
+            action.accept((FruitTreePart) part);
+        }
     }
 
     @Override
@@ -88,18 +85,17 @@ public class FruitTree extends Entity {
             case DROPPING -> advance(dropAnimation, this::setFruitReady);
             default -> { /* RIPE, FRUIT_READY, BEING_COLLECTED are static */ }
         }
+        super.update();
     }
 
-    // play an animation once, run onComplete when it wraps back to the first frame
-    private void advance(Animation animation, Runnable onComplete) {
-        if (animation == null) {
+    private void advance(Animation clock, Runnable onComplete) {
+        if (clock == null) {
             onComplete.run();
             return;
         }
-        int previousFrame = animation.getCurrentFrame();
-        currentImage = animation.getCurrentFrameImage();
-        animation.update();
-        if (previousFrame == animation.getNumberOfFrames() - 1 && animation.getCurrentFrame() == 0) {
+        int previousFrame = clock.getCurrentFrame();
+        clock.update();
+        if (previousFrame == clock.getNumberOfFrames() - 1 && clock.getCurrentFrame() == 0) {
             onComplete.run();
         }
     }
@@ -112,38 +108,32 @@ public class FruitTree extends Entity {
             return;
         }
         currentFruit = rolled;
-        loadFruitSprites();
+        loadFruitClocks();
         growthAnimation.resetFrames();
-        currentImage = growthAnimation.getCurrentFrameImage();
-        clickable = false;
+        String fruitKey = fruitKey(currentFruit);
+        forEachPart(part -> {
+            part.loadFruitSprites(fruitKey);
+            part.startGrowth();
+        });
         state = State.GROWING;
-        if (Farm.menuPanel != null) {
-            Farm.menuPanel.refreshResourcesDisplay();
-        }
+        refreshMenu();
     }
 
     private void backToIdle() {
         state = State.IDLE;
-        currentImage = emptyIdleImage;
-        clickable = true;
+        forEachPart(FruitTreePart::showEmptyIdle);
     }
 
     private void setRipe() {
         state = State.RIPE;
-        currentImage = ripeImage;
-        clickable = true;
-        if (Farm.menuPanel != null) {
-            Farm.menuPanel.refreshResourcesDisplay();
-        }
+        forEachPart(FruitTreePart::showRipe);
+        refreshMenu();
     }
 
     private void setFruitReady() {
         state = State.FRUIT_READY;
-        currentImage = droppedImage;
-        clickable = false;
-        if (Farm.menuPanel != null) {
-            Farm.menuPanel.refreshResourcesDisplay();
-        }
+        forEachPart(FruitTreePart::showDropped);
+        refreshMenu();
     }
 
     @Override
@@ -151,15 +141,16 @@ public class FruitTree extends Entity {
         if (state == State.IDLE) {
             // no fruit yet, just a normal tree shake
             emptyWiggleAnimation.resetFrames();
-            clickable = false;
+            forEachPart(FruitTreePart::startEmptyWiggle);
             state = State.EMPTY_SHAKING;
         } else if (state == State.RIPE) {
-            clickable = false;
             if (Math.random() < 0.5) {
                 dropAnimation.resetFrames();
+                forEachPart(FruitTreePart::startDrop);
                 state = State.DROPPING;
             } else {
                 wiggleAnimation.resetFrames();
+                forEachPart(FruitTreePart::startWiggle);
                 state = State.WIGGLING;
             }
         }
@@ -173,20 +164,22 @@ public class FruitTree extends Entity {
     // cat couldn't finish (e.g. ran out of energy): put the fruit back up for collection
     public void cancelCollection() {
         state = State.FRUIT_READY;
-        currentImage = droppedImage;
-        clickable = false;
-        if (Farm.menuPanel != null) {
-            Farm.menuPanel.refreshResourcesDisplay();
-        }
+        forEachPart(FruitTreePart::showDropped);
+        refreshMenu();
     }
 
     // called by the cat once it finishes collecting at the tree
     public void onCollected() {
         Farm.farmResourcesHandler.addResource(currentFruit, 3);
         state = State.IDLE;
-        currentImage = emptyIdleImage;
-        clickable = true;
+        forEachPart(FruitTreePart::showEmptyIdle);
         lastFruitTime = System.currentTimeMillis();
+    }
+
+    private void refreshMenu() {
+        if (Farm.menuPanel != null) {
+            Farm.menuPanel.refreshResourcesDisplay();
+        }
     }
 
     public boolean isFruitReady() {
@@ -231,26 +224,5 @@ public class FruitTree extends Entity {
         return point.x >= 0 && point.x < Farm.mapWidthTiles &&
                point.y >= 0 && point.y < Farm.mapHeightTiles &&
                !Farm.entitiesHandler.map.hasObstacleAt(point.y, point.x);
-    }
-
-    @Override
-    public void render(Graphics2D graphics2D) {
-        if (currentImage == null) {
-            return;
-        }
-        graphics2D.drawImage(currentImage,
-                Farm.camera.position.x + position.x * Farm.scale,
-                Farm.camera.position.y + position.y * Farm.scale,
-                3 * Farm.scaledTileSize,
-                3 * Farm.scaledTileSize,
-                null);
-    }
-
-    @Override
-    public boolean isPointInside(int mouseX, int mouseY) {
-        int worldMouseX = (mouseX - Farm.camera.position.x) / Farm.scale;
-        int worldMouseY = (mouseY - Farm.camera.position.y) / Farm.scale;
-        return worldMouseX >= position.x && worldMouseX <= position.x + 3 * Farm.tileSize &&
-               worldMouseY >= position.y && worldMouseY <= position.y + 3 * Farm.tileSize;
     }
 }
