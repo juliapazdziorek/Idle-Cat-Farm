@@ -117,6 +117,9 @@ public class FruitTree extends Entity {
         currentImage = growthAnimation.getCurrentFrameImage();
         clickable = false;
         state = State.GROWING;
+        if (Farm.menuPanel != null) {
+            Farm.menuPanel.refreshResourcesDisplay();
+        }
     }
 
     private void backToIdle() {
@@ -129,6 +132,9 @@ public class FruitTree extends Entity {
         state = State.RIPE;
         currentImage = ripeImage;
         clickable = true;
+        if (Farm.menuPanel != null) {
+            Farm.menuPanel.refreshResourcesDisplay();
+        }
     }
 
     private void setFruitReady() {
@@ -164,6 +170,16 @@ public class FruitTree extends Entity {
         state = State.BEING_COLLECTED;
     }
 
+    // cat couldn't finish (e.g. ran out of energy): put the fruit back up for collection
+    public void cancelCollection() {
+        state = State.FRUIT_READY;
+        currentImage = droppedImage;
+        clickable = false;
+        if (Farm.menuPanel != null) {
+            Farm.menuPanel.refreshResourcesDisplay();
+        }
+    }
+
     // called by the cat once it finishes collecting at the tree
     public void onCollected() {
         Farm.farmResourcesHandler.addResource(currentFruit, 3);
@@ -175,6 +191,10 @@ public class FruitTree extends Entity {
 
     public boolean isFruitReady() {
         return state == State.FRUIT_READY;
+    }
+
+    public State getState() {
+        return state;
     }
 
     public ResourceType getCurrentFruit() {

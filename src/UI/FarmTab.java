@@ -1,6 +1,7 @@
 package UI;
 
 import Entities.Characters.FarmCat;
+import Entities.Nature.FruitTree;
 import Game.Farm;
 import Game.FieldsHandler;
 import Game.MoneyHandler;
@@ -228,6 +229,38 @@ public class FarmTab {
             levelDisplayPanel.add(catsStatusPanel);
         }
 
+        // fruit tree states under the orchard
+        if (area == Map.MapArea.ORCHARD && Farm.entitiesHandler != null && Farm.entitiesHandler.map != null) {
+            java.util.List<FruitTree> fruitTrees = Farm.entitiesHandler.map.fruitTrees;
+            if (!fruitTrees.isEmpty()) {
+                JPanel treesDivider = new JPanel();
+                treesDivider.setOpaque(false);
+                treesDivider.setPreferredSize(new Dimension(180, 1));
+                treesDivider.setMaximumSize(new Dimension(Integer.MAX_VALUE, 1));
+                treesDivider.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Colors.beigeColor));
+                levelDisplayPanel.add(Box.createVerticalStrut(6));
+                levelDisplayPanel.add(treesDivider);
+
+                JPanel treesStatusPanel = new JPanel();
+                treesStatusPanel.setLayout(new BoxLayout(treesStatusPanel, BoxLayout.Y_AXIS));
+                treesStatusPanel.setOpaque(false);
+                treesStatusPanel.setBorder(BorderFactory.createEmptyBorder(6, 0, 0, 0));
+
+                int index = 1;
+                boolean first = true;
+                for (FruitTree tree : fruitTrees) {
+                    if (!first) {
+                        treesStatusPanel.add(Box.createVerticalStrut(2));
+                    }
+                    treesStatusPanel.add(createFruitTreeEntry(tree, index));
+                    first = false;
+                    index++;
+                }
+
+                levelDisplayPanel.add(treesStatusPanel);
+            }
+        }
+
         // upgrade button (only show if upgrade is possible and affordable)
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         buttonPanel.setOpaque(false);
@@ -258,6 +291,61 @@ public class FarmTab {
         }
 
         return sectionPanel;
+    }
+
+    private JPanel createFruitTreeEntry(FruitTree tree, int index) {
+        JPanel treePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 0));
+        treePanel.setOpaque(false);
+        treePanel.setPreferredSize(new Dimension(200, 20));
+        treePanel.setMaximumSize(new Dimension(200, 20));
+        treePanel.setMinimumSize(new Dimension(200, 20));
+
+        JLabel nameLabel = new JLabel("tree " + index + ":");
+        nameLabel.setFont(Farm.fonts.minecraftiaFont);
+        nameLabel.setForeground(Colors.darkBeigeColor);
+        nameLabel.setPreferredSize(new Dimension(60, 16));
+
+        JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 0));
+        statusPanel.setOpaque(false);
+
+        // show the fruit icon only once the tree actually bears fruit
+        if (treeBearsFruit(tree.getState())) {
+            JLabel iconLabel = new JLabel();
+            String iconKey = getIconKeyForResourceType(tree.getCurrentFruit());
+            try {
+                if (Farm.resourceHandler != null && Farm.resourceHandler.iconsMap.containsKey(iconKey)) {
+                    BufferedImage fruitImage = Farm.resourceHandler.iconsMap.get(iconKey);
+                    iconLabel.setIcon(new ImageIcon(fruitImage.getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+                }
+            } catch (Exception ignored) {
+            }
+            statusPanel.add(iconLabel);
+        }
+
+        JLabel stateLabel = new JLabel(getFruitTreeStateLabel(tree.getState()));
+        stateLabel.setFont(Farm.fonts.minecraftiaFont);
+        stateLabel.setForeground(Colors.darkBeigeColor);
+        statusPanel.add(stateLabel);
+
+        treePanel.add(nameLabel);
+        treePanel.add(statusPanel);
+        return treePanel;
+    }
+
+    private boolean treeBearsFruit(FruitTree.State state) {
+        return switch (state) {
+            case GROWING, RIPE, WIGGLING, DROPPING, FRUIT_READY, BEING_COLLECTED -> true;
+            default -> false;
+        };
+    }
+
+    private String getFruitTreeStateLabel(FruitTree.State state) {
+        return switch (state) {
+            case IDLE, EMPTY_SHAKING, GROWING -> "growing...";
+            case RIPE, WIGGLING, DROPPING -> "ready to shake";
+            case FRUIT_READY -> "ready!";
+            case BEING_COLLECTED -> "collecting...";
+        };
     }
 
     private JPanel createCatEntry(FarmCat cat) {

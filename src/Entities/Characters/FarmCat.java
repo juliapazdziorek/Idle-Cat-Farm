@@ -1043,7 +1043,18 @@ public class FarmCat extends Entity {
             fruitCollectionCounter++;
             if (fruitCollectionCounter >= fruitCollectionDuration) {
 
-                // collecting finished, the tree hands over its fruit and frees up
+                // collecting costs energy by level (same as tilling); a tired cat stops and frees the tree
+                if (!consumeEnergyForTilling()) {
+                    fruitCollectionCounter = 0;
+                    farmCatState = FarmCatState.STANDING;
+                    isAtFruitTree = false;
+                    targetFruitTree.cancelCollection();
+                    targetFruitTree = null;
+                    becomeTired();
+                    return;
+                }
+
+                // collecting finished, gain experience (same as tilling); the tree hands over its fruit
                 addExperience(1);
                 targetFruitTree.onCollected();
 
