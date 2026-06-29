@@ -17,8 +17,20 @@ public class WaterTrayPart extends Entity {
 
         emptyImage = Farm.resourceHandler.entitiesResourcesMap.get("waterTrays").get(tileId + "empty");
         halfImage = Farm.resourceHandler.entitiesResourcesMap.get("waterTrays").get(tileId + "half");
-        fullImage = Farm.resourceHandler.entitiesResourcesMap.get("waterTrays").get(tileId + "half");
+        fullImage = Farm.resourceHandler.entitiesResourcesMap.get("waterTrays").get(tileId + "full");
         currentImage = emptyImage;
 
+    }
+
+    public void showEmpty() {
+        currentImage = emptyImage;
+    }
+
+    public void showHalf() {
+        currentImage = halfImage;
+    }
+
+    public void showFull() {
+        currentImage = fullImage;
     }
 }

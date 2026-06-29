@@ -396,6 +396,7 @@ public class FarmTab {
             case GOING_TO_SLEEP -> "to bed...";
             case SLEEPING -> "sleeping";
             case TIRED -> "tired";
+            case FILLING_TRAY -> "filling tray...";
         };
     }
 

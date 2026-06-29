@@ -219,6 +219,32 @@ public class EntitiesHandler implements MouseListener {
         return suitableCats.get(randomIndex);
     }
 
+    public static FarmCat findIdleCatForTrayFill() {
+        List<FarmCat> suitableCats = new ArrayList<>();
+
+        for (FarmCat cat : Farm.entitiesHandler.farmCatList) {
+            if (cat.canStartEnergyFreeAction() && cat.hasEnoughWaterForTrayFill()) {
+                suitableCats.add(cat);
+            }
+        }
+
+        if (suitableCats.isEmpty()) {
+            return null;
+        }
+
+        int randomIndex = (int) (Math.random() * suitableCats.size());
+        return suitableCats.get(randomIndex);
+    }
+
+    public static FarmCat findAvailableCatForHint() {
+        for (FarmCat cat : Farm.entitiesHandler.farmCatList) {
+            if (cat.canStartEnergyFreeAction()) {
+                return cat;
+            }
+        }
+        return null;
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
         int mouseX = e.getX();

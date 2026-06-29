@@ -4,7 +4,9 @@ import Game.Farm;
 import Game.FarmResourcesHandler;
 import Game.FieldsHandler;
 import Game.FruitTreesHandler;
+import Game.WaterTraysHandler;
 import Map.Field;
+import Map.Map;
 import Resources.Colors;
 
 import javax.swing.*;
@@ -190,6 +192,38 @@ public class ResourcesSection {
             });
 
             leftPanel.add(wateringButton);
+            leftPanel.add(Box.createHorizontalStrut(3));
+        }
+
+        // watering-can button for animal products: fills the water tray in the matching
+        // area (egg -> coop, milks -> barn); disabled when that area's tray is full
+        Map.MapArea trayArea = WaterTraysHandler.getAreaForAnimalProduct(resourceType);
+        if (trayArea != null) {
+            JButton fillTrayButton = UIUtils.createRoundedButton("", 28, 28);
+
+            try {
+                if (Farm.resourceHandler != null && Farm.resourceHandler.iconsMap.containsKey("waterCan")) {
+                    ImageIcon waterIcon = new ImageIcon(Farm.resourceHandler.iconsMap.get("waterCan"));
+                    Image scaledWaterIcon = waterIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+                    fillTrayButton.setIcon(new ImageIcon(scaledWaterIcon));
+                } else {
+                    fillTrayButton.setText("~");
+                    fillTrayButton.setFont(new Font("Dialog", Font.PLAIN, 12));
+                    fillTrayButton.setForeground(Colors.darkBeigeColor);
+                }
+            } catch (Exception exception) {
+                fillTrayButton.setText("~");
+                fillTrayButton.setFont(new Font("Dialog", Font.PLAIN, 12));
+                fillTrayButton.setForeground(Colors.darkBeigeColor);
+            }
+
+            fillTrayButton.setEnabled(WaterTraysHandler.canFillArea(trayArea));
+            fillTrayButton.addActionListener(_ -> {
+                WaterTraysHandler.fillTrayForArea(trayArea);
+                Farm.menuPanel.refreshResourcesDisplay();
+            });
+
+            leftPanel.add(fillTrayButton);
             leftPanel.add(Box.createHorizontalStrut(3));
         }
 

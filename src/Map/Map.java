@@ -62,6 +62,8 @@ public class Map {
 
     public final ArrayList<WaterTray> waterTrays;
     ArrayList<Integer> waterTrayIds;
+    private final MapArea[][] waterTrayAreas;
+    private final HashMap<MapArea, WaterTray.State> savedWaterTrayStates = new HashMap<>();
 
     public final ArrayList<Bed> beds;
     ArrayList<Integer> bedIds;
@@ -235,6 +237,7 @@ public class Map {
         waterTrays = new ArrayList<>();
         waterTrayIds = new ArrayList<>();
         Collections.addAll(waterTrayIds, 289, 290);
+        waterTrayAreas = loadWaterTrayAreas();
 
         beds = new ArrayList<>();
         bedIds = new ArrayList<>();
@@ -317,6 +320,14 @@ public class Map {
         roofs.clear();
         entrances.clear();
         signs.clear();
+
+        // keep each tray's fill state per area so it survives a level-up rebuild
+        savedWaterTrayStates.clear();
+        for (WaterTray waterTray : waterTrays) {
+            if (waterTray.getArea() != null) {
+                savedWaterTrayStates.put(waterTray.getArea(), waterTray.getState());
+            }
+        }
         waterTrays.clear();
         wells.clear();
 
@@ -630,7 +641,29 @@ public class Map {
             int tileX = position.x / Farm.tileSize;
             waterTray.addPart(new WaterTrayPart(position, tilesIds[tileY][tileX]));
         }
+        MapArea area = waterTrayAreas[i][j];
+        waterTray.setArea(area);
+        WaterTray.State savedState = savedWaterTrayStates.get(area);
+        if (savedState != null) {
+            waterTray.setState(savedState);
+        }
         waterTrays.add(waterTray);
+    }
+
+    // static area lookup per tray tile: c -> coop, b -> barn (cows), like fruit_tree_levels
+    private static MapArea[][] loadWaterTrayAreas() {
+        String[][] codes = MapFileUtils.readFileToStringGrid("src/Map/TileMaps/LevelHandling/water_tray_areas.txt");
+        MapArea[][] areas = new MapArea[Farm.mapHeightTiles][Farm.mapWidthTiles];
+        for (int i = 0; i < Farm.mapHeightTiles; i++) {
+            for (int j = 0; j < Farm.mapWidthTiles; j++) {
+                areas[i][j] = switch (codes[i][j]) {
+                    case "c" -> MapArea.COOP;
+                    case "b" -> MapArea.COWS;
+                    default -> null;
+                };
+            }
+        }
+        return areas;
     }
 
     private void createWell(int[][] tilesIds, int i, int j, boolean[][] processedWellTiles) {

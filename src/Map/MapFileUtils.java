@@ -33,6 +33,33 @@ public class MapFileUtils {
         return grid;
     }
 
+    public static String[][] readFileToStringGrid(String filePath) {
+        String[][] grid = new String[Farm.mapHeightTiles][Farm.mapWidthTiles];
+        for (String[] row : grid) {
+            java.util.Arrays.fill(row, "0");
+        }
+
+        try (Scanner scanner = new Scanner(new File(filePath))) {
+            for (int i = 0; i < Farm.mapHeightTiles; i++) {
+                if (scanner.hasNextLine()) {
+                    String line = scanner.nextLine().trim();
+                    if (line.isEmpty()) {
+                        continue;
+                    }
+                    String[] values = line.split("\\s+");
+
+                    for (int j = 0; j < Math.min(values.length, Farm.mapWidthTiles); j++) {
+                        grid[i][j] = values[j];
+                    }
+                }
+            }
+        } catch (FileNotFoundException exception) {
+            return grid;
+        }
+
+        return grid;
+    }
+
     public static void writeGridToFile(int[][] grid, String filePath) {
         try {
 

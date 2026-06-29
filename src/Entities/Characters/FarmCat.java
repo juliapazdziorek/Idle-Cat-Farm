@@ -4,6 +4,7 @@ import Entities.Entity;
 import Entities.FarmResources.Crop;
 import Entities.Nature.FruitTree;
 import Entities.Objects.Bed;
+import Entities.Objects.WaterTray;
 import Entities.Objects.Well;
 import Game.Farm;
 import Game.FarmResourcesHandler.ResourceType;
@@ -57,6 +58,7 @@ public class FarmCat extends Entity {
     private Animation speechBubbleAnimation;
     private SpeechBubbleType currentBubbleType;
     private SpeechBubbleState bubbleState;
+    private int waterHintTimer; // keeps an explicit no-water hint up briefly (frames)
 
     // pathfinding
     private List<Node> currentPath;
@@ -75,7 +77,7 @@ public class FarmCat extends Entity {
     private int directionChangeCounter;
     
     // planting action system
-    public enum CatActionState { IDLE, PLANTING, WATERING, COLLECTING_FRUIT, GOING_TO_WELL, REFILLING, GOING_TO_SLEEP, SLEEPING, TIRED }
+    public enum CatActionState { IDLE, PLANTING, WATERING, COLLECTING_FRUIT, GOING_TO_WELL, REFILLING, GOING_TO_SLEEP, SLEEPING, TIRED, FILLING_TRAY }
     private CatActionState actionState;
     private List<Point> plantingPositions;
     private int currentPlantingIndex;
@@ -98,6 +100,12 @@ public class FarmCat extends Entity {
     private boolean isAtFruitTree;
     private int fruitCollectionCounter;
     private static final int fruitCollectionDuration = 60;
+
+    // water tray filling action system
+    private WaterTray targetWaterTray;
+    private boolean isAtWaterTray;
+    private int trayFillCounter;
+    private static final int trayFillDuration = 60;
 
     // well refill action system
     private Well targetWell;
@@ -1080,6 +1088,93 @@ public class FarmCat extends Entity {
         }
     }
 
+    // water tray filling action system
+    public boolean startFillingTrayAction(WaterTray tray) {
+        if (!canStartEnergyFreeAction() || tray == null) {
+            return false;
+        }
+
+        int startTileX = position.x / Farm.tileSize;
+        int startTileY = position.y / Farm.tileSize;
+
+        // walk to the nearest reachable tile next to the tray
+        Point nearestAccess = null;
+        int shortestPathLength = Integer.MAX_VALUE;
+        for (Point access : tray.getAccessPositions()) {
+            List<Node> path = Map.pathfinder.findPath(startTileX, startTileY, access.x, access.y);
+            if (path != null && !path.isEmpty() && path.size() < shortestPathLength) {
+                shortestPathLength = path.size();
+                nearestAccess = access;
+            }
+        }
+
+        if (nearestAccess == null) {
+            return false;
+        }
+
+        actionState = CatActionState.FILLING_TRAY;
+        targetWaterTray = tray;
+        isAtWaterTray = false;
+        trayFillCounter = 0;
+        moveToTile(nearestAccess.x, nearestAccess.y);
+        return true;
+    }
+
+    private void updateFillTrayAction() {
+        if (targetWaterTray == null) {
+            actionState = CatActionState.IDLE;
+            return;
+        }
+
+        if (!isFollowingPath && !isAtWaterTray) {
+
+            // reached the tray, start the watering animation
+            isAtWaterTray = true;
+            trayFillCounter = 0;
+            farmCatState = FarmCatState.WATERING;
+            resetAnimations();
+
+            Point reference = targetWaterTray.getReferenceTilePosition();
+            if (reference != null) {
+                int trayPixelX = reference.x * Farm.tileSize + Farm.tileSize / 2;
+                int trayPixelY = reference.y * Farm.tileSize + Farm.tileSize / 2;
+                faceTargetAndAnimate(trayPixelX, trayPixelY, "farmCatWatering");
+            }
+            wateringWaterAnimation = createWateringWaterAnimation();
+        }
+
+        if (isAtWaterTray) {
+            trayFillCounter++;
+            if (trayFillCounter >= trayFillDuration) {
+
+                // filling costs 3x the per-crop water; out of water stops the action
+                if (!consumeWaterForTrayFill()) {
+                    trayFillCounter = 0;
+                    farmCatState = FarmCatState.STANDING;
+                    isAtWaterTray = false;
+                    targetWaterTray = null;
+                    endEnergyFreeAction();
+                    return;
+                }
+
+                // filling finished, gain experience (same as watering); fill the tray
+                addExperience(1);
+                targetWaterTray.setFull();
+
+                resetAnimations();
+                trayFillCounter = 0;
+                isAtWaterTray = false;
+                farmCatState = FarmCatState.STANDING;
+                targetWaterTray = null;
+                endEnergyFreeAction();
+
+                if (Farm.menuPanel != null) {
+                    Farm.menuPanel.refreshResourcesDisplay();
+                }
+            }
+        }
+    }
+
     // sleeping action methods
     public void startGoingToSleep(Bed bed) {
         if (!isIdle() && actionState != CatActionState.TIRED) {
@@ -1210,6 +1305,8 @@ public class FarmCat extends Entity {
             updateWateringAction();
         } else if (actionState == CatActionState.COLLECTING_FRUIT) {
             updateFruitCollectionAction();
+        } else if (actionState == CatActionState.FILLING_TRAY) {
+            updateFillTrayAction();
         } else if (actionState == CatActionState.GOING_TO_WELL || actionState == CatActionState.REFILLING) {
             updateWellAction();
         } else if (actionState == CatActionState.GOING_TO_SLEEP || actionState == CatActionState.SLEEPING) {
@@ -1227,7 +1324,7 @@ public class FarmCat extends Entity {
             currentAnimation.update();
         }
 
-        if (wateringWaterAnimation != null && farmCatState == FarmCatState.WATERING && isAtWateringPosition) {
+        if (wateringWaterAnimation != null && farmCatState == FarmCatState.WATERING && (isAtWateringPosition || isAtWaterTray)) {
             wateringWaterAnimation.update();
         }
         
@@ -1240,10 +1337,14 @@ public class FarmCat extends Entity {
             }
         }
 
-        // dismiss the watering-can hint once busy or refilled
+        // dismiss the watering-can hint once busy or refilled (an explicit tray-fill
+        // hint stays up until its timer expires, since it needs 3x water not 1x)
+        if (waterHintTimer > 0) {
+            waterHintTimer--;
+        }
         if (isShowingSpeechBubble() && currentBubbleType == SpeechBubbleType.WATERING_CAN
                 && bubbleState != SpeechBubbleState.CLOSING
-                && (!isIdle() || hasEnoughWaterForAction())) {
+                && (!isIdle() || (hasEnoughWaterForAction() && waterHintTimer <= 0))) {
             closeSpeechBubble();
         }
         if (isShowingSpeechBubble() && speechBubbleAnimation != null) {
@@ -1299,6 +1400,14 @@ public class FarmCat extends Entity {
         }
     }
     
+    // shown when the player asks to fill a tray but no idle cat has enough water
+    public void showWaterShortageHint() {
+        if (canStartEnergyFreeAction()) {
+            waterHintTimer = 180; // ~3s, so the hint isn't dismissed by the 1x-water check
+            showSpeechBubble(SpeechBubbleType.WATERING_CAN);
+        }
+    }
+
     public void handleTiredCatClick() {
         if (actionState == CatActionState.TIRED) {
             closeSpeechBubble();
@@ -1344,7 +1453,7 @@ public class FarmCat extends Entity {
     public void render(Graphics2D graphics2D) {
         // water pouring overlay, rendered under the cat and nudged in front
         if (visible && wateringWaterAnimation != null
-                && farmCatState == FarmCatState.WATERING && isAtWateringPosition) {
+                && farmCatState == FarmCatState.WATERING && (isAtWateringPosition || isAtWaterTray)) {
             int frontOffset = 8;
             int offsetX = 0;
             int offsetY = 0;
@@ -1459,6 +1568,26 @@ public class FarmCat extends Entity {
 
     public boolean consumeWaterForWatering() {
         int waterCost = getWaterCostForAction();
+
+        if (wateringCan < waterCost) {
+            return false;
+        }
+
+        setWateringCan(wateringCan - waterCost);
+        return true;
+    }
+
+    // filling a water tray costs 3x a single crop watering
+    private int getWaterCostForTrayFill() {
+        return 3 * getWaterCostForAction();
+    }
+
+    public boolean hasEnoughWaterForTrayFill() {
+        return wateringCan >= getWaterCostForTrayFill();
+    }
+
+    public boolean consumeWaterForTrayFill() {
+        int waterCost = getWaterCostForTrayFill();
 
         if (wateringCan < waterCost) {
             return false;
