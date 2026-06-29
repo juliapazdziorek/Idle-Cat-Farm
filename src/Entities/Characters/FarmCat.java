@@ -455,7 +455,19 @@ public class FarmCat extends Entity {
     public boolean isTired() {
         return actionState == CatActionState.TIRED;
     }
-    
+
+    public boolean canStartEnergyFreeAction() {
+        return (actionState == CatActionState.IDLE || actionState == CatActionState.TIRED) && !isFollowingPath;
+    }
+
+    private void endEnergyFreeAction() {
+        if (hasEnoughEnergyForAction()) {
+            actionState = CatActionState.IDLE;
+        } else {
+            becomeTired();
+        }
+    }
+
     public CatActionState getActionState() {
         return actionState;
     }
@@ -766,7 +778,7 @@ public class FarmCat extends Entity {
 
     // watering action system
     public void startWateringAction(List<Point> unwateredPositions, ResourceType cropType, Field.FieldType fieldType) {
-        if (!isIdle()) {
+        if (!canStartEnergyFreeAction()) {
             return;
         }
 
@@ -790,7 +802,7 @@ public class FarmCat extends Entity {
                 field.setCatWorkingOnField(false);
             }
 
-            actionState = CatActionState.IDLE;
+            endEnergyFreeAction();
             wateringPositions.clear();
             return;
         }
@@ -844,7 +856,7 @@ public class FarmCat extends Entity {
                         field.setCatWorkingOnField(false);
                     }
 
-                    actionState = CatActionState.IDLE;
+                    endEnergyFreeAction();
                     isAtWateringPosition = false;
                     wateringPositions.clear();
                     return;
@@ -876,7 +888,7 @@ public class FarmCat extends Entity {
                     if (currentField != null) {
                         currentField.setCatWorkingOnField(false);
                     }
-                    actionState = CatActionState.IDLE;
+                    endEnergyFreeAction();
                     wateringPositions.clear();
 
                 } else if (currentWateringIndex >= wateringPositions.size()) {
@@ -886,7 +898,7 @@ public class FarmCat extends Entity {
                     if (currentField != null) {
                         currentField.setCatWorkingOnField(false);
                     }
-                    actionState = CatActionState.IDLE;
+                    endEnergyFreeAction();
                     wateringPositions.clear();
 
                 } else {
@@ -907,7 +919,7 @@ public class FarmCat extends Entity {
 
     // well refill action system
     public boolean startGoingToWell() {
-        if (!isIdle()) {
+        if (!canStartEnergyFreeAction()) {
             return false;
         }
 
@@ -974,7 +986,7 @@ public class FarmCat extends Entity {
                 setWateringCan(100);
                 refillAnimationCounter = 0;
                 farmCatState = FarmCatState.STANDING;
-                actionState = CatActionState.IDLE;
+                endEnergyFreeAction();
                 targetWell = null;
                 targetWellPosition = null;
 
